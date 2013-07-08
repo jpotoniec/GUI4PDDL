@@ -1,10 +1,12 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Gui4pddl
-Bundle-SymbolicName: pl.put.poznan.cs.gui4pddl
+Bundle-SymbolicName: pl.put.poznan.cs.gui4pddl;singleton:=true
 Bundle-Version: 0.0.1
 Bundle-Activator: pl.put.poznan.cs.gui4pddl.Activator
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.eclipse.ui.editors;bundle-version="3.8.100",
+ org.eclipse.jface.text;bundle-version="3.8.100"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

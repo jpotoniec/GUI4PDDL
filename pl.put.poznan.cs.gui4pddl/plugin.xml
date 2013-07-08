@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="pl.put.poznan.cs.gui4pddl.editor.PDDLEditor"
+            default="false"
+            extensions="pddl"
+            icon="icons/pddl_file.gif"
+            id="pl.put.poznan.cs.gui4pddl.PDDLEditor"
+            name="PDDL Editor">
+      </editor>
+   </extension>
+
+</plugin>
