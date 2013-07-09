@@ -12,5 +12,29 @@
             name="PDDL Editor">
       </editor>
    </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="pl.put.poznan.cs.gui4pddl"
+            name="GUI4PDDL">
+      </category>
+      <wizard
+            category="pl.put.poznan.cs.gui4pddl"
+            class="pl.put.poznan.cs.gui4pddl.ui.wizards.PDDLFileWizard"
+            icon="icons/pddl_file.gif"
+            id="pl.put.poznan.cs.gui4pddl.ui.wizards.PDDLFileWizard"
+            name="PDDL File">
+      </wizard>
+   </extension>
+   <extension
+         id="PDDLProject"
+         name="PDDL Project"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="pl.put.poznan.cs.gui4pddl.ProjectNature1">
+         </run>
+      </runtime>
+   </extension>
 
 </plugin>
