@@ -25,6 +25,16 @@
             id="pl.put.poznan.cs.gui4pddl.ui.wizards.PDDLFileWizard"
             name="PDDL File">
       </wizard>
+      <wizard
+            canFinishEarly="false"
+            category="pl.put.poznan.cs.gui4pddl"
+            class="pl.put.poznan.cs.gui4pddl.ui.wizards.PDDLProjectWizard"
+            hasPages="true"
+            icon="icons/pddl_file.gif"
+            id="pl.put.poznan.cs.gui4pddl.ui.wizards.PDDLProjectWizard"
+            name="PDDL Project"
+            project="true">
+      </wizard>
    </extension>
    <extension
          id="PDDLProject"
