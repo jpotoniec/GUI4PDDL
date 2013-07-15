@@ -115,7 +115,7 @@ public class PDDLFileWizard extends Wizard implements INewWizard {
 	}
 
 	private void throwCoreException(String message) throws CoreException {
-		IStatus status = new Status(IStatus.ERROR, "pl.put.poznan.cs.gui4pddl", IStatus.OK, message, null);
+		IStatus status = new Status(IStatus.ERROR, "pl.poznan.put.cs.gui4pddl", IStatus.OK, message, null);
 		throw new CoreException(status);
 	}
 

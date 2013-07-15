@@ -24,6 +24,7 @@
             finalPerspective="pl.poznan.put.cs.gui4pddl.perspective.PDDLPerspective"
             icon="icons/pddl_file.gif"
             id="pl.poznan.put.cs.gui4pddl.ui.wizards.PDDLFileWizard"
+            name="PDDL File"
             preferredPerspectives="pl.poznan.put.cs.gui4pddl.perspective.PDDLPerspective">
       </wizard>
       <wizard

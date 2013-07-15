@@ -9,7 +9,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "pl.put.poznan.cs.gui4pddl"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "pl.poznan.put.cs.gui4pddl"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;
