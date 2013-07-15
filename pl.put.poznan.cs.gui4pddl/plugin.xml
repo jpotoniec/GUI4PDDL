@@ -21,18 +21,21 @@
       <wizard
             category="pl.poznan.put.cs.gui4pddl"
             class="pl.poznan.put.cs.gui4pddl.ui.wizards.PDDLFileWizard"
+            finalPerspective="pl.poznan.put.cs.gui4pddl.perspective.PDDLPerspective"
             icon="icons/pddl_file.gif"
             id="pl.poznan.put.cs.gui4pddl.ui.wizards.PDDLFileWizard"
-            name="PDDL File">
+            preferredPerspectives="pl.poznan.put.cs.gui4pddl.perspective.PDDLPerspective">
       </wizard>
       <wizard
             canFinishEarly="false"
             category="pl.poznan.put.cs.gui4pddl"
             class="pl.poznan.put.cs.gui4pddl.ui.wizards.PDDLProjectWizard"
+            finalPerspective="pl.poznan.put.cs.gui4pddl.perspective.PDDLPerspective"
             hasPages="true"
             icon="icons/pddl_file.gif"
             id="pl.poznan.put.cs.gui4pddl.ui.wizards.PDDLProjectWizard"
             name="PDDL Project"
+            preferredPerspectives="pl.poznan.put.cs.gui4pddl.perspective.PDDLPerspective"
             project="true">
       </wizard>
    </extension>
@@ -53,6 +56,14 @@
             id="pl.poznan.put.cs.gui4pddl.projectNatureImage"
             natureId="pl.poznan.put.cs.gui4pddl.PDDLProject">
       </image>
+    </extension>
+	<extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="pl.poznan.put.cs.gui4pddl.perspective.PDDLPerspectiveFactory"
+            icon="icons/pddl_file.gif"
+            id="pl.poznan.put.cs.gui4pddl.perspective.PDDLPerspective"
+            name="PDDL">
+      </perspective>
    </extension>
-
 </plugin>
