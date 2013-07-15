@@ -5,6 +5,7 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.console.IConsoleConstants;
 
+import pl.poznan.put.cs.gui4pddl.ui.wizards.PDDLFileWizard;
 import pl.poznan.put.cs.gui4pddl.ui.wizards.PDDLProjectWizard;
 
 /**
@@ -51,7 +52,7 @@ public class PDDLPerspectiveFactory implements IPerspectiveFactory {
 		//layout.addNewWizardShortcut(PythonSourceFolderWizard.WIZARD_ID); //$NON-NLS-1$        
 		//layout.addNewWizardShortcut(PythonPackageWizard.WIZARD_ID); //$NON-NLS-1$        
 		//layout.addNewWizardShortcut(PythonModuleWizard.WIZARD_ID); //$NON-NLS-1$      
-		layout.addNewWizardShortcut("pl.poznan.put.cs.gui4pddl.ui.wizards.PDDLFileWizard");
+		layout.addNewWizardShortcut(PDDLFileWizard.WIZARD_ID);
 		layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.folder");//$NON-NLS-1$
 		layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.file");//$NON-NLS-1$
 		layout.addNewWizardShortcut("org.eclipse.ui.editors.wizards.UntitledTextFileWizard");//$NON-NLS-1$

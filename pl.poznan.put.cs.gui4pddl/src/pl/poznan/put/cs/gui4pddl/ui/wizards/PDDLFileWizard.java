@@ -16,6 +16,9 @@ import org.eclipse.ui.*;
 import org.eclipse.ui.ide.IDE;
 
 public class PDDLFileWizard extends Wizard implements INewWizard {
+	
+	public static String WIZARD_ID = "pl.poznan.put.cs.gui4pddl.ui.wizards.PDDLFileWizard";
+	
 	private PDDLFilePage page;
 	private ISelection selection;
 

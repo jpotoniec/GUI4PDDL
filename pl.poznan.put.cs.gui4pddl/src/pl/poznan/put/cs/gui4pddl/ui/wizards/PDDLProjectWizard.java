@@ -30,7 +30,7 @@ public class PDDLProjectWizard extends Wizard implements INewWizard, IExecutable
 
 	protected IStructuredSelection selection;
 
-	public static final String WIZARD_ID = "pl.poznan.put.cs.gui4pddl";
+	public static final String WIZARD_ID = "pl.poznan.put.cs.gui4pddl.ui.wizards.PDDLProjectWizard";
 
 	protected PDDLProjectNameAndLocationWizardPage projectPage;
 
