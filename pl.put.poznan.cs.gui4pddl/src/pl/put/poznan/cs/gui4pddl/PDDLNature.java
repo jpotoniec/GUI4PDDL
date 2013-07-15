@@ -9,7 +9,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 
 public class PDDLNature implements IProjectNature {
 
-	public static final String PDDL_NATURE_ID = "pl.poznan.put.cs.gui4pddl.PDDLNature";
+	public static final String PDDL_NATURE_ID = "pl.poznan.put.cs.gui4pddl.PDDLProject";
 
 	private IProject project;
 

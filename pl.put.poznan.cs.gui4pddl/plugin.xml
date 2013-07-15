@@ -42,9 +42,17 @@
          point="org.eclipse.core.resources.natures">
       <runtime>
          <run
-               class="pl.put.poznan.cs.gui4pddl.ProjectNature1">
+               class="pl.put.poznan.cs.gui4pddl.PDDLNature">
          </run>
       </runtime>
+   </extension>
+   <extension
+         point="org.eclipse.ui.ide.projectNatureImages">
+      <image
+            icon="icons/nature_image.gif"
+            id="pl.poznan.put.cs.gui4pddl.projectNatureImage"
+            natureId="pl.poznan.put.cs.gui4pddl.PDDLProject">
+      </image>
    </extension>
 
 </plugin>

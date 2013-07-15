@@ -298,7 +298,7 @@ public class PDDLProjectNameAndLocationWizardPage extends WizardPage {
 	 * @param name
 	 *            initial project name for this page
 	 */
-	/* package */void setInitialProjectName(String name) {
+	void setInitialProjectName(String name) {
 		if (name == null) {
 			initialProjectFieldValue = null;
 		} else {
@@ -351,11 +351,11 @@ public class PDDLProjectNameAndLocationWizardPage extends WizardPage {
 			return false;
 		}
 
-		// TODO: Uncomment
-		/*
-		 * IProject projectHandle = getProjectHandle(); if (projectHandle.exists()) {
-		 * setErrorMessage("Project already exists"); return false; }
-		 */
+		IProject projectHandle = getProjectHandle();
+		if (projectHandle.exists()) {
+			setErrorMessage("Project alredy exists");
+			return false;
+		}
 
 		if (isDotProjectFileInLocation()) {
 			setErrorMessage(".project found in: " + getLocationPath().toOSString() + " (use import project).");
