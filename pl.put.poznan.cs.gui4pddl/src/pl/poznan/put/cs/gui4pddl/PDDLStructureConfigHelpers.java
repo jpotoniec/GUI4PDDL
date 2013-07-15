@@ -1,4 +1,4 @@
-package pl.put.poznan.cs.gui4pddl;
+package pl.poznan.put.cs.gui4pddl;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;

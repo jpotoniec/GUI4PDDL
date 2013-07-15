@@ -1,4 +1,4 @@
-package pl.put.poznan.cs.gui4pddl.ui.wizards;
+package pl.poznan.put.cs.gui4pddl.ui.wizards;
 
 import java.io.File;
 
@@ -27,7 +27,8 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
-import pl.put.poznan.cs.gui4pddl.PDDLStructureConfigHelpers;
+
+import pl.poznan.put.cs.gui4pddl.PDDLStructureConfigHelpers;
 
 public class PDDLProjectNameAndLocationWizardPage extends WizardPage {
 

@@ -1,4 +1,4 @@
-package pl.put.poznan.cs.gui4pddl.ui.wizards;
+package pl.poznan.put.cs.gui4pddl.ui.wizards;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -22,7 +22,7 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 
-import pl.put.poznan.cs.gui4pddl.PDDLStructureConfigHelpers;
+import pl.poznan.put.cs.gui4pddl.PDDLStructureConfigHelpers;
 
 public class PDDLProjectWizard extends Wizard implements INewWizard, IExecutableExtension {
 

@@ -4,34 +4,34 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="pl.put.poznan.cs.gui4pddl.editor.PDDLEditor"
+            class="pl.poznan.put.cs.gui4pddl.editor.PDDLEditor"
             default="false"
             extensions="pddl"
             icon="icons/pddl_file.gif"
-            id="pl.put.poznan.cs.gui4pddl.PDDLEditor"
+            id="pl.poznan.put.cs.gui4pddl.PDDLEditor"
             name="PDDL Editor">
       </editor>
    </extension>
    <extension
          point="org.eclipse.ui.newWizards">
       <category
-            id="pl.put.poznan.cs.gui4pddl"
+            id="pl.poznan.put.cs.gui4pddl"
             name="GUI4PDDL">
       </category>
       <wizard
-            category="pl.put.poznan.cs.gui4pddl"
-            class="pl.put.poznan.cs.gui4pddl.ui.wizards.PDDLFileWizard"
+            category="pl.poznan.put.cs.gui4pddl"
+            class="pl.poznan.put.cs.gui4pddl.ui.wizards.PDDLFileWizard"
             icon="icons/pddl_file.gif"
-            id="pl.put.poznan.cs.gui4pddl.ui.wizards.PDDLFileWizard"
+            id="pl.poznan.put.cs.gui4pddl.ui.wizards.PDDLFileWizard"
             name="PDDL File">
       </wizard>
       <wizard
             canFinishEarly="false"
-            category="pl.put.poznan.cs.gui4pddl"
-            class="pl.put.poznan.cs.gui4pddl.ui.wizards.PDDLProjectWizard"
+            category="pl.poznan.put.cs.gui4pddl"
+            class="pl.poznan.put.cs.gui4pddl.ui.wizards.PDDLProjectWizard"
             hasPages="true"
             icon="icons/pddl_file.gif"
-            id="pl.put.poznan.cs.gui4pddl.ui.wizards.PDDLProjectWizard"
+            id="pl.poznan.put.cs.gui4pddl.ui.wizards.PDDLProjectWizard"
             name="PDDL Project"
             project="true">
       </wizard>
@@ -42,7 +42,7 @@
          point="org.eclipse.core.resources.natures">
       <runtime>
          <run
-               class="pl.put.poznan.cs.gui4pddl.PDDLNature">
+               class="pl.poznan.put.cs.gui4pddl.PDDLNature">
          </run>
       </runtime>
    </extension>

@@ -1,4 +1,4 @@
-package pl.put.poznan.cs.gui4pddl;
+package pl.poznan.put.cs.gui4pddl;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
