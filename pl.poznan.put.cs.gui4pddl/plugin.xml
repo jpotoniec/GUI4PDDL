@@ -67,4 +67,18 @@
             name="PDDL">
       </perspective>
    </extension>
+   <extension
+		point="org.eclipse.ui.preferencePages">
+	  <page
+		name="PDDL"
+		class="pl.poznan.put.cs.gui4pddl.preferences.MainPreferencePage"
+		id="pl.poznan.put.cs.gui4pddl.preferences.MainPreferencePage">
+	  </page>
+	  <page
+		name="PDDL Editor"
+		category="pl.poznan.put.cs.gui4pddl.preferences.MainPreferencePage"
+		class="pl.poznan.put.cs.gui4pddl.preferences.EditorPreferencePage"
+		id="pl.poznan.put.cs.gui4pddl.preferences.EditorPreferencePage">
+	  </page>
+	</extension>
 </plugin>
