@@ -16,20 +16,14 @@ public class EditorPreferencePage extends FieldEditorPreferencePage implements
 	}
 
 	public void createFieldEditors() {
-		addField(new ColorFieldEditor(Activator.PREF_FORMAT_COLOR,
-				"&Formats", getFieldEditorParent()));
-		addField(new ColorFieldEditor(Activator.PREF_DEFINE_COLOR,
-				"&Definitions", getFieldEditorParent()));
-		addField(new ColorFieldEditor(Activator.PREF_KEYWORD_COLOR,
+		addField(new ColorFieldEditor(Activator.PREF_COMMENT_COLOR,
+				"&Comments", getFieldEditorParent()));
+		addField(new ColorFieldEditor(Activator.PREF_VALUE_COLOR,
 				"&Keywords", getFieldEditorParent()));
+		addField(new ColorFieldEditor(Activator.PREF_QUESTION_COLOR,
+				"&Variables", getFieldEditorParent()));
 		addField(new ColorFieldEditor(Activator.PREF_DEFAULT_COLOR,
 				"&Others", getFieldEditorParent()));
-		addField(new ColorFieldEditor(Activator.PREF_VALUE_COLOR,
-				"&Values", getFieldEditorParent()));
-		addField(new ColorFieldEditor(Activator.PREF_QUESTION_COLOR,
-				"&Questions", getFieldEditorParent()));
-		addField(new ColorFieldEditor(Activator.PREF_COMPARE_COLOR,
-				"&Comparators", getFieldEditorParent()));
 		// etc...
 	}
 	// ...

@@ -77,18 +77,12 @@ public class Activator extends AbstractUIPlugin {
 	
 			public static final String PREF_DEFAULT_COLOR =
 					"pddl_default_color";
-			public static final String PREF_KEYWORD_COLOR =
-					"pddl_keyword_color";
-			public static final String PREF_DEFINE_COLOR =
-					"pddl_define_color";
+			public static final String PREF_COMMENT_COLOR =
+					"pddl_comment_color";
 			public static final String PREF_VALUE_COLOR =
 					"pddl_value_color";
-			public static final String PREF_FORMAT_COLOR =
-					"pddl_properties_color";
 			public static final String PREF_QUESTION_COLOR =
 					"pddl_question_color";
-			public static final String PREF_COMPARE_COLOR =
-					"pddl_compare_color";
 			// etc...
 			public static final String PREF_PORT = "pddl_view_port";
 
@@ -98,25 +92,16 @@ public class Activator extends AbstractUIPlugin {
 				super.initializeDefaultPreferences(store);
 				store.setDefault(
 						Activator.PREF_DEFAULT_COLOR,
-						StringConverter.asString(new RGB(255, 0, 42)));
+						StringConverter.asString(new RGB(0, 0, 0)));
 				store.setDefault(
-						Activator.PREF_DEFINE_COLOR,
-						StringConverter.asString(new RGB(255, 0, 42)));
-				store.setDefault(
-						Activator.PREF_KEYWORD_COLOR,
-						StringConverter.asString(new RGB(255, 0, 42)));
+						Activator.PREF_COMMENT_COLOR,
+						StringConverter.asString(new RGB(0, 255, 0)));
 				store.setDefault(
 						Activator.PREF_VALUE_COLOR,
-						StringConverter.asString(new RGB(255, 0, 42)));
-				store.setDefault(
-						Activator.PREF_FORMAT_COLOR,
-						StringConverter.asString(new RGB(255, 0, 42)));
+						StringConverter.asString(new RGB(0, 0, 255)));
 				store.setDefault(
 						Activator.PREF_QUESTION_COLOR,
-						StringConverter.asString(new RGB(255, 0, 42)));
-				store.setDefault(
-						Activator.PREF_COMPARE_COLOR,
-						StringConverter.asString(new RGB(255, 0, 42)));
+						StringConverter.asString(new RGB(0, 100, 70)));
 				// etc...
 				store.setDefault(Activator.PREF_PORT, 4445);
 				}
