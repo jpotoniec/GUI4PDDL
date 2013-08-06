@@ -12,27 +12,16 @@ import pl.poznan.put.cs.gui4pddl.Activator;
 import pl.poznan.put.cs.gui4pddl.editor.TokenManager;
 
 public class ValueScanner extends RuleBasedScanner {
-	String[] keywords = { "ALL", "DEBUG", "ERROR", ":requirements"
-	// ...
-	};
 
 	public ValueScanner(TokenManager tokenManager) {
 		IToken defaultToken = tokenManager
 				.getToken(Activator.PREF_DEFAULT_COLOR);
 		IToken formatToken = tokenManager
-				.getToken(Activator.PREF_FORMAT_COLOR);
-		IToken keywordToken = tokenManager
-				.getToken(Activator.PREF_KEYWORD_COLOR);
-		IRule braceRule = new SingleLineRule("{", "}", formatToken, (char) 0,
-				true);
-		WordRule keywordRule = new WordRule(new WordDetector());
-		for (int i = 0; i < keywords.length; i++) {
-			keywordRule.addWord(keywords[i], keywordToken);
-		}
+				.getToken(Activator.PREF_VALUE_COLOR);
+		
 		IRule formatRule = new FormatRule(formatToken);
 		IRule whitespaceRule = new WhitespaceRule(new WhitespaceDetector());
 		setDefaultReturnToken(defaultToken);
-		setRules(new IRule[] { braceRule, formatRule, keywordRule,
-				whitespaceRule, });
+		setRules(new IRule[] { formatRule, whitespaceRule, });
 	}
 }

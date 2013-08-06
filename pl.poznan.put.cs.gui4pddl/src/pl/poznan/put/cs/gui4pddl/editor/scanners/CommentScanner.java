@@ -6,10 +6,10 @@ import org.eclipse.jface.text.rules.RuleBasedScanner;
 import pl.poznan.put.cs.gui4pddl.Activator;
 import pl.poznan.put.cs.gui4pddl.editor.TokenManager;
 
-public class DefineScanner extends RuleBasedScanner {
-	public DefineScanner(TokenManager tokenManager) {
+public class CommentScanner extends RuleBasedScanner {
+	public CommentScanner(TokenManager tokenManager) {
 		IToken commentToken = tokenManager
-				.getToken(Activator.PREF_DEFINE_COLOR);
+				.getToken(Activator.PREF_COMMENT_COLOR);
 		setDefaultReturnToken(commentToken);
 	}
 }
