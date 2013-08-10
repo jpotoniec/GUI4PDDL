@@ -20,8 +20,12 @@ public class EditorPreferencePage extends FieldEditorPreferencePage implements
 				"&Comments", getFieldEditorParent()));
 		addField(new ColorFieldEditor(Activator.PREF_VALUE_COLOR,
 				"&Keywords", getFieldEditorParent()));
-		addField(new ColorFieldEditor(Activator.PREF_QUESTION_COLOR,
+		addField(new ColorFieldEditor(Activator.PREF_VARIABLE_COLOR,
 				"&Variables", getFieldEditorParent()));
+		addField(new ColorFieldEditor(Activator.PREF_KEYWORD_COLOR,
+				"&Keywords", getFieldEditorParent()));
+		addField(new ColorFieldEditor(Activator.PREF_BRACKET_COLOR,
+				"&Brackets", getFieldEditorParent()));
 		addField(new ColorFieldEditor(Activator.PREF_DEFAULT_COLOR,
 				"&Others", getFieldEditorParent()));
 		// etc...

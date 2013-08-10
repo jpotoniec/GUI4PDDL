@@ -5,16 +5,16 @@ import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.Token;
 
-public class QuestionRule implements IRule {
+public class ValueRule implements IRule {
 	private final IToken token;
 
-	public QuestionRule(IToken token) {
+	public ValueRule(IToken token) {
 		this.token = token;
 	}
 
 	public IToken evaluate(ICharacterScanner scanner) {
 		int c = scanner.read();
-		if (c == '?') {
+		if (c == ':') {
 			do {
 				c = scanner.read();
 			} while (c != ICharacterScanner.EOF

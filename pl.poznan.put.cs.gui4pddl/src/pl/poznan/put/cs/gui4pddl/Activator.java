@@ -81,8 +81,12 @@ public class Activator extends AbstractUIPlugin {
 					"pddl_comment_color";
 			public static final String PREF_VALUE_COLOR =
 					"pddl_value_color";
-			public static final String PREF_QUESTION_COLOR =
-					"pddl_question_color";
+			public static final String PREF_VARIABLE_COLOR =
+					"pddl_variable_color";
+			public static final String PREF_KEYWORD_COLOR =
+					"pddl_keyword_color";
+			public static final String PREF_BRACKET_COLOR =
+					"pddl_bracket_color";
 			// etc...
 			public static final String PREF_PORT = "pddl_view_port";
 
@@ -100,8 +104,14 @@ public class Activator extends AbstractUIPlugin {
 						Activator.PREF_VALUE_COLOR,
 						StringConverter.asString(new RGB(0, 0, 255)));
 				store.setDefault(
-						Activator.PREF_QUESTION_COLOR,
+						Activator.PREF_VARIABLE_COLOR,
 						StringConverter.asString(new RGB(0, 100, 70)));
+				store.setDefault(
+						Activator.PREF_KEYWORD_COLOR,
+						StringConverter.asString(new RGB(255, 0, 0)));
+				store.setDefault(
+						Activator.PREF_BRACKET_COLOR,
+						StringConverter.asString(new RGB(143, 143, 143)));
 				// etc...
 				store.setDefault(Activator.PREF_PORT, 4445);
 				}
