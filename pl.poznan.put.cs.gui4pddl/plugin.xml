@@ -81,4 +81,79 @@
 		id="pl.poznan.put.cs.gui4pddl.preferences.EditorPreferencePage">
 	  </page>
 	</extension>
+	
+	
+	<!-- LAUNCHER -->
+   <extension
+         point="org.eclipse.debug.core.launchModes">
+    <launchMode
+		label="Run"
+		mode="run">
+	</launchMode>
+   </extension>
+   <extension
+         point="org.eclipse.debug.core.launchConfigurationTypes">
+     <launchConfigurationType
+   	   id="pl.poznan.put.cs.gui4pddl.runners.PDDLApplication"
+	   name="PDDL Application"
+	   delegate="pl.poznan.put.cs.gui4pddl.runners.PDDLApplicationLaunchConfigurationDelegate"
+	   modes= "run"
+	   public= "true"
+	   sourceLocatorId="org.eclipse.jdt.launching.sourceLocator.JavaSourceLookupDirector"
+       sourcePathComputerId="org.eclipse.jdt.launching.sourceLookup.javaSourcePathComputer">
+   </launchConfigurationType>     
+   </extension>
+   
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+    <launchConfigurationTypeImage
+			icon="icons/pddl_file.gif"
+			configTypeID="pl.poznan.put.cs.gui4pddl.runners.PDDLApplication"
+			id="pl.poznan.put.cs.gui4pddl.runners.launchConfigurationTypeImages.PDDLApplication">
+	</launchConfigurationTypeImage>     
+   </extension>
+   
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+    <launchConfigurationTabGroup
+            type="pl.poznan.put.cs.gui4pddl.runners.PDDLApplication"
+            class="pl.poznan.put.cs.gui4pddl.runners.ui.PDDLApplicationTabGroup"
+            id="pl.poznan.put.cs.gui4pddl.runners.PDDLApplication.ui.launchConfigurationTabGroup.PDDLApplication"
+            bannerImage="icons/pddl_file.gif">
+            <launchMode
+                  mode="run"
+                  description="PDDLApplicationTabGroupDescription.run">
+            </launchMode>
+    </launchConfigurationTabGroup>     
+   </extension>
+   
+   <extension
+         point="org.eclipse.debug.ui.launchShortcuts">       
+    <shortcut
+            label="PDDL Application"
+            icon="icons/pddl_file.gif"
+            modes="run"
+            class="pl.poznan.put.cs.gui4pddl.runners.PDDLLaunchShortcut"
+            id="pl.poznan.put.cs.gui4pddl.runners.PDDLShortcut">
+         <contextualLaunch>
+           <enablement>
+             <with variable="selection">
+               <count value="1"/>
+               <iterate>
+                 <or>
+                   <test property="org.eclipse.debug.ui.matchesPattern" value="*.pddl"/>
+                    <test property="org.eclipse.debug.ui.projectNature" value="pl.poznan.put.cs.gui4pddl.PDDLProject"/>
+                 <!-- <instanceof value="org.eclipse.jdt.core.IJavaElement"/> -->
+                  <!--<test property="org.python.pydev.debug.ui.python_type"/>-->
+                 </or>
+                <!--  <test property="org.eclipse.debug.ui.projectNature" value="pl.poznan.put.cs.gui4pddl.PDDLProject"/> -->
+               </iterate>
+             </with>
+           </enablement>
+  		 </contextualLaunch>
+        
+      </shortcut>
+   </extension>
+   
+  
 </plugin>

@@ -10,10 +10,8 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 
 import pl.poznan.put.cs.gui4pddl.editor.scanners.CommentScanner;
-import pl.poznan.put.cs.gui4pddl.editor.scanners.QuestionScanner;
 import pl.poznan.put.cs.gui4pddl.editor.scanners.DefaultScanner;
 import pl.poznan.put.cs.gui4pddl.editor.scanners.PDDLPartitionScanner;
-import pl.poznan.put.cs.gui4pddl.editor.scanners.ValueScanner;
 
 public class PDDLConfiguration extends SourceViewerConfiguration {
 	private final TokenManager tokenManager;
@@ -37,14 +35,7 @@ public class PDDLConfiguration extends SourceViewerConfiguration {
 		dr = new DefaultDamagerRepairer(new CommentScanner(tokenManager));
 		reconciler.setDamager(dr, PDDLPartitionScanner.PDDL_COMMENT);
 		reconciler.setRepairer(dr, PDDLPartitionScanner.PDDL_COMMENT);
-		
-		dr = new DefaultDamagerRepairer(new ValueScanner(tokenManager));
-		reconciler.setDamager(dr, PDDLPartitionScanner.PDDL_VALUE);
-		reconciler.setRepairer(dr, PDDLPartitionScanner.PDDL_VALUE);
-		
-		dr = new DefaultDamagerRepairer(new QuestionScanner(tokenManager));
-		reconciler.setDamager(dr, PDDLPartitionScanner.PDDL_QUESTION);
-		reconciler.setRepairer(dr, PDDLPartitionScanner.PDDL_QUESTION);
+
 		return reconciler;
 	}
 

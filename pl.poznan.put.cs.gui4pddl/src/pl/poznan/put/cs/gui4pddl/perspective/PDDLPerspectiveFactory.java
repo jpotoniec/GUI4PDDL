@@ -1,5 +1,6 @@
 package pl.poznan.put.cs.gui4pddl.perspective;
 
+import org.eclipse.debug.ui.IDebugUIConstants;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
@@ -57,6 +58,8 @@ public class PDDLPerspectiveFactory implements IPerspectiveFactory {
 		layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.file");//$NON-NLS-1$
 		layout.addNewWizardShortcut("org.eclipse.ui.editors.wizards.UntitledTextFileWizard");//$NON-NLS-1$
 
+		
+		
 //		layout.addShowViewShortcut("org.python.pydev.views.PyCodeCoverageView");
 //		layout.addShowViewShortcut("org.python.pydev.navigator.view");
 //		layout.addShowViewShortcut("org.python.pydev.debug.pyunit.pyUnitView");
@@ -69,7 +72,7 @@ public class PDDLPerspectiveFactory implements IPerspectiveFactory {
 		layout.addShowViewShortcut("org.eclipse.pde.runtime.LogView");
 //		layout.addShowViewShortcut(IPageLayout.ID_TASK_LIST);
 
-//		layout.addActionSet(IDebugUIConstants.LAUNCH_ACTION_SET);
+		layout.addActionSet(IDebugUIConstants.LAUNCH_ACTION_SET);
 		layout.addActionSet(IPageLayout.ID_NAVIGATE_ACTION_SET);
 	}
 
