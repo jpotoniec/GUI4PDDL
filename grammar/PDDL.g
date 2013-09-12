@@ -2,14 +2,101 @@ grammar PDDL;
 
 definition 
 	:	'(' 'define' problem_header problem_item* ')'
+	|	'(' 'define' domain_header domain_item* ')'
 	;
 		
+
+
+/*
+Domains (4)
+*/
+
+domain_header 
+	:	'(' 'domain' NAME ')'
+	;
+
+domain_item
+	:	extension_def
+	|	require_def
+	|	types_def  //typing
+	|	constants_def
+	|	domain_vars_def //expression-evaluation
+	|	predicates_def
+	|	timeless_def
+	|	safety_def //safety-constraints
+	|	structure_def
+	;
+	
+extension_def 
+	:	'(' ':extends' NAME+ ');
+	;
+	
+types_def 
+	:	'(' ':types' typed_list_of_name ')'
+	;
+	
+constants_def
+	:	'(' ':constants' typed_list_of_name ')'
+	;
+
+domain_vars_def
+	:	'(' ':domain-variables' typed_list_of_domain_var_declaration ')'
+	;
+
+predicates_def 
+	:	'(' ':predicates' atomic_formula_skeleton+ ')'
+	;
+
+timeless_def
+	:	'(' ':timeless' literal_of_name+ ')'
+	;
+	
+safety_def 
+	:	'(' ':safety' gd ')'
+	;
+	
+structure_def 
+	:	action_def
+	|	axiom_def //domain-axioms
+	|	method_def //action-expansions
+	;
+	
+/*
+Actions (5)
+*/
+action_def 
+	:	'(' ':action' general_tree* ')'  //TODO
+	;
+
+/*
+Axioms (9)
+*/
+axiom_def 
+	:	'(' ':axiom' general_tree* ')' //TODO
+	;
+	
+/*
+Action expansions (11)
+*/
+method_def
+	:	'(' ':method' general_tree* ')'
+	;
+
+	
+//
+atomic_formula_skeleton 
+	:	'(' predicate typed_list_of_variable ')'
+	;
+	
+	
+/*
+Problems (13)
+*/
+
+
 problem_header : '(' 'problem' NAME ')'
    ; 
 
-/*
-Problems (13)
-*//
 problem_item
 	:	domain_reference
 	|	require_def
@@ -109,20 +196,36 @@ type 	:	NAME
  Action expansions (8)
 */
 action_spec_od_action_term 
-	:	'(' ')' // TODO: maby general tree?
+	:	general_tree // TODO: maby general tree?
 	;
+
+/*
+ Expression evaluation (12)
+ */
+ 
+domain_var_declaration 
+	:	NAME
+	|	'(' NAME NAME ')'
+	;
+
+typed_list_of_domain_var_declaration 
+	:	domain_var_declaration*
+	|	domain_var_declaration+ '-' type typed_list_of_domain_var_declaration
+	;
+/*
+Temp
+*/
 
 general_tree 
 	:	'(' general_tree_item* ')'
 	;
 	
 general_tree_item
-	:	GENERAL_ATOM
+	:	NAME
+	|	INTEGER
+	|	VARIABLE
+	|	REQUIRE_KEY //TODO: list all tokens
 	|	general_tree
-	;
-
-GENERAL_ATOM
-	:	('a'..'z'|'A'..'Z'|'_'|'-'|'0'..'9'|'-'|'+'|'?')+
 	;
 
 WS :		(' ' |'\t' |'\n' |'\r' )+ {skip();}
