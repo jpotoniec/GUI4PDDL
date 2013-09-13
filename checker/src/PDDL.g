@@ -2,6 +2,22 @@ grammar PDDL;
 
 @header {
 	package checker;
+	
+	import java.util.LinkedList;
+	import java.util.List;
+}
+
+@members {
+    private List<String> errors = new LinkedList<String>();
+    public void displayRecognitionError(String[] tokenNames,
+                                        RecognitionException e) {
+        String hdr = getErrorHeader(e);
+        String msg = getErrorMessage(e, tokenNames);
+        errors.add(hdr + " " + msg);
+    }
+    public List<String> getErrors() {
+        return errors;
+    }
 }
 
 @lexer::header {
@@ -71,21 +87,21 @@ structure_def
 Actions (5)
 */
 action_def 
-	:	'(' ':action' general_tree* ')'  //TODO
+	:	'(' ':action' general_tree_item* ')'  //TODO
 	;
 
 /*
 Axioms (9)
 */
 axiom_def 
-	:	'(' ':axiom' general_tree* ')' //TODO
+	:	'(' ':axiom' general_tree_item* ')' //TODO
 	;
 
 /*
 Action expansions (11)
 */
 method_def
-	:	'(' ':method' general_tree* ')'
+	:	'(' ':method' general_tree_item* ')'
 	;
 
 	
@@ -127,7 +143,7 @@ situation
 	;
 	
 object_declaration 
-	:	'(' ':objects' ')'
+	:	'(' ':objects' typed_list_of_name ')'
 	;
 
 init 	:	'(' ':init' literal_of_name+ ')'
@@ -146,9 +162,9 @@ Goal description (6)
 */
 
 gd 	: 	'(' 'and' gd* ')'
-                          //	|	literal_of_term
+    |	literal_of_term
 	|	'(' 'or' gd* ')' //:disjunctive-preconditions
-	|	'(' 'not' gd ')' //:disjunctive-preconditions
+	       // |	'(' 'not' gd ')' //:disjunctive-preconditions TODO here
 	|	'(' 'imply' gd gd ')' //:disjunctive-preconditions
 	|	'(' 'exists' '(' typed_list_of_variable ')' gd ')' //:existential-preconditions
 	|	'(' 'forall' '(' typed_list_of_variable ')' gd ')' //:universal-predonditions
@@ -234,6 +250,8 @@ general_tree_item
 	|	INTEGER
 	|	VARIABLE
 	|	REQUIRE_KEY //TODO: list all tokens
+	|	'and'
+	|	'not'
 	|	general_tree
 	;
 	
