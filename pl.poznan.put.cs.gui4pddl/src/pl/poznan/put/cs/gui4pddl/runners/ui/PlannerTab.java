@@ -31,6 +31,7 @@ public class PlannerTab extends AbstractLaunchConfigurationTab {
 
 		plannerBlock.createControl(composite);
 		plannerArgumentsBlock.createControl(composite);
+		plannerBlock.addSelectionListenerToArgumentsCombo(plannerArgumentsBlock.getArgumentText());
 
 	}
 

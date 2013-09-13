@@ -90,7 +90,8 @@ public class ProjectBlock extends AbstractLaunchConfigurationTab {
 
 				// Only allow the selection of projects, do not present
 				// directories
-				ILabelProvider labelProvider = DebugUITools.newDebugModelPresentation();
+				ILabelProvider labelProvider = DebugUITools
+						.newDebugModelPresentation();
 				ElementListSelectionDialog dialog = new ElementListSelectionDialog(
 						getShell(), labelProvider);
 				dialog.setTitle("Project selection");
@@ -133,7 +134,8 @@ public class ProjectBlock extends AbstractLaunchConfigurationTab {
 		try {
 			projectName = configuration.getAttribute(RunnerConstants.PROJECT,
 					"");
-			projectLocation = configuration.getAttribute(RunnerConstants.WORKING_DIRECTORY, "");
+			projectLocation = configuration.getAttribute(
+					RunnerConstants.WORKING_DIRECTORY, "");
 		} catch (CoreException e) {
 		}
 		fProjectText.setText(projectName);
@@ -149,7 +151,8 @@ public class ProjectBlock extends AbstractLaunchConfigurationTab {
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
 		String value = fProjectText.getText().trim();
 		setAttribute(configuration, RunnerConstants.PROJECT, value);
-		setAttribute(configuration, RunnerConstants.WORKING_DIRECTORY, projectLocation);
+		setAttribute(configuration, RunnerConstants.WORKING_DIRECTORY,
+				projectLocation);
 	}
 
 	/*
@@ -231,17 +234,7 @@ public class ProjectBlock extends AbstractLaunchConfigurationTab {
 	 *            The listener to use
 	 */
 	public void addModifyListener(ModifyListener listener) {
-		if (fProjectText == null) {
-			waitingForProjectTextToExist.add(listener);
-		} else {
-			fProjectText.addModifyListener(listener);
-			for (ModifyListener l : waitingForProjectTextToExist) {
-				fProjectText.addModifyListener(l);
-			}
-			waitingForProjectTextToExist.clear();
-		}
+		fProjectText.addModifyListener(listener);
 	}
-
-	List<ModifyListener> waitingForProjectTextToExist = new ArrayList<ModifyListener>();
 
 }

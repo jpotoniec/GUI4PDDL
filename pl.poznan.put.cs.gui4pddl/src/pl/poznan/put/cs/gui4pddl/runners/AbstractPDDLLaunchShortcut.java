@@ -1,15 +1,12 @@
 package pl.poznan.put.cs.gui4pddl.runners;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IStatus;
@@ -24,11 +21,12 @@ import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.debug.ui.ILaunchShortcut;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
@@ -186,6 +184,11 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 						getLaunchConfigurationType(),
 						LaunchConfigurationCreator.getProjectLocation(project),
 						projName);
+		
+		  // Common Tab Arguments
+        CommonTab tab = new CommonTab();
+        tab.setDefaults(createdConfiguration);
+        tab.dispose();
 
 		return createdConfiguration;
 	}
@@ -198,9 +201,51 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 		if (configs.isEmpty()) {
 			return null;
 		}
-		ILabelProvider labelProvider = DebugUITools.newDebugModelPresentation();
+		final ILabelProvider labelProvider = DebugUITools
+				.newDebugModelPresentation();
 		ElementListSelectionDialog dialog = new ElementListSelectionDialog(
-				Display.getDefault().getActiveShell(), labelProvider);
+				Display.getDefault().getActiveShell(), new ILabelProvider() {
+					public Image getImage(Object element) {
+						return labelProvider.getImage(element);
+					}
+
+					public String getText(Object element) {
+						if (element instanceof ILaunchConfiguration) {
+							ILaunchConfiguration configuration = (ILaunchConfiguration) element;
+							try {
+								return labelProvider.getText(element)
+										+ " - "
+										+ configuration.getAttribute(
+												RunnerConstants.PLANNER_NAME,
+												"")
+										+ " : "
+										+ configuration.getAttribute(
+												RunnerConstants.ARGUMENTS_NAME,
+												"");
+							} catch (CoreException ex) {
+								// ignore
+							}
+						}
+						return labelProvider.getText(element);
+					}
+
+					public boolean isLabelProperty(Object element,
+							String property) {
+						return labelProvider.isLabelProperty(element, property);
+					}
+
+					public void addListener(ILabelProviderListener listener) {
+						labelProvider.addListener(listener);
+					}
+
+					public void removeListener(ILabelProviderListener listener) {
+						labelProvider.removeListener(listener);
+					}
+
+					public void dispose() {
+						labelProvider.dispose();
+					}
+				});
 		dialog.setElements(configs.toArray(new ILaunchConfiguration[configs
 				.size()]));
 		dialog.setTitle("Pick a PDDL configuration");

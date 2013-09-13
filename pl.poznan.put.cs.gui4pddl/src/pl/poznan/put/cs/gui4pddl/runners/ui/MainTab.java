@@ -14,12 +14,12 @@ import pl.poznan.put.cs.gui4pddl.runners.ui.blocks.ProjectBlock;
 public class MainTab extends AbstractLaunchConfigurationTab {
 
 	public final ProjectBlock fProjectBlock;
-	public final DomainAndProblemFilesBlock fMainModuleBlock;
+	public final DomainAndProblemFilesBlock domainAndProblemFilesBlock;
 
 
 	public MainTab() {
 		fProjectBlock = new ProjectBlock();
-		fMainModuleBlock = new DomainAndProblemFilesBlock();
+		domainAndProblemFilesBlock = new DomainAndProblemFilesBlock();
 	}
 
 	@Override
@@ -30,8 +30,8 @@ public class MainTab extends AbstractLaunchConfigurationTab {
 		composite.setLayout(gridLayout);
 
 		fProjectBlock.createControl(composite);
-		fMainModuleBlock.createControl(composite);
-	    fProjectBlock.addModifyListener(fMainModuleBlock.getProjectModifyListener());
+		domainAndProblemFilesBlock.createControl(composite);
+	    fProjectBlock.addModifyListener(domainAndProblemFilesBlock.getProjectModifyListener());
 	}
 	
     @Override
@@ -43,7 +43,7 @@ public class MainTab extends AbstractLaunchConfigurationTab {
         }
 
         if (result == null) {
-            result = fMainModuleBlock.getErrorMessage();
+            result = domainAndProblemFilesBlock.getErrorMessage();
         }
 
         return result;
@@ -62,7 +62,7 @@ public class MainTab extends AbstractLaunchConfigurationTab {
         }
 
         if (result == null) {
-            result = fMainModuleBlock.getMessage();
+            result = domainAndProblemFilesBlock.getMessage();
         }
 
         return result;
@@ -81,7 +81,7 @@ public class MainTab extends AbstractLaunchConfigurationTab {
         }
 
         if (result) {
-            result = fMainModuleBlock.isValid(launchConfig);
+            result = domainAndProblemFilesBlock.isValid(launchConfig);
         }
         return result;
     }
@@ -94,13 +94,13 @@ public class MainTab extends AbstractLaunchConfigurationTab {
 	@Override
 	public void initializeFrom(ILaunchConfiguration conf) {
 		fProjectBlock.initializeFrom(conf);
-		fMainModuleBlock.initializeFrom(conf);
+		domainAndProblemFilesBlock.initializeFrom(conf);
 	}
 
 	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
 		fProjectBlock.performApply(configuration);
-		fMainModuleBlock.performApply(configuration);
+		domainAndProblemFilesBlock.performApply(configuration);
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class MainTab extends AbstractLaunchConfigurationTab {
 		super.setLaunchConfigurationDialog(dialog);
 
 		fProjectBlock.setLaunchConfigurationDialog(dialog);
-		fMainModuleBlock.setLaunchConfigurationDialog(dialog);
+		domainAndProblemFilesBlock.setLaunchConfigurationDialog(dialog);
 	
 	}
 

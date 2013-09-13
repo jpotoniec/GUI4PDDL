@@ -76,6 +76,10 @@ public class PlannerArgumentsBlock extends AbstractLaunchConfigurationTab {
             }
         });
     }
+    
+    public Text getArgumentText() {
+    	return fPrgmArgumentsText;
+    }
 
     /*
      * (non-Javadoc)
