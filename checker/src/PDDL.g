@@ -18,6 +18,36 @@ grammar PDDL;
     public List<String> getErrors() {
         return errors;
     }
+    protected void exitSubtree(IntStream input) {
+    	int level = 0;
+    	int ttype = input.LA(1);
+    	while (ttype != Token.EOF) {
+    		if (ttype == 10) { // '('
+    		    level++;
+    		} else if (ttype == 11) { // ')'
+    			level--;
+    			if (level == 0) {
+    			    input.consume();
+    			    break;
+    			}
+    		}
+    		
+    		input.consume();
+    		ttype = input.LA(1);
+    	}
+    }
+    public void recover(IntStream input,
+           RecognitionException re) {
+           
+           if (re instanceof NoViableAltException ) {
+		       exitSubtree(input);
+		       
+		       //consumeUntil(input, 11)
+		       //input.consume();
+	       } else {
+		       super.recover(input,re);
+	       }
+    }
 }
 
 @lexer::header {
