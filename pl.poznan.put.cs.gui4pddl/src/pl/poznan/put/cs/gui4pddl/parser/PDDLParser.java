@@ -1,4 +1,4 @@
-// $ANTLR 3.5 /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g 2013-09-17 14:49:46
+// $ANTLR 3.5 /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g 2013-09-17 17:13:03
 
 	package pl.poznan.put.cs.gui4pddl.parser;
 	
@@ -83,14 +83,18 @@ public class PDDLParser extends Parser {
 	@Override public String getGrammarFileName() { return "/home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g"; }
 
 
-	    private List<String> errors = new LinkedList<String>();
+	    private List<PDDLError> errors = new LinkedList<PDDLError>();
 	    public void displayRecognitionError(String[] tokenNames,
 	                                        RecognitionException e) {
 	        String hdr = getErrorHeader(e);
 	        String msg = getErrorMessage(e, tokenNames);
-	        errors.add(hdr + " " + msg);
+	        PDDLError error = new PDDLError();
+	        error.message = hdr + " " + msg;
+	        error.line = e.line;
+	        error.charPositionInLine = e.charPositionInLine;
+	        errors.add(error);
 	    }
-	    public List<String> getErrors() {
+	    public List<PDDLError> getErrors() {
 	        return errors;
 	    }
 	    protected void exitSubtree(IntStream input) {
@@ -127,10 +131,10 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "definition"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:57:1: definition : ( '(' 'define' problem_header ( problem_item )* ')' | '(' 'define' domain_header ( domain_item )* ')' );
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:61:1: definition : ( '(' 'define' problem_header ( problem_item )* ')' | '(' 'define' domain_header ( domain_item )* ')' );
 	public final void definition() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:58:2: ( '(' 'define' problem_header ( problem_item )* ')' | '(' 'define' domain_header ( domain_item )* ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:62:2: ( '(' 'define' problem_header ( problem_item )* ')' | '(' 'define' domain_header ( domain_item )* ')' )
 			int alt3=2;
 			int LA3_0 = input.LA(1);
 			if ( (LA3_0==10) ) {
@@ -200,7 +204,7 @@ public class PDDLParser extends Parser {
 
 			switch (alt3) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:58:4: '(' 'define' problem_header ( problem_item )* ')'
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:62:4: '(' 'define' problem_header ( problem_item )* ')'
 					{
 					match(input,10,FOLLOW_10_in_definition33); 
 					match(input,34,FOLLOW_34_in_definition35); 
@@ -208,7 +212,7 @@ public class PDDLParser extends Parser {
 					problem_header();
 					state._fsp--;
 
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:58:32: ( problem_item )*
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:62:32: ( problem_item )*
 					loop1:
 					while (true) {
 						int alt1=2;
@@ -219,7 +223,7 @@ public class PDDLParser extends Parser {
 
 						switch (alt1) {
 						case 1 :
-							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:58:32: problem_item
+							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:62:32: problem_item
 							{
 							pushFollow(FOLLOW_problem_item_in_definition39);
 							problem_item();
@@ -237,7 +241,7 @@ public class PDDLParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:59:4: '(' 'define' domain_header ( domain_item )* ')'
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:63:4: '(' 'define' domain_header ( domain_item )* ')'
 					{
 					match(input,10,FOLLOW_10_in_definition47); 
 					match(input,34,FOLLOW_34_in_definition49); 
@@ -245,7 +249,7 @@ public class PDDLParser extends Parser {
 					domain_header();
 					state._fsp--;
 
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:59:31: ( domain_item )*
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:63:31: ( domain_item )*
 					loop2:
 					while (true) {
 						int alt2=2;
@@ -256,7 +260,7 @@ public class PDDLParser extends Parser {
 
 						switch (alt2) {
 						case 1 :
-							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:59:31: domain_item
+							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:63:31: domain_item
 							{
 							pushFollow(FOLLOW_domain_item_in_definition53);
 							domain_item();
@@ -289,11 +293,11 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "domain_header"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:66:1: domain_header : '(' 'domain' NAME ')' ;
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:70:1: domain_header : '(' 'domain' NAME ')' ;
 	public final void domain_header() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:67:2: ( '(' 'domain' NAME ')' )
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:67:4: '(' 'domain' NAME ')'
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:71:2: ( '(' 'domain' NAME ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:71:4: '(' 'domain' NAME ')'
 			{
 			match(input,10,FOLLOW_10_in_domain_header71); 
 			match(input,35,FOLLOW_35_in_domain_header73); 
@@ -315,10 +319,10 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "domain_item"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:70:1: domain_item : ( extension_def | require_def | types_def | constants_def | domain_vars_def | predicates_def | timeless_def | safety_def | structure_def );
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:74:1: domain_item : ( extension_def | require_def | types_def | constants_def | domain_vars_def | predicates_def | timeless_def | safety_def | structure_def );
 	public final void domain_item() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:71:2: ( extension_def | require_def | types_def | constants_def | domain_vars_def | predicates_def | timeless_def | safety_def | structure_def )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:75:2: ( extension_def | require_def | types_def | constants_def | domain_vars_def | predicates_def | timeless_def | safety_def | structure_def )
 			int alt4=9;
 			int LA4_0 = input.LA(1);
 			if ( (LA4_0==10) ) {
@@ -391,7 +395,7 @@ public class PDDLParser extends Parser {
 
 			switch (alt4) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:71:4: extension_def
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:75:4: extension_def
 					{
 					pushFollow(FOLLOW_extension_def_in_domain_item88);
 					extension_def();
@@ -400,7 +404,7 @@ public class PDDLParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:72:4: require_def
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:76:4: require_def
 					{
 					pushFollow(FOLLOW_require_def_in_domain_item93);
 					require_def();
@@ -409,7 +413,7 @@ public class PDDLParser extends Parser {
 					}
 					break;
 				case 3 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:73:4: types_def
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:77:4: types_def
 					{
 					pushFollow(FOLLOW_types_def_in_domain_item98);
 					types_def();
@@ -418,7 +422,7 @@ public class PDDLParser extends Parser {
 					}
 					break;
 				case 4 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:74:4: constants_def
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:78:4: constants_def
 					{
 					pushFollow(FOLLOW_constants_def_in_domain_item105);
 					constants_def();
@@ -427,7 +431,7 @@ public class PDDLParser extends Parser {
 					}
 					break;
 				case 5 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:75:4: domain_vars_def
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:79:4: domain_vars_def
 					{
 					pushFollow(FOLLOW_domain_vars_def_in_domain_item110);
 					domain_vars_def();
@@ -436,7 +440,7 @@ public class PDDLParser extends Parser {
 					}
 					break;
 				case 6 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:76:4: predicates_def
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:80:4: predicates_def
 					{
 					pushFollow(FOLLOW_predicates_def_in_domain_item116);
 					predicates_def();
@@ -445,7 +449,7 @@ public class PDDLParser extends Parser {
 					}
 					break;
 				case 7 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:77:4: timeless_def
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:81:4: timeless_def
 					{
 					pushFollow(FOLLOW_timeless_def_in_domain_item121);
 					timeless_def();
@@ -454,7 +458,7 @@ public class PDDLParser extends Parser {
 					}
 					break;
 				case 8 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:78:4: safety_def
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:82:4: safety_def
 					{
 					pushFollow(FOLLOW_safety_def_in_domain_item126);
 					safety_def();
@@ -463,7 +467,7 @@ public class PDDLParser extends Parser {
 					}
 					break;
 				case 9 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:79:4: structure_def
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:83:4: structure_def
 					{
 					pushFollow(FOLLOW_structure_def_in_domain_item132);
 					structure_def();
@@ -487,15 +491,15 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "extension_def"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:82:1: extension_def : '(' ':extends' ( NAME )+ ')' ;
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:86:1: extension_def : '(' ':extends' ( NAME )+ ')' ;
 	public final void extension_def() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:83:2: ( '(' ':extends' ( NAME )+ ')' )
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:83:4: '(' ':extends' ( NAME )+ ')'
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:87:2: ( '(' ':extends' ( NAME )+ ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:87:4: '(' ':extends' ( NAME )+ ')'
 			{
 			match(input,10,FOLLOW_10_in_extension_def145); 
 			match(input,19,FOLLOW_19_in_extension_def147); 
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:83:19: ( NAME )+
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:87:19: ( NAME )+
 			int cnt5=0;
 			loop5:
 			while (true) {
@@ -507,7 +511,7 @@ public class PDDLParser extends Parser {
 
 				switch (alt5) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:83:19: NAME
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:87:19: NAME
 					{
 					match(input,NAME,FOLLOW_NAME_in_extension_def149); 
 					}
@@ -538,11 +542,11 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "types_def"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:86:1: types_def : '(' ':types' typed_list_of_name ')' ;
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:90:1: types_def : '(' ':types' typed_list_of_name ')' ;
 	public final void types_def() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:87:2: ( '(' ':types' typed_list_of_name ')' )
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:87:4: '(' ':types' typed_list_of_name ')'
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:91:2: ( '(' ':types' typed_list_of_name ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:91:4: '(' ':types' typed_list_of_name ')'
 			{
 			match(input,10,FOLLOW_10_in_types_def165); 
 			match(input,32,FOLLOW_32_in_types_def167); 
@@ -567,11 +571,11 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "constants_def"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:90:1: constants_def : '(' ':constants' typed_list_of_name ')' ;
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:94:1: constants_def : '(' ':constants' typed_list_of_name ')' ;
 	public final void constants_def() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:91:2: ( '(' ':constants' typed_list_of_name ')' )
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:91:4: '(' ':constants' typed_list_of_name ')'
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:95:2: ( '(' ':constants' typed_list_of_name ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:95:4: '(' ':constants' typed_list_of_name ')'
 			{
 			match(input,10,FOLLOW_10_in_constants_def183); 
 			match(input,15,FOLLOW_15_in_constants_def185); 
@@ -596,11 +600,11 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "domain_vars_def"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:94:1: domain_vars_def : '(' ':domain-variables' typed_list_of_domain_var_declaration ')' ;
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:98:1: domain_vars_def : '(' ':domain-variables' typed_list_of_domain_var_declaration ')' ;
 	public final void domain_vars_def() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:95:2: ( '(' ':domain-variables' typed_list_of_domain_var_declaration ')' )
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:95:4: '(' ':domain-variables' typed_list_of_domain_var_declaration ')'
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:99:2: ( '(' ':domain-variables' typed_list_of_domain_var_declaration ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:99:4: '(' ':domain-variables' typed_list_of_domain_var_declaration ')'
 			{
 			match(input,10,FOLLOW_10_in_domain_vars_def200); 
 			match(input,17,FOLLOW_17_in_domain_vars_def202); 
@@ -625,15 +629,15 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "predicates_def"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:98:1: predicates_def : '(' ':predicates' ( atomic_formula_skeleton )+ ')' ;
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:102:1: predicates_def : '(' ':predicates' ( atomic_formula_skeleton )+ ')' ;
 	public final void predicates_def() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:99:2: ( '(' ':predicates' ( atomic_formula_skeleton )+ ')' )
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:99:4: '(' ':predicates' ( atomic_formula_skeleton )+ ')'
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:103:2: ( '(' ':predicates' ( atomic_formula_skeleton )+ ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:103:4: '(' ':predicates' ( atomic_formula_skeleton )+ ')'
 			{
 			match(input,10,FOLLOW_10_in_predicates_def218); 
 			match(input,26,FOLLOW_26_in_predicates_def220); 
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:99:22: ( atomic_formula_skeleton )+
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:103:22: ( atomic_formula_skeleton )+
 			int cnt6=0;
 			loop6:
 			while (true) {
@@ -645,7 +649,7 @@ public class PDDLParser extends Parser {
 
 				switch (alt6) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:99:22: atomic_formula_skeleton
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:103:22: atomic_formula_skeleton
 					{
 					pushFollow(FOLLOW_atomic_formula_skeleton_in_predicates_def222);
 					atomic_formula_skeleton();
@@ -679,15 +683,15 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "timeless_def"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:102:1: timeless_def : '(' ':timeless' ( literal_of_name )+ ')' ;
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:106:1: timeless_def : '(' ':timeless' ( literal_of_name )+ ')' ;
 	public final void timeless_def() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:103:2: ( '(' ':timeless' ( literal_of_name )+ ')' )
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:103:4: '(' ':timeless' ( literal_of_name )+ ')'
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:107:2: ( '(' ':timeless' ( literal_of_name )+ ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:107:4: '(' ':timeless' ( literal_of_name )+ ')'
 			{
 			match(input,10,FOLLOW_10_in_timeless_def236); 
 			match(input,31,FOLLOW_31_in_timeless_def238); 
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:103:20: ( literal_of_name )+
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:107:20: ( literal_of_name )+
 			int cnt7=0;
 			loop7:
 			while (true) {
@@ -699,7 +703,7 @@ public class PDDLParser extends Parser {
 
 				switch (alt7) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:103:20: literal_of_name
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:107:20: literal_of_name
 					{
 					pushFollow(FOLLOW_literal_of_name_in_timeless_def240);
 					literal_of_name();
@@ -733,11 +737,11 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "safety_def"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:106:1: safety_def : '(' ':safety' gd ')' ;
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:110:1: safety_def : '(' ':safety' gd ')' ;
 	public final void safety_def() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:107:2: ( '(' ':safety' gd ')' )
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:107:4: '(' ':safety' gd ')'
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:111:2: ( '(' ':safety' gd ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:111:4: '(' ':safety' gd ')'
 			{
 			match(input,10,FOLLOW_10_in_safety_def256); 
 			match(input,28,FOLLOW_28_in_safety_def258); 
@@ -762,10 +766,10 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "structure_def"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:110:1: structure_def : ( action_def | axiom_def | method_def );
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:114:1: structure_def : ( action_def | axiom_def | method_def );
 	public final void structure_def() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:111:2: ( action_def | axiom_def | method_def )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:115:2: ( action_def | axiom_def | method_def )
 			int alt8=3;
 			int LA8_0 = input.LA(1);
 			if ( (LA8_0==10) ) {
@@ -806,7 +810,7 @@ public class PDDLParser extends Parser {
 
 			switch (alt8) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:111:4: action_def
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:115:4: action_def
 					{
 					pushFollow(FOLLOW_action_def_in_structure_def275);
 					action_def();
@@ -815,7 +819,7 @@ public class PDDLParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:112:4: axiom_def
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:116:4: axiom_def
 					{
 					pushFollow(FOLLOW_axiom_def_in_structure_def280);
 					axiom_def();
@@ -824,7 +828,7 @@ public class PDDLParser extends Parser {
 					}
 					break;
 				case 3 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:113:4: method_def
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:117:4: method_def
 					{
 					pushFollow(FOLLOW_method_def_in_structure_def286);
 					method_def();
@@ -848,15 +852,15 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "action_def"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:119:1: action_def : '(' ':action' ( general_tree_item )* ')' ;
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:123:1: action_def : '(' ':action' ( general_tree_item )* ')' ;
 	public final void action_def() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:120:2: ( '(' ':action' ( general_tree_item )* ')' )
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:120:4: '(' ':action' ( general_tree_item )* ')'
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:124:2: ( '(' ':action' ( general_tree_item )* ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:124:4: '(' ':action' ( general_tree_item )* ')'
 			{
 			match(input,10,FOLLOW_10_in_action_def302); 
 			match(input,13,FOLLOW_13_in_action_def304); 
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:120:18: ( general_tree_item )*
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:124:18: ( general_tree_item )*
 			loop9:
 			while (true) {
 				int alt9=2;
@@ -867,7 +871,7 @@ public class PDDLParser extends Parser {
 
 				switch (alt9) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:120:18: general_tree_item
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:124:18: general_tree_item
 					{
 					pushFollow(FOLLOW_general_tree_item_in_action_def306);
 					general_tree_item();
@@ -898,15 +902,15 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "axiom_def"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:126:1: axiom_def : '(' ':axiom' ( general_tree_item )* ')' ;
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:130:1: axiom_def : '(' ':axiom' ( general_tree_item )* ')' ;
 	public final void axiom_def() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:127:2: ( '(' ':axiom' ( general_tree_item )* ')' )
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:127:4: '(' ':axiom' ( general_tree_item )* ')'
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:131:2: ( '(' ':axiom' ( general_tree_item )* ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:131:4: '(' ':axiom' ( general_tree_item )* ')'
 			{
 			match(input,10,FOLLOW_10_in_axiom_def325); 
 			match(input,14,FOLLOW_14_in_axiom_def327); 
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:127:17: ( general_tree_item )*
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:131:17: ( general_tree_item )*
 			loop10:
 			while (true) {
 				int alt10=2;
@@ -917,7 +921,7 @@ public class PDDLParser extends Parser {
 
 				switch (alt10) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:127:17: general_tree_item
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:131:17: general_tree_item
 					{
 					pushFollow(FOLLOW_general_tree_item_in_axiom_def329);
 					general_tree_item();
@@ -948,15 +952,15 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "method_def"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:133:1: method_def : '(' ':method' ( general_tree_item )* ')' ;
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:137:1: method_def : '(' ':method' ( general_tree_item )* ')' ;
 	public final void method_def() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:134:2: ( '(' ':method' ( general_tree_item )* ')' )
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:134:4: '(' ':method' ( general_tree_item )* ')'
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:138:2: ( '(' ':method' ( general_tree_item )* ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:138:4: '(' ':method' ( general_tree_item )* ')'
 			{
 			match(input,10,FOLLOW_10_in_method_def346); 
 			match(input,23,FOLLOW_23_in_method_def348); 
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:134:18: ( general_tree_item )*
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:138:18: ( general_tree_item )*
 			loop11:
 			while (true) {
 				int alt11=2;
@@ -967,7 +971,7 @@ public class PDDLParser extends Parser {
 
 				switch (alt11) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:134:18: general_tree_item
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:138:18: general_tree_item
 					{
 					pushFollow(FOLLOW_general_tree_item_in_method_def350);
 					general_tree_item();
@@ -998,11 +1002,11 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "atomic_formula_skeleton"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:139:1: atomic_formula_skeleton : '(' predicate typed_list_of_variable ')' ;
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:143:1: atomic_formula_skeleton : '(' predicate typed_list_of_variable ')' ;
 	public final void atomic_formula_skeleton() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:140:2: ( '(' predicate typed_list_of_variable ')' )
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:140:4: '(' predicate typed_list_of_variable ')'
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:144:2: ( '(' predicate typed_list_of_variable ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:144:4: '(' predicate typed_list_of_variable ')'
 			{
 			match(input,10,FOLLOW_10_in_atomic_formula_skeleton368); 
 			pushFollow(FOLLOW_predicate_in_atomic_formula_skeleton370);
@@ -1030,11 +1034,11 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "problem_header"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:150:1: problem_header : '(' 'problem' NAME ')' ;
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:154:1: problem_header : '(' 'problem' NAME ')' ;
 	public final void problem_header() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:150:16: ( '(' 'problem' NAME ')' )
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:150:18: '(' 'problem' NAME ')'
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:154:16: ( '(' 'problem' NAME ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:154:18: '(' 'problem' NAME ')'
 			{
 			match(input,10,FOLLOW_10_in_problem_header392); 
 			match(input,43,FOLLOW_43_in_problem_header394); 
@@ -1056,10 +1060,10 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "problem_item"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:153:1: problem_item : ( domain_reference | require_def | situation | object_declaration | init | goal | length_spec );
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:157:1: problem_item : ( domain_reference | require_def | situation | object_declaration | init | goal | length_spec );
 	public final void problem_item() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:154:2: ( domain_reference | require_def | situation | object_declaration | init | goal | length_spec )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:158:2: ( domain_reference | require_def | situation | object_declaration | init | goal | length_spec )
 			int alt12=7;
 			int LA12_0 = input.LA(1);
 			if ( (LA12_0==10) ) {
@@ -1121,7 +1125,7 @@ public class PDDLParser extends Parser {
 
 			switch (alt12) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:154:4: domain_reference
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:158:4: domain_reference
 					{
 					pushFollow(FOLLOW_domain_reference_in_problem_item412);
 					domain_reference();
@@ -1130,7 +1134,7 @@ public class PDDLParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:155:4: require_def
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:159:4: require_def
 					{
 					pushFollow(FOLLOW_require_def_in_problem_item417);
 					require_def();
@@ -1139,7 +1143,7 @@ public class PDDLParser extends Parser {
 					}
 					break;
 				case 3 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:156:4: situation
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:160:4: situation
 					{
 					pushFollow(FOLLOW_situation_in_problem_item422);
 					situation();
@@ -1148,7 +1152,7 @@ public class PDDLParser extends Parser {
 					}
 					break;
 				case 4 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:157:4: object_declaration
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:161:4: object_declaration
 					{
 					pushFollow(FOLLOW_object_declaration_in_problem_item427);
 					object_declaration();
@@ -1157,7 +1161,7 @@ public class PDDLParser extends Parser {
 					}
 					break;
 				case 5 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:158:4: init
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:162:4: init
 					{
 					pushFollow(FOLLOW_init_in_problem_item432);
 					init();
@@ -1166,7 +1170,7 @@ public class PDDLParser extends Parser {
 					}
 					break;
 				case 6 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:159:4: goal
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:163:4: goal
 					{
 					pushFollow(FOLLOW_goal_in_problem_item437);
 					goal();
@@ -1175,7 +1179,7 @@ public class PDDLParser extends Parser {
 					}
 					break;
 				case 7 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:160:4: length_spec
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:164:4: length_spec
 					{
 					pushFollow(FOLLOW_length_spec_in_problem_item442);
 					length_spec();
@@ -1199,11 +1203,11 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "domain_reference"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:163:1: domain_reference : '(' ':domain' NAME ')' ;
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:167:1: domain_reference : '(' ':domain' NAME ')' ;
 	public final void domain_reference() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:164:2: ( '(' ':domain' NAME ')' )
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:164:4: '(' ':domain' NAME ')'
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:168:2: ( '(' ':domain' NAME ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:168:4: '(' ':domain' NAME ')'
 			{
 			match(input,10,FOLLOW_10_in_domain_reference454); 
 			match(input,16,FOLLOW_16_in_domain_reference456); 
@@ -1225,15 +1229,15 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "require_def"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:167:1: require_def : '(' ':requirements' ( REQUIRE_KEY )+ ')' ;
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:171:1: require_def : '(' ':requirements' ( REQUIRE_KEY )+ ')' ;
 	public final void require_def() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:168:2: ( '(' ':requirements' ( REQUIRE_KEY )+ ')' )
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:168:4: '(' ':requirements' ( REQUIRE_KEY )+ ')'
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:172:2: ( '(' ':requirements' ( REQUIRE_KEY )+ ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:172:4: '(' ':requirements' ( REQUIRE_KEY )+ ')'
 			{
 			match(input,10,FOLLOW_10_in_require_def472); 
 			match(input,27,FOLLOW_27_in_require_def474); 
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:168:24: ( REQUIRE_KEY )+
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:172:24: ( REQUIRE_KEY )+
 			int cnt13=0;
 			loop13:
 			while (true) {
@@ -1245,7 +1249,7 @@ public class PDDLParser extends Parser {
 
 				switch (alt13) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:168:24: REQUIRE_KEY
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:172:24: REQUIRE_KEY
 					{
 					match(input,REQUIRE_KEY,FOLLOW_REQUIRE_KEY_in_require_def476); 
 					}
@@ -1276,11 +1280,11 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "situation"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:171:1: situation : '(' ':situation' NAME ')' ;
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:175:1: situation : '(' ':situation' NAME ')' ;
 	public final void situation() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:172:2: ( '(' ':situation' NAME ')' )
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:172:4: '(' ':situation' NAME ')'
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:176:2: ( '(' ':situation' NAME ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:176:4: '(' ':situation' NAME ')'
 			{
 			match(input,10,FOLLOW_10_in_situation492); 
 			match(input,30,FOLLOW_30_in_situation494); 
@@ -1302,11 +1306,11 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "object_declaration"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:175:1: object_declaration : '(' ':objects' typed_list_of_name ')' ;
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:179:1: object_declaration : '(' ':objects' typed_list_of_name ')' ;
 	public final void object_declaration() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:176:2: ( '(' ':objects' typed_list_of_name ')' )
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:176:4: '(' ':objects' typed_list_of_name ')'
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:180:2: ( '(' ':objects' typed_list_of_name ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:180:4: '(' ':objects' typed_list_of_name ')'
 			{
 			match(input,10,FOLLOW_10_in_object_declaration511); 
 			match(input,24,FOLLOW_24_in_object_declaration513); 
@@ -1331,15 +1335,15 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "init"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:179:1: init : '(' ':init' ( literal_of_name )+ ')' ;
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:183:1: init : '(' ':init' ( literal_of_name )+ ')' ;
 	public final void init() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:179:7: ( '(' ':init' ( literal_of_name )+ ')' )
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:179:9: '(' ':init' ( literal_of_name )+ ')'
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:183:7: ( '(' ':init' ( literal_of_name )+ ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:183:9: '(' ':init' ( literal_of_name )+ ')'
 			{
 			match(input,10,FOLLOW_10_in_init528); 
 			match(input,21,FOLLOW_21_in_init530); 
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:179:21: ( literal_of_name )+
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:183:21: ( literal_of_name )+
 			int cnt14=0;
 			loop14:
 			while (true) {
@@ -1351,7 +1355,7 @@ public class PDDLParser extends Parser {
 
 				switch (alt14) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:179:21: literal_of_name
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:183:21: literal_of_name
 					{
 					pushFollow(FOLLOW_literal_of_name_in_init532);
 					literal_of_name();
@@ -1385,10 +1389,10 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "goal"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:182:1: goal : ( '(' ':goal' gd ')' | '(' ':expansion' action_spec_od_action_term ')' );
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:186:1: goal : ( '(' ':goal' gd ')' | '(' ':expansion' action_spec_od_action_term ')' );
 	public final void goal() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:182:6: ( '(' ':goal' gd ')' | '(' ':expansion' action_spec_od_action_term ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:186:6: ( '(' ':goal' gd ')' | '(' ':expansion' action_spec_od_action_term ')' )
 			int alt15=2;
 			int LA15_0 = input.LA(1);
 			if ( (LA15_0==10) ) {
@@ -1422,7 +1426,7 @@ public class PDDLParser extends Parser {
 
 			switch (alt15) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:182:8: '(' ':goal' gd ')'
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:186:8: '(' ':goal' gd ')'
 					{
 					match(input,10,FOLLOW_10_in_goal545); 
 					match(input,20,FOLLOW_20_in_goal547); 
@@ -1434,7 +1438,7 @@ public class PDDLParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:183:4: '(' ':expansion' action_spec_od_action_term ')'
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:187:4: '(' ':expansion' action_spec_od_action_term ')'
 					{
 					match(input,10,FOLLOW_10_in_goal556); 
 					match(input,18,FOLLOW_18_in_goal558); 
@@ -1461,15 +1465,15 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "length_spec"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:186:1: length_spec : '(' ':length' ( '(' ':serial' INTEGER ')' )? ( '(' ':parallel' INTEGER ')' )? ')' ;
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:190:1: length_spec : '(' ':length' ( '(' ':serial' INTEGER ')' )? ( '(' ':parallel' INTEGER ')' )? ')' ;
 	public final void length_spec() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:187:2: ( '(' ':length' ( '(' ':serial' INTEGER ')' )? ( '(' ':parallel' INTEGER ')' )? ')' )
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:187:4: '(' ':length' ( '(' ':serial' INTEGER ')' )? ( '(' ':parallel' INTEGER ')' )? ')'
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:191:2: ( '(' ':length' ( '(' ':serial' INTEGER ')' )? ( '(' ':parallel' INTEGER ')' )? ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:191:4: '(' ':length' ( '(' ':serial' INTEGER ')' )? ( '(' ':parallel' INTEGER ')' )? ')'
 			{
 			match(input,10,FOLLOW_10_in_length_spec576); 
 			match(input,22,FOLLOW_22_in_length_spec578); 
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:187:18: ( '(' ':serial' INTEGER ')' )?
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:191:18: ( '(' ':serial' INTEGER ')' )?
 			int alt16=2;
 			int LA16_0 = input.LA(1);
 			if ( (LA16_0==10) ) {
@@ -1480,7 +1484,7 @@ public class PDDLParser extends Parser {
 			}
 			switch (alt16) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:187:19: '(' ':serial' INTEGER ')'
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:191:19: '(' ':serial' INTEGER ')'
 					{
 					match(input,10,FOLLOW_10_in_length_spec581); 
 					match(input,29,FOLLOW_29_in_length_spec583); 
@@ -1491,7 +1495,7 @@ public class PDDLParser extends Parser {
 
 			}
 
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:187:47: ( '(' ':parallel' INTEGER ')' )?
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:191:47: ( '(' ':parallel' INTEGER ')' )?
 			int alt17=2;
 			int LA17_0 = input.LA(1);
 			if ( (LA17_0==10) ) {
@@ -1499,7 +1503,7 @@ public class PDDLParser extends Parser {
 			}
 			switch (alt17) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:187:48: '(' ':parallel' INTEGER ')'
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:191:48: '(' ':parallel' INTEGER ')'
 					{
 					match(input,10,FOLLOW_10_in_length_spec592); 
 					match(input,25,FOLLOW_25_in_length_spec594); 
@@ -1527,10 +1531,10 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "gd"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:194:1: gd : ( '(' 'and' ( gd )* ')' | literal_of_term | '(' 'or' ( gd )* ')' | '(' 'imply' gd gd ')' | '(' 'exists' '(' typed_list_of_variable ')' gd ')' | '(' 'forall' '(' typed_list_of_variable ')' gd ')' );
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:198:1: gd : ( '(' 'and' ( gd )* ')' | literal_of_term | '(' 'or' ( gd )* ')' | '(' 'imply' gd gd ')' | '(' 'exists' '(' typed_list_of_variable ')' gd ')' | '(' 'forall' '(' typed_list_of_variable ')' gd ')' );
 	public final void gd() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:194:5: ( '(' 'and' ( gd )* ')' | literal_of_term | '(' 'or' ( gd )* ')' | '(' 'imply' gd gd ')' | '(' 'exists' '(' typed_list_of_variable ')' gd ')' | '(' 'forall' '(' typed_list_of_variable ')' gd ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:198:5: ( '(' 'and' ( gd )* ')' | literal_of_term | '(' 'or' ( gd )* ')' | '(' 'imply' gd gd ')' | '(' 'exists' '(' typed_list_of_variable ')' gd ')' | '(' 'forall' '(' typed_list_of_variable ')' gd ')' )
 			int alt20=6;
 			int LA20_0 = input.LA(1);
 			if ( (LA20_0==10) ) {
@@ -1587,11 +1591,11 @@ public class PDDLParser extends Parser {
 
 			switch (alt20) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:194:8: '(' 'and' ( gd )* ')'
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:198:8: '(' 'and' ( gd )* ')'
 					{
 					match(input,10,FOLLOW_10_in_gd617); 
 					match(input,33,FOLLOW_33_in_gd619); 
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:194:18: ( gd )*
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:198:18: ( gd )*
 					loop18:
 					while (true) {
 						int alt18=2;
@@ -1602,7 +1606,7 @@ public class PDDLParser extends Parser {
 
 						switch (alt18) {
 						case 1 :
-							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:194:18: gd
+							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:198:18: gd
 							{
 							pushFollow(FOLLOW_gd_in_gd621);
 							gd();
@@ -1620,7 +1624,7 @@ public class PDDLParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:195:7: literal_of_term
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:199:7: literal_of_term
 					{
 					pushFollow(FOLLOW_literal_of_term_in_gd632);
 					literal_of_term();
@@ -1629,11 +1633,11 @@ public class PDDLParser extends Parser {
 					}
 					break;
 				case 3 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:196:4: '(' 'or' ( gd )* ')'
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:200:4: '(' 'or' ( gd )* ')'
 					{
 					match(input,10,FOLLOW_10_in_gd637); 
 					match(input,42,FOLLOW_42_in_gd639); 
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:196:13: ( gd )*
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:200:13: ( gd )*
 					loop19:
 					while (true) {
 						int alt19=2;
@@ -1644,7 +1648,7 @@ public class PDDLParser extends Parser {
 
 						switch (alt19) {
 						case 1 :
-							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:196:13: gd
+							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:200:13: gd
 							{
 							pushFollow(FOLLOW_gd_in_gd641);
 							gd();
@@ -1662,7 +1666,7 @@ public class PDDLParser extends Parser {
 					}
 					break;
 				case 4 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:198:4: '(' 'imply' gd gd ')'
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:202:4: '(' 'imply' gd gd ')'
 					{
 					match(input,10,FOLLOW_10_in_gd659); 
 					match(input,40,FOLLOW_40_in_gd661); 
@@ -1678,7 +1682,7 @@ public class PDDLParser extends Parser {
 					}
 					break;
 				case 5 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:199:4: '(' 'exists' '(' typed_list_of_variable ')' gd ')'
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:203:4: '(' 'exists' '(' typed_list_of_variable ')' gd ')'
 					{
 					match(input,10,FOLLOW_10_in_gd673); 
 					match(input,37,FOLLOW_37_in_gd675); 
@@ -1696,7 +1700,7 @@ public class PDDLParser extends Parser {
 					}
 					break;
 				case 6 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:200:4: '(' 'forall' '(' typed_list_of_variable ')' gd ')'
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:204:4: '(' 'forall' '(' typed_list_of_variable ')' gd ')'
 					{
 					match(input,10,FOLLOW_10_in_gd691); 
 					match(input,39,FOLLOW_39_in_gd693); 
@@ -1729,11 +1733,11 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "predicate"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:204:1: predicate : NAME ;
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:208:1: predicate : NAME ;
 	public final void predicate() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:205:2: ( NAME )
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:205:4: NAME
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:209:2: ( NAME )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:209:4: NAME
 			{
 			match(input,NAME,FOLLOW_NAME_in_predicate717); 
 			}
@@ -1752,10 +1756,10 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "term"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:209:1: term : ( NAME | VARIABLE );
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:213:1: term : ( NAME | VARIABLE );
 	public final void term() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:209:7: ( NAME | VARIABLE )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:213:7: ( NAME | VARIABLE )
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:
 			{
 			if ( input.LA(1)==NAME||input.LA(1)==VARIABLE ) {
@@ -1782,10 +1786,10 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "literal_of_name"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:214:1: literal_of_name : ( atomic_formula_of_name | '(' 'not' atomic_formula_of_name ')' );
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:218:1: literal_of_name : ( atomic_formula_of_name | '(' 'not' atomic_formula_of_name ')' );
 	public final void literal_of_name() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:215:2: ( atomic_formula_of_name | '(' 'not' atomic_formula_of_name ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:219:2: ( atomic_formula_of_name | '(' 'not' atomic_formula_of_name ')' )
 			int alt21=2;
 			int LA21_0 = input.LA(1);
 			if ( (LA21_0==10) ) {
@@ -1819,7 +1823,7 @@ public class PDDLParser extends Parser {
 
 			switch (alt21) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:215:4: atomic_formula_of_name
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:219:4: atomic_formula_of_name
 					{
 					pushFollow(FOLLOW_atomic_formula_of_name_in_literal_of_name747);
 					atomic_formula_of_name();
@@ -1828,7 +1832,7 @@ public class PDDLParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:216:4: '(' 'not' atomic_formula_of_name ')'
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:220:4: '(' 'not' atomic_formula_of_name ')'
 					{
 					match(input,10,FOLLOW_10_in_literal_of_name752); 
 					match(input,41,FOLLOW_41_in_literal_of_name754); 
@@ -1855,10 +1859,10 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "literal_of_term"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:219:1: literal_of_term : ( atomic_formula_of_term | '(' 'not' atomic_formula_of_term ')' );
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:223:1: literal_of_term : ( atomic_formula_of_term | '(' 'not' atomic_formula_of_term ')' );
 	public final void literal_of_term() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:220:2: ( atomic_formula_of_term | '(' 'not' atomic_formula_of_term ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:224:2: ( atomic_formula_of_term | '(' 'not' atomic_formula_of_term ')' )
 			int alt22=2;
 			int LA22_0 = input.LA(1);
 			if ( (LA22_0==10) ) {
@@ -1892,7 +1896,7 @@ public class PDDLParser extends Parser {
 
 			switch (alt22) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:220:4: atomic_formula_of_term
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:224:4: atomic_formula_of_term
 					{
 					pushFollow(FOLLOW_atomic_formula_of_term_in_literal_of_term769);
 					atomic_formula_of_term();
@@ -1901,7 +1905,7 @@ public class PDDLParser extends Parser {
 					}
 					break;
 				case 2 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:221:4: '(' 'not' atomic_formula_of_term ')'
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:225:4: '(' 'not' atomic_formula_of_term ')'
 					{
 					match(input,10,FOLLOW_10_in_literal_of_term774); 
 					match(input,41,FOLLOW_41_in_literal_of_term776); 
@@ -1928,18 +1932,18 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "atomic_formula_of_term"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:224:1: atomic_formula_of_term : '(' predicate ( term )* ')' ;
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:228:1: atomic_formula_of_term : '(' predicate ( term )* ')' ;
 	public final void atomic_formula_of_term() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:225:2: ( '(' predicate ( term )* ')' )
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:225:4: '(' predicate ( term )* ')'
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:229:2: ( '(' predicate ( term )* ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:229:4: '(' predicate ( term )* ')'
 			{
 			match(input,10,FOLLOW_10_in_atomic_formula_of_term791); 
 			pushFollow(FOLLOW_predicate_in_atomic_formula_of_term793);
 			predicate();
 			state._fsp--;
 
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:225:18: ( term )*
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:229:18: ( term )*
 			loop23:
 			while (true) {
 				int alt23=2;
@@ -1950,7 +1954,7 @@ public class PDDLParser extends Parser {
 
 				switch (alt23) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:225:18: term
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:229:18: term
 					{
 					pushFollow(FOLLOW_term_in_atomic_formula_of_term795);
 					term();
@@ -1981,18 +1985,18 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "atomic_formula_of_name"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:228:1: atomic_formula_of_name : '(' predicate ( NAME )* ')' ;
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:232:1: atomic_formula_of_name : '(' predicate ( NAME )* ')' ;
 	public final void atomic_formula_of_name() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:229:2: ( '(' predicate ( NAME )* ')' )
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:229:4: '(' predicate ( NAME )* ')'
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:233:2: ( '(' predicate ( NAME )* ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:233:4: '(' predicate ( NAME )* ')'
 			{
 			match(input,10,FOLLOW_10_in_atomic_formula_of_name810); 
 			pushFollow(FOLLOW_predicate_in_atomic_formula_of_name812);
 			predicate();
 			state._fsp--;
 
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:229:18: ( NAME )*
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:233:18: ( NAME )*
 			loop24:
 			while (true) {
 				int alt24=2;
@@ -2003,7 +2007,7 @@ public class PDDLParser extends Parser {
 
 				switch (alt24) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:229:18: NAME
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:233:18: NAME
 					{
 					match(input,NAME,FOLLOW_NAME_in_atomic_formula_of_name814); 
 					}
@@ -2031,10 +2035,10 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "typed_list_of_name"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:232:1: typed_list_of_name : (| ( NAME )+ ( '-' type typed_list_of_name )? );
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:236:1: typed_list_of_name : (| ( NAME )+ ( '-' type typed_list_of_name )? );
 	public final void typed_list_of_name() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:233:2: (| ( NAME )+ ( '-' type typed_list_of_name )? )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:237:2: (| ( NAME )+ ( '-' type typed_list_of_name )? )
 			int alt27=2;
 			int LA27_0 = input.LA(1);
 			if ( (LA27_0==11) ) {
@@ -2052,14 +2056,14 @@ public class PDDLParser extends Parser {
 
 			switch (alt27) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:234:2: 
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:238:2: 
 					{
 					}
 					break;
 				case 2 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:234:4: ( NAME )+ ( '-' type typed_list_of_name )?
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:238:4: ( NAME )+ ( '-' type typed_list_of_name )?
 					{
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:234:4: ( NAME )+
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:238:4: ( NAME )+
 					int cnt25=0;
 					loop25:
 					while (true) {
@@ -2071,7 +2075,7 @@ public class PDDLParser extends Parser {
 
 						switch (alt25) {
 						case 1 :
-							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:234:4: NAME
+							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:238:4: NAME
 							{
 							match(input,NAME,FOLLOW_NAME_in_typed_list_of_name833); 
 							}
@@ -2085,7 +2089,7 @@ public class PDDLParser extends Parser {
 						cnt25++;
 					}
 
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:234:10: ( '-' type typed_list_of_name )?
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:238:10: ( '-' type typed_list_of_name )?
 					int alt26=2;
 					int LA26_0 = input.LA(1);
 					if ( (LA26_0==12) ) {
@@ -2093,7 +2097,7 @@ public class PDDLParser extends Parser {
 					}
 					switch (alt26) {
 						case 1 :
-							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:234:11: '-' type typed_list_of_name
+							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:238:11: '-' type typed_list_of_name
 							{
 							match(input,12,FOLLOW_12_in_typed_list_of_name837); 
 							pushFollow(FOLLOW_type_in_typed_list_of_name839);
@@ -2127,10 +2131,10 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "typed_list_of_variable"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:237:1: typed_list_of_variable : (| ( VARIABLE )+ ( '-' type typed_list_of_variable )? );
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:241:1: typed_list_of_variable : (| ( VARIABLE )+ ( '-' type typed_list_of_variable )? );
 	public final void typed_list_of_variable() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:238:2: (| ( VARIABLE )+ ( '-' type typed_list_of_variable )? )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:242:2: (| ( VARIABLE )+ ( '-' type typed_list_of_variable )? )
 			int alt30=2;
 			int LA30_0 = input.LA(1);
 			if ( (LA30_0==11) ) {
@@ -2148,14 +2152,14 @@ public class PDDLParser extends Parser {
 
 			switch (alt30) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:239:2: 
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:243:2: 
 					{
 					}
 					break;
 				case 2 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:239:4: ( VARIABLE )+ ( '-' type typed_list_of_variable )?
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:243:4: ( VARIABLE )+ ( '-' type typed_list_of_variable )?
 					{
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:239:4: ( VARIABLE )+
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:243:4: ( VARIABLE )+
 					int cnt28=0;
 					loop28:
 					while (true) {
@@ -2167,7 +2171,7 @@ public class PDDLParser extends Parser {
 
 						switch (alt28) {
 						case 1 :
-							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:239:4: VARIABLE
+							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:243:4: VARIABLE
 							{
 							match(input,VARIABLE,FOLLOW_VARIABLE_in_typed_list_of_variable859); 
 							}
@@ -2181,7 +2185,7 @@ public class PDDLParser extends Parser {
 						cnt28++;
 					}
 
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:239:14: ( '-' type typed_list_of_variable )?
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:243:14: ( '-' type typed_list_of_variable )?
 					int alt29=2;
 					int LA29_0 = input.LA(1);
 					if ( (LA29_0==12) ) {
@@ -2189,7 +2193,7 @@ public class PDDLParser extends Parser {
 					}
 					switch (alt29) {
 						case 1 :
-							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:239:15: '-' type typed_list_of_variable
+							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:243:15: '-' type typed_list_of_variable
 							{
 							match(input,12,FOLLOW_12_in_typed_list_of_variable863); 
 							pushFollow(FOLLOW_type_in_typed_list_of_variable865);
@@ -2223,10 +2227,10 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "type"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:244:1: type : ( NAME | '(' 'either' ( type )+ ')' | '(' 'fluent' type ')' );
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:248:1: type : ( NAME | '(' 'either' ( type )+ ')' | '(' 'fluent' type ')' );
 	public final void type() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:244:7: ( NAME | '(' 'either' ( type )+ ')' | '(' 'fluent' type ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:248:7: ( NAME | '(' 'either' ( type )+ ')' | '(' 'fluent' type ')' )
 			int alt32=3;
 			int LA32_0 = input.LA(1);
 			if ( (LA32_0==NAME) ) {
@@ -2263,17 +2267,17 @@ public class PDDLParser extends Parser {
 
 			switch (alt32) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:244:9: NAME
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:248:9: NAME
 					{
 					match(input,NAME,FOLLOW_NAME_in_type883); 
 					}
 					break;
 				case 2 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:245:4: '(' 'either' ( type )+ ')'
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:249:4: '(' 'either' ( type )+ ')'
 					{
 					match(input,10,FOLLOW_10_in_type888); 
 					match(input,36,FOLLOW_36_in_type890); 
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:245:17: ( type )+
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:249:17: ( type )+
 					int cnt31=0;
 					loop31:
 					while (true) {
@@ -2285,7 +2289,7 @@ public class PDDLParser extends Parser {
 
 						switch (alt31) {
 						case 1 :
-							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:245:17: type
+							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:249:17: type
 							{
 							pushFollow(FOLLOW_type_in_type892);
 							type();
@@ -2306,7 +2310,7 @@ public class PDDLParser extends Parser {
 					}
 					break;
 				case 3 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:246:4: '(' 'fluent' type ')'
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:250:4: '(' 'fluent' type ')'
 					{
 					match(input,10,FOLLOW_10_in_type900); 
 					match(input,38,FOLLOW_38_in_type902); 
@@ -2333,11 +2337,11 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "action_spec_od_action_term"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:252:1: action_spec_od_action_term : general_tree ;
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:256:1: action_spec_od_action_term : general_tree ;
 	public final void action_spec_od_action_term() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:253:2: ( general_tree )
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:253:4: general_tree
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:257:2: ( general_tree )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:257:4: general_tree
 			{
 			pushFollow(FOLLOW_general_tree_in_action_spec_od_action_term921);
 			general_tree();
@@ -2359,10 +2363,10 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "domain_var_declaration"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:260:1: domain_var_declaration : ( NAME | '(' NAME NAME ')' );
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:264:1: domain_var_declaration : ( NAME | '(' NAME NAME ')' );
 	public final void domain_var_declaration() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:261:2: ( NAME | '(' NAME NAME ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:265:2: ( NAME | '(' NAME NAME ')' )
 			int alt33=2;
 			int LA33_0 = input.LA(1);
 			if ( (LA33_0==NAME) ) {
@@ -2380,13 +2384,13 @@ public class PDDLParser extends Parser {
 
 			switch (alt33) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:261:4: NAME
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:265:4: NAME
 					{
 					match(input,NAME,FOLLOW_NAME_in_domain_var_declaration938); 
 					}
 					break;
 				case 2 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:262:4: '(' NAME NAME ')'
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:266:4: '(' NAME NAME ')'
 					{
 					match(input,10,FOLLOW_10_in_domain_var_declaration943); 
 					match(input,NAME,FOLLOW_NAME_in_domain_var_declaration945); 
@@ -2410,10 +2414,10 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "typed_list_of_domain_var_declaration"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:265:1: typed_list_of_domain_var_declaration : (| ( domain_var_declaration )+ ( '-' type typed_list_of_domain_var_declaration )? );
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:269:1: typed_list_of_domain_var_declaration : (| ( domain_var_declaration )+ ( '-' type typed_list_of_domain_var_declaration )? );
 	public final void typed_list_of_domain_var_declaration() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:266:2: (| ( domain_var_declaration )+ ( '-' type typed_list_of_domain_var_declaration )? )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:270:2: (| ( domain_var_declaration )+ ( '-' type typed_list_of_domain_var_declaration )? )
 			int alt36=2;
 			int LA36_0 = input.LA(1);
 			if ( (LA36_0==11) ) {
@@ -2431,14 +2435,14 @@ public class PDDLParser extends Parser {
 
 			switch (alt36) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:267:2: 
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:271:2: 
 					{
 					}
 					break;
 				case 2 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:267:4: ( domain_var_declaration )+ ( '-' type typed_list_of_domain_var_declaration )?
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:271:4: ( domain_var_declaration )+ ( '-' type typed_list_of_domain_var_declaration )?
 					{
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:267:4: ( domain_var_declaration )+
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:271:4: ( domain_var_declaration )+
 					int cnt34=0;
 					loop34:
 					while (true) {
@@ -2450,7 +2454,7 @@ public class PDDLParser extends Parser {
 
 						switch (alt34) {
 						case 1 :
-							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:267:4: domain_var_declaration
+							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:271:4: domain_var_declaration
 							{
 							pushFollow(FOLLOW_domain_var_declaration_in_typed_list_of_domain_var_declaration965);
 							domain_var_declaration();
@@ -2467,7 +2471,7 @@ public class PDDLParser extends Parser {
 						cnt34++;
 					}
 
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:267:28: ( '-' type typed_list_of_domain_var_declaration )?
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:271:28: ( '-' type typed_list_of_domain_var_declaration )?
 					int alt35=2;
 					int LA35_0 = input.LA(1);
 					if ( (LA35_0==12) ) {
@@ -2475,7 +2479,7 @@ public class PDDLParser extends Parser {
 					}
 					switch (alt35) {
 						case 1 :
-							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:267:29: '-' type typed_list_of_domain_var_declaration
+							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:271:29: '-' type typed_list_of_domain_var_declaration
 							{
 							match(input,12,FOLLOW_12_in_typed_list_of_domain_var_declaration969); 
 							pushFollow(FOLLOW_type_in_typed_list_of_domain_var_declaration971);
@@ -2509,14 +2513,14 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "general_tree"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:274:1: general_tree : '(' ( general_tree_item )* ')' ;
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:278:1: general_tree : '(' ( general_tree_item )* ')' ;
 	public final void general_tree() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:275:2: ( '(' ( general_tree_item )* ')' )
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:275:4: '(' ( general_tree_item )* ')'
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:279:2: ( '(' ( general_tree_item )* ')' )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:279:4: '(' ( general_tree_item )* ')'
 			{
 			match(input,10,FOLLOW_10_in_general_tree990); 
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:275:8: ( general_tree_item )*
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:279:8: ( general_tree_item )*
 			loop37:
 			while (true) {
 				int alt37=2;
@@ -2527,7 +2531,7 @@ public class PDDLParser extends Parser {
 
 				switch (alt37) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:275:8: general_tree_item
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:279:8: general_tree_item
 					{
 					pushFollow(FOLLOW_general_tree_item_in_general_tree992);
 					general_tree_item();
@@ -2558,10 +2562,10 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "general_tree_item"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:278:1: general_tree_item : ( NAME | INTEGER | VARIABLE | REQUIRE_KEY | 'and' | 'not' | general_tree );
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:282:1: general_tree_item : ( NAME | INTEGER | VARIABLE | REQUIRE_KEY | 'and' | 'not' | general_tree );
 	public final void general_tree_item() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:279:2: ( NAME | INTEGER | VARIABLE | REQUIRE_KEY | 'and' | 'not' | general_tree )
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:283:2: ( NAME | INTEGER | VARIABLE | REQUIRE_KEY | 'and' | 'not' | general_tree )
 			int alt38=7;
 			switch ( input.LA(1) ) {
 			case NAME:
@@ -2606,43 +2610,43 @@ public class PDDLParser extends Parser {
 			}
 			switch (alt38) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:279:4: NAME
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:283:4: NAME
 					{
 					match(input,NAME,FOLLOW_NAME_in_general_tree_item1007); 
 					}
 					break;
 				case 2 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:280:4: INTEGER
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:284:4: INTEGER
 					{
 					match(input,INTEGER,FOLLOW_INTEGER_in_general_tree_item1012); 
 					}
 					break;
 				case 3 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:281:4: VARIABLE
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:285:4: VARIABLE
 					{
 					match(input,VARIABLE,FOLLOW_VARIABLE_in_general_tree_item1017); 
 					}
 					break;
 				case 4 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:282:4: REQUIRE_KEY
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:286:4: REQUIRE_KEY
 					{
 					match(input,REQUIRE_KEY,FOLLOW_REQUIRE_KEY_in_general_tree_item1022); 
 					}
 					break;
 				case 5 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:283:4: 'and'
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:287:4: 'and'
 					{
 					match(input,33,FOLLOW_33_in_general_tree_item1028); 
 					}
 					break;
 				case 6 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:284:4: 'not'
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:288:4: 'not'
 					{
 					match(input,41,FOLLOW_41_in_general_tree_item1033); 
 					}
 					break;
 				case 7 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:285:4: general_tree
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:289:4: general_tree
 					{
 					pushFollow(FOLLOW_general_tree_in_general_tree_item1038);
 					general_tree();

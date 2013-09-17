@@ -13,6 +13,7 @@ import org.antlr.runtime.RecognitionException;
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
@@ -28,11 +29,13 @@ import pl.poznan.put.cs.gui4pddl.log.Log;
 public class Builder extends IncrementalProjectBuilder {
 
 	public static final String BUILDER_ID = "pl.poznan.put.cs.gui4pddl.PDDLParser";
+	public static final String MARKER_ID = "org.eclipse.core.resources.problemmarker";
 
 	class PDDLFileVisitor implements IResourceVisitor, IResourceDeltaVisitor {
 		public boolean visit(IResource resource) {
 			if (resource instanceof IFile) {
 				if (resource.getFileExtension().equals("pddl")) {
+					deleteMarkers(resource);
 					parse((IFile)resource);
 				}
                 return false; //has no members
@@ -141,12 +144,8 @@ public class Builder extends IncrementalProjectBuilder {
 				e.printStackTrace();
 			}
 			
-			List<String> errors = parser.getErrors();
-			if (!errors.isEmpty()) {
-				for (String error : errors) {
-					System.out.println(error);
-				}
-			}
+			List<PDDLError> errors = parser.getErrors();
+			reportErrors(file, errors);
 			
 		} catch (CoreException e) {
 			Log.log(e);
@@ -162,4 +161,29 @@ public class Builder extends IncrementalProjectBuilder {
 			}
 		}
 	}
+	
+	public static boolean deleteMarkers(IResource resource) {
+		try {
+			resource.deleteMarkers(MARKER_ID, true, IResource.DEPTH_INFINITE);
+			return true;
+		} catch (CoreException e) {
+			Log.log(e);
+			return false;
+		}
+	}
+	
+	private void reportErrors(IFile file, List<PDDLError> errors) {
+		try {
+			for (PDDLError error : errors) {
+				IMarker marker = file.createMarker(MARKER_ID);
+				marker.setAttribute(IMarker.MESSAGE, error.message);
+				marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+				marker.setAttribute(IMarker.LINE_NUMBER, error.line);
+			}
+			
+		} catch (CoreException e) {
+			Log.log(e);
+		}
+	}
+
 }

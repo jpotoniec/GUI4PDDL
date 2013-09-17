@@ -8,14 +8,18 @@ grammar PDDL;
 }
 
 @members {
-    private List<String> errors = new LinkedList<String>();
+    private List<PDDLError> errors = new LinkedList<PDDLError>();
     public void displayRecognitionError(String[] tokenNames,
                                         RecognitionException e) {
         String hdr = getErrorHeader(e);
         String msg = getErrorMessage(e, tokenNames);
-        errors.add(hdr + " " + msg);
+        PDDLError error = new PDDLError();
+        error.message = hdr + " " + msg;
+        error.line = e.line;
+        error.charPositionInLine = e.charPositionInLine;
+        errors.add(error);
     }
-    public List<String> getErrors() {
+    public List<PDDLError> getErrors() {
         return errors;
     }
     protected void exitSubtree(IntStream input) {

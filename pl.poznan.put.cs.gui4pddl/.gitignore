@@ -1,1 +1,5 @@
 /bin
+@dot.log
+@dot/
+javaCompiler...args
+
