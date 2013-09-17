@@ -40,6 +40,7 @@ public class PDDLFilePage extends WizardPage {
 	 */
 	public PDDLFilePage(ISelection selection) {
 		super("wizardPage");
+		System.out.println("WP");
 		setTitle("PDDL file");
 		setDescription("This wizard creates a new file with *.pddl extension.");
 		this.selection = selection;

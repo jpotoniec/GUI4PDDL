@@ -5,7 +5,13 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
+
+import pl.poznan.put.cs.gui4pddl.log.Log;
+import pl.poznan.put.cs.gui4pddl.parser.Builder;
 
 public class PDDLNature implements IProjectNature {
 
@@ -18,7 +24,19 @@ public class PDDLNature implements IProjectNature {
 
 	@Override
 	public void configure() throws CoreException {
-	}
+		Builder.addBuilderToProject(getProject());
+		new Job("Properties File Audit") {
+			protected IStatus run(IProgressMonitor monitor) {
+				try {
+					project.build(Builder.FULL_BUILD, Builder.BUILDER_ID, null,
+							monitor);
+				} catch (CoreException e) {
+					Log.log(e);
+				}
+				return Status.OK_STATUS;
+			}
+		}.schedule();
+	}	
 
 	@Override
 	public void deconfigure() throws CoreException {
@@ -35,6 +53,7 @@ public class PDDLNature implements IProjectNature {
 	}
 
 	public static PDDLNature addNature(IProject project, IProgressMonitor monitor) throws CoreException {
+
 		if (project == null || !project.isOpen()) {
 			return null;
 		}

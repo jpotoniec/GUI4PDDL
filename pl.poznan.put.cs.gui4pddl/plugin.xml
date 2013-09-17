@@ -49,6 +49,9 @@
                class="pl.poznan.put.cs.gui4pddl.PDDLNature">
          </run>
       </runtime>
+      <builder
+            id="pl.poznan.put.cs.gui4pddl.PDDLParser">
+      </builder>
    </extension>
    <extension
          point="org.eclipse.ui.ide.projectNatureImages">
@@ -159,6 +162,16 @@
   		 </contextualLaunch>
         
       </shortcut>
+   </extension>
+   <extension
+         id="PDDLParser"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="true">
+         <run
+               class="pl.poznan.put.cs.gui4pddl.parser.Builder">
+         </run>
+      </builder>
    </extension>
    
   

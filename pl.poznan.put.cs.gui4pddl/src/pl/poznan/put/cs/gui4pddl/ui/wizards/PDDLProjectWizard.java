@@ -129,9 +129,10 @@ public class PDDLProjectWizard extends Wizard implements INewWizard, IExecutable
 	 * 
 	 * Launches another thread to create Python project. A progress monitor is shown in the UI thread.
 	 */
+	@Override
 	public boolean performFinish() {
 		createdProject = createNewProject();
-
+		
 		// TODO uncomment
 		/*
 		 * // Switch to default perspective (will ask before changing)
