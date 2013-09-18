@@ -58,9 +58,14 @@ grammar PDDL;
 	package pl.poznan.put.cs.gui4pddl.parser;
 }
 
+pddl_file
+    :    definition*
+    ;
+
 definition 
 	:	'(' 'define' problem_header problem_item* ')'
 	|	'(' 'define' domain_header domain_item* ')'
+	|   '(' 'define' initsit_header initsit_body ')'
 	;
 
 /*
@@ -121,29 +126,72 @@ structure_def
 Actions (5)
 */
 action_def 
-	:	'(' ':action' general_tree_item* ')'  //TODO
+	:	'(' ':action' action_functor
+			':parameters' '(' typed_list_of_variable ')'
+			action_def_body ')'
 	;
+	
+action_functor
+	:    NAME
+	;
+	
+action_def_body
+    :    action_def_body_item*
+    ;
+    
+action_def_body_item
+    :    ':vars' '(' typed_list_of_variable ')' //:existential-preconditions, :conditional-effects
+    |    ':precondition' gd
+    |    ':expansion' action_spec       //action expansions
+    |    ':maintain' gd                  //action expansions
+    |    ':effect' effect
+    |    ':only-in-expansions' boolean_type  //action expansions
+    ;
+
+/*
+Effects (7)
+*/
+effect
+    :    '(' 'and' effect* ')'
+    |    '(' 'not' atomic_formula_of_term ')'
+    |    atomic_formula_of_term
+    |    '(' 'forall' '(' VARIABLE* ')' effect ')' //:conditional−effects
+    |    '(' 'when' gd effect ')' //:conditional−effects
+    |    '(' 'change' fluent expression ')'  //:fluents
+    ;
+
+fluent
+    :    general_tree_item
+    ;
+    
+expression
+    :    general_tree_item
+    ;
+
+/*
+ Action expansions (8)  -- Not supported
+*/
+
+action_spec
+    :    general_tree
+    ;
+
+action_spec_od_action_term 
+	:	general_tree // TODO: maybe general tree?
+	;
+
 
 /*
 Axioms (9)
 */
 axiom_def 
-	:	'(' ':axiom' general_tree_item* ')' //TODO
+	:	'(' ':axiom' 
+	        ':vars' '(' typed_list_of_variable ')'
+	        ':context' gd
+	        ':implies' literal_of_term ')' 
 	;
 
-/*
-Action expansions (11)
-*/
-method_def
-	:	'(' ':method' general_tree_item* ')'
-	;
 
-	
-//
-atomic_formula_skeleton 
-	:	'(' predicate typed_list_of_variable ')'
-	;
-	
 	
 
 /*
@@ -190,6 +238,21 @@ goal	:	'(' ':goal' gd ')'
 length_spec 
 	:	'(' ':length' ('(' ':serial' INTEGER ')')? ('(' ':parallel' INTEGER ')')? ')'
 	;
+	
+	
+initsit_header
+    :   '(' 'situation' NAME ')'
+    ;
+
+initsit_body
+    :  '(' ':domain' NAME ')'
+            initsit_body_item*
+    ;
+    
+initsit_body_item
+    :   object_declaration
+    |   init
+    ;
 
 /*
 Goal description (6)
@@ -243,19 +306,24 @@ typed_list_of_variable
 	|	VARIABLE+ ('-' type typed_list_of_variable)? //:typing
 	;
 
-
-
 type 	:	NAME
 	|	'(' 'either' type+ ')'
 	|	'(' 'fluent' type ')' //:fluents
 	;
 
 /*
- Action expansions (8)
+Addenda (11) -- Not supported
 */
-action_spec_od_action_term 
-	:	general_tree // TODO: maybe general tree?
+method_def
+	:	'(' ':method' general_tree_item* ')'
 	;
+
+	
+//
+atomic_formula_skeleton 
+	:	'(' predicate typed_list_of_variable ')'
+	;
+	
 
 /*
  Expression evaluation (12)
@@ -289,9 +357,22 @@ general_tree_item
 	|	general_tree
 	;
 	
+boolean_type
+    :    TRUE
+    |    FALSE
+    ;
+    
 /*
 Tokens
 */
+
+TRUE
+    :    'true'
+    ;
+    
+FALSE
+    :    'false'
+    ;
 
 WS :		(' ' |'\t' |'\n' |'\r' )+ {skip();}
    ;
@@ -313,3 +394,5 @@ REQUIRE_KEY
 VARIABLE 
 	:	'?'('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'_'|'-'|'0'..'9')*
 	;
+
+

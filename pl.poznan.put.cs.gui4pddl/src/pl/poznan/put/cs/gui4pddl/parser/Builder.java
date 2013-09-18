@@ -139,7 +139,7 @@ public class Builder extends IncrementalProjectBuilder {
 			PDDLParser parser = new PDDLParser(tokens);
 			
 			try {
-				parser.definition();
+				parser.pddl_file();
 			} catch (RecognitionException e) {
 				e.printStackTrace();
 			}
