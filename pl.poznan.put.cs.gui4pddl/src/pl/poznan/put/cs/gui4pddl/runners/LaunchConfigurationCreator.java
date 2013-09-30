@@ -65,15 +65,6 @@ public class LaunchConfigurationCreator {
 				launchConfigurationType, location, projName, "", true);
 	}
 
-	/**
-	 * @param resource
-	 *            only used if captureOutput is true!
-	 * @param location
-	 *            only used if captureOutput is false!
-	 * @param captureOutput
-	 *            determines if the output should be captured or not (if
-	 *            captured a console will be shown to it by default)
-	 */
 	private static ILaunchConfigurationWorkingCopy createDefaultLaunchConfiguration(
 			IProject project, String launchConfigurationType, String location,
 			String projName, String programArguments, boolean captureOutput)

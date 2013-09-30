@@ -65,7 +65,6 @@ public class AddEditArgumentsDialog extends Dialog {
 		Label lbtArgumentText = new Label(container, SWT.NONE);
 		lbtArgumentText.setText("Argument Text");
 
-		// You should not re-use GridData
 		GridData dataArgumentText = new GridData();
 		dataArgumentText.grabExcessHorizontalSpace = true;
 		dataArgumentText.horizontalAlignment = GridData.FILL;

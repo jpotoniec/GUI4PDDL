@@ -14,14 +14,16 @@ import java.util.TreeMap;
 import pl.poznan.put.cs.gui4pddl.Activator;
 import pl.poznan.put.cs.gui4pddl.preferences.model.PlannerPreferences;
 
+/**
+ * Planner preferences storage + operations
+ *
+ */
 public class PlannerPreferencesStore {
 
 	private static Map<String, PlannerPreferences> plannerPreferences = new TreeMap<String, PlannerPreferences>();
 	public static String PLANNER_PREFERENCES_LOCATION = Activator.getDefault()
 			.getStateLocation().toOSString()
 			+ File.separator + "planner_preferences";
-
-
 
 	public static void loadPlannerPreferences() {
 		File plannerPreferencesDir = new File(PLANNER_PREFERENCES_LOCATION);
@@ -71,7 +73,7 @@ public class PlannerPreferencesStore {
 			String plannerFile, Map<String, String> arguments,
 			PlannerPreferences preferences) {
 
-		// delete preferences file if name changed
+		// remove preferences file if name changed
 		if (!plannerName.equals(preferences.getPlannerName())) {
 			File oldFile = new File(PLANNER_PREFERENCES_LOCATION
 					+ File.separator + preferences.getPlannerName() + ".xml");

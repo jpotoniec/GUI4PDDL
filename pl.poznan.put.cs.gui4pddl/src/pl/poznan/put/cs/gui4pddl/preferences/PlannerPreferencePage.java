@@ -17,7 +17,6 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-import pl.poznan.put.cs.gui4pddl.Activator;
 import pl.poznan.put.cs.gui4pddl.preferences.helpers.PlannerPreferencesStore;
 import pl.poznan.put.cs.gui4pddl.preferences.model.PlannerPreferences;
 import pl.poznan.put.cs.gui4pddl.preferences.ui.PlannerPreferencesPageTab;
@@ -60,12 +59,12 @@ public class PlannerPreferencePage extends PreferencePage implements
 		newPlannerButton.setLayoutData(buttonGrid);
 
 	
-
 		final TabFolder tabFolder = new TabFolder(composite, SWT.NONE);
 		GridData tabFolderGrid = new GridData(GridData.FILL_BOTH);
 		tabFolderGrid.horizontalSpan = 3;
 		tabFolder.setLayoutData(tabFolderGrid);
 
+		tabFolder.setVisible(false);
 		addPlannersFromPreferencesList(tabFolder);
 
 		Listener listener = new Listener() {
@@ -85,6 +84,8 @@ public class PlannerPreferencePage extends PreferencePage implements
 
 	private TabItem addPlannerTab(final TabFolder tabFolder) {
 
+		tabFolder.setVisible(true);
+		
 		TabItem item = new TabItem(tabFolder, SWT.NULL);
 		item.setText("New Planner " + tabFolder.getItemCount());
 
@@ -129,6 +130,9 @@ public class PlannerPreferencePage extends PreferencePage implements
 			
 			tabsList.add(argumentsComponent);
 			item.setControl(tabFolderComposite);
+		}
+		if (PlannerPreferencesStore.getPlannerPreferences().size() > 0) {
+			tabFolder.setVisible(true);
 		}
 
 	}

@@ -2,6 +2,10 @@ package pl.poznan.put.cs.gui4pddl.preferences.model;
 
 import java.util.Map;
 
+/**
+ * Planner Preferences object that is stored in an xml file
+ *
+ */
 public class PlannerPreferences {
 
 	

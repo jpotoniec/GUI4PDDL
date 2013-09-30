@@ -1,12 +1,7 @@
 package pl.poznan.put.cs.gui4pddl.runners.ui.blocks;
 
-import java.io.File;
 import java.util.Map;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
@@ -16,23 +11,17 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-import pl.poznan.put.cs.gui4pddl.Activator;
-import pl.poznan.put.cs.gui4pddl.PDDLNature;
 import pl.poznan.put.cs.gui4pddl.preferences.helpers.PlannerPreferencesStore;
 import pl.poznan.put.cs.gui4pddl.preferences.model.PlannerPreferences;
-import pl.poznan.put.cs.gui4pddl.runners.LaunchConfigurationCreator;
 import pl.poznan.put.cs.gui4pddl.runners.RunnerConstants;
 
 public class PlannerBlock extends AbstractLaunchConfigurationTab {
@@ -69,14 +58,16 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				PlannerPreferences preferences = preferencesMap
-						.get(plannerCombo.getItem(plannerCombo
-								.getSelectionIndex()));
-				argumentsCombo.removeAll();
-				for (String key : preferences.getArgumentsMap().keySet()) {
-					argumentsCombo.add(key);
-				}
+				if (plannerCombo.getSelectionIndex() >= 0) {
+					PlannerPreferences preferences = preferencesMap
+							.get(plannerCombo.getItem(plannerCombo
+									.getSelectionIndex()));
+					argumentsCombo.removeAll();
+					for (String key : preferences.getArgumentsMap().keySet()) {
+						argumentsCombo.add(key);
+					}
 
+				}
 			}
 		});
 
@@ -88,15 +79,17 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				Map<String, String> preferences = PlannerPreferencesStore
-						.getPlannerPreferences()
-						.get(plannerCombo.getItem(plannerCombo
-								.getSelectionIndex())).getArgumentsMap();
-				String argument = preferences.get(argumentsCombo
-						.getItem(argumentsCombo.getSelectionIndex()));
-				argumentsText.setText(argument);
-				argumentsText.update();
+				if (argumentsCombo.getSelectionIndex() >= 0) {
+					Map<String, String> preferences = PlannerPreferencesStore
+							.getPlannerPreferences()
+							.get(plannerCombo.getItem(plannerCombo
+									.getSelectionIndex())).getArgumentsMap();
+					String argument = preferences.get(argumentsCombo
+							.getItem(argumentsCombo.getSelectionIndex()));
+					argumentsText.setText(argument);
+					argumentsText.update();
 
+				}
 			}
 
 		});
@@ -183,10 +176,11 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 			}
 		}
 
-		if (plannerCombo.getSelectionIndex() > -1) {
+		if (plannerCombo.getSelectionIndex() >= 0) {
 			PlannerPreferences preferences = PlannerPreferencesStore
-					.getPlannerPreferences()
-					.get(plannerCombo.getItem(plannerCombo.getSelectionIndex()));
+					.getPlannerPreferences().get(
+							plannerCombo.getItem(plannerCombo
+									.getSelectionIndex()));
 			argumentsCombo.removeAll();
 			for (String key : preferences.getArgumentsMap().keySet()) {
 				argumentsCombo.add(key);
@@ -204,14 +198,22 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 
 	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy conf) {
-		PlannerPreferences preferences = PlannerPreferencesStore.getPlannerPreferences().get(
-				plannerCombo.getItem(plannerCombo.getSelectionIndex()));
-		conf.setAttribute(RunnerConstants.PLANNER_NAME,
-				preferences.getPlannerName());
-		conf.setAttribute(RunnerConstants.PLANNER,
-				preferences.getPlannerFilePath());
-		conf.setAttribute(RunnerConstants.ARGUMENTS_NAME,
-				argumentsCombo.getItem(argumentsCombo.getSelectionIndex()));
+		if (plannerCombo.getSelectionIndex() >= 0) {
+			PlannerPreferences preferences = PlannerPreferencesStore
+					.getPlannerPreferences().get(
+							plannerCombo.getItem(plannerCombo
+									.getSelectionIndex()));
+
+			conf.setAttribute(RunnerConstants.PLANNER_NAME,
+					preferences.getPlannerName());
+			
+			conf.setAttribute(RunnerConstants.PLANNER,
+					preferences.getPlannerFilePath());
+		}
+		if (argumentsCombo.getSelectionIndex() >= 0) {
+			conf.setAttribute(RunnerConstants.ARGUMENTS_NAME,
+					argumentsCombo.getItem(argumentsCombo.getSelectionIndex()));
+		}
 	}
 
 	@Override

@@ -184,11 +184,13 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 						getLaunchConfigurationType(),
 						LaunchConfigurationCreator.getProjectLocation(project),
 						projName);
-		
-		  // Common Tab Arguments
-        CommonTab tab = new CommonTab();
-        tab.setDefaults(createdConfiguration);
-        tab.dispose();
+
+		// Common Tab Arguments
+		if (createdConfiguration != null) {
+			CommonTab tab = new CommonTab();
+			tab.setDefaults(createdConfiguration);
+			tab.dispose();
+		}
 
 		return createdConfiguration;
 	}

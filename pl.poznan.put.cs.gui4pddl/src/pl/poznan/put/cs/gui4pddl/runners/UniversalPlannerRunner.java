@@ -13,7 +13,6 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 
 public class UniversalPlannerRunner {
 
-
 	public static Process run(ILaunchConfiguration config,
 			IProgressMonitor monitor, ILaunch launch) throws CoreException {
 
@@ -29,10 +28,19 @@ public class UniversalPlannerRunner {
 
 		subMonitor.subTask("Exec...");
 
-		String workingPath = config.getAttribute(RunnerConstants.WORKING_DIRECTORY, "");
+		String workingPath = config.getAttribute(
+				RunnerConstants.WORKING_DIRECTORY, "");
 		File workingDir = new File(workingPath);
 
-		String[] cmdLine = DebugPlugin.parseArguments(commandLine);
+		String[] cmdLine;
+
+		String OS = System.getProperty("os.name").toLowerCase();
+		if (OS.indexOf("win") >= 0) {
+			cmdLine = commandLine.split(" ");
+		} else {
+			cmdLine = DebugPlugin.parseArguments(commandLine);
+		}
+
 		Process p = DebugPlugin.exec(cmdLine, workingDir);
 		DebugPlugin.newProcess(launch, p, "script");
 
@@ -47,9 +55,11 @@ public class UniversalPlannerRunner {
 				RunnerConstants.PLANNER_ARGUMENTS, "");
 		String domain = config.getAttribute(RunnerConstants.DOMAIN_FILE, "");
 		String problem = config.getAttribute(RunnerConstants.PROBLEM_FILE, "");
-		domain = LaunchConfigurationCreator.getAbsoluteFilePathFromRelativePath(domain);
-		problem = LaunchConfigurationCreator.getAbsoluteFilePathFromRelativePath(problem);
-		
+		domain = LaunchConfigurationCreator
+				.getAbsoluteFilePathFromRelativePath(domain);
+		problem = LaunchConfigurationCreator
+				.getAbsoluteFilePathFromRelativePath(problem);
+
 		return script + " " + domain + " " + problem + " " + arguments;
 	}
 

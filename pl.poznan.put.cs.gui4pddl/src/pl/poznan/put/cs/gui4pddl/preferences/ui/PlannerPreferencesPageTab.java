@@ -5,11 +5,13 @@ import java.util.TreeMap;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.preference.FileFieldEditor;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
@@ -18,6 +20,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.Table;
@@ -28,6 +31,10 @@ import pl.poznan.put.cs.gui4pddl.Activator;
 import pl.poznan.put.cs.gui4pddl.preferences.helpers.PlannerPreferencesStore;
 import pl.poznan.put.cs.gui4pddl.preferences.model.PlannerPreferences;
 
+/**
+ * TabFolder tab - planner arguments settings
+ *
+ */
 public class PlannerPreferencesPageTab {
 
 	private FileFieldEditor plannerFile;
@@ -78,26 +85,34 @@ public class PlannerPreferencesPageTab {
 
 		plannerName.setPreferencePage(page);
 		plannerFile.setPreferencePage(page);
+		
+		Composite tableComposite = new Composite(parent, SWT.NONE);
+		
+		
 
-		argumentsTable = new Table(parent, SWT.BORDER | SWT.V_SCROLL
+		argumentsTable = new Table(tableComposite, SWT.BORDER | SWT.V_SCROLL
 				| SWT.H_SCROLL);
-
 		GridData tableGridData = new GridData(GridData.FILL_BOTH);
 		tableGridData.horizontalSpan = 2;
+		tableComposite.setLayoutData(tableGridData);
+		
 		argumentsTable.setLayoutData(tableGridData);
+		TableColumnLayout layout = new TableColumnLayout();
+		tableComposite.setLayout( layout );
+
 
 		argumentsTable.setLinesVisible(true);
 		
 		argumentsTable.setHeaderVisible(true);
 
 		
-
 		String[] titles = { "Name", "Text" };
-
+		
 		for (int loopIndex = 0; loopIndex < titles.length; loopIndex++) {
 			TableColumn column = new TableColumn(argumentsTable, SWT.CENTER);
 			column.setText(titles[loopIndex]);
-			column.setWidth(200);
+			layout.setColumnData( column, new ColumnWeightData( 50 ) );
+			column.setResizable(false);
 		}
 		
 		Composite tableButtonsComposite = new Composite(parent, SWT.NONE);
@@ -105,48 +120,40 @@ public class PlannerPreferencesPageTab {
 		tableButtonsComposite.setLayout(tableButtonsGridLayout);
 		GridData tableButtonsGridData = new GridData(
 				GridData.VERTICAL_ALIGN_BEGINNING | GridData.HORIZONTAL_ALIGN_FILL);
-		tableButtonsGridData.minimumWidth = 100;
 		tableButtonsGridData.horizontalSpan = 1;
 		tableButtonsComposite.setLayoutData(tableButtonsGridData);
 
 		GridData buttonsGridData = new GridData(GridData.FILL_HORIZONTAL);
-		buttonsGridData.grabExcessHorizontalSpace = true;
+		buttonsGridData.minimumWidth = 150;
+
 
 		newArgumentButton = new Button(tableButtonsComposite, SWT.PUSH);
-		newArgumentButton.setText("New");
+		newArgumentButton.setText("New Argument");
 		newArgumentButton.setLayoutData(buttonsGridData);
 		
 		editArgumentButton = new Button(tableButtonsComposite, SWT.PUSH);
-		editArgumentButton.setText("Edit");
+		editArgumentButton.setText("Edit Argument");
 		editArgumentButton.setLayoutData(buttonsGridData);
 
 		removeArgumentButton = new Button(tableButtonsComposite, SWT.PUSH);
-		removeArgumentButton.setText("Remove");
+		removeArgumentButton.setText("Remove Argument");
 		removeArgumentButton.setLayoutData(buttonsGridData);
 
 		editArgumentButton.setEnabled(false);
 		removeArgumentButton.setEnabled(false);
-	
-		Composite saveRemoveButtonsComposite = new Composite(parent, SWT.NONE);
-		GridLayout saveRemoveButtonsGridLayout = new GridLayout();
-		saveRemoveButtonsComposite.setLayout(saveRemoveButtonsGridLayout);
-		GridData saveRemoveButtonsCompositeGridData = new GridData(
-				GridData.HORIZONTAL_ALIGN_END);
-		saveRemoveButtonsCompositeGridData.horizontalSpan = 3;
 		
+		Label sep = new Label(tableButtonsComposite, SWT.SEPARATOR | SWT.HORIZONTAL);
+		sep.setLayoutData(buttonsGridData);
 		
-		GridData saveRemoveButtonsGridData = new GridData(
-				GridData.HORIZONTAL_ALIGN_END);
-		
-		
-		removePlannerButton = new Button(parent, SWT.PUSH);
+		removePlannerButton = new Button(tableButtonsComposite, SWT.PUSH);
 		removePlannerButton.setText("Remove Planner");
-		removePlannerButton.setLayoutData(saveRemoveButtonsGridData);
+		removePlannerButton.setLayoutData(buttonsGridData);
 		
-
-		savePlannerButton = new Button(parent, SWT.PUSH);
+		
+		savePlannerButton = new Button(tableButtonsComposite, SWT.PUSH);
 		savePlannerButton.setText("Save Planner");
-		savePlannerButton.setLayoutData(saveRemoveButtonsGridData);
+		savePlannerButton.setLayoutData(buttonsGridData);
+		
 
 		addPropertyChangeListenersToPlannerFields(page, tabFolder);
 		addListenersToArgumentsTable();
@@ -325,6 +332,9 @@ public class PlannerPreferencesPageTab {
 					boolean dialogOk = MessageDialog.openConfirm(fParent.getShell(), "Remove planner preferences", "Are you sure?");
 					if (dialogOk) {
 						boolean removeOk = PlannerPreferencesStore.removePlannerPreferences(preferences);
+						if (PlannerPreferencesStore.getPlannerPreferences().size() == 0) {
+							tabFolder.setVisible(false);
+						}
 						if (removeOk) {
 							tabFolder.getSelection()[0].dispose();
 							MessageDialog.openInformation(fParent.getShell(), "Planner Preferences removed", "Planner preferences has been removed");
