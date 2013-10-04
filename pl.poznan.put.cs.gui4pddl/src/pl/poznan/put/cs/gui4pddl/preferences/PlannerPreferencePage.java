@@ -5,13 +5,14 @@ import java.util.List;
 
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.ui.IWorkbench;
@@ -19,24 +20,24 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import pl.poznan.put.cs.gui4pddl.preferences.helpers.PlannerPreferencesStore;
 import pl.poznan.put.cs.gui4pddl.preferences.model.PlannerPreferences;
-import pl.poznan.put.cs.gui4pddl.preferences.ui.PlannerPreferencesPageTab;
+import pl.poznan.put.cs.gui4pddl.preferences.ui.PlannerPreferencesPageTabItem;
 
 public class PlannerPreferencePage extends PreferencePage implements
 		IWorkbenchPreferencePage {
 
 	private Button newPlannerButton;
-	
-	private List<PlannerPreferencesPageTab> tabsList;
+
+	private List<PlannerPreferencesPageTabItem> tabsList;
 
 	public PlannerPreferencePage() {
 		noDefaultAndApplyButton();
-		tabsList = new ArrayList<PlannerPreferencesPageTab>();
+		tabsList = new ArrayList<PlannerPreferencesPageTabItem>();
 	}
 
 	public String getTitle() {
 		return "PDDL Planners";
 	}
-	
+
 	@Override
 	public boolean performOk() {
 
@@ -46,94 +47,90 @@ public class PlannerPreferencePage extends PreferencePage implements
 	@Override
 	protected Control createContents(Composite parent) {
 
-		Composite composite = new Composite(parent, SWT.NONE);
+		Composite pageComposite = createPageComposite(parent);
+		newPlannerButton = createNewPlannerButton(pageComposite);
+		final TabFolder plannerTabFolder = createPlannerTabFolder(pageComposite);
+
+		// refresh save button while tab selection
+		plannerTabFolder.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				tabsList.get(plannerTabFolder.getSelectionIndex())
+						.setSavePlannerButtonEnabledIfConfigurationValid();
+			}
+
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
+		});
+
+		addPlannersToTabFolder(plannerTabFolder);
+
+		newPlannerButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				addPlannerTab(plannerTabFolder);
+				plannerTabFolder.setSelection(plannerTabFolder.getItemCount() - 1);
+			}
+
+		});
+
+		return pageComposite;
+	}
+
+	private Composite createPageComposite(Composite parent) {
+		Composite pageComposite = new Composite(parent, SWT.NONE);
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 3;
-		composite.setLayout(gridLayout);
-		composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		pageComposite.setLayout(gridLayout);
+		pageComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		return pageComposite;
+	}
 
-		newPlannerButton = new Button(composite, SWT.PUSH);
+	private Button createNewPlannerButton(Composite parent) {
+		Button newPlannerButton = new Button(parent, SWT.PUSH);
 		newPlannerButton.setText("New Planner");
 		GridData buttonGrid = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 		buttonGrid.horizontalSpan = 1;
 		newPlannerButton.setLayoutData(buttonGrid);
+		return newPlannerButton;
+	}
 
-	
-		final TabFolder tabFolder = new TabFolder(composite, SWT.NONE);
+	private TabFolder createPlannerTabFolder(Composite parent) {
+		final TabFolder tabFolder = new TabFolder(parent, SWT.NONE);
 		GridData tabFolderGrid = new GridData(GridData.FILL_BOTH);
 		tabFolderGrid.horizontalSpan = 3;
 		tabFolder.setLayoutData(tabFolderGrid);
 
 		tabFolder.setVisible(false);
-		addPlannersFromPreferencesList(tabFolder);
-
-		Listener listener = new Listener() {
-			public void handleEvent(Event event) {
-				if (event.widget == newPlannerButton) {
-
-					tabFolder.setSelection(addPlannerTab(tabFolder));
-
-				} }};
-		newPlannerButton.addListener(SWT.Selection, listener);
-		
-		
-
-
-		return composite;
+		return tabFolder;
 	}
 
-	private TabItem addPlannerTab(final TabFolder tabFolder) {
-
+	private void addPlannerTab(final TabFolder tabFolder) {
 		tabFolder.setVisible(true);
-		
-		TabItem item = new TabItem(tabFolder, SWT.NULL);
-		item.setText("New Planner " + tabFolder.getItemCount());
 
-		Composite tabFolderComposite = new Composite(tabFolder, SWT.NONE);
-		GridLayout tabFolderGridLayout = new GridLayout();
-		tabFolderGridLayout.numColumns = 3;
-		tabFolderComposite.setLayout(tabFolderGridLayout);
-		tabFolderComposite
-				.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		PlannerPreferences preferences = new PlannerPreferences("New Planner "
+				+ (tabFolder.getItemCount() + 1), "", null);
 
-		PlannerPreferences preferences = new PlannerPreferences(item.getText(),
-				"", null);
-		final PlannerPreferencesPageTab argumentsComponent = new PlannerPreferencesPageTab(
-				tabFolderComposite, preferences, this, tabFolder, SWT.BORDER);
-				
-		
+		PlannerPreferencesPageTabItem argumentsComponent = new PlannerPreferencesPageTabItem(
+				preferences, this, tabFolder);
+
 		tabsList.add(argumentsComponent);
-
-		item.setControl(tabFolderComposite);
-
-		return item;
-
 	}
 
-	private void addPlannersFromPreferencesList(final TabFolder tabFolder) {
-		for (String key : PlannerPreferencesStore.getPlannerPreferences().keySet()) {
-			PlannerPreferences preferences = PlannerPreferencesStore.getPlannerPreferences()
-					.get(key);
+	private void addPlannersToTabFolder(final TabFolder tabFolder) {
+		for (String key : PlannerPreferencesStore.getPlannerPreferences()
+				.keySet()) {
+			PlannerPreferences preferences = PlannerPreferencesStore
+					.getPlannerPreferences().get(key);
 
-			TabItem item = new TabItem(tabFolder, SWT.NULL);
-			item.setText(preferences.getPlannerName());
-			Composite tabFolderComposite = new Composite(tabFolder, SWT.NONE);
-			GridLayout tabFolderGridLayout = new GridLayout();
-			tabFolderGridLayout.numColumns = 3;
-			tabFolderComposite.setLayout(tabFolderGridLayout);
-			tabFolderComposite.setLayoutData(new GridData(
-					GridData.FILL_HORIZONTAL));
+			PlannerPreferencesPageTabItem plannerPreferencesPageTab = new PlannerPreferencesPageTabItem(
+					preferences, this, tabFolder);
 
-			final PlannerPreferencesPageTab argumentsComponent = new PlannerPreferencesPageTab(
-					tabFolderComposite, preferences, this, tabFolder, SWT.BORDER); 
-			
-			
-			tabsList.add(argumentsComponent);
-			item.setControl(tabFolderComposite);
+			tabsList.add(plannerPreferencesPageTab);
+
 		}
-		if (PlannerPreferencesStore.getPlannerPreferences().size() > 0) {
-			tabFolder.setVisible(true);
-		}
+		tabFolder.setVisible(PlannerPreferencesStore.getPlannerPreferences()
+				.size() > 0);
 
 	}
 
