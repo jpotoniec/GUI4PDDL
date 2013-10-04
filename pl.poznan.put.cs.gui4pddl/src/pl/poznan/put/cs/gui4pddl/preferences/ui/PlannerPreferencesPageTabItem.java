@@ -404,7 +404,7 @@ public class PlannerPreferencesPageTabItem {
 				} else {
 					MessageDialog.openError(fParent.getShell(),
 							"Error while saving",
-							"Could not save planner preferences. Try again.");
+							"Could not save planner preferences. Restart Eclipse and try again.");
 					throw new RuntimeException(
 							"Could not save planner preferences");
 				}
