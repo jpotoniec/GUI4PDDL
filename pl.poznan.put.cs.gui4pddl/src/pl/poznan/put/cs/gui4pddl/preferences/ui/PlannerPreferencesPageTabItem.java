@@ -17,7 +17,6 @@ import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -31,7 +30,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
-import pl.poznan.put.cs.gui4pddl.Activator;
 import pl.poznan.put.cs.gui4pddl.preferences.helpers.PlannerPreferencesStore;
 import pl.poznan.put.cs.gui4pddl.preferences.model.PlannerPreferences;
 
@@ -48,7 +46,7 @@ public class PlannerPreferencesPageTabItem {
 	private Button removeArgumentButton;
 	private Button savePlannerButton;
 	private Button removePlannerButton;
-	private AddEditArgumentsDialog addEditArgumentsDialog;
+	private PlannerArgumentsDialog addEditArgumentsDialog;
 	private Table argumentsTable;
 	private PlannerPreferences preferences;
 	private PreferencePage page;
@@ -323,7 +321,7 @@ public class PlannerPreferencesPageTabItem {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				addEditArgumentsDialog = new AddEditArgumentsDialog(fParent
+				addEditArgumentsDialog = new PlannerArgumentsDialog(fParent
 						.getShell());
 				int result = addEditArgumentsDialog.open();
 				if (result == Dialog.OK) {
@@ -350,7 +348,7 @@ public class PlannerPreferencesPageTabItem {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				addEditArgumentsDialog = new AddEditArgumentsDialog(fParent
+				addEditArgumentsDialog = new PlannerArgumentsDialog(fParent
 						.getShell());
 				TableItem item = argumentsTable.getItem(argumentsTable
 						.getSelectionIndex());
