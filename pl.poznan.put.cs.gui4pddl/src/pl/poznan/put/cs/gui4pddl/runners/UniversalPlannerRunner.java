@@ -40,6 +40,9 @@ public class UniversalPlannerRunner {
 		} else {
 			cmdLine = DebugPlugin.parseArguments(commandLine);
 		}
+		for (String line : cmdLine) {
+			System.out.println(line);
+		}
 
 		Process p = DebugPlugin.exec(cmdLine, workingDir);
 		DebugPlugin.newProcess(launch, p, "script");

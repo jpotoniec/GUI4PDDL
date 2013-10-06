@@ -62,6 +62,7 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 					PlannerPreferences preferences = preferencesMap
 							.get(plannerCombo.getItem(plannerCombo
 									.getSelectionIndex()));
+					updateLaunchConfigurationDialog();
 					argumentsCombo.removeAll();
 					for (String key : preferences.getArgumentsMap().keySet()) {
 						argumentsCombo.add(key);
@@ -181,6 +182,7 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 					.getPlannerPreferences().get(
 							plannerCombo.getItem(plannerCombo
 									.getSelectionIndex()));
+			updateLaunchConfigurationDialog();
 			argumentsCombo.removeAll();
 			for (String key : preferences.getArgumentsMap().keySet()) {
 				argumentsCombo.add(key);

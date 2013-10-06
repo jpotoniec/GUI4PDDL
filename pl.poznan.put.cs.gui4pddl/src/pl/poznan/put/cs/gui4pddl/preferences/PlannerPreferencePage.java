@@ -50,18 +50,6 @@ public class PlannerPreferencePage extends PreferencePage implements
 		newPlannerButton = createNewPlannerButton(pageComposite);
 		final TabFolder plannerTabFolder = createPlannerTabFolder(pageComposite);
 
-		// refresh save button while tab selection
-		plannerTabFolder.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent e) {
-				tabsList.get(plannerTabFolder.getSelectionIndex())
-						.setSavePlannerButtonEnabledIfConfigurationValid();
-			}
-
-			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
-			}
-		});
-
 		addPlannersToTabFolder(plannerTabFolder);
 
 		newPlannerButton.addSelectionListener(new SelectionAdapter() {
@@ -71,6 +59,21 @@ public class PlannerPreferencePage extends PreferencePage implements
 				plannerTabFolder.setSelection(plannerTabFolder.getItemCount() - 1);
 			}
 
+		});
+		
+		// refresh save button while tab selection
+		plannerTabFolder.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {
+				if (tabsList.size() > plannerTabFolder.getSelectionIndex()) {
+					tabsList.get(plannerTabFolder.getSelectionIndex())
+					.setSavePlannerButtonEnabledIfConfigurationValid();
+				}
+				
+			}
+
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
 		});
 
 		return pageComposite;
@@ -100,7 +103,7 @@ public class PlannerPreferencePage extends PreferencePage implements
 		tabFolderGrid.horizontalSpan = 3;
 		tabFolder.setLayoutData(tabFolderGrid);
 
-		tabFolder.setVisible(false);
+		//tabFolder.setVisible(false);
 		return tabFolder;
 	}
 
@@ -110,10 +113,12 @@ public class PlannerPreferencePage extends PreferencePage implements
 		PlannerPreferences preferences = new PlannerPreferences("New Planner "
 				+ (tabFolder.getItemCount() + 1), "", null);
 
-		PlannerPreferencesPageTabItem argumentsComponent = new PlannerPreferencesPageTabItem(
+		PlannerPreferencesPageTabItem plannerPreferencesPageTab = new PlannerPreferencesPageTabItem(
 				preferences, this, tabFolder);
+		
+		plannerPreferencesPageTab.setSavePlannerButtonEnabledIfConfigurationValid();
 
-		tabsList.add(argumentsComponent);
+		tabsList.add(plannerPreferencesPageTab);
 	}
 
 	private void addPlannersToTabFolder(final TabFolder tabFolder) {
@@ -124,6 +129,8 @@ public class PlannerPreferencePage extends PreferencePage implements
 
 			PlannerPreferencesPageTabItem plannerPreferencesPageTab = new PlannerPreferencesPageTabItem(
 					preferences, this, tabFolder);
+			
+			plannerPreferencesPageTab.setSavePlannerButtonEnabledIfConfigurationValid();
 
 			tabsList.add(plannerPreferencesPageTab);
 
