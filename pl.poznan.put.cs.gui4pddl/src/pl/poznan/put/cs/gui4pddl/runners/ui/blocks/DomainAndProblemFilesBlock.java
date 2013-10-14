@@ -64,7 +64,6 @@ public class DomainAndProblemFilesBlock extends AbstractLaunchConfigurationTab {
 		Group group = initializeGroup(parent, font);
 
 		domainFileText = createFileText("Domain file:", group, font);
-
 		domainFileBrowseButton = createPushButton(group, "Browse...", null);
 
 		problemFileText = createFileText("Problem file:", group, font);
@@ -122,7 +121,7 @@ public class DomainAndProblemFilesBlock extends AbstractLaunchConfigurationTab {
 		final Text lText = text;
 		final String lTitle = title;
 		final String lMessage = message;
-		// On button click, this displays the pddl module picker dialog.
+		// On button click, this display the pddl module picker dialog.
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -267,10 +266,10 @@ public class DomainAndProblemFilesBlock extends AbstractLaunchConfigurationTab {
 			}
 
 			if (domainFullPath == null) {
-				setErrorMessage("The domain file does not exist.");
+				setErrorMessage("The domain file path is incorrect.");
 				result = false;
 			} else if (problemFullPath == null) {
-				setErrorMessage("The problem file does not exist.");
+				setErrorMessage("The problem file path is incorrect.");
 				result = false;
 			} else {
 

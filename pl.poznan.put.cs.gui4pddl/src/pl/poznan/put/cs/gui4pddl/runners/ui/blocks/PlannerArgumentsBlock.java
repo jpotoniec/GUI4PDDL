@@ -27,7 +27,7 @@ import pl.poznan.put.cs.gui4pddl.runners.RunnerConstants;
 
 public class PlannerArgumentsBlock extends AbstractLaunchConfigurationTab {
 
-    private Text fPrgmArgumentsText;
+    private Text argumentsText;
 
     /*
      * (non-Javadoc)
@@ -46,29 +46,29 @@ public class PlannerArgumentsBlock extends AbstractLaunchConfigurationTab {
         String controlName = "Planner arguments: ";
         group.setText(controlName);
 
-        fPrgmArgumentsText = new Text(group, SWT.MULTI | SWT.WRAP | SWT.BORDER | SWT.V_SCROLL);
+        argumentsText = new Text(group, SWT.MULTI | SWT.WRAP | SWT.BORDER | SWT.V_SCROLL);
         GridData gd = new GridData(GridData.FILL_BOTH);
         gd.heightHint = 40;
         gd.widthHint = 100;
-        fPrgmArgumentsText.setLayoutData(gd);
-        fPrgmArgumentsText.setFont(font);
-        fPrgmArgumentsText.addModifyListener(new ModifyListener() {
+        argumentsText.setLayoutData(gd);
+        argumentsText.setFont(font);
+        argumentsText.addModifyListener(new ModifyListener() {
             public void modifyText(ModifyEvent evt) {
                 updateLaunchConfigurationDialog();
             }
         });
 
         String buttonLabel = "Variables...";
-        Button pgrmArgVariableButton = createPushButton(group, buttonLabel, null);
+        Button argumentsVariablesButton = createPushButton(group, buttonLabel, null);
 
-        pgrmArgVariableButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
-        pgrmArgVariableButton.addSelectionListener(new SelectionListener() {
+        argumentsVariablesButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
+        argumentsVariablesButton.addSelectionListener(new SelectionListener() {
             public void widgetSelected(SelectionEvent e) {
                 StringVariableSelectionDialog dialog = new StringVariableSelectionDialog(getShell());
                 dialog.open();
                 String variable = dialog.getVariableExpression();
                 if (variable != null) {
-                    fPrgmArgumentsText.insert(variable);
+                    argumentsText.insert(variable);
                 }
             }
 
@@ -78,7 +78,7 @@ public class PlannerArgumentsBlock extends AbstractLaunchConfigurationTab {
     }
     
     public Text getArgumentText() {
-    	return fPrgmArgumentsText;
+    	return argumentsText;
     }
 
     /*
@@ -96,7 +96,7 @@ public class PlannerArgumentsBlock extends AbstractLaunchConfigurationTab {
     public void initializeFrom(ILaunchConfiguration configuration) {
         try {
             String text = configuration.getAttribute(RunnerConstants.PLANNER_ARGUMENTS, "");
-            fPrgmArgumentsText.setText(text);
+            argumentsText.setText(text);
         } catch (CoreException e) {
             setErrorMessage("Exception occurred reading configuration" + e.getStatus().getMessage());
             Log.log(e);
@@ -108,7 +108,7 @@ public class PlannerArgumentsBlock extends AbstractLaunchConfigurationTab {
      * @see org.eclipse.debug.ui.ILaunchConfigurationTab#performApply(org.eclipse.debug.core.ILaunchConfigurationWorkingCopy)
      */
     public void performApply(ILaunchConfigurationWorkingCopy configuration) {
-        configuration.setAttribute(RunnerConstants.PLANNER_ARGUMENTS, fPrgmArgumentsText.getText().trim());
+        configuration.setAttribute(RunnerConstants.PLANNER_ARGUMENTS, argumentsText.getText().trim());
     }
 
     /*

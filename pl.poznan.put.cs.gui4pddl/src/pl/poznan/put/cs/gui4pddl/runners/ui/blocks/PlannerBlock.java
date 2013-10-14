@@ -7,8 +7,6 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Font;
@@ -31,47 +29,60 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 
 	@Override
 	public void createControl(Composite parent) {
-		Font font = parent.getFont();
+		Group plannerGroup = createPlannerGroup(parent);
 
-		Group plannerGroup = initializeGroup(parent, font, 4);
-
-		Label label = new Label(plannerGroup, SWT.NONE);
-		label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
-		label.setText("Planner:");
-
-		GridData gd = new GridData();
-		gd.grabExcessHorizontalSpace = true;
-		gd.horizontalAlignment = SWT.FILL;
-		plannerCombo = new Combo(plannerGroup, SWT.READ_ONLY);
-		plannerCombo.setLayoutData(gd);
-		final Map<String, PlannerPreferences> preferencesMap = PlannerPreferencesStore
+		plannerCombo = createCombo(plannerGroup);
+		argumentsCombo = createCombo(plannerGroup);
+			
+		Map<String, PlannerPreferences> preferencesMap = PlannerPreferencesStore
 				.getPlannerPreferences();
 		for (String key : preferencesMap.keySet()) {
 			PlannerPreferences preferences = preferencesMap.get(key);
 			plannerCombo.add(preferences.getPlannerName());
 		}
-
-		argumentsCombo = new Combo(plannerGroup, SWT.READ_ONLY);
-		argumentsCombo.setLayoutData(gd);
-
+		
 		plannerCombo.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				if (plannerCombo.getSelectionIndex() >= 0) {
-					PlannerPreferences preferences = preferencesMap
-							.get(plannerCombo.getItem(plannerCombo
-									.getSelectionIndex()));
-					updateLaunchConfigurationDialog();
-					argumentsCombo.removeAll();
-					for (String key : preferences.getArgumentsMap().keySet()) {
-						argumentsCombo.add(key);
-					}
-
-				}
+				plannerArgumentsComboUpdate();
 			}
 		});
 
+	}
+	
+	private void plannerArgumentsComboUpdate() {
+		if (plannerCombo.getSelectionIndex() >= 0) {
+			PlannerPreferences preferences = PlannerPreferencesStore
+					.getPlannerPreferences()
+					.get(plannerCombo.getItem(plannerCombo
+							.getSelectionIndex()));
+			updateLaunchConfigurationDialog();
+			argumentsCombo.removeAll();
+			for (String key : preferences.getArgumentsMap().keySet()) {
+				argumentsCombo.add(key);
+			}
+		}
+	}
+	
+	private Group createPlannerGroup(Composite parent) {
+		Font font = parent.getFont();
+		Group plannerGroup = initializeGroup(parent, font, 4);
+
+		Label label = new Label(plannerGroup, SWT.NONE);
+		label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
+		label.setText("Planner:");
+		
+		return plannerGroup;
+	}
+	
+	private Combo createCombo(Group plannerGroup) {
+		GridData gd = new GridData();
+		gd.grabExcessHorizontalSpace = true;
+		gd.horizontalAlignment = SWT.FILL;
+		Combo combo = new Combo(plannerGroup, SWT.READ_ONLY);
+		combo.setLayoutData(gd);
+		return combo;
 	}
 
 	public void addSelectionListenerToArgumentsCombo(final Text argumentsText) {
@@ -89,14 +100,13 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 							.getItem(argumentsCombo.getSelectionIndex()));
 					argumentsText.setText(argument);
 					argumentsText.update();
-
 				}
 			}
 
 		});
 	}
 
-	public Group initializeGroup(Composite parent, Font font, int columns) {
+	private Group initializeGroup(Composite parent, Font font, int columns) {
 		Group group = new Group(parent, SWT.NONE);
 		setControl(group);
 
@@ -111,25 +121,6 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 		return group;
 	}
 
-	public Text createFileText(String labelText, Group group, Font font) {
-
-		final Label label = new Label(group, SWT.NONE);
-		label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
-		label.setText(labelText);
-
-		Text text = new Text(group, SWT.SINGLE | SWT.BORDER);
-
-		text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		text.setFont(font);
-		text.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent evt) {
-				updateLaunchConfigurationDialog();
-			}
-		});
-
-		return text;
-
-	}
 
 	@Override
 	public boolean isValid(ILaunchConfiguration launchConfig) {
@@ -176,18 +167,10 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 				plannerCombo.select(i);
 			}
 		}
+		
+		plannerArgumentsComboUpdate();
 
 		if (plannerCombo.getSelectionIndex() >= 0) {
-			PlannerPreferences preferences = PlannerPreferencesStore
-					.getPlannerPreferences().get(
-							plannerCombo.getItem(plannerCombo
-									.getSelectionIndex()));
-			updateLaunchConfigurationDialog();
-			argumentsCombo.removeAll();
-			for (String key : preferences.getArgumentsMap().keySet()) {
-				argumentsCombo.add(key);
-			}
-
 			String[] items2 = argumentsCombo.getItems();
 			for (int i = 0; i < items2.length; i++) {
 				if (items2[i].equals(plannerArguments)) {

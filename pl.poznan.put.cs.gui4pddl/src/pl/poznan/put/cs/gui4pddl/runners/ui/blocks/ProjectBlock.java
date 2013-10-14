@@ -33,8 +33,8 @@ import pl.poznan.put.cs.gui4pddl.runners.RunnerConstants;
 
 public class ProjectBlock extends AbstractLaunchConfigurationTab {
 
-	private Text fProjectText;
-	private Button fProjectBrowseButton;
+	private Text projectText;
+	private Button projectBrowseButton;
 	private String projectLocation;
 
 	/*
@@ -46,28 +46,13 @@ public class ProjectBlock extends AbstractLaunchConfigurationTab {
 	 */
 	public void createControl(Composite parent) {
 		Font font = parent.getFont();
-		Group group = new Group(parent, SWT.NONE);
-		group.setText("Project");
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		group.setLayoutData(gd);
-		GridLayout layout = new GridLayout();
-		layout.numColumns = 2;
-		group.setLayout(layout);
-		group.setFont(font);
-
+		Group group = initializeGroup(parent, font);
+		
 		// Project chooser
-		fProjectText = new Text(group, SWT.SINGLE | SWT.BORDER);
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		fProjectText.setLayoutData(gd);
-		fProjectText.setFont(font);
-		fProjectText.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent evt) {
-				updateLaunchConfigurationDialog();
-			}
-		});
+		projectText = createProjectText(group, font);
 
-		fProjectBrowseButton = createPushButton(group, "Browse...", null); //$NON-NLS-1$
-		fProjectBrowseButton.addSelectionListener(new SelectionAdapter() {
+		projectBrowseButton = createPushButton(group, "Browse...", null); //$NON-NLS-1$
+		projectBrowseButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 
 				// Filter out project by pddl nature
@@ -105,12 +90,38 @@ public class ProjectBlock extends AbstractLaunchConfigurationTab {
 					IProject project = (IProject) object;
 
 					String projectName = project.getName();
-					fProjectText.setText(projectName);
+					projectText.setText(projectName);
 					projectLocation = project.getLocation().toOSString();
 				}
 				updateLaunchConfigurationDialog();
 			}
 		});
+	}
+	
+	private Group initializeGroup(Composite parent, Font font) {
+		Group group = new Group(parent, SWT.NONE);
+		group.setText("Project");
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		group.setLayoutData(gd);
+		GridLayout layout = new GridLayout();
+		layout.numColumns = 2;
+		group.setLayout(layout);
+		group.setFont(font);
+		return group;
+	}
+	
+	private Text createProjectText(Group group, Font font) {
+		Text projectText = new Text(group, SWT.SINGLE | SWT.BORDER);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		projectText.setLayoutData(gd);
+		projectText.setFont(font);
+		projectText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent evt) {
+				updateLaunchConfigurationDialog();
+			}
+		});
+		
+		return projectText;
 	}
 
 	/*
@@ -138,7 +149,7 @@ public class ProjectBlock extends AbstractLaunchConfigurationTab {
 					RunnerConstants.WORKING_DIRECTORY, "");
 		} catch (CoreException e) {
 		}
-		fProjectText.setText(projectName);
+		projectText.setText(projectName);
 	}
 
 	/*
@@ -149,7 +160,7 @@ public class ProjectBlock extends AbstractLaunchConfigurationTab {
 	 * .debug.core.ILaunchConfigurationWorkingCopy)
 	 */
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
-		String value = fProjectText.getText().trim();
+		String value = projectText.getText().trim();
 		setAttribute(configuration, RunnerConstants.PROJECT, value);
 		setAttribute(configuration, RunnerConstants.WORKING_DIRECTORY,
 				projectLocation);
@@ -181,7 +192,7 @@ public class ProjectBlock extends AbstractLaunchConfigurationTab {
 			setErrorMessage(null);
 			setMessage(null);
 
-			String projectName = fProjectText.getText();
+			String projectName = projectText.getText();
 			IWorkspace workspace = ResourcesPlugin.getWorkspace();
 			IResource resource = workspace.getRoot().findMember(projectName);
 
@@ -227,14 +238,12 @@ public class ProjectBlock extends AbstractLaunchConfigurationTab {
 	/**
 	 * Adds a modification listener to the current control.
 	 * 
-	 * This is used to update the module browse button, depending on the
-	 * project's python nature.
 	 * 
 	 * @param listener
 	 *            The listener to use
 	 */
 	public void addModifyListener(ModifyListener listener) {
-		fProjectText.addModifyListener(listener);
+		projectText.addModifyListener(listener);
 	}
 
 }
