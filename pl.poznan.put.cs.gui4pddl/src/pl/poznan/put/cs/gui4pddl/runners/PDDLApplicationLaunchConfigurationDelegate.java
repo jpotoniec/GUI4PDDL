@@ -26,6 +26,12 @@ public class PDDLApplicationLaunchConfigurationDelegate extends
 	private IProject[] fOrderedProjects;
 
 	@Override
+	protected IProject[] getBuildOrder(ILaunchConfiguration configuration,
+			String mode) throws CoreException {
+		return fOrderedProjects;
+	}
+
+	@Override
 	public boolean preLaunchCheck(ILaunchConfiguration configuration,
 			String mode, IProgressMonitor monitor) throws CoreException {
 		fOrderedProjects = null;
@@ -49,13 +55,7 @@ public class PDDLApplicationLaunchConfigurationDelegate extends
 	@Override
 	public void launch(ILaunchConfiguration configuration, String mode,
 			ILaunch launch, IProgressMonitor monitor) {
-		if (monitor == null) {
-			monitor = new NullProgressMonitor();
-		}
 
-		monitor.beginTask("Preparing configuration", 3);
-
-		monitor.worked(1);
 		try {
 			UniversalPlannerRunner.run(configuration, monitor, launch);
 		} catch (Exception e) {

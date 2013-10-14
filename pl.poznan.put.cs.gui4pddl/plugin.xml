@@ -151,11 +151,8 @@
                <iterate>
                  <or>
                    <test property="org.eclipse.debug.ui.matchesPattern" value="*.pddl"/>
-                    <test property="org.eclipse.debug.ui.projectNature" value="pl.poznan.put.cs.gui4pddl.PDDLProject"/>
-                 <!-- <instanceof value="org.eclipse.jdt.core.IJavaElement"/> -->
-                  <!--<test property="org.python.pydev.debug.ui.python_type"/>-->
+                    <test property="org.eclipse.debug.ui.projectNature" value="pl.poznan.put.cs.gui4pddl.PDDLProject"/>                
                  </or>
-                <!--  <test property="org.eclipse.debug.ui.projectNature" value="pl.poznan.put.cs.gui4pddl.PDDLProject"/> -->
                </iterate>
              </with>
            </enablement>

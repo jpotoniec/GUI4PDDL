@@ -10,6 +10,7 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.core.model.IProcess;
 
 public class UniversalPlannerRunner {
 
@@ -18,15 +19,10 @@ public class UniversalPlannerRunner {
 
 		if (monitor == null)
 			monitor = new NullProgressMonitor();
-		IProgressMonitor subMonitor = new SubProgressMonitor(monitor, 5);
-
-		subMonitor.beginTask("Launching Planner", 1);
-
-		subMonitor.subTask("Constructing command_line...");
-
+		monitor.beginTask("Launch Planner", 1);
+		monitor.subTask("Launch Planner");
+		
 		String commandLine = createScriptCommandLine(config);
-
-		subMonitor.subTask("Exec...");
 
 		String workingPath = config.getAttribute(
 				RunnerConstants.WORKING_DIRECTORY, "");
@@ -40,14 +36,25 @@ public class UniversalPlannerRunner {
 		} else {
 			cmdLine = DebugPlugin.parseArguments(commandLine);
 		}
-		for (String line : cmdLine) {
-			System.out.println(line);
-		}
+		
 
 		Process p = DebugPlugin.exec(cmdLine, workingDir);
-		DebugPlugin.newProcess(launch, p, "script");
+		IProcess process = DebugPlugin.newProcess(launch, p, cmdLine[0]);
 
-		subMonitor.subTask("Done");
+		
+		while (!process.isTerminated())
+		{
+			if (monitor.isCanceled())
+			{
+				if (process.canTerminate())
+					process.terminate();
+			}
+		}
+		monitor.worked(1);
+
+		monitor.done();
+
+		
 		return p;
 	}
 
