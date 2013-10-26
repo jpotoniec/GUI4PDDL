@@ -1,4 +1,4 @@
-// $ANTLR 3.5 /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g 2013-10-26 21:34:31
+// $ANTLR 3.5 /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g 2013-10-26 22:23:03
 
 	package pl.poznan.put.cs.gui4pddl.parser;
 	
@@ -1167,42 +1167,42 @@ public class PDDLParser extends Parser {
 
 
 	// $ANTLR start "effect"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:154:1: effect : ( '(' 'and' ( effect )* ')' | '(' 'not' atomic_formula_of_term ')' | atomic_formula_of_term | '(' 'forall' '(' ( VARIABLE )* ')' effect ')' | '(' 'when' gd effect ')' | '(' 'change' fluent expression ')' );
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:154:1: effect : ( '(' 'and' ( effect )* ')' | '(' 'not' atomic_formula_of_term ')' | atomic_formula_of_term | '(' 'forall' '(' typed_list_of_variable ')' effect ')' | '(' 'when' gd effect ')' | '(' 'change' fluent expression ')' );
 	public final void effect() throws RecognitionException {
 		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:155:5: ( '(' 'and' ( effect )* ')' | '(' 'not' atomic_formula_of_term ')' | atomic_formula_of_term | '(' 'forall' '(' ( VARIABLE )* ')' effect ')' | '(' 'when' gd effect ')' | '(' 'change' fluent expression ')' )
-			int alt14=6;
-			int LA14_0 = input.LA(1);
-			if ( (LA14_0==12) ) {
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:155:5: ( '(' 'and' ( effect )* ')' | '(' 'not' atomic_formula_of_term ')' | atomic_formula_of_term | '(' 'forall' '(' typed_list_of_variable ')' effect ')' | '(' 'when' gd effect ')' | '(' 'change' fluent expression ')' )
+			int alt13=6;
+			int LA13_0 = input.LA(1);
+			if ( (LA13_0==12) ) {
 				switch ( input.LA(2) ) {
 				case 43:
 					{
-					alt14=1;
+					alt13=1;
 					}
 					break;
 				case 52:
 					{
-					alt14=2;
+					alt13=2;
 					}
 					break;
 				case 50:
 					{
-					alt14=4;
+					alt13=4;
 					}
 					break;
 				case 56:
 					{
-					alt14=5;
+					alt13=5;
 					}
 					break;
 				case 44:
 					{
-					alt14=6;
+					alt13=6;
 					}
 					break;
 				case NAME:
 					{
-					alt14=3;
+					alt13=3;
 					}
 					break;
 				default:
@@ -1210,7 +1210,7 @@ public class PDDLParser extends Parser {
 					try {
 						input.consume();
 						NoViableAltException nvae =
-							new NoViableAltException("", 14, 1, input);
+							new NoViableAltException("", 13, 1, input);
 						throw nvae;
 					} finally {
 						input.rewind(nvaeMark);
@@ -1220,11 +1220,11 @@ public class PDDLParser extends Parser {
 
 			else {
 				NoViableAltException nvae =
-					new NoViableAltException("", 14, 0, input);
+					new NoViableAltException("", 13, 0, input);
 				throw nvae;
 			}
 
-			switch (alt14) {
+			switch (alt13) {
 				case 1 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:155:10: '(' 'and' ( effect )* ')'
 					{
@@ -1280,71 +1280,53 @@ public class PDDLParser extends Parser {
 					}
 					break;
 				case 4 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:158:10: '(' 'forall' '(' ( VARIABLE )* ')' effect ')'
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:158:10: '(' 'forall' '(' typed_list_of_variable ')' effect ')'
 					{
 					match(input,12,FOLLOW_12_in_effect585); 
 					match(input,50,FOLLOW_50_in_effect587); 
 					match(input,12,FOLLOW_12_in_effect589); 
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:158:27: ( VARIABLE )*
-					loop13:
-					while (true) {
-						int alt13=2;
-						int LA13_0 = input.LA(1);
-						if ( (LA13_0==VARIABLE) ) {
-							alt13=1;
-						}
+					pushFollow(FOLLOW_typed_list_of_variable_in_effect591);
+					typed_list_of_variable();
+					state._fsp--;
 
-						switch (alt13) {
-						case 1 :
-							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:158:27: VARIABLE
-							{
-							match(input,VARIABLE,FOLLOW_VARIABLE_in_effect591); 
-							}
-							break;
-
-						default :
-							break loop13;
-						}
-					}
-
-					match(input,13,FOLLOW_13_in_effect594); 
-					pushFollow(FOLLOW_effect_in_effect596);
+					match(input,13,FOLLOW_13_in_effect593); 
+					pushFollow(FOLLOW_effect_in_effect595);
 					effect();
 					state._fsp--;
 
-					match(input,13,FOLLOW_13_in_effect598); 
+					match(input,13,FOLLOW_13_in_effect597); 
 					}
 					break;
 				case 5 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:159:10: '(' 'when' gd effect ')'
 					{
-					match(input,12,FOLLOW_12_in_effect610); 
-					match(input,56,FOLLOW_56_in_effect612); 
-					pushFollow(FOLLOW_gd_in_effect614);
+					match(input,12,FOLLOW_12_in_effect609); 
+					match(input,56,FOLLOW_56_in_effect611); 
+					pushFollow(FOLLOW_gd_in_effect613);
 					gd();
 					state._fsp--;
 
-					pushFollow(FOLLOW_effect_in_effect616);
+					pushFollow(FOLLOW_effect_in_effect615);
 					effect();
 					state._fsp--;
 
-					match(input,13,FOLLOW_13_in_effect618); 
+					match(input,13,FOLLOW_13_in_effect617); 
 					}
 					break;
 				case 6 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:160:10: '(' 'change' fluent expression ')'
 					{
-					match(input,12,FOLLOW_12_in_effect630); 
-					match(input,44,FOLLOW_44_in_effect632); 
-					pushFollow(FOLLOW_fluent_in_effect634);
+					match(input,12,FOLLOW_12_in_effect629); 
+					match(input,44,FOLLOW_44_in_effect631); 
+					pushFollow(FOLLOW_fluent_in_effect633);
 					fluent();
 					state._fsp--;
 
-					pushFollow(FOLLOW_expression_in_effect636);
+					pushFollow(FOLLOW_expression_in_effect635);
 					expression();
 					state._fsp--;
 
-					match(input,13,FOLLOW_13_in_effect638); 
+					match(input,13,FOLLOW_13_in_effect637); 
 					}
 					break;
 
@@ -1369,7 +1351,7 @@ public class PDDLParser extends Parser {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:164:5: ( general_tree_item )
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:164:10: general_tree_item
 			{
-			pushFollow(FOLLOW_general_tree_item_in_fluent660);
+			pushFollow(FOLLOW_general_tree_item_in_fluent659);
 			general_tree_item();
 			state._fsp--;
 
@@ -1395,7 +1377,7 @@ public class PDDLParser extends Parser {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:168:5: ( general_tree_item )
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:168:10: general_tree_item
 			{
-			pushFollow(FOLLOW_general_tree_item_in_expression684);
+			pushFollow(FOLLOW_general_tree_item_in_expression683);
 			general_tree_item();
 			state._fsp--;
 
@@ -1421,7 +1403,7 @@ public class PDDLParser extends Parser {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:176:5: ( general_tree )
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:176:10: general_tree
 			{
-			pushFollow(FOLLOW_general_tree_in_action_spec707);
+			pushFollow(FOLLOW_general_tree_in_action_spec706);
 			general_tree();
 			state._fsp--;
 
@@ -1447,7 +1429,7 @@ public class PDDLParser extends Parser {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:180:2: ( general_tree )
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:180:4: general_tree
 			{
-			pushFollow(FOLLOW_general_tree_in_action_spec_od_action_term722);
+			pushFollow(FOLLOW_general_tree_in_action_spec_od_action_term721);
 			general_tree();
 			state._fsp--;
 
@@ -1473,26 +1455,26 @@ public class PDDLParser extends Parser {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:188:2: ( '(' ':axiom' ':vars' '(' typed_list_of_variable ')' ':context' gd ':implies' literal_of_term ')' )
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:188:4: '(' ':axiom' ':vars' '(' typed_list_of_variable ')' ':context' gd ':implies' literal_of_term ')'
 			{
-			match(input,12,FOLLOW_12_in_axiom_def738); 
-			match(input,16,FOLLOW_16_in_axiom_def740); 
-			match(input,42,FOLLOW_42_in_axiom_def752); 
-			match(input,12,FOLLOW_12_in_axiom_def754); 
-			pushFollow(FOLLOW_typed_list_of_variable_in_axiom_def756);
+			match(input,12,FOLLOW_12_in_axiom_def737); 
+			match(input,16,FOLLOW_16_in_axiom_def739); 
+			match(input,42,FOLLOW_42_in_axiom_def751); 
+			match(input,12,FOLLOW_12_in_axiom_def753); 
+			pushFollow(FOLLOW_typed_list_of_variable_in_axiom_def755);
 			typed_list_of_variable();
 			state._fsp--;
 
-			match(input,13,FOLLOW_13_in_axiom_def758); 
-			match(input,18,FOLLOW_18_in_axiom_def769); 
-			pushFollow(FOLLOW_gd_in_axiom_def771);
+			match(input,13,FOLLOW_13_in_axiom_def757); 
+			match(input,18,FOLLOW_18_in_axiom_def768); 
+			pushFollow(FOLLOW_gd_in_axiom_def770);
 			gd();
 			state._fsp--;
 
-			match(input,25,FOLLOW_25_in_axiom_def782); 
-			pushFollow(FOLLOW_literal_of_term_in_axiom_def784);
+			match(input,25,FOLLOW_25_in_axiom_def781); 
+			pushFollow(FOLLOW_literal_of_term_in_axiom_def783);
 			literal_of_term();
 			state._fsp--;
 
-			match(input,13,FOLLOW_13_in_axiom_def786); 
+			match(input,13,FOLLOW_13_in_axiom_def785); 
 			}
 
 		}
@@ -1515,10 +1497,10 @@ public class PDDLParser extends Parser {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:202:16: ( '(' 'problem' NAME ')' )
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:202:18: '(' 'problem' NAME ')'
 			{
-			match(input,12,FOLLOW_12_in_problem_header805); 
-			match(input,54,FOLLOW_54_in_problem_header807); 
-			match(input,NAME,FOLLOW_NAME_in_problem_header809); 
-			match(input,13,FOLLOW_13_in_problem_header811); 
+			match(input,12,FOLLOW_12_in_problem_header804); 
+			match(input,54,FOLLOW_54_in_problem_header806); 
+			match(input,NAME,FOLLOW_NAME_in_problem_header808); 
+			match(input,13,FOLLOW_13_in_problem_header810); 
 			}
 
 		}
@@ -1539,44 +1521,44 @@ public class PDDLParser extends Parser {
 	public final void problem_item() throws RecognitionException {
 		try {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:206:2: ( domain_reference | require_def | situation | object_declaration | init | goal | length_spec )
-			int alt15=7;
-			int LA15_0 = input.LA(1);
-			if ( (LA15_0==12) ) {
+			int alt14=7;
+			int LA14_0 = input.LA(1);
+			if ( (LA14_0==12) ) {
 				switch ( input.LA(2) ) {
 				case 19:
 					{
-					alt15=1;
+					alt14=1;
 					}
 					break;
 				case 36:
 					{
-					alt15=2;
+					alt14=2;
 					}
 					break;
 				case 39:
 					{
-					alt15=3;
+					alt14=3;
 					}
 					break;
 				case 30:
 					{
-					alt15=4;
+					alt14=4;
 					}
 					break;
 				case 26:
 					{
-					alt15=5;
+					alt14=5;
 					}
 					break;
 				case 22:
 				case 24:
 					{
-					alt15=6;
+					alt14=6;
 					}
 					break;
 				case 27:
 					{
-					alt15=7;
+					alt14=7;
 					}
 					break;
 				default:
@@ -1584,7 +1566,7 @@ public class PDDLParser extends Parser {
 					try {
 						input.consume();
 						NoViableAltException nvae =
-							new NoViableAltException("", 15, 1, input);
+							new NoViableAltException("", 14, 1, input);
 						throw nvae;
 					} finally {
 						input.rewind(nvaeMark);
@@ -1594,15 +1576,15 @@ public class PDDLParser extends Parser {
 
 			else {
 				NoViableAltException nvae =
-					new NoViableAltException("", 15, 0, input);
+					new NoViableAltException("", 14, 0, input);
 				throw nvae;
 			}
 
-			switch (alt15) {
+			switch (alt14) {
 				case 1 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:206:4: domain_reference
 					{
-					pushFollow(FOLLOW_domain_reference_in_problem_item825);
+					pushFollow(FOLLOW_domain_reference_in_problem_item824);
 					domain_reference();
 					state._fsp--;
 
@@ -1611,7 +1593,7 @@ public class PDDLParser extends Parser {
 				case 2 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:207:4: require_def
 					{
-					pushFollow(FOLLOW_require_def_in_problem_item830);
+					pushFollow(FOLLOW_require_def_in_problem_item829);
 					require_def();
 					state._fsp--;
 
@@ -1620,7 +1602,7 @@ public class PDDLParser extends Parser {
 				case 3 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:208:4: situation
 					{
-					pushFollow(FOLLOW_situation_in_problem_item835);
+					pushFollow(FOLLOW_situation_in_problem_item834);
 					situation();
 					state._fsp--;
 
@@ -1629,7 +1611,7 @@ public class PDDLParser extends Parser {
 				case 4 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:209:4: object_declaration
 					{
-					pushFollow(FOLLOW_object_declaration_in_problem_item840);
+					pushFollow(FOLLOW_object_declaration_in_problem_item839);
 					object_declaration();
 					state._fsp--;
 
@@ -1638,7 +1620,7 @@ public class PDDLParser extends Parser {
 				case 5 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:210:4: init
 					{
-					pushFollow(FOLLOW_init_in_problem_item845);
+					pushFollow(FOLLOW_init_in_problem_item844);
 					init();
 					state._fsp--;
 
@@ -1647,7 +1629,7 @@ public class PDDLParser extends Parser {
 				case 6 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:211:4: goal
 					{
-					pushFollow(FOLLOW_goal_in_problem_item850);
+					pushFollow(FOLLOW_goal_in_problem_item849);
 					goal();
 					state._fsp--;
 
@@ -1656,7 +1638,7 @@ public class PDDLParser extends Parser {
 				case 7 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:212:4: length_spec
 					{
-					pushFollow(FOLLOW_length_spec_in_problem_item855);
+					pushFollow(FOLLOW_length_spec_in_problem_item854);
 					length_spec();
 					state._fsp--;
 
@@ -1684,10 +1666,10 @@ public class PDDLParser extends Parser {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:216:2: ( '(' ':domain' NAME ')' )
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:216:4: '(' ':domain' NAME ')'
 			{
-			match(input,12,FOLLOW_12_in_domain_reference867); 
-			match(input,19,FOLLOW_19_in_domain_reference869); 
-			match(input,NAME,FOLLOW_NAME_in_domain_reference871); 
-			match(input,13,FOLLOW_13_in_domain_reference873); 
+			match(input,12,FOLLOW_12_in_domain_reference866); 
+			match(input,19,FOLLOW_19_in_domain_reference868); 
+			match(input,NAME,FOLLOW_NAME_in_domain_reference870); 
+			match(input,13,FOLLOW_13_in_domain_reference872); 
 			}
 
 		}
@@ -1710,35 +1692,35 @@ public class PDDLParser extends Parser {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:220:2: ( '(' ':requirements' ( REQUIRE_KEY )+ ')' )
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:220:4: '(' ':requirements' ( REQUIRE_KEY )+ ')'
 			{
-			match(input,12,FOLLOW_12_in_require_def885); 
-			match(input,36,FOLLOW_36_in_require_def887); 
+			match(input,12,FOLLOW_12_in_require_def884); 
+			match(input,36,FOLLOW_36_in_require_def886); 
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:220:24: ( REQUIRE_KEY )+
-			int cnt16=0;
-			loop16:
+			int cnt15=0;
+			loop15:
 			while (true) {
-				int alt16=2;
-				int LA16_0 = input.LA(1);
-				if ( (LA16_0==REQUIRE_KEY) ) {
-					alt16=1;
+				int alt15=2;
+				int LA15_0 = input.LA(1);
+				if ( (LA15_0==REQUIRE_KEY) ) {
+					alt15=1;
 				}
 
-				switch (alt16) {
+				switch (alt15) {
 				case 1 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:220:24: REQUIRE_KEY
 					{
-					match(input,REQUIRE_KEY,FOLLOW_REQUIRE_KEY_in_require_def889); 
+					match(input,REQUIRE_KEY,FOLLOW_REQUIRE_KEY_in_require_def888); 
 					}
 					break;
 
 				default :
-					if ( cnt16 >= 1 ) break loop16;
-					EarlyExitException eee = new EarlyExitException(16, input);
+					if ( cnt15 >= 1 ) break loop15;
+					EarlyExitException eee = new EarlyExitException(15, input);
 					throw eee;
 				}
-				cnt16++;
+				cnt15++;
 			}
 
-			match(input,13,FOLLOW_13_in_require_def892); 
+			match(input,13,FOLLOW_13_in_require_def891); 
 			}
 
 		}
@@ -1761,10 +1743,10 @@ public class PDDLParser extends Parser {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:224:2: ( '(' ':situation' NAME ')' )
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:224:4: '(' ':situation' NAME ')'
 			{
-			match(input,12,FOLLOW_12_in_situation905); 
-			match(input,39,FOLLOW_39_in_situation907); 
-			match(input,NAME,FOLLOW_NAME_in_situation909); 
-			match(input,13,FOLLOW_13_in_situation911); 
+			match(input,12,FOLLOW_12_in_situation904); 
+			match(input,39,FOLLOW_39_in_situation906); 
+			match(input,NAME,FOLLOW_NAME_in_situation908); 
+			match(input,13,FOLLOW_13_in_situation910); 
 			}
 
 		}
@@ -1787,13 +1769,13 @@ public class PDDLParser extends Parser {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:228:2: ( '(' ':objects' typed_list_of_name ')' )
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:228:4: '(' ':objects' typed_list_of_name ')'
 			{
-			match(input,12,FOLLOW_12_in_object_declaration924); 
-			match(input,30,FOLLOW_30_in_object_declaration926); 
-			pushFollow(FOLLOW_typed_list_of_name_in_object_declaration928);
+			match(input,12,FOLLOW_12_in_object_declaration923); 
+			match(input,30,FOLLOW_30_in_object_declaration925); 
+			pushFollow(FOLLOW_typed_list_of_name_in_object_declaration927);
 			typed_list_of_name();
 			state._fsp--;
 
-			match(input,13,FOLLOW_13_in_object_declaration930); 
+			match(input,13,FOLLOW_13_in_object_declaration929); 
 			}
 
 		}
@@ -1816,23 +1798,23 @@ public class PDDLParser extends Parser {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:231:7: ( '(' ':init' ( literal_of_name )+ ')' )
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:231:9: '(' ':init' ( literal_of_name )+ ')'
 			{
-			match(input,12,FOLLOW_12_in_init941); 
-			match(input,26,FOLLOW_26_in_init943); 
+			match(input,12,FOLLOW_12_in_init940); 
+			match(input,26,FOLLOW_26_in_init942); 
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:231:21: ( literal_of_name )+
-			int cnt17=0;
-			loop17:
+			int cnt16=0;
+			loop16:
 			while (true) {
-				int alt17=2;
-				int LA17_0 = input.LA(1);
-				if ( (LA17_0==12) ) {
-					alt17=1;
+				int alt16=2;
+				int LA16_0 = input.LA(1);
+				if ( (LA16_0==12) ) {
+					alt16=1;
 				}
 
-				switch (alt17) {
+				switch (alt16) {
 				case 1 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:231:21: literal_of_name
 					{
-					pushFollow(FOLLOW_literal_of_name_in_init945);
+					pushFollow(FOLLOW_literal_of_name_in_init944);
 					literal_of_name();
 					state._fsp--;
 
@@ -1840,14 +1822,14 @@ public class PDDLParser extends Parser {
 					break;
 
 				default :
-					if ( cnt17 >= 1 ) break loop17;
-					EarlyExitException eee = new EarlyExitException(17, input);
+					if ( cnt16 >= 1 ) break loop16;
+					EarlyExitException eee = new EarlyExitException(16, input);
 					throw eee;
 				}
-				cnt17++;
+				cnt16++;
 			}
 
-			match(input,13,FOLLOW_13_in_init948); 
+			match(input,13,FOLLOW_13_in_init947); 
 			}
 
 		}
@@ -1868,15 +1850,15 @@ public class PDDLParser extends Parser {
 	public final void goal() throws RecognitionException {
 		try {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:234:6: ( '(' ':goal' gd ')' | '(' ':expansion' action_spec_od_action_term ')' )
-			int alt18=2;
-			int LA18_0 = input.LA(1);
-			if ( (LA18_0==12) ) {
-				int LA18_1 = input.LA(2);
-				if ( (LA18_1==24) ) {
-					alt18=1;
+			int alt17=2;
+			int LA17_0 = input.LA(1);
+			if ( (LA17_0==12) ) {
+				int LA17_1 = input.LA(2);
+				if ( (LA17_1==24) ) {
+					alt17=1;
 				}
-				else if ( (LA18_1==22) ) {
-					alt18=2;
+				else if ( (LA17_1==22) ) {
+					alt17=2;
 				}
 
 				else {
@@ -1884,7 +1866,7 @@ public class PDDLParser extends Parser {
 					try {
 						input.consume();
 						NoViableAltException nvae =
-							new NoViableAltException("", 18, 1, input);
+							new NoViableAltException("", 17, 1, input);
 						throw nvae;
 					} finally {
 						input.rewind(nvaeMark);
@@ -1895,33 +1877,33 @@ public class PDDLParser extends Parser {
 
 			else {
 				NoViableAltException nvae =
-					new NoViableAltException("", 18, 0, input);
+					new NoViableAltException("", 17, 0, input);
 				throw nvae;
 			}
 
-			switch (alt18) {
+			switch (alt17) {
 				case 1 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:234:8: '(' ':goal' gd ')'
 					{
-					match(input,12,FOLLOW_12_in_goal958); 
-					match(input,24,FOLLOW_24_in_goal960); 
-					pushFollow(FOLLOW_gd_in_goal962);
+					match(input,12,FOLLOW_12_in_goal957); 
+					match(input,24,FOLLOW_24_in_goal959); 
+					pushFollow(FOLLOW_gd_in_goal961);
 					gd();
 					state._fsp--;
 
-					match(input,13,FOLLOW_13_in_goal964); 
+					match(input,13,FOLLOW_13_in_goal963); 
 					}
 					break;
 				case 2 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:235:4: '(' ':expansion' action_spec_od_action_term ')'
 					{
-					match(input,12,FOLLOW_12_in_goal969); 
-					match(input,22,FOLLOW_22_in_goal971); 
-					pushFollow(FOLLOW_action_spec_od_action_term_in_goal973);
+					match(input,12,FOLLOW_12_in_goal968); 
+					match(input,22,FOLLOW_22_in_goal970); 
+					pushFollow(FOLLOW_action_spec_od_action_term_in_goal972);
 					action_spec_od_action_term();
 					state._fsp--;
 
-					match(input,13,FOLLOW_13_in_goal975); 
+					match(input,13,FOLLOW_13_in_goal974); 
 					}
 					break;
 
@@ -1946,50 +1928,50 @@ public class PDDLParser extends Parser {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:239:2: ( '(' ':length' ( '(' ':serial' INTEGER ')' )? ( '(' ':parallel' INTEGER ')' )? ')' )
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:239:4: '(' ':length' ( '(' ':serial' INTEGER ')' )? ( '(' ':parallel' INTEGER ')' )? ')'
 			{
-			match(input,12,FOLLOW_12_in_length_spec989); 
-			match(input,27,FOLLOW_27_in_length_spec991); 
+			match(input,12,FOLLOW_12_in_length_spec988); 
+			match(input,27,FOLLOW_27_in_length_spec990); 
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:239:18: ( '(' ':serial' INTEGER ')' )?
-			int alt19=2;
-			int LA19_0 = input.LA(1);
-			if ( (LA19_0==12) ) {
-				int LA19_1 = input.LA(2);
-				if ( (LA19_1==38) ) {
-					alt19=1;
+			int alt18=2;
+			int LA18_0 = input.LA(1);
+			if ( (LA18_0==12) ) {
+				int LA18_1 = input.LA(2);
+				if ( (LA18_1==38) ) {
+					alt18=1;
 				}
 			}
-			switch (alt19) {
+			switch (alt18) {
 				case 1 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:239:19: '(' ':serial' INTEGER ')'
 					{
-					match(input,12,FOLLOW_12_in_length_spec994); 
-					match(input,38,FOLLOW_38_in_length_spec996); 
-					match(input,INTEGER,FOLLOW_INTEGER_in_length_spec998); 
-					match(input,13,FOLLOW_13_in_length_spec1000); 
+					match(input,12,FOLLOW_12_in_length_spec993); 
+					match(input,38,FOLLOW_38_in_length_spec995); 
+					match(input,INTEGER,FOLLOW_INTEGER_in_length_spec997); 
+					match(input,13,FOLLOW_13_in_length_spec999); 
 					}
 					break;
 
 			}
 
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:239:47: ( '(' ':parallel' INTEGER ')' )?
-			int alt20=2;
-			int LA20_0 = input.LA(1);
-			if ( (LA20_0==12) ) {
-				alt20=1;
+			int alt19=2;
+			int LA19_0 = input.LA(1);
+			if ( (LA19_0==12) ) {
+				alt19=1;
 			}
-			switch (alt20) {
+			switch (alt19) {
 				case 1 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:239:48: '(' ':parallel' INTEGER ')'
 					{
-					match(input,12,FOLLOW_12_in_length_spec1005); 
-					match(input,32,FOLLOW_32_in_length_spec1007); 
-					match(input,INTEGER,FOLLOW_INTEGER_in_length_spec1009); 
-					match(input,13,FOLLOW_13_in_length_spec1011); 
+					match(input,12,FOLLOW_12_in_length_spec1004); 
+					match(input,32,FOLLOW_32_in_length_spec1006); 
+					match(input,INTEGER,FOLLOW_INTEGER_in_length_spec1008); 
+					match(input,13,FOLLOW_13_in_length_spec1010); 
 					}
 					break;
 
 			}
 
-			match(input,13,FOLLOW_13_in_length_spec1015); 
+			match(input,13,FOLLOW_13_in_length_spec1014); 
 			}
 
 		}
@@ -2012,10 +1994,10 @@ public class PDDLParser extends Parser {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:244:5: ( '(' 'situation' NAME ')' )
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:244:9: '(' 'situation' NAME ')'
 			{
-			match(input,12,FOLLOW_12_in_initsit_header1034); 
-			match(input,55,FOLLOW_55_in_initsit_header1036); 
-			match(input,NAME,FOLLOW_NAME_in_initsit_header1038); 
-			match(input,13,FOLLOW_13_in_initsit_header1040); 
+			match(input,12,FOLLOW_12_in_initsit_header1033); 
+			match(input,55,FOLLOW_55_in_initsit_header1035); 
+			match(input,NAME,FOLLOW_NAME_in_initsit_header1037); 
+			match(input,13,FOLLOW_13_in_initsit_header1039); 
 			}
 
 		}
@@ -2038,24 +2020,24 @@ public class PDDLParser extends Parser {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:248:5: ( '(' ':domain' NAME ')' ( initsit_body_item )* )
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:248:8: '(' ':domain' NAME ')' ( initsit_body_item )*
 			{
-			match(input,12,FOLLOW_12_in_initsit_body1058); 
-			match(input,19,FOLLOW_19_in_initsit_body1060); 
-			match(input,NAME,FOLLOW_NAME_in_initsit_body1062); 
-			match(input,13,FOLLOW_13_in_initsit_body1064); 
+			match(input,12,FOLLOW_12_in_initsit_body1057); 
+			match(input,19,FOLLOW_19_in_initsit_body1059); 
+			match(input,NAME,FOLLOW_NAME_in_initsit_body1061); 
+			match(input,13,FOLLOW_13_in_initsit_body1063); 
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:249:13: ( initsit_body_item )*
-			loop21:
+			loop20:
 			while (true) {
-				int alt21=2;
-				int LA21_0 = input.LA(1);
-				if ( (LA21_0==12) ) {
-					alt21=1;
+				int alt20=2;
+				int LA20_0 = input.LA(1);
+				if ( (LA20_0==12) ) {
+					alt20=1;
 				}
 
-				switch (alt21) {
+				switch (alt20) {
 				case 1 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:249:13: initsit_body_item
 					{
-					pushFollow(FOLLOW_initsit_body_item_in_initsit_body1078);
+					pushFollow(FOLLOW_initsit_body_item_in_initsit_body1077);
 					initsit_body_item();
 					state._fsp--;
 
@@ -2063,7 +2045,7 @@ public class PDDLParser extends Parser {
 					break;
 
 				default :
-					break loop21;
+					break loop20;
 				}
 			}
 
@@ -2087,15 +2069,15 @@ public class PDDLParser extends Parser {
 	public final void initsit_body_item() throws RecognitionException {
 		try {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:253:5: ( object_declaration | init )
-			int alt22=2;
-			int LA22_0 = input.LA(1);
-			if ( (LA22_0==12) ) {
-				int LA22_1 = input.LA(2);
-				if ( (LA22_1==30) ) {
-					alt22=1;
+			int alt21=2;
+			int LA21_0 = input.LA(1);
+			if ( (LA21_0==12) ) {
+				int LA21_1 = input.LA(2);
+				if ( (LA21_1==30) ) {
+					alt21=1;
 				}
-				else if ( (LA22_1==26) ) {
-					alt22=2;
+				else if ( (LA21_1==26) ) {
+					alt21=2;
 				}
 
 				else {
@@ -2103,7 +2085,7 @@ public class PDDLParser extends Parser {
 					try {
 						input.consume();
 						NoViableAltException nvae =
-							new NoViableAltException("", 22, 1, input);
+							new NoViableAltException("", 21, 1, input);
 						throw nvae;
 					} finally {
 						input.rewind(nvaeMark);
@@ -2114,15 +2096,15 @@ public class PDDLParser extends Parser {
 
 			else {
 				NoViableAltException nvae =
-					new NoViableAltException("", 22, 0, input);
+					new NoViableAltException("", 21, 0, input);
 				throw nvae;
 			}
 
-			switch (alt22) {
+			switch (alt21) {
 				case 1 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:253:9: object_declaration
 					{
-					pushFollow(FOLLOW_object_declaration_in_initsit_body_item1102);
+					pushFollow(FOLLOW_object_declaration_in_initsit_body_item1101);
 					object_declaration();
 					state._fsp--;
 
@@ -2131,7 +2113,7 @@ public class PDDLParser extends Parser {
 				case 2 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:254:9: init
 					{
-					pushFollow(FOLLOW_init_in_initsit_body_item1112);
+					pushFollow(FOLLOW_init_in_initsit_body_item1111);
 					init();
 					state._fsp--;
 
@@ -2157,15 +2139,15 @@ public class PDDLParser extends Parser {
 	public final void gd() throws RecognitionException {
 		try {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:261:5: ( atomic_formula_of_term | complicated_gd )
-			int alt23=2;
-			int LA23_0 = input.LA(1);
-			if ( (LA23_0==12) ) {
-				int LA23_1 = input.LA(2);
-				if ( (LA23_1==43||LA23_1==48||(LA23_1 >= 50 && LA23_1 <= 53)) ) {
-					alt23=2;
+			int alt22=2;
+			int LA22_0 = input.LA(1);
+			if ( (LA22_0==12) ) {
+				int LA22_1 = input.LA(2);
+				if ( (LA22_1==43||LA22_1==48||(LA22_1 >= 50 && LA22_1 <= 53)) ) {
+					alt22=2;
 				}
-				else if ( (LA23_1==NAME) ) {
-					alt23=1;
+				else if ( (LA22_1==NAME) ) {
+					alt22=1;
 				}
 
 				else {
@@ -2173,7 +2155,7 @@ public class PDDLParser extends Parser {
 					try {
 						input.consume();
 						NoViableAltException nvae =
-							new NoViableAltException("", 23, 1, input);
+							new NoViableAltException("", 22, 1, input);
 						throw nvae;
 					} finally {
 						input.rewind(nvaeMark);
@@ -2184,15 +2166,15 @@ public class PDDLParser extends Parser {
 
 			else {
 				NoViableAltException nvae =
-					new NoViableAltException("", 23, 0, input);
+					new NoViableAltException("", 22, 0, input);
 				throw nvae;
 			}
 
-			switch (alt23) {
+			switch (alt22) {
 				case 1 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:261:9: atomic_formula_of_term
 					{
-					pushFollow(FOLLOW_atomic_formula_of_term_in_gd1131);
+					pushFollow(FOLLOW_atomic_formula_of_term_in_gd1130);
 					atomic_formula_of_term();
 					state._fsp--;
 
@@ -2201,7 +2183,7 @@ public class PDDLParser extends Parser {
 				case 2 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:262:9: complicated_gd
 					{
-					pushFollow(FOLLOW_complicated_gd_in_gd1141);
+					pushFollow(FOLLOW_complicated_gd_in_gd1140);
 					complicated_gd();
 					state._fsp--;
 
@@ -2227,30 +2209,30 @@ public class PDDLParser extends Parser {
 	public final void complicated_gd() throws RecognitionException {
 		try {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:265:17: ( '(' 'and' ( gd )* ')' | '(' 'or' ( gd )* ')' | '(' 'not' atomic_formula_of_term ')' | '(' 'not' complicated_gd ')' | '(' 'imply' gd gd ')' | '(' 'exists' '(' typed_list_of_variable ')' gd ')' | '(' 'forall' '(' typed_list_of_variable ')' gd ')' )
-			int alt26=7;
-			int LA26_0 = input.LA(1);
-			if ( (LA26_0==12) ) {
+			int alt25=7;
+			int LA25_0 = input.LA(1);
+			if ( (LA25_0==12) ) {
 				switch ( input.LA(2) ) {
 				case 43:
 					{
-					alt26=1;
+					alt25=1;
 					}
 					break;
 				case 53:
 					{
-					alt26=2;
+					alt25=2;
 					}
 					break;
 				case 52:
 					{
-					int LA26_4 = input.LA(3);
-					if ( (LA26_4==12) ) {
-						int LA26_8 = input.LA(4);
-						if ( (LA26_8==43||LA26_8==48||(LA26_8 >= 50 && LA26_8 <= 53)) ) {
-							alt26=4;
+					int LA25_4 = input.LA(3);
+					if ( (LA25_4==12) ) {
+						int LA25_8 = input.LA(4);
+						if ( (LA25_8==43||LA25_8==48||(LA25_8 >= 50 && LA25_8 <= 53)) ) {
+							alt25=4;
 						}
-						else if ( (LA26_8==NAME) ) {
-							alt26=3;
+						else if ( (LA25_8==NAME) ) {
+							alt25=3;
 						}
 
 						else {
@@ -2260,7 +2242,7 @@ public class PDDLParser extends Parser {
 									input.consume();
 								}
 								NoViableAltException nvae =
-									new NoViableAltException("", 26, 8, input);
+									new NoViableAltException("", 25, 8, input);
 								throw nvae;
 							} finally {
 								input.rewind(nvaeMark);
@@ -2276,7 +2258,7 @@ public class PDDLParser extends Parser {
 								input.consume();
 							}
 							NoViableAltException nvae =
-								new NoViableAltException("", 26, 4, input);
+								new NoViableAltException("", 25, 4, input);
 							throw nvae;
 						} finally {
 							input.rewind(nvaeMark);
@@ -2287,17 +2269,17 @@ public class PDDLParser extends Parser {
 					break;
 				case 51:
 					{
-					alt26=5;
+					alt25=5;
 					}
 					break;
 				case 48:
 					{
-					alt26=6;
+					alt25=6;
 					}
 					break;
 				case 50:
 					{
-					alt26=7;
+					alt25=7;
 					}
 					break;
 				default:
@@ -2305,7 +2287,7 @@ public class PDDLParser extends Parser {
 					try {
 						input.consume();
 						NoViableAltException nvae =
-							new NoViableAltException("", 26, 1, input);
+							new NoViableAltException("", 25, 1, input);
 						throw nvae;
 					} finally {
 						input.rewind(nvaeMark);
@@ -2315,17 +2297,50 @@ public class PDDLParser extends Parser {
 
 			else {
 				NoViableAltException nvae =
-					new NoViableAltException("", 26, 0, input);
+					new NoViableAltException("", 25, 0, input);
 				throw nvae;
 			}
 
-			switch (alt26) {
+			switch (alt25) {
 				case 1 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:265:20: '(' 'and' ( gd )* ')'
 					{
-					match(input,12,FOLLOW_12_in_complicated_gd1156); 
-					match(input,43,FOLLOW_43_in_complicated_gd1158); 
+					match(input,12,FOLLOW_12_in_complicated_gd1155); 
+					match(input,43,FOLLOW_43_in_complicated_gd1157); 
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:265:30: ( gd )*
+					loop23:
+					while (true) {
+						int alt23=2;
+						int LA23_0 = input.LA(1);
+						if ( (LA23_0==12) ) {
+							alt23=1;
+						}
+
+						switch (alt23) {
+						case 1 :
+							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:265:30: gd
+							{
+							pushFollow(FOLLOW_gd_in_complicated_gd1159);
+							gd();
+							state._fsp--;
+
+							}
+							break;
+
+						default :
+							break loop23;
+						}
+					}
+
+					match(input,13,FOLLOW_13_in_complicated_gd1162); 
+					}
+					break;
+				case 2 :
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:266:4: '(' 'or' ( gd )* ')'
+					{
+					match(input,12,FOLLOW_12_in_complicated_gd1167); 
+					match(input,53,FOLLOW_53_in_complicated_gd1169); 
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:266:13: ( gd )*
 					loop24:
 					while (true) {
 						int alt24=2;
@@ -2336,9 +2351,9 @@ public class PDDLParser extends Parser {
 
 						switch (alt24) {
 						case 1 :
-							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:265:30: gd
+							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:266:13: gd
 							{
-							pushFollow(FOLLOW_gd_in_complicated_gd1160);
+							pushFollow(FOLLOW_gd_in_complicated_gd1171);
 							gd();
 							state._fsp--;
 
@@ -2350,116 +2365,83 @@ public class PDDLParser extends Parser {
 						}
 					}
 
-					match(input,13,FOLLOW_13_in_complicated_gd1163); 
-					}
-					break;
-				case 2 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:266:4: '(' 'or' ( gd )* ')'
-					{
-					match(input,12,FOLLOW_12_in_complicated_gd1168); 
-					match(input,53,FOLLOW_53_in_complicated_gd1170); 
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:266:13: ( gd )*
-					loop25:
-					while (true) {
-						int alt25=2;
-						int LA25_0 = input.LA(1);
-						if ( (LA25_0==12) ) {
-							alt25=1;
-						}
-
-						switch (alt25) {
-						case 1 :
-							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:266:13: gd
-							{
-							pushFollow(FOLLOW_gd_in_complicated_gd1172);
-							gd();
-							state._fsp--;
-
-							}
-							break;
-
-						default :
-							break loop25;
-						}
-					}
-
-					match(input,13,FOLLOW_13_in_complicated_gd1175); 
+					match(input,13,FOLLOW_13_in_complicated_gd1174); 
 					}
 					break;
 				case 3 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:267:7: '(' 'not' atomic_formula_of_term ')'
 					{
-					match(input,12,FOLLOW_12_in_complicated_gd1184); 
-					match(input,52,FOLLOW_52_in_complicated_gd1186); 
-					pushFollow(FOLLOW_atomic_formula_of_term_in_complicated_gd1188);
+					match(input,12,FOLLOW_12_in_complicated_gd1183); 
+					match(input,52,FOLLOW_52_in_complicated_gd1185); 
+					pushFollow(FOLLOW_atomic_formula_of_term_in_complicated_gd1187);
 					atomic_formula_of_term();
 					state._fsp--;
 
-					match(input,13,FOLLOW_13_in_complicated_gd1190); 
+					match(input,13,FOLLOW_13_in_complicated_gd1189); 
 					}
 					break;
 				case 4 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:268:7: '(' 'not' complicated_gd ')'
 					{
-					match(input,12,FOLLOW_12_in_complicated_gd1199); 
-					match(input,52,FOLLOW_52_in_complicated_gd1201); 
-					pushFollow(FOLLOW_complicated_gd_in_complicated_gd1203);
+					match(input,12,FOLLOW_12_in_complicated_gd1198); 
+					match(input,52,FOLLOW_52_in_complicated_gd1200); 
+					pushFollow(FOLLOW_complicated_gd_in_complicated_gd1202);
 					complicated_gd();
 					state._fsp--;
 
-					match(input,13,FOLLOW_13_in_complicated_gd1205); 
+					match(input,13,FOLLOW_13_in_complicated_gd1204); 
 					}
 					break;
 				case 5 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:269:4: '(' 'imply' gd gd ')'
 					{
-					match(input,12,FOLLOW_12_in_complicated_gd1211); 
-					match(input,51,FOLLOW_51_in_complicated_gd1213); 
-					pushFollow(FOLLOW_gd_in_complicated_gd1215);
+					match(input,12,FOLLOW_12_in_complicated_gd1210); 
+					match(input,51,FOLLOW_51_in_complicated_gd1212); 
+					pushFollow(FOLLOW_gd_in_complicated_gd1214);
 					gd();
 					state._fsp--;
 
-					pushFollow(FOLLOW_gd_in_complicated_gd1217);
+					pushFollow(FOLLOW_gd_in_complicated_gd1216);
 					gd();
 					state._fsp--;
 
-					match(input,13,FOLLOW_13_in_complicated_gd1219); 
+					match(input,13,FOLLOW_13_in_complicated_gd1218); 
 					}
 					break;
 				case 6 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:270:4: '(' 'exists' '(' typed_list_of_variable ')' gd ')'
 					{
-					match(input,12,FOLLOW_12_in_complicated_gd1225); 
-					match(input,48,FOLLOW_48_in_complicated_gd1227); 
-					match(input,12,FOLLOW_12_in_complicated_gd1229); 
-					pushFollow(FOLLOW_typed_list_of_variable_in_complicated_gd1231);
+					match(input,12,FOLLOW_12_in_complicated_gd1224); 
+					match(input,48,FOLLOW_48_in_complicated_gd1226); 
+					match(input,12,FOLLOW_12_in_complicated_gd1228); 
+					pushFollow(FOLLOW_typed_list_of_variable_in_complicated_gd1230);
 					typed_list_of_variable();
 					state._fsp--;
 
-					match(input,13,FOLLOW_13_in_complicated_gd1233); 
-					pushFollow(FOLLOW_gd_in_complicated_gd1235);
+					match(input,13,FOLLOW_13_in_complicated_gd1232); 
+					pushFollow(FOLLOW_gd_in_complicated_gd1234);
 					gd();
 					state._fsp--;
 
-					match(input,13,FOLLOW_13_in_complicated_gd1237); 
+					match(input,13,FOLLOW_13_in_complicated_gd1236); 
 					}
 					break;
 				case 7 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:271:4: '(' 'forall' '(' typed_list_of_variable ')' gd ')'
 					{
-					match(input,12,FOLLOW_12_in_complicated_gd1243); 
-					match(input,50,FOLLOW_50_in_complicated_gd1245); 
-					match(input,12,FOLLOW_12_in_complicated_gd1247); 
-					pushFollow(FOLLOW_typed_list_of_variable_in_complicated_gd1249);
+					match(input,12,FOLLOW_12_in_complicated_gd1242); 
+					match(input,50,FOLLOW_50_in_complicated_gd1244); 
+					match(input,12,FOLLOW_12_in_complicated_gd1246); 
+					pushFollow(FOLLOW_typed_list_of_variable_in_complicated_gd1248);
 					typed_list_of_variable();
 					state._fsp--;
 
-					match(input,13,FOLLOW_13_in_complicated_gd1251); 
-					pushFollow(FOLLOW_gd_in_complicated_gd1253);
+					match(input,13,FOLLOW_13_in_complicated_gd1250); 
+					pushFollow(FOLLOW_gd_in_complicated_gd1252);
 					gd();
 					state._fsp--;
 
-					match(input,13,FOLLOW_13_in_complicated_gd1255); 
+					match(input,13,FOLLOW_13_in_complicated_gd1254); 
 					}
 					break;
 
@@ -2484,7 +2466,7 @@ public class PDDLParser extends Parser {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:276:2: ( NAME )
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:276:4: NAME
 			{
-			match(input,NAME,FOLLOW_NAME_in_predicate1269); 
+			match(input,NAME,FOLLOW_NAME_in_predicate1268); 
 			}
 
 		}
@@ -2535,6 +2517,79 @@ public class PDDLParser extends Parser {
 	public final void literal_of_name() throws RecognitionException {
 		try {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:286:2: ( atomic_formula_of_name | '(' 'not' atomic_formula_of_name ')' )
+			int alt26=2;
+			int LA26_0 = input.LA(1);
+			if ( (LA26_0==12) ) {
+				int LA26_1 = input.LA(2);
+				if ( (LA26_1==52) ) {
+					alt26=2;
+				}
+				else if ( (LA26_1==NAME) ) {
+					alt26=1;
+				}
+
+				else {
+					int nvaeMark = input.mark();
+					try {
+						input.consume();
+						NoViableAltException nvae =
+							new NoViableAltException("", 26, 1, input);
+						throw nvae;
+					} finally {
+						input.rewind(nvaeMark);
+					}
+				}
+
+			}
+
+			else {
+				NoViableAltException nvae =
+					new NoViableAltException("", 26, 0, input);
+				throw nvae;
+			}
+
+			switch (alt26) {
+				case 1 :
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:286:4: atomic_formula_of_name
+					{
+					pushFollow(FOLLOW_atomic_formula_of_name_in_literal_of_name1298);
+					atomic_formula_of_name();
+					state._fsp--;
+
+					}
+					break;
+				case 2 :
+					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:287:4: '(' 'not' atomic_formula_of_name ')'
+					{
+					match(input,12,FOLLOW_12_in_literal_of_name1303); 
+					match(input,52,FOLLOW_52_in_literal_of_name1305); 
+					pushFollow(FOLLOW_atomic_formula_of_name_in_literal_of_name1307);
+					atomic_formula_of_name();
+					state._fsp--;
+
+					match(input,13,FOLLOW_13_in_literal_of_name1309); 
+					}
+					break;
+
+			}
+		}
+		catch (RecognitionException re) {
+			reportError(re);
+			recover(input,re);
+		}
+		finally {
+			// do for sure before leaving
+		}
+	}
+	// $ANTLR end "literal_of_name"
+
+
+
+	// $ANTLR start "literal_of_term"
+	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:290:1: literal_of_term : ( atomic_formula_of_term | '(' 'not' atomic_formula_of_term ')' );
+	public final void literal_of_term() throws RecognitionException {
+		try {
+			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:291:2: ( atomic_formula_of_term | '(' 'not' atomic_formula_of_term ')' )
 			int alt27=2;
 			int LA27_0 = input.LA(1);
 			if ( (LA27_0==12) ) {
@@ -2568,82 +2623,9 @@ public class PDDLParser extends Parser {
 
 			switch (alt27) {
 				case 1 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:286:4: atomic_formula_of_name
-					{
-					pushFollow(FOLLOW_atomic_formula_of_name_in_literal_of_name1299);
-					atomic_formula_of_name();
-					state._fsp--;
-
-					}
-					break;
-				case 2 :
-					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:287:4: '(' 'not' atomic_formula_of_name ')'
-					{
-					match(input,12,FOLLOW_12_in_literal_of_name1304); 
-					match(input,52,FOLLOW_52_in_literal_of_name1306); 
-					pushFollow(FOLLOW_atomic_formula_of_name_in_literal_of_name1308);
-					atomic_formula_of_name();
-					state._fsp--;
-
-					match(input,13,FOLLOW_13_in_literal_of_name1310); 
-					}
-					break;
-
-			}
-		}
-		catch (RecognitionException re) {
-			reportError(re);
-			recover(input,re);
-		}
-		finally {
-			// do for sure before leaving
-		}
-	}
-	// $ANTLR end "literal_of_name"
-
-
-
-	// $ANTLR start "literal_of_term"
-	// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:290:1: literal_of_term : ( atomic_formula_of_term | '(' 'not' atomic_formula_of_term ')' );
-	public final void literal_of_term() throws RecognitionException {
-		try {
-			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:291:2: ( atomic_formula_of_term | '(' 'not' atomic_formula_of_term ')' )
-			int alt28=2;
-			int LA28_0 = input.LA(1);
-			if ( (LA28_0==12) ) {
-				int LA28_1 = input.LA(2);
-				if ( (LA28_1==52) ) {
-					alt28=2;
-				}
-				else if ( (LA28_1==NAME) ) {
-					alt28=1;
-				}
-
-				else {
-					int nvaeMark = input.mark();
-					try {
-						input.consume();
-						NoViableAltException nvae =
-							new NoViableAltException("", 28, 1, input);
-						throw nvae;
-					} finally {
-						input.rewind(nvaeMark);
-					}
-				}
-
-			}
-
-			else {
-				NoViableAltException nvae =
-					new NoViableAltException("", 28, 0, input);
-				throw nvae;
-			}
-
-			switch (alt28) {
-				case 1 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:291:4: atomic_formula_of_term
 					{
-					pushFollow(FOLLOW_atomic_formula_of_term_in_literal_of_term1321);
+					pushFollow(FOLLOW_atomic_formula_of_term_in_literal_of_term1320);
 					atomic_formula_of_term();
 					state._fsp--;
 
@@ -2652,13 +2634,13 @@ public class PDDLParser extends Parser {
 				case 2 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:292:4: '(' 'not' atomic_formula_of_term ')'
 					{
-					match(input,12,FOLLOW_12_in_literal_of_term1326); 
-					match(input,52,FOLLOW_52_in_literal_of_term1328); 
-					pushFollow(FOLLOW_atomic_formula_of_term_in_literal_of_term1330);
+					match(input,12,FOLLOW_12_in_literal_of_term1325); 
+					match(input,52,FOLLOW_52_in_literal_of_term1327); 
+					pushFollow(FOLLOW_atomic_formula_of_term_in_literal_of_term1329);
 					atomic_formula_of_term();
 					state._fsp--;
 
-					match(input,13,FOLLOW_13_in_literal_of_term1332); 
+					match(input,13,FOLLOW_13_in_literal_of_term1331); 
 					}
 					break;
 
@@ -2683,25 +2665,25 @@ public class PDDLParser extends Parser {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:296:2: ( '(' predicate ( term )* ')' )
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:296:4: '(' predicate ( term )* ')'
 			{
-			match(input,12,FOLLOW_12_in_atomic_formula_of_term1343); 
-			pushFollow(FOLLOW_predicate_in_atomic_formula_of_term1345);
+			match(input,12,FOLLOW_12_in_atomic_formula_of_term1342); 
+			pushFollow(FOLLOW_predicate_in_atomic_formula_of_term1344);
 			predicate();
 			state._fsp--;
 
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:296:18: ( term )*
-			loop29:
+			loop28:
 			while (true) {
-				int alt29=2;
-				int LA29_0 = input.LA(1);
-				if ( (LA29_0==NAME||LA29_0==VARIABLE) ) {
-					alt29=1;
+				int alt28=2;
+				int LA28_0 = input.LA(1);
+				if ( (LA28_0==NAME||LA28_0==VARIABLE) ) {
+					alt28=1;
 				}
 
-				switch (alt29) {
+				switch (alt28) {
 				case 1 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:296:18: term
 					{
-					pushFollow(FOLLOW_term_in_atomic_formula_of_term1347);
+					pushFollow(FOLLOW_term_in_atomic_formula_of_term1346);
 					term();
 					state._fsp--;
 
@@ -2709,11 +2691,11 @@ public class PDDLParser extends Parser {
 					break;
 
 				default :
-					break loop29;
+					break loop28;
 				}
 			}
 
-			match(input,13,FOLLOW_13_in_atomic_formula_of_term1350); 
+			match(input,13,FOLLOW_13_in_atomic_formula_of_term1349); 
 			}
 
 		}
@@ -2736,34 +2718,34 @@ public class PDDLParser extends Parser {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:300:2: ( '(' predicate ( NAME )* ')' )
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:300:4: '(' predicate ( NAME )* ')'
 			{
-			match(input,12,FOLLOW_12_in_atomic_formula_of_name1362); 
-			pushFollow(FOLLOW_predicate_in_atomic_formula_of_name1364);
+			match(input,12,FOLLOW_12_in_atomic_formula_of_name1361); 
+			pushFollow(FOLLOW_predicate_in_atomic_formula_of_name1363);
 			predicate();
 			state._fsp--;
 
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:300:18: ( NAME )*
-			loop30:
+			loop29:
 			while (true) {
-				int alt30=2;
-				int LA30_0 = input.LA(1);
-				if ( (LA30_0==NAME) ) {
-					alt30=1;
+				int alt29=2;
+				int LA29_0 = input.LA(1);
+				if ( (LA29_0==NAME) ) {
+					alt29=1;
 				}
 
-				switch (alt30) {
+				switch (alt29) {
 				case 1 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:300:18: NAME
 					{
-					match(input,NAME,FOLLOW_NAME_in_atomic_formula_of_name1366); 
+					match(input,NAME,FOLLOW_NAME_in_atomic_formula_of_name1365); 
 					}
 					break;
 
 				default :
-					break loop30;
+					break loop29;
 				}
 			}
 
-			match(input,13,FOLLOW_13_in_atomic_formula_of_name1369); 
+			match(input,13,FOLLOW_13_in_atomic_formula_of_name1368); 
 			}
 
 		}
@@ -2784,22 +2766,22 @@ public class PDDLParser extends Parser {
 	public final void typed_list_of_name() throws RecognitionException {
 		try {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:304:2: (| ( NAME )+ ( '-' type typed_list_of_name )? )
-			int alt33=2;
-			int LA33_0 = input.LA(1);
-			if ( (LA33_0==13) ) {
-				alt33=1;
+			int alt32=2;
+			int LA32_0 = input.LA(1);
+			if ( (LA32_0==13) ) {
+				alt32=1;
 			}
-			else if ( (LA33_0==NAME) ) {
-				alt33=2;
+			else if ( (LA32_0==NAME) ) {
+				alt32=2;
 			}
 
 			else {
 				NoViableAltException nvae =
-					new NoViableAltException("", 33, 0, input);
+					new NoViableAltException("", 32, 0, input);
 				throw nvae;
 			}
 
-			switch (alt33) {
+			switch (alt32) {
 				case 1 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:305:2: 
 					{
@@ -2809,47 +2791,47 @@ public class PDDLParser extends Parser {
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:305:4: ( NAME )+ ( '-' type typed_list_of_name )?
 					{
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:305:4: ( NAME )+
-					int cnt31=0;
-					loop31:
+					int cnt30=0;
+					loop30:
 					while (true) {
-						int alt31=2;
-						int LA31_0 = input.LA(1);
-						if ( (LA31_0==NAME) ) {
-							alt31=1;
+						int alt30=2;
+						int LA30_0 = input.LA(1);
+						if ( (LA30_0==NAME) ) {
+							alt30=1;
 						}
 
-						switch (alt31) {
+						switch (alt30) {
 						case 1 :
 							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:305:4: NAME
 							{
-							match(input,NAME,FOLLOW_NAME_in_typed_list_of_name1385); 
+							match(input,NAME,FOLLOW_NAME_in_typed_list_of_name1384); 
 							}
 							break;
 
 						default :
-							if ( cnt31 >= 1 ) break loop31;
-							EarlyExitException eee = new EarlyExitException(31, input);
+							if ( cnt30 >= 1 ) break loop30;
+							EarlyExitException eee = new EarlyExitException(30, input);
 							throw eee;
 						}
-						cnt31++;
+						cnt30++;
 					}
 
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:305:10: ( '-' type typed_list_of_name )?
-					int alt32=2;
-					int LA32_0 = input.LA(1);
-					if ( (LA32_0==14) ) {
-						alt32=1;
+					int alt31=2;
+					int LA31_0 = input.LA(1);
+					if ( (LA31_0==14) ) {
+						alt31=1;
 					}
-					switch (alt32) {
+					switch (alt31) {
 						case 1 :
 							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:305:11: '-' type typed_list_of_name
 							{
-							match(input,14,FOLLOW_14_in_typed_list_of_name1389); 
-							pushFollow(FOLLOW_type_in_typed_list_of_name1391);
+							match(input,14,FOLLOW_14_in_typed_list_of_name1388); 
+							pushFollow(FOLLOW_type_in_typed_list_of_name1390);
 							type();
 							state._fsp--;
 
-							pushFollow(FOLLOW_typed_list_of_name_in_typed_list_of_name1393);
+							pushFollow(FOLLOW_typed_list_of_name_in_typed_list_of_name1392);
 							typed_list_of_name();
 							state._fsp--;
 
@@ -2880,22 +2862,22 @@ public class PDDLParser extends Parser {
 	public final void typed_list_of_variable() throws RecognitionException {
 		try {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:309:2: (| ( VARIABLE )+ ( '-' type typed_list_of_variable )? )
-			int alt36=2;
-			int LA36_0 = input.LA(1);
-			if ( (LA36_0==13) ) {
-				alt36=1;
+			int alt35=2;
+			int LA35_0 = input.LA(1);
+			if ( (LA35_0==13) ) {
+				alt35=1;
 			}
-			else if ( (LA36_0==VARIABLE) ) {
-				alt36=2;
+			else if ( (LA35_0==VARIABLE) ) {
+				alt35=2;
 			}
 
 			else {
 				NoViableAltException nvae =
-					new NoViableAltException("", 36, 0, input);
+					new NoViableAltException("", 35, 0, input);
 				throw nvae;
 			}
 
-			switch (alt36) {
+			switch (alt35) {
 				case 1 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:310:2: 
 					{
@@ -2905,47 +2887,47 @@ public class PDDLParser extends Parser {
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:310:4: ( VARIABLE )+ ( '-' type typed_list_of_variable )?
 					{
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:310:4: ( VARIABLE )+
-					int cnt34=0;
-					loop34:
+					int cnt33=0;
+					loop33:
 					while (true) {
-						int alt34=2;
-						int LA34_0 = input.LA(1);
-						if ( (LA34_0==VARIABLE) ) {
-							alt34=1;
+						int alt33=2;
+						int LA33_0 = input.LA(1);
+						if ( (LA33_0==VARIABLE) ) {
+							alt33=1;
 						}
 
-						switch (alt34) {
+						switch (alt33) {
 						case 1 :
 							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:310:4: VARIABLE
 							{
-							match(input,VARIABLE,FOLLOW_VARIABLE_in_typed_list_of_variable1411); 
+							match(input,VARIABLE,FOLLOW_VARIABLE_in_typed_list_of_variable1410); 
 							}
 							break;
 
 						default :
-							if ( cnt34 >= 1 ) break loop34;
-							EarlyExitException eee = new EarlyExitException(34, input);
+							if ( cnt33 >= 1 ) break loop33;
+							EarlyExitException eee = new EarlyExitException(33, input);
 							throw eee;
 						}
-						cnt34++;
+						cnt33++;
 					}
 
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:310:14: ( '-' type typed_list_of_variable )?
-					int alt35=2;
-					int LA35_0 = input.LA(1);
-					if ( (LA35_0==14) ) {
-						alt35=1;
+					int alt34=2;
+					int LA34_0 = input.LA(1);
+					if ( (LA34_0==14) ) {
+						alt34=1;
 					}
-					switch (alt35) {
+					switch (alt34) {
 						case 1 :
 							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:310:15: '-' type typed_list_of_variable
 							{
-							match(input,14,FOLLOW_14_in_typed_list_of_variable1415); 
-							pushFollow(FOLLOW_type_in_typed_list_of_variable1417);
+							match(input,14,FOLLOW_14_in_typed_list_of_variable1414); 
+							pushFollow(FOLLOW_type_in_typed_list_of_variable1416);
 							type();
 							state._fsp--;
 
-							pushFollow(FOLLOW_typed_list_of_variable_in_typed_list_of_variable1419);
+							pushFollow(FOLLOW_typed_list_of_variable_in_typed_list_of_variable1418);
 							typed_list_of_variable();
 							state._fsp--;
 
@@ -2976,18 +2958,18 @@ public class PDDLParser extends Parser {
 	public final void type() throws RecognitionException {
 		try {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:313:7: ( NAME | '(' 'either' ( type )+ ')' | '(' 'fluent' type ')' )
-			int alt38=3;
-			int LA38_0 = input.LA(1);
-			if ( (LA38_0==NAME) ) {
-				alt38=1;
+			int alt37=3;
+			int LA37_0 = input.LA(1);
+			if ( (LA37_0==NAME) ) {
+				alt37=1;
 			}
-			else if ( (LA38_0==12) ) {
-				int LA38_2 = input.LA(2);
-				if ( (LA38_2==47) ) {
-					alt38=2;
+			else if ( (LA37_0==12) ) {
+				int LA37_2 = input.LA(2);
+				if ( (LA37_2==47) ) {
+					alt37=2;
 				}
-				else if ( (LA38_2==49) ) {
-					alt38=3;
+				else if ( (LA37_2==49) ) {
+					alt37=3;
 				}
 
 				else {
@@ -2995,7 +2977,7 @@ public class PDDLParser extends Parser {
 					try {
 						input.consume();
 						NoViableAltException nvae =
-							new NoViableAltException("", 38, 2, input);
+							new NoViableAltException("", 37, 2, input);
 						throw nvae;
 					} finally {
 						input.rewind(nvaeMark);
@@ -3006,37 +2988,37 @@ public class PDDLParser extends Parser {
 
 			else {
 				NoViableAltException nvae =
-					new NoViableAltException("", 38, 0, input);
+					new NoViableAltException("", 37, 0, input);
 				throw nvae;
 			}
 
-			switch (alt38) {
+			switch (alt37) {
 				case 1 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:313:9: NAME
 					{
-					match(input,NAME,FOLLOW_NAME_in_type1433); 
+					match(input,NAME,FOLLOW_NAME_in_type1432); 
 					}
 					break;
 				case 2 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:314:4: '(' 'either' ( type )+ ')'
 					{
-					match(input,12,FOLLOW_12_in_type1438); 
-					match(input,47,FOLLOW_47_in_type1440); 
+					match(input,12,FOLLOW_12_in_type1437); 
+					match(input,47,FOLLOW_47_in_type1439); 
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:314:17: ( type )+
-					int cnt37=0;
-					loop37:
+					int cnt36=0;
+					loop36:
 					while (true) {
-						int alt37=2;
-						int LA37_0 = input.LA(1);
-						if ( (LA37_0==NAME||LA37_0==12) ) {
-							alt37=1;
+						int alt36=2;
+						int LA36_0 = input.LA(1);
+						if ( (LA36_0==NAME||LA36_0==12) ) {
+							alt36=1;
 						}
 
-						switch (alt37) {
+						switch (alt36) {
 						case 1 :
 							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:314:17: type
 							{
-							pushFollow(FOLLOW_type_in_type1442);
+							pushFollow(FOLLOW_type_in_type1441);
 							type();
 							state._fsp--;
 
@@ -3044,26 +3026,26 @@ public class PDDLParser extends Parser {
 							break;
 
 						default :
-							if ( cnt37 >= 1 ) break loop37;
-							EarlyExitException eee = new EarlyExitException(37, input);
+							if ( cnt36 >= 1 ) break loop36;
+							EarlyExitException eee = new EarlyExitException(36, input);
 							throw eee;
 						}
-						cnt37++;
+						cnt36++;
 					}
 
-					match(input,13,FOLLOW_13_in_type1445); 
+					match(input,13,FOLLOW_13_in_type1444); 
 					}
 					break;
 				case 3 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:315:4: '(' 'fluent' type ')'
 					{
-					match(input,12,FOLLOW_12_in_type1450); 
-					match(input,49,FOLLOW_49_in_type1452); 
-					pushFollow(FOLLOW_type_in_type1454);
+					match(input,12,FOLLOW_12_in_type1449); 
+					match(input,49,FOLLOW_49_in_type1451); 
+					pushFollow(FOLLOW_type_in_type1453);
 					type();
 					state._fsp--;
 
-					match(input,13,FOLLOW_13_in_type1456); 
+					match(input,13,FOLLOW_13_in_type1455); 
 					}
 					break;
 
@@ -3088,22 +3070,22 @@ public class PDDLParser extends Parser {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:322:2: ( '(' ':method' ( general_tree_item )* ')' )
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:322:4: '(' ':method' ( general_tree_item )* ')'
 			{
-			match(input,12,FOLLOW_12_in_method_def1470); 
-			match(input,29,FOLLOW_29_in_method_def1472); 
+			match(input,12,FOLLOW_12_in_method_def1469); 
+			match(input,29,FOLLOW_29_in_method_def1471); 
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:322:18: ( general_tree_item )*
-			loop39:
+			loop38:
 			while (true) {
-				int alt39=2;
-				int LA39_0 = input.LA(1);
-				if ( ((LA39_0 >= INTEGER && LA39_0 <= REQUIRE_KEY)||LA39_0==VARIABLE||LA39_0==12||LA39_0==43||LA39_0==52) ) {
-					alt39=1;
+				int alt38=2;
+				int LA38_0 = input.LA(1);
+				if ( ((LA38_0 >= INTEGER && LA38_0 <= REQUIRE_KEY)||LA38_0==VARIABLE||LA38_0==12||LA38_0==43||LA38_0==52) ) {
+					alt38=1;
 				}
 
-				switch (alt39) {
+				switch (alt38) {
 				case 1 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:322:18: general_tree_item
 					{
-					pushFollow(FOLLOW_general_tree_item_in_method_def1474);
+					pushFollow(FOLLOW_general_tree_item_in_method_def1473);
 					general_tree_item();
 					state._fsp--;
 
@@ -3111,11 +3093,11 @@ public class PDDLParser extends Parser {
 					break;
 
 				default :
-					break loop39;
+					break loop38;
 				}
 			}
 
-			match(input,13,FOLLOW_13_in_method_def1477); 
+			match(input,13,FOLLOW_13_in_method_def1476); 
 			}
 
 		}
@@ -3138,16 +3120,16 @@ public class PDDLParser extends Parser {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:328:2: ( '(' predicate typed_list_of_variable ')' )
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:328:4: '(' predicate typed_list_of_variable ')'
 			{
-			match(input,12,FOLLOW_12_in_atomic_formula_skeleton1492); 
-			pushFollow(FOLLOW_predicate_in_atomic_formula_skeleton1494);
+			match(input,12,FOLLOW_12_in_atomic_formula_skeleton1491); 
+			pushFollow(FOLLOW_predicate_in_atomic_formula_skeleton1493);
 			predicate();
 			state._fsp--;
 
-			pushFollow(FOLLOW_typed_list_of_variable_in_atomic_formula_skeleton1496);
+			pushFollow(FOLLOW_typed_list_of_variable_in_atomic_formula_skeleton1495);
 			typed_list_of_variable();
 			state._fsp--;
 
-			match(input,13,FOLLOW_13_in_atomic_formula_skeleton1498); 
+			match(input,13,FOLLOW_13_in_atomic_formula_skeleton1497); 
 			}
 
 		}
@@ -3168,35 +3150,35 @@ public class PDDLParser extends Parser {
 	public final void domain_var_declaration() throws RecognitionException {
 		try {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:337:2: ( NAME | '(' NAME NAME ')' )
-			int alt40=2;
-			int LA40_0 = input.LA(1);
-			if ( (LA40_0==NAME) ) {
-				alt40=1;
+			int alt39=2;
+			int LA39_0 = input.LA(1);
+			if ( (LA39_0==NAME) ) {
+				alt39=1;
 			}
-			else if ( (LA40_0==12) ) {
-				alt40=2;
+			else if ( (LA39_0==12) ) {
+				alt39=2;
 			}
 
 			else {
 				NoViableAltException nvae =
-					new NoViableAltException("", 40, 0, input);
+					new NoViableAltException("", 39, 0, input);
 				throw nvae;
 			}
 
-			switch (alt40) {
+			switch (alt39) {
 				case 1 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:337:4: NAME
 					{
-					match(input,NAME,FOLLOW_NAME_in_domain_var_declaration1516); 
+					match(input,NAME,FOLLOW_NAME_in_domain_var_declaration1515); 
 					}
 					break;
 				case 2 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:338:4: '(' NAME NAME ')'
 					{
-					match(input,12,FOLLOW_12_in_domain_var_declaration1521); 
-					match(input,NAME,FOLLOW_NAME_in_domain_var_declaration1523); 
-					match(input,NAME,FOLLOW_NAME_in_domain_var_declaration1525); 
-					match(input,13,FOLLOW_13_in_domain_var_declaration1527); 
+					match(input,12,FOLLOW_12_in_domain_var_declaration1520); 
+					match(input,NAME,FOLLOW_NAME_in_domain_var_declaration1522); 
+					match(input,NAME,FOLLOW_NAME_in_domain_var_declaration1524); 
+					match(input,13,FOLLOW_13_in_domain_var_declaration1526); 
 					}
 					break;
 
@@ -3219,22 +3201,22 @@ public class PDDLParser extends Parser {
 	public final void typed_list_of_domain_var_declaration() throws RecognitionException {
 		try {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:342:2: (| ( domain_var_declaration )+ ( '-' type typed_list_of_domain_var_declaration )? )
-			int alt43=2;
-			int LA43_0 = input.LA(1);
-			if ( (LA43_0==13) ) {
-				alt43=1;
+			int alt42=2;
+			int LA42_0 = input.LA(1);
+			if ( (LA42_0==13) ) {
+				alt42=1;
 			}
-			else if ( (LA43_0==NAME||LA43_0==12) ) {
-				alt43=2;
+			else if ( (LA42_0==NAME||LA42_0==12) ) {
+				alt42=2;
 			}
 
 			else {
 				NoViableAltException nvae =
-					new NoViableAltException("", 43, 0, input);
+					new NoViableAltException("", 42, 0, input);
 				throw nvae;
 			}
 
-			switch (alt43) {
+			switch (alt42) {
 				case 1 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:343:2: 
 					{
@@ -3244,20 +3226,20 @@ public class PDDLParser extends Parser {
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:343:4: ( domain_var_declaration )+ ( '-' type typed_list_of_domain_var_declaration )?
 					{
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:343:4: ( domain_var_declaration )+
-					int cnt41=0;
-					loop41:
+					int cnt40=0;
+					loop40:
 					while (true) {
-						int alt41=2;
-						int LA41_0 = input.LA(1);
-						if ( (LA41_0==NAME||LA41_0==12) ) {
-							alt41=1;
+						int alt40=2;
+						int LA40_0 = input.LA(1);
+						if ( (LA40_0==NAME||LA40_0==12) ) {
+							alt40=1;
 						}
 
-						switch (alt41) {
+						switch (alt40) {
 						case 1 :
 							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:343:4: domain_var_declaration
 							{
-							pushFollow(FOLLOW_domain_var_declaration_in_typed_list_of_domain_var_declaration1543);
+							pushFollow(FOLLOW_domain_var_declaration_in_typed_list_of_domain_var_declaration1542);
 							domain_var_declaration();
 							state._fsp--;
 
@@ -3265,29 +3247,29 @@ public class PDDLParser extends Parser {
 							break;
 
 						default :
-							if ( cnt41 >= 1 ) break loop41;
-							EarlyExitException eee = new EarlyExitException(41, input);
+							if ( cnt40 >= 1 ) break loop40;
+							EarlyExitException eee = new EarlyExitException(40, input);
 							throw eee;
 						}
-						cnt41++;
+						cnt40++;
 					}
 
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:343:28: ( '-' type typed_list_of_domain_var_declaration )?
-					int alt42=2;
-					int LA42_0 = input.LA(1);
-					if ( (LA42_0==14) ) {
-						alt42=1;
+					int alt41=2;
+					int LA41_0 = input.LA(1);
+					if ( (LA41_0==14) ) {
+						alt41=1;
 					}
-					switch (alt42) {
+					switch (alt41) {
 						case 1 :
 							// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:343:29: '-' type typed_list_of_domain_var_declaration
 							{
-							match(input,14,FOLLOW_14_in_typed_list_of_domain_var_declaration1547); 
-							pushFollow(FOLLOW_type_in_typed_list_of_domain_var_declaration1549);
+							match(input,14,FOLLOW_14_in_typed_list_of_domain_var_declaration1546); 
+							pushFollow(FOLLOW_type_in_typed_list_of_domain_var_declaration1548);
 							type();
 							state._fsp--;
 
-							pushFollow(FOLLOW_typed_list_of_domain_var_declaration_in_typed_list_of_domain_var_declaration1551);
+							pushFollow(FOLLOW_typed_list_of_domain_var_declaration_in_typed_list_of_domain_var_declaration1550);
 							typed_list_of_domain_var_declaration();
 							state._fsp--;
 
@@ -3320,21 +3302,21 @@ public class PDDLParser extends Parser {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:351:2: ( '(' ( general_tree_item )* ')' )
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:351:4: '(' ( general_tree_item )* ')'
 			{
-			match(input,12,FOLLOW_12_in_general_tree1568); 
+			match(input,12,FOLLOW_12_in_general_tree1567); 
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:351:8: ( general_tree_item )*
-			loop44:
+			loop43:
 			while (true) {
-				int alt44=2;
-				int LA44_0 = input.LA(1);
-				if ( ((LA44_0 >= INTEGER && LA44_0 <= REQUIRE_KEY)||LA44_0==VARIABLE||LA44_0==12||LA44_0==43||LA44_0==52) ) {
-					alt44=1;
+				int alt43=2;
+				int LA43_0 = input.LA(1);
+				if ( ((LA43_0 >= INTEGER && LA43_0 <= REQUIRE_KEY)||LA43_0==VARIABLE||LA43_0==12||LA43_0==43||LA43_0==52) ) {
+					alt43=1;
 				}
 
-				switch (alt44) {
+				switch (alt43) {
 				case 1 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:351:8: general_tree_item
 					{
-					pushFollow(FOLLOW_general_tree_item_in_general_tree1570);
+					pushFollow(FOLLOW_general_tree_item_in_general_tree1569);
 					general_tree_item();
 					state._fsp--;
 
@@ -3342,11 +3324,11 @@ public class PDDLParser extends Parser {
 					break;
 
 				default :
-					break loop44;
+					break loop43;
 				}
 			}
 
-			match(input,13,FOLLOW_13_in_general_tree1573); 
+			match(input,13,FOLLOW_13_in_general_tree1572); 
 			}
 
 		}
@@ -3367,89 +3349,89 @@ public class PDDLParser extends Parser {
 	public final void general_tree_item() throws RecognitionException {
 		try {
 			// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:355:2: ( NAME | INTEGER | VARIABLE | REQUIRE_KEY | 'and' | 'not' | general_tree )
-			int alt45=7;
+			int alt44=7;
 			switch ( input.LA(1) ) {
 			case NAME:
 				{
-				alt45=1;
+				alt44=1;
 				}
 				break;
 			case INTEGER:
 				{
-				alt45=2;
+				alt44=2;
 				}
 				break;
 			case VARIABLE:
 				{
-				alt45=3;
+				alt44=3;
 				}
 				break;
 			case REQUIRE_KEY:
 				{
-				alt45=4;
+				alt44=4;
 				}
 				break;
 			case 43:
 				{
-				alt45=5;
+				alt44=5;
 				}
 				break;
 			case 52:
 				{
-				alt45=6;
+				alt44=6;
 				}
 				break;
 			case 12:
 				{
-				alt45=7;
+				alt44=7;
 				}
 				break;
 			default:
 				NoViableAltException nvae =
-					new NoViableAltException("", 45, 0, input);
+					new NoViableAltException("", 44, 0, input);
 				throw nvae;
 			}
-			switch (alt45) {
+			switch (alt44) {
 				case 1 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:355:4: NAME
 					{
-					match(input,NAME,FOLLOW_NAME_in_general_tree_item1585); 
+					match(input,NAME,FOLLOW_NAME_in_general_tree_item1584); 
 					}
 					break;
 				case 2 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:356:4: INTEGER
 					{
-					match(input,INTEGER,FOLLOW_INTEGER_in_general_tree_item1590); 
+					match(input,INTEGER,FOLLOW_INTEGER_in_general_tree_item1589); 
 					}
 					break;
 				case 3 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:357:4: VARIABLE
 					{
-					match(input,VARIABLE,FOLLOW_VARIABLE_in_general_tree_item1595); 
+					match(input,VARIABLE,FOLLOW_VARIABLE_in_general_tree_item1594); 
 					}
 					break;
 				case 4 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:358:4: REQUIRE_KEY
 					{
-					match(input,REQUIRE_KEY,FOLLOW_REQUIRE_KEY_in_general_tree_item1600); 
+					match(input,REQUIRE_KEY,FOLLOW_REQUIRE_KEY_in_general_tree_item1599); 
 					}
 					break;
 				case 5 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:359:4: 'and'
 					{
-					match(input,43,FOLLOW_43_in_general_tree_item1606); 
+					match(input,43,FOLLOW_43_in_general_tree_item1605); 
 					}
 					break;
 				case 6 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:360:4: 'not'
 					{
-					match(input,52,FOLLOW_52_in_general_tree_item1611); 
+					match(input,52,FOLLOW_52_in_general_tree_item1610); 
 					}
 					break;
 				case 7 :
 					// /home/tomek/Projekty/PUT/GUI4PDDL/pl.poznan.put.cs.gui4pddl/src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g:361:4: general_tree
 					{
-					pushFollow(FOLLOW_general_tree_in_general_tree_item1616);
+					pushFollow(FOLLOW_general_tree_in_general_tree_item1615);
 					general_tree();
 					state._fsp--;
 
@@ -3599,194 +3581,194 @@ public class PDDLParser extends Parser {
 	public static final BitSet FOLLOW_12_in_effect585 = new BitSet(new long[]{0x0004000000000000L});
 	public static final BitSet FOLLOW_50_in_effect587 = new BitSet(new long[]{0x0000000000001000L});
 	public static final BitSet FOLLOW_12_in_effect589 = new BitSet(new long[]{0x0000000000002400L});
-	public static final BitSet FOLLOW_VARIABLE_in_effect591 = new BitSet(new long[]{0x0000000000002400L});
-	public static final BitSet FOLLOW_13_in_effect594 = new BitSet(new long[]{0x0000000000001000L});
-	public static final BitSet FOLLOW_effect_in_effect596 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_effect598 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_effect610 = new BitSet(new long[]{0x0100000000000000L});
-	public static final BitSet FOLLOW_56_in_effect612 = new BitSet(new long[]{0x0000000000001000L});
-	public static final BitSet FOLLOW_gd_in_effect614 = new BitSet(new long[]{0x0000000000001000L});
-	public static final BitSet FOLLOW_effect_in_effect616 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_effect618 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_effect630 = new BitSet(new long[]{0x0000100000000000L});
-	public static final BitSet FOLLOW_44_in_effect632 = new BitSet(new long[]{0x00100800000015C0L});
-	public static final BitSet FOLLOW_fluent_in_effect634 = new BitSet(new long[]{0x00100800000015C0L});
-	public static final BitSet FOLLOW_expression_in_effect636 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_effect638 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_general_tree_item_in_fluent660 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_general_tree_item_in_expression684 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_general_tree_in_action_spec707 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_general_tree_in_action_spec_od_action_term722 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_axiom_def738 = new BitSet(new long[]{0x0000000000010000L});
-	public static final BitSet FOLLOW_16_in_axiom_def740 = new BitSet(new long[]{0x0000040000000000L});
-	public static final BitSet FOLLOW_42_in_axiom_def752 = new BitSet(new long[]{0x0000000000001000L});
-	public static final BitSet FOLLOW_12_in_axiom_def754 = new BitSet(new long[]{0x0000000000002400L});
-	public static final BitSet FOLLOW_typed_list_of_variable_in_axiom_def756 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_axiom_def758 = new BitSet(new long[]{0x0000000000040000L});
-	public static final BitSet FOLLOW_18_in_axiom_def769 = new BitSet(new long[]{0x0000000000001000L});
-	public static final BitSet FOLLOW_gd_in_axiom_def771 = new BitSet(new long[]{0x0000000002000000L});
-	public static final BitSet FOLLOW_25_in_axiom_def782 = new BitSet(new long[]{0x0000000000001000L});
-	public static final BitSet FOLLOW_literal_of_term_in_axiom_def784 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_axiom_def786 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_problem_header805 = new BitSet(new long[]{0x0040000000000000L});
-	public static final BitSet FOLLOW_54_in_problem_header807 = new BitSet(new long[]{0x0000000000000080L});
-	public static final BitSet FOLLOW_NAME_in_problem_header809 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_problem_header811 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_domain_reference_in_problem_item825 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_require_def_in_problem_item830 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_situation_in_problem_item835 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_object_declaration_in_problem_item840 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_init_in_problem_item845 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_goal_in_problem_item850 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_length_spec_in_problem_item855 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_domain_reference867 = new BitSet(new long[]{0x0000000000080000L});
-	public static final BitSet FOLLOW_19_in_domain_reference869 = new BitSet(new long[]{0x0000000000000080L});
-	public static final BitSet FOLLOW_NAME_in_domain_reference871 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_domain_reference873 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_require_def885 = new BitSet(new long[]{0x0000001000000000L});
-	public static final BitSet FOLLOW_36_in_require_def887 = new BitSet(new long[]{0x0000000000000100L});
-	public static final BitSet FOLLOW_REQUIRE_KEY_in_require_def889 = new BitSet(new long[]{0x0000000000002100L});
-	public static final BitSet FOLLOW_13_in_require_def892 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_situation905 = new BitSet(new long[]{0x0000008000000000L});
-	public static final BitSet FOLLOW_39_in_situation907 = new BitSet(new long[]{0x0000000000000080L});
-	public static final BitSet FOLLOW_NAME_in_situation909 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_situation911 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_object_declaration924 = new BitSet(new long[]{0x0000000040000000L});
-	public static final BitSet FOLLOW_30_in_object_declaration926 = new BitSet(new long[]{0x0000000000002080L});
-	public static final BitSet FOLLOW_typed_list_of_name_in_object_declaration928 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_object_declaration930 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_init941 = new BitSet(new long[]{0x0000000004000000L});
-	public static final BitSet FOLLOW_26_in_init943 = new BitSet(new long[]{0x0000000000001000L});
-	public static final BitSet FOLLOW_literal_of_name_in_init945 = new BitSet(new long[]{0x0000000000003000L});
-	public static final BitSet FOLLOW_13_in_init948 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_goal958 = new BitSet(new long[]{0x0000000001000000L});
-	public static final BitSet FOLLOW_24_in_goal960 = new BitSet(new long[]{0x0000000000001000L});
-	public static final BitSet FOLLOW_gd_in_goal962 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_goal964 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_goal969 = new BitSet(new long[]{0x0000000000400000L});
-	public static final BitSet FOLLOW_22_in_goal971 = new BitSet(new long[]{0x0000000000001000L});
-	public static final BitSet FOLLOW_action_spec_od_action_term_in_goal973 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_goal975 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_length_spec989 = new BitSet(new long[]{0x0000000008000000L});
-	public static final BitSet FOLLOW_27_in_length_spec991 = new BitSet(new long[]{0x0000000000003000L});
-	public static final BitSet FOLLOW_12_in_length_spec994 = new BitSet(new long[]{0x0000004000000000L});
-	public static final BitSet FOLLOW_38_in_length_spec996 = new BitSet(new long[]{0x0000000000000040L});
-	public static final BitSet FOLLOW_INTEGER_in_length_spec998 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_length_spec1000 = new BitSet(new long[]{0x0000000000003000L});
-	public static final BitSet FOLLOW_12_in_length_spec1005 = new BitSet(new long[]{0x0000000100000000L});
-	public static final BitSet FOLLOW_32_in_length_spec1007 = new BitSet(new long[]{0x0000000000000040L});
-	public static final BitSet FOLLOW_INTEGER_in_length_spec1009 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_length_spec1011 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_length_spec1015 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_initsit_header1034 = new BitSet(new long[]{0x0080000000000000L});
-	public static final BitSet FOLLOW_55_in_initsit_header1036 = new BitSet(new long[]{0x0000000000000080L});
-	public static final BitSet FOLLOW_NAME_in_initsit_header1038 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_initsit_header1040 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_initsit_body1058 = new BitSet(new long[]{0x0000000000080000L});
-	public static final BitSet FOLLOW_19_in_initsit_body1060 = new BitSet(new long[]{0x0000000000000080L});
-	public static final BitSet FOLLOW_NAME_in_initsit_body1062 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_initsit_body1064 = new BitSet(new long[]{0x0000000000001002L});
-	public static final BitSet FOLLOW_initsit_body_item_in_initsit_body1078 = new BitSet(new long[]{0x0000000000001002L});
-	public static final BitSet FOLLOW_object_declaration_in_initsit_body_item1102 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_init_in_initsit_body_item1112 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_atomic_formula_of_term_in_gd1131 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_complicated_gd_in_gd1141 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_complicated_gd1156 = new BitSet(new long[]{0x0000080000000000L});
-	public static final BitSet FOLLOW_43_in_complicated_gd1158 = new BitSet(new long[]{0x0000000000003000L});
-	public static final BitSet FOLLOW_gd_in_complicated_gd1160 = new BitSet(new long[]{0x0000000000003000L});
-	public static final BitSet FOLLOW_13_in_complicated_gd1163 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_complicated_gd1168 = new BitSet(new long[]{0x0020000000000000L});
-	public static final BitSet FOLLOW_53_in_complicated_gd1170 = new BitSet(new long[]{0x0000000000003000L});
-	public static final BitSet FOLLOW_gd_in_complicated_gd1172 = new BitSet(new long[]{0x0000000000003000L});
-	public static final BitSet FOLLOW_13_in_complicated_gd1175 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_complicated_gd1184 = new BitSet(new long[]{0x0010000000000000L});
-	public static final BitSet FOLLOW_52_in_complicated_gd1186 = new BitSet(new long[]{0x0000000000001000L});
-	public static final BitSet FOLLOW_atomic_formula_of_term_in_complicated_gd1188 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_complicated_gd1190 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_complicated_gd1199 = new BitSet(new long[]{0x0010000000000000L});
-	public static final BitSet FOLLOW_52_in_complicated_gd1201 = new BitSet(new long[]{0x0000000000001000L});
-	public static final BitSet FOLLOW_complicated_gd_in_complicated_gd1203 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_complicated_gd1205 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_complicated_gd1211 = new BitSet(new long[]{0x0008000000000000L});
-	public static final BitSet FOLLOW_51_in_complicated_gd1213 = new BitSet(new long[]{0x0000000000001000L});
-	public static final BitSet FOLLOW_gd_in_complicated_gd1215 = new BitSet(new long[]{0x0000000000001000L});
-	public static final BitSet FOLLOW_gd_in_complicated_gd1217 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_complicated_gd1219 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_complicated_gd1225 = new BitSet(new long[]{0x0001000000000000L});
-	public static final BitSet FOLLOW_48_in_complicated_gd1227 = new BitSet(new long[]{0x0000000000001000L});
-	public static final BitSet FOLLOW_12_in_complicated_gd1229 = new BitSet(new long[]{0x0000000000002400L});
-	public static final BitSet FOLLOW_typed_list_of_variable_in_complicated_gd1231 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_complicated_gd1233 = new BitSet(new long[]{0x0000000000001000L});
-	public static final BitSet FOLLOW_gd_in_complicated_gd1235 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_complicated_gd1237 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_complicated_gd1243 = new BitSet(new long[]{0x0004000000000000L});
-	public static final BitSet FOLLOW_50_in_complicated_gd1245 = new BitSet(new long[]{0x0000000000001000L});
-	public static final BitSet FOLLOW_12_in_complicated_gd1247 = new BitSet(new long[]{0x0000000000002400L});
-	public static final BitSet FOLLOW_typed_list_of_variable_in_complicated_gd1249 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_complicated_gd1251 = new BitSet(new long[]{0x0000000000001000L});
-	public static final BitSet FOLLOW_gd_in_complicated_gd1253 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_complicated_gd1255 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_NAME_in_predicate1269 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_atomic_formula_of_name_in_literal_of_name1299 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_literal_of_name1304 = new BitSet(new long[]{0x0010000000000000L});
-	public static final BitSet FOLLOW_52_in_literal_of_name1306 = new BitSet(new long[]{0x0000000000001000L});
-	public static final BitSet FOLLOW_atomic_formula_of_name_in_literal_of_name1308 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_literal_of_name1310 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_atomic_formula_of_term_in_literal_of_term1321 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_literal_of_term1326 = new BitSet(new long[]{0x0010000000000000L});
-	public static final BitSet FOLLOW_52_in_literal_of_term1328 = new BitSet(new long[]{0x0000000000001000L});
-	public static final BitSet FOLLOW_atomic_formula_of_term_in_literal_of_term1330 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_literal_of_term1332 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_atomic_formula_of_term1343 = new BitSet(new long[]{0x0000000000000080L});
-	public static final BitSet FOLLOW_predicate_in_atomic_formula_of_term1345 = new BitSet(new long[]{0x0000000000002480L});
-	public static final BitSet FOLLOW_term_in_atomic_formula_of_term1347 = new BitSet(new long[]{0x0000000000002480L});
-	public static final BitSet FOLLOW_13_in_atomic_formula_of_term1350 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_atomic_formula_of_name1362 = new BitSet(new long[]{0x0000000000000080L});
-	public static final BitSet FOLLOW_predicate_in_atomic_formula_of_name1364 = new BitSet(new long[]{0x0000000000002080L});
-	public static final BitSet FOLLOW_NAME_in_atomic_formula_of_name1366 = new BitSet(new long[]{0x0000000000002080L});
-	public static final BitSet FOLLOW_13_in_atomic_formula_of_name1369 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_NAME_in_typed_list_of_name1385 = new BitSet(new long[]{0x0000000000004082L});
-	public static final BitSet FOLLOW_14_in_typed_list_of_name1389 = new BitSet(new long[]{0x0000000000001080L});
-	public static final BitSet FOLLOW_type_in_typed_list_of_name1391 = new BitSet(new long[]{0x0000000000000080L});
-	public static final BitSet FOLLOW_typed_list_of_name_in_typed_list_of_name1393 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_VARIABLE_in_typed_list_of_variable1411 = new BitSet(new long[]{0x0000000000004402L});
-	public static final BitSet FOLLOW_14_in_typed_list_of_variable1415 = new BitSet(new long[]{0x0000000000001080L});
-	public static final BitSet FOLLOW_type_in_typed_list_of_variable1417 = new BitSet(new long[]{0x0000000000000400L});
-	public static final BitSet FOLLOW_typed_list_of_variable_in_typed_list_of_variable1419 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_NAME_in_type1433 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_type1438 = new BitSet(new long[]{0x0000800000000000L});
-	public static final BitSet FOLLOW_47_in_type1440 = new BitSet(new long[]{0x0000000000001080L});
-	public static final BitSet FOLLOW_type_in_type1442 = new BitSet(new long[]{0x0000000000003080L});
-	public static final BitSet FOLLOW_13_in_type1445 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_type1450 = new BitSet(new long[]{0x0002000000000000L});
-	public static final BitSet FOLLOW_49_in_type1452 = new BitSet(new long[]{0x0000000000001080L});
-	public static final BitSet FOLLOW_type_in_type1454 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_type1456 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_method_def1470 = new BitSet(new long[]{0x0000000020000000L});
-	public static final BitSet FOLLOW_29_in_method_def1472 = new BitSet(new long[]{0x00100800000035C0L});
-	public static final BitSet FOLLOW_general_tree_item_in_method_def1474 = new BitSet(new long[]{0x00100800000035C0L});
-	public static final BitSet FOLLOW_13_in_method_def1477 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_atomic_formula_skeleton1492 = new BitSet(new long[]{0x0000000000000080L});
-	public static final BitSet FOLLOW_predicate_in_atomic_formula_skeleton1494 = new BitSet(new long[]{0x0000000000002400L});
-	public static final BitSet FOLLOW_typed_list_of_variable_in_atomic_formula_skeleton1496 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_atomic_formula_skeleton1498 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_NAME_in_domain_var_declaration1516 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_domain_var_declaration1521 = new BitSet(new long[]{0x0000000000000080L});
-	public static final BitSet FOLLOW_NAME_in_domain_var_declaration1523 = new BitSet(new long[]{0x0000000000000080L});
-	public static final BitSet FOLLOW_NAME_in_domain_var_declaration1525 = new BitSet(new long[]{0x0000000000002000L});
-	public static final BitSet FOLLOW_13_in_domain_var_declaration1527 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_domain_var_declaration_in_typed_list_of_domain_var_declaration1543 = new BitSet(new long[]{0x0000000000005082L});
-	public static final BitSet FOLLOW_14_in_typed_list_of_domain_var_declaration1547 = new BitSet(new long[]{0x0000000000001080L});
-	public static final BitSet FOLLOW_type_in_typed_list_of_domain_var_declaration1549 = new BitSet(new long[]{0x0000000000001080L});
-	public static final BitSet FOLLOW_typed_list_of_domain_var_declaration_in_typed_list_of_domain_var_declaration1551 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_12_in_general_tree1568 = new BitSet(new long[]{0x00100800000035C0L});
-	public static final BitSet FOLLOW_general_tree_item_in_general_tree1570 = new BitSet(new long[]{0x00100800000035C0L});
-	public static final BitSet FOLLOW_13_in_general_tree1573 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_NAME_in_general_tree_item1585 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_INTEGER_in_general_tree_item1590 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_VARIABLE_in_general_tree_item1595 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_REQUIRE_KEY_in_general_tree_item1600 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_43_in_general_tree_item1606 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_52_in_general_tree_item1611 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_general_tree_in_general_tree_item1616 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_typed_list_of_variable_in_effect591 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_effect593 = new BitSet(new long[]{0x0000000000001000L});
+	public static final BitSet FOLLOW_effect_in_effect595 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_effect597 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_effect609 = new BitSet(new long[]{0x0100000000000000L});
+	public static final BitSet FOLLOW_56_in_effect611 = new BitSet(new long[]{0x0000000000001000L});
+	public static final BitSet FOLLOW_gd_in_effect613 = new BitSet(new long[]{0x0000000000001000L});
+	public static final BitSet FOLLOW_effect_in_effect615 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_effect617 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_effect629 = new BitSet(new long[]{0x0000100000000000L});
+	public static final BitSet FOLLOW_44_in_effect631 = new BitSet(new long[]{0x00100800000015C0L});
+	public static final BitSet FOLLOW_fluent_in_effect633 = new BitSet(new long[]{0x00100800000015C0L});
+	public static final BitSet FOLLOW_expression_in_effect635 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_effect637 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_general_tree_item_in_fluent659 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_general_tree_item_in_expression683 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_general_tree_in_action_spec706 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_general_tree_in_action_spec_od_action_term721 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_axiom_def737 = new BitSet(new long[]{0x0000000000010000L});
+	public static final BitSet FOLLOW_16_in_axiom_def739 = new BitSet(new long[]{0x0000040000000000L});
+	public static final BitSet FOLLOW_42_in_axiom_def751 = new BitSet(new long[]{0x0000000000001000L});
+	public static final BitSet FOLLOW_12_in_axiom_def753 = new BitSet(new long[]{0x0000000000002400L});
+	public static final BitSet FOLLOW_typed_list_of_variable_in_axiom_def755 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_axiom_def757 = new BitSet(new long[]{0x0000000000040000L});
+	public static final BitSet FOLLOW_18_in_axiom_def768 = new BitSet(new long[]{0x0000000000001000L});
+	public static final BitSet FOLLOW_gd_in_axiom_def770 = new BitSet(new long[]{0x0000000002000000L});
+	public static final BitSet FOLLOW_25_in_axiom_def781 = new BitSet(new long[]{0x0000000000001000L});
+	public static final BitSet FOLLOW_literal_of_term_in_axiom_def783 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_axiom_def785 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_problem_header804 = new BitSet(new long[]{0x0040000000000000L});
+	public static final BitSet FOLLOW_54_in_problem_header806 = new BitSet(new long[]{0x0000000000000080L});
+	public static final BitSet FOLLOW_NAME_in_problem_header808 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_problem_header810 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_domain_reference_in_problem_item824 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_require_def_in_problem_item829 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_situation_in_problem_item834 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_object_declaration_in_problem_item839 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_init_in_problem_item844 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_goal_in_problem_item849 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_length_spec_in_problem_item854 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_domain_reference866 = new BitSet(new long[]{0x0000000000080000L});
+	public static final BitSet FOLLOW_19_in_domain_reference868 = new BitSet(new long[]{0x0000000000000080L});
+	public static final BitSet FOLLOW_NAME_in_domain_reference870 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_domain_reference872 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_require_def884 = new BitSet(new long[]{0x0000001000000000L});
+	public static final BitSet FOLLOW_36_in_require_def886 = new BitSet(new long[]{0x0000000000000100L});
+	public static final BitSet FOLLOW_REQUIRE_KEY_in_require_def888 = new BitSet(new long[]{0x0000000000002100L});
+	public static final BitSet FOLLOW_13_in_require_def891 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_situation904 = new BitSet(new long[]{0x0000008000000000L});
+	public static final BitSet FOLLOW_39_in_situation906 = new BitSet(new long[]{0x0000000000000080L});
+	public static final BitSet FOLLOW_NAME_in_situation908 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_situation910 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_object_declaration923 = new BitSet(new long[]{0x0000000040000000L});
+	public static final BitSet FOLLOW_30_in_object_declaration925 = new BitSet(new long[]{0x0000000000002080L});
+	public static final BitSet FOLLOW_typed_list_of_name_in_object_declaration927 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_object_declaration929 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_init940 = new BitSet(new long[]{0x0000000004000000L});
+	public static final BitSet FOLLOW_26_in_init942 = new BitSet(new long[]{0x0000000000001000L});
+	public static final BitSet FOLLOW_literal_of_name_in_init944 = new BitSet(new long[]{0x0000000000003000L});
+	public static final BitSet FOLLOW_13_in_init947 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_goal957 = new BitSet(new long[]{0x0000000001000000L});
+	public static final BitSet FOLLOW_24_in_goal959 = new BitSet(new long[]{0x0000000000001000L});
+	public static final BitSet FOLLOW_gd_in_goal961 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_goal963 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_goal968 = new BitSet(new long[]{0x0000000000400000L});
+	public static final BitSet FOLLOW_22_in_goal970 = new BitSet(new long[]{0x0000000000001000L});
+	public static final BitSet FOLLOW_action_spec_od_action_term_in_goal972 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_goal974 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_length_spec988 = new BitSet(new long[]{0x0000000008000000L});
+	public static final BitSet FOLLOW_27_in_length_spec990 = new BitSet(new long[]{0x0000000000003000L});
+	public static final BitSet FOLLOW_12_in_length_spec993 = new BitSet(new long[]{0x0000004000000000L});
+	public static final BitSet FOLLOW_38_in_length_spec995 = new BitSet(new long[]{0x0000000000000040L});
+	public static final BitSet FOLLOW_INTEGER_in_length_spec997 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_length_spec999 = new BitSet(new long[]{0x0000000000003000L});
+	public static final BitSet FOLLOW_12_in_length_spec1004 = new BitSet(new long[]{0x0000000100000000L});
+	public static final BitSet FOLLOW_32_in_length_spec1006 = new BitSet(new long[]{0x0000000000000040L});
+	public static final BitSet FOLLOW_INTEGER_in_length_spec1008 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_length_spec1010 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_length_spec1014 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_initsit_header1033 = new BitSet(new long[]{0x0080000000000000L});
+	public static final BitSet FOLLOW_55_in_initsit_header1035 = new BitSet(new long[]{0x0000000000000080L});
+	public static final BitSet FOLLOW_NAME_in_initsit_header1037 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_initsit_header1039 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_initsit_body1057 = new BitSet(new long[]{0x0000000000080000L});
+	public static final BitSet FOLLOW_19_in_initsit_body1059 = new BitSet(new long[]{0x0000000000000080L});
+	public static final BitSet FOLLOW_NAME_in_initsit_body1061 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_initsit_body1063 = new BitSet(new long[]{0x0000000000001002L});
+	public static final BitSet FOLLOW_initsit_body_item_in_initsit_body1077 = new BitSet(new long[]{0x0000000000001002L});
+	public static final BitSet FOLLOW_object_declaration_in_initsit_body_item1101 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_init_in_initsit_body_item1111 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_atomic_formula_of_term_in_gd1130 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_complicated_gd_in_gd1140 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_complicated_gd1155 = new BitSet(new long[]{0x0000080000000000L});
+	public static final BitSet FOLLOW_43_in_complicated_gd1157 = new BitSet(new long[]{0x0000000000003000L});
+	public static final BitSet FOLLOW_gd_in_complicated_gd1159 = new BitSet(new long[]{0x0000000000003000L});
+	public static final BitSet FOLLOW_13_in_complicated_gd1162 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_complicated_gd1167 = new BitSet(new long[]{0x0020000000000000L});
+	public static final BitSet FOLLOW_53_in_complicated_gd1169 = new BitSet(new long[]{0x0000000000003000L});
+	public static final BitSet FOLLOW_gd_in_complicated_gd1171 = new BitSet(new long[]{0x0000000000003000L});
+	public static final BitSet FOLLOW_13_in_complicated_gd1174 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_complicated_gd1183 = new BitSet(new long[]{0x0010000000000000L});
+	public static final BitSet FOLLOW_52_in_complicated_gd1185 = new BitSet(new long[]{0x0000000000001000L});
+	public static final BitSet FOLLOW_atomic_formula_of_term_in_complicated_gd1187 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_complicated_gd1189 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_complicated_gd1198 = new BitSet(new long[]{0x0010000000000000L});
+	public static final BitSet FOLLOW_52_in_complicated_gd1200 = new BitSet(new long[]{0x0000000000001000L});
+	public static final BitSet FOLLOW_complicated_gd_in_complicated_gd1202 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_complicated_gd1204 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_complicated_gd1210 = new BitSet(new long[]{0x0008000000000000L});
+	public static final BitSet FOLLOW_51_in_complicated_gd1212 = new BitSet(new long[]{0x0000000000001000L});
+	public static final BitSet FOLLOW_gd_in_complicated_gd1214 = new BitSet(new long[]{0x0000000000001000L});
+	public static final BitSet FOLLOW_gd_in_complicated_gd1216 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_complicated_gd1218 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_complicated_gd1224 = new BitSet(new long[]{0x0001000000000000L});
+	public static final BitSet FOLLOW_48_in_complicated_gd1226 = new BitSet(new long[]{0x0000000000001000L});
+	public static final BitSet FOLLOW_12_in_complicated_gd1228 = new BitSet(new long[]{0x0000000000002400L});
+	public static final BitSet FOLLOW_typed_list_of_variable_in_complicated_gd1230 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_complicated_gd1232 = new BitSet(new long[]{0x0000000000001000L});
+	public static final BitSet FOLLOW_gd_in_complicated_gd1234 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_complicated_gd1236 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_complicated_gd1242 = new BitSet(new long[]{0x0004000000000000L});
+	public static final BitSet FOLLOW_50_in_complicated_gd1244 = new BitSet(new long[]{0x0000000000001000L});
+	public static final BitSet FOLLOW_12_in_complicated_gd1246 = new BitSet(new long[]{0x0000000000002400L});
+	public static final BitSet FOLLOW_typed_list_of_variable_in_complicated_gd1248 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_complicated_gd1250 = new BitSet(new long[]{0x0000000000001000L});
+	public static final BitSet FOLLOW_gd_in_complicated_gd1252 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_complicated_gd1254 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_NAME_in_predicate1268 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_atomic_formula_of_name_in_literal_of_name1298 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_literal_of_name1303 = new BitSet(new long[]{0x0010000000000000L});
+	public static final BitSet FOLLOW_52_in_literal_of_name1305 = new BitSet(new long[]{0x0000000000001000L});
+	public static final BitSet FOLLOW_atomic_formula_of_name_in_literal_of_name1307 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_literal_of_name1309 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_atomic_formula_of_term_in_literal_of_term1320 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_literal_of_term1325 = new BitSet(new long[]{0x0010000000000000L});
+	public static final BitSet FOLLOW_52_in_literal_of_term1327 = new BitSet(new long[]{0x0000000000001000L});
+	public static final BitSet FOLLOW_atomic_formula_of_term_in_literal_of_term1329 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_literal_of_term1331 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_atomic_formula_of_term1342 = new BitSet(new long[]{0x0000000000000080L});
+	public static final BitSet FOLLOW_predicate_in_atomic_formula_of_term1344 = new BitSet(new long[]{0x0000000000002480L});
+	public static final BitSet FOLLOW_term_in_atomic_formula_of_term1346 = new BitSet(new long[]{0x0000000000002480L});
+	public static final BitSet FOLLOW_13_in_atomic_formula_of_term1349 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_atomic_formula_of_name1361 = new BitSet(new long[]{0x0000000000000080L});
+	public static final BitSet FOLLOW_predicate_in_atomic_formula_of_name1363 = new BitSet(new long[]{0x0000000000002080L});
+	public static final BitSet FOLLOW_NAME_in_atomic_formula_of_name1365 = new BitSet(new long[]{0x0000000000002080L});
+	public static final BitSet FOLLOW_13_in_atomic_formula_of_name1368 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_NAME_in_typed_list_of_name1384 = new BitSet(new long[]{0x0000000000004082L});
+	public static final BitSet FOLLOW_14_in_typed_list_of_name1388 = new BitSet(new long[]{0x0000000000001080L});
+	public static final BitSet FOLLOW_type_in_typed_list_of_name1390 = new BitSet(new long[]{0x0000000000000080L});
+	public static final BitSet FOLLOW_typed_list_of_name_in_typed_list_of_name1392 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_VARIABLE_in_typed_list_of_variable1410 = new BitSet(new long[]{0x0000000000004402L});
+	public static final BitSet FOLLOW_14_in_typed_list_of_variable1414 = new BitSet(new long[]{0x0000000000001080L});
+	public static final BitSet FOLLOW_type_in_typed_list_of_variable1416 = new BitSet(new long[]{0x0000000000000400L});
+	public static final BitSet FOLLOW_typed_list_of_variable_in_typed_list_of_variable1418 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_NAME_in_type1432 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_type1437 = new BitSet(new long[]{0x0000800000000000L});
+	public static final BitSet FOLLOW_47_in_type1439 = new BitSet(new long[]{0x0000000000001080L});
+	public static final BitSet FOLLOW_type_in_type1441 = new BitSet(new long[]{0x0000000000003080L});
+	public static final BitSet FOLLOW_13_in_type1444 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_type1449 = new BitSet(new long[]{0x0002000000000000L});
+	public static final BitSet FOLLOW_49_in_type1451 = new BitSet(new long[]{0x0000000000001080L});
+	public static final BitSet FOLLOW_type_in_type1453 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_type1455 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_method_def1469 = new BitSet(new long[]{0x0000000020000000L});
+	public static final BitSet FOLLOW_29_in_method_def1471 = new BitSet(new long[]{0x00100800000035C0L});
+	public static final BitSet FOLLOW_general_tree_item_in_method_def1473 = new BitSet(new long[]{0x00100800000035C0L});
+	public static final BitSet FOLLOW_13_in_method_def1476 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_atomic_formula_skeleton1491 = new BitSet(new long[]{0x0000000000000080L});
+	public static final BitSet FOLLOW_predicate_in_atomic_formula_skeleton1493 = new BitSet(new long[]{0x0000000000002400L});
+	public static final BitSet FOLLOW_typed_list_of_variable_in_atomic_formula_skeleton1495 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_atomic_formula_skeleton1497 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_NAME_in_domain_var_declaration1515 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_domain_var_declaration1520 = new BitSet(new long[]{0x0000000000000080L});
+	public static final BitSet FOLLOW_NAME_in_domain_var_declaration1522 = new BitSet(new long[]{0x0000000000000080L});
+	public static final BitSet FOLLOW_NAME_in_domain_var_declaration1524 = new BitSet(new long[]{0x0000000000002000L});
+	public static final BitSet FOLLOW_13_in_domain_var_declaration1526 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_domain_var_declaration_in_typed_list_of_domain_var_declaration1542 = new BitSet(new long[]{0x0000000000005082L});
+	public static final BitSet FOLLOW_14_in_typed_list_of_domain_var_declaration1546 = new BitSet(new long[]{0x0000000000001080L});
+	public static final BitSet FOLLOW_type_in_typed_list_of_domain_var_declaration1548 = new BitSet(new long[]{0x0000000000001080L});
+	public static final BitSet FOLLOW_typed_list_of_domain_var_declaration_in_typed_list_of_domain_var_declaration1550 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_12_in_general_tree1567 = new BitSet(new long[]{0x00100800000035C0L});
+	public static final BitSet FOLLOW_general_tree_item_in_general_tree1569 = new BitSet(new long[]{0x00100800000035C0L});
+	public static final BitSet FOLLOW_13_in_general_tree1572 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_NAME_in_general_tree_item1584 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_INTEGER_in_general_tree_item1589 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_VARIABLE_in_general_tree_item1594 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_REQUIRE_KEY_in_general_tree_item1599 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_43_in_general_tree_item1605 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_52_in_general_tree_item1610 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_general_tree_in_general_tree_item1615 = new BitSet(new long[]{0x0000000000000002L});
 }

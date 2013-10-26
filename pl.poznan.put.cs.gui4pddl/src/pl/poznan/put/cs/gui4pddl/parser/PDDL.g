@@ -155,7 +155,7 @@ effect
     :    '(' 'and' effect* ')'
     |    '(' 'not' atomic_formula_of_term ')'
     |    atomic_formula_of_term
-    |    '(' 'forall' '(' VARIABLE* ')' effect ')' //:conditional−effects
+    |    '(' 'forall' '(' typed_list_of_variable ')' effect ')' //:conditional−effects
     |    '(' 'when' gd effect ')' //:conditional−effects
     |    '(' 'change' fluent expression ')'  //:fluents
     ;
