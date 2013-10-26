@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/pl.poznan.put.cs.gui4pddl_0.1.0.201310262303.jar" id="pl.poznan.put.cs.gui4pddl" version="0.1.0.201310262303">
+      <category name="Programming Languages"/>
+   </feature>
+   <category-def name="Programming Languages" label="Programming Languages">
+      <description>
+         Tools to allow development with specific languages, such as Java and C++
+      </description>
+   </category-def>
+</site>

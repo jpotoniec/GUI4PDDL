@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="pl.poznan.put.cs.gui4pddl"
+      label="PDDL support"
+      version="0.1.0.qualifier"
+      provider-name="Poznan Univeristy of Technology"
+      plugin="pl.poznan.put.cs.gui4pddl">
+
+   <description url="http://www.example.com/description">
+      Support for Planning Domain Definition Language.
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      Copyright 2013 Poznan University of Technology.
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      Eclipse Public License
+   </license>
+
+   <plugin
+         id="pl.poznan.put.cs.gui4pddl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="pl.poznan.put.cs.gui4pddl.antlr"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
