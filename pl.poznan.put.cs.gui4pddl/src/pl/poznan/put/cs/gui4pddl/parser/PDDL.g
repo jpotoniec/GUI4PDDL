@@ -258,10 +258,14 @@ initsit_body_item
 Goal description (6)
 */
 
-gd 	: 	'(' 'and' gd* ')'
-    |	literal_of_term
+gd  :   atomic_formula_of_term
+    |   complicated_gd
+    ;
+
+complicated_gd 	: 	'(' 'and' gd* ')'
 	|	'(' 'or' gd* ')' //:disjunctive-preconditions
-	       // |	'(' 'not' gd ')' //:disjunctive-preconditions TODO here
+    |	'(' 'not' atomic_formula_of_term ')' 
+    |	'(' 'not' complicated_gd ')' //:disjunctive-preconditions
 	|	'(' 'imply' gd gd ')' //:disjunctive-preconditions
 	|	'(' 'exists' '(' typed_list_of_variable ')' gd ')' //:existential-preconditions
 	|	'(' 'forall' '(' typed_list_of_variable ')' gd ')' //:universal-predonditions
