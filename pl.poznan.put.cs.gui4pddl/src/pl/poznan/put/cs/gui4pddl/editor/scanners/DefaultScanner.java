@@ -112,7 +112,15 @@ public class DefaultScanner extends RuleBasedScanner {
 		valueRule.addWord(values[i], valueToken);
 		}
 		IRule variableRule = new VariableRule(variableToken);
-		WordRule keywordRule = new WordRule(new WordDetector());
+		WordRule keywordRule = new WordRule(new IWordDetector() {
+			public boolean isWordStart(char c) {
+				return Character.isLetter(c);
+			}
+
+			public boolean isWordPart(char c) {
+				return (c == '-') || (Character.isLetterOrDigit(c));
+			}
+		}, defaultToken);
 		for (int i = 0; i < keywords.length; i++)
 		{
 		keywordRule.addWord(keywords[i], keywordToken);
