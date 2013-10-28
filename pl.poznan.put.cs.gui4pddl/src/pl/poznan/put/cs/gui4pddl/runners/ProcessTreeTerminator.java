@@ -23,7 +23,6 @@ public class ProcessTreeTerminator {
 
 	private static int getPid(Process p) {
 		Field f;
-
 		if (Platform.isWindows()) {
 			try {
 				f = p.getClass().getDeclaredField("handle");
@@ -50,20 +49,21 @@ public class ProcessTreeTerminator {
 		return 0;
 	}
 	
-	private static String getKillCmd() {
+	private static String[] getKillCmd(int pid) {
 		if (Platform.isWindows())
-			return "taskkill /t /f /pid ";
+			return new String[]{"taskkill /t /f /pid " + pid};
+		else if (Platform.isLinux())
+			return new String[]{ "/bin/sh", "-c", "pstree -p " + pid + " | grep -o '([0-9]*)' | grep -o '[0-9]*' | xargs kill;"};
 		return null;
 	}
 
 	
 	public static void terminateProcessTree(Process p) {
-		int pid = getPid(p);		
-		String cmdLine = getKillCmd();		
+		int pid = getPid(p);	
+		String[] cmdLine = getKillCmd(pid);		
 		try {
-
 			Process pr = Runtime.getRuntime()
-					.exec(cmdLine + pid);
+					.exec(cmdLine);
 			try {
 				pr.waitFor();
 			} catch (InterruptedException e) {
