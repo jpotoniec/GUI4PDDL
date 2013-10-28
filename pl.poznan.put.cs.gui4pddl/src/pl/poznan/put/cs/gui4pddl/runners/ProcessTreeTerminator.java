@@ -51,7 +51,7 @@ public class ProcessTreeTerminator {
 	
 	private static String[] getKillCmd(int pid) {
 		if (Platform.isWindows())
-			return new String[]{"taskkill /t /f /pid " + pid};
+			return new String[]{"cmd.exe" , "/c", "taskkill /t /f /pid " + pid};
 		else if (Platform.isLinux())
 			return new String[]{ "/bin/sh", "-c", "pstree -p " + pid + " | grep -o '([0-9]*)' | grep -o '[0-9]*' | xargs kill;"};
 		return null;
