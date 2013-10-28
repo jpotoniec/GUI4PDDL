@@ -5,7 +5,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunch;
@@ -16,9 +15,11 @@ import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.handlers.HandlerUtil;
 
 import pl.poznan.put.cs.gui4pddl.Activator;
 import pl.poznan.put.cs.gui4pddl.log.Log;
+import pl.poznan.put.cs.gui4pddl.views.ui.PlanView;
 
 public class PDDLApplicationLaunchConfigurationDelegate extends
 		LaunchConfigurationDelegate implements ILaunchConfigurationDelegate {
@@ -58,6 +59,8 @@ public class PDDLApplicationLaunchConfigurationDelegate extends
 
 		try {
 			UniversalPlannerRunner.run(configuration, monitor, launch);
+			
+			Activator.showPlanView();
 		} catch (Exception e) {
 			Log.log(e);
 			finishLaunchWithError(launch);

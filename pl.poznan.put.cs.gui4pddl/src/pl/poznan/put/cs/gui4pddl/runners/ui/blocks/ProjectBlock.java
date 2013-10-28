@@ -1,7 +1,6 @@
 package pl.poznan.put.cs.gui4pddl.runners.ui.blocks;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
