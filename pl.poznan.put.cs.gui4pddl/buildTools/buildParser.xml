@@ -1,15 +1,22 @@
-<project name="Generate parser sources from grammar files">
-	<condition property="parser.uptodate" >
-		<and>
-			<uptodate srcfile="src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g"
-				targetfile="src/pl/poznan/put/cs/gui4pddl/parser/PDDLParser.java"/>
-			<uptodate srcfile="src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g"
-				targetfile="src/pl/poznan/put/cs/gui4pddl/parser/PDDLLexer.java"/>
-		</and>
-	</condition>
+<!-- this file should not be invoked separately.
+     it is called by customBuildCallbacks and 
+     project's custom builder -->
+
+<project name="Generate parser sources from grammar files" default="antlr">
 	
+	<target name="antlr.check">
+		<condition property="parser.uptodate" >
+			<and>
+				<uptodate srcfile="src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g"
+					targetfile="src/pl/poznan/put/cs/gui4pddl/parser/PDDLParser.java"/>
+				<uptodate srcfile="src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g"
+					targetfile="src/pl/poznan/put/cs/gui4pddl/parser/PDDLLexer.java"/>
+			</and>
+		</condition>
+	</target>
 	
-	<target name="antlr" unless="parser.uptodate">		
+	<target name="antlr" depends="antlr.check" unless="parser.uptodate">
+		
 		<java classname="org.antlr.Tool" fork="true" failonerror="true">
 				
 				<arg value="-verbose" />

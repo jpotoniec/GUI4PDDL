@@ -57,7 +57,7 @@
 	</target>
 
 	<target name="pre.@dot">
-		<ant antfile="buildTools/buildParser.xml" />
+		<ant antfile="buildTools/buildParser.xml" dir=".." />
 	</target>
 
 	<!-- ===================================================================== -->
