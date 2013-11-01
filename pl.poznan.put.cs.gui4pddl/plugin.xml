@@ -171,5 +171,35 @@
       </builder>
    </extension>
    
+   <!-- VIEWS -->
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="pl.poznan.put.cs.gui4pddl.views.plan"
+            name="PDDL">
+      </category>
+      <view
+            category="pl.poznan.put.cs.gui4pddl.views.plan"
+            class="pl.poznan.put.cs.gui4pddl.views.ui.PlanView"
+            icon="icons/sample.gif"
+            id="pl.poznan.put.cs.gui4pddl.views.PlanView"
+            name="Plan">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+   <!-- PROCESS FACTORIES -->
+   <extension
+         point="org.eclipse.debug.core.processFactories">
+      <processFactory
+            class="pl.poznan.put.cs.gui4pddl.runners.PDDLProcessFactory"
+            id="pl.poznan.put.cs.gui4pddl.PDDLProcessFactory">
+      </processFactory>
+   </extension>
+   
   
 </plugin>

@@ -1,12 +1,10 @@
 package pl.poznan.put.cs.gui4pddl.runners;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
@@ -21,8 +19,9 @@ public class UniversalPlannerRunner {
 			monitor = new NullProgressMonitor();
 		monitor.beginTask("Launch Planner", 1);
 		monitor.subTask("Launch Planner");
-		
+
 		String commandLine = createScriptCommandLine(config);
+		System.out.println(commandLine);
 
 		String workingPath = config.getAttribute(
 				RunnerConstants.WORKING_DIRECTORY, "");
@@ -36,16 +35,13 @@ public class UniversalPlannerRunner {
 		} else {
 			cmdLine = DebugPlugin.parseArguments(commandLine);
 		}
-		
 
 		Process p = DebugPlugin.exec(cmdLine, workingDir);
 		IProcess process = DebugPlugin.newProcess(launch, p, cmdLine[0]);
 
-		
-		while (!process.isTerminated())
-		{
-			if (monitor.isCanceled())
-			{
+		while (!process.isTerminated()) {
+			if (monitor.isCanceled()) {
+
 				if (process.canTerminate())
 					process.terminate();
 			}
@@ -54,7 +50,6 @@ public class UniversalPlannerRunner {
 
 		monitor.done();
 
-		
 		return p;
 	}
 

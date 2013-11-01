@@ -10,7 +10,6 @@ import org.eclipse.swt.widgets.Composite;
 
 import pl.poznan.put.cs.gui4pddl.runners.ui.blocks.PlannerArgumentsBlock;
 import pl.poznan.put.cs.gui4pddl.runners.ui.blocks.PlannerBlock;
-import pl.poznan.put.cs.gui4pddl.runners.ui.blocks.ProjectBlock;
 
 public class PlannerTab extends AbstractLaunchConfigurationTab {
 

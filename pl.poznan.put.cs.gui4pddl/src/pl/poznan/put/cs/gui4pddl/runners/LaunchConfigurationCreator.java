@@ -112,6 +112,8 @@ public class LaunchConfigurationCreator {
 				captureOutput);
 		workingCopy
 				.setAttribute(DebugPlugin.ATTR_CAPTURE_OUTPUT, captureOutput);
+		
+		workingCopy.setAttribute(DebugPlugin.ATTR_PROCESS_FACTORY_ID, PDDLProcessFactory.ID);
 
 		if (workingCopy.getAttribute(RunnerConstants.PLANNER, "").isEmpty()
 				|| workingCopy.getAttribute(RunnerConstants.WORKING_DIRECTORY,

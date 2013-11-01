@@ -1,26 +1,19 @@
 package pl.poznan.put.cs.gui4pddl;
 
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.TreeMap;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import pl.poznan.put.cs.gui4pddl.editor.TokenManager;
 import pl.poznan.put.cs.gui4pddl.preferences.helpers.PlannerPreferencesStore;
-import pl.poznan.put.cs.gui4pddl.preferences.model.PlannerPreferences;
+import pl.poznan.put.cs.gui4pddl.views.ui.PlanView;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -30,15 +23,12 @@ public class Activator extends AbstractUIPlugin {
 	// The plug-in ID
 	public static final String PLUGIN_ID = "pl.poznan.put.cs.gui4pddl"; //$NON-NLS-1$
 
-	
-
 	// The shared instance
 	private static Activator plugin;
 
 	private ResourceBundle resourceBundle;
 	// private LoggingModel loggingModel;
 	private TokenManager tokenManager;
-	
 
 	/**
 	 * The constructor
@@ -65,6 +55,31 @@ public class Activator extends AbstractUIPlugin {
 
 	}
 
+	public static void showPlanView() {
+		PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
+			public void run() {
+								try {
+					IViewPart view = PlatformUI.getWorkbench()
+							.getActiveWorkbenchWindow().getActivePage()
+							.showView(PlanView.ID);
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+							.getActivePage().activate(view);
+				} catch (PartInitException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -85,8 +100,6 @@ public class Activator extends AbstractUIPlugin {
 	public static Activator getDefault() {
 		return plugin;
 	}
-
-	
 
 	public ResourceBundle getResourceBundle() {
 		return resourceBundle;
