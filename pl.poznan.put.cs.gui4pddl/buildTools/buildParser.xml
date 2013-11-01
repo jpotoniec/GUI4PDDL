@@ -8,9 +8,9 @@
 		<condition property="parser.uptodate" >
 			<and>
 				<uptodate srcfile="src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g"
-					targetfile="src/pl/poznan/put/cs/gui4pddl/parser/PDDLParser.java"/>
+					targetfile="gen/pl/poznan/put/cs/gui4pddl/parser/PDDLParser.java"/>
 				<uptodate srcfile="src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g"
-					targetfile="src/pl/poznan/put/cs/gui4pddl/parser/PDDLLexer.java"/>
+					targetfile="gen/pl/poznan/put/cs/gui4pddl/parser/PDDLLexer.java"/>
 			</and>
 		</condition>
 	</target>
@@ -21,7 +21,7 @@
 				
 				<arg value="-verbose" />
 				<arg value="-o" />
-				<arg path="src/pl/poznan/put/cs/gui4pddl/parser" />
+				<arg path="gen/pl/poznan/put/cs/gui4pddl/parser" />
 				<arg path="src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g" />
 				
 				<classpath>
