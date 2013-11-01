@@ -22,14 +22,14 @@
          id="pl.poznan.put.cs.gui4pddl"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.1.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="pl.poznan.put.cs.gui4pddl.antlr"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="3.5.0"
          unpack="false"/>
 
 </feature>
