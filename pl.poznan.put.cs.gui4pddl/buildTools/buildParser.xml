@@ -4,8 +4,8 @@
 
 <project name="Generate parser sources from grammar files" default="antlr">
 	
-	<target name="antlr.check">
-		<condition property="parser.uptodate" >
+	<target name="syntax.check">
+		<condition property="syntax.uptodate" >
 			<and>
 				<uptodate srcfile="src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g"
 					targetfile="gen/pl/poznan/put/cs/gui4pddl/parser/PDDLParser.java"/>
@@ -15,7 +15,18 @@
 		</condition>
 	</target>
 	
-	<target name="antlr" depends="antlr.check" unless="parser.uptodate">
+	<target name="modelbuilder.check">
+		<condition property="modelbuilder.uptodate" >
+					<and>
+						<uptodate srcfile="src/pl/poznan/put/cs/gui4pddl/parser/PDDLModelBuilder.g"
+							targetfile="gen/pl/poznan/put/cs/gui4pddl/parser/PDDLModelBuilder.java"/>
+						<uptodate srcfile="gen/pl/poznan/put/cs/gui4pddl/parser/PDDL.tokens"
+							targetfile="gen/pl/poznan/put/cs/gui4pddl/parser/PDDLModelBuilder.java"/>
+					</and>
+		</condition>	
+	</target>
+	
+	<target name="syntax" depends="syntax.check" unless="syntax.uptodate">
 		
 		<java classname="org.antlr.Tool" fork="true" failonerror="true">
 				
@@ -28,6 +39,24 @@
 					<pathelement location="buildTools/antlr-3.5-complete-no-st3.jar"/>
 				</classpath>
 		</java>
+	</target>
+	
+	<target name="modelbuilder" depends="modelbuilder.check" unless="modelbuilder.uptodate">
+		
+		<java classname="org.antlr.Tool" fork="true" failonerror="true">
+				
+				<arg value="-verbose" />
+				<arg value="-o" />
+				<arg path="gen/pl/poznan/put/cs/gui4pddl/parser" />
+				<arg path="src/pl/poznan/put/cs/gui4pddl/parser/PDDLModelBuilder.g" />
+				
+				<classpath>
+					<pathelement location="buildTools/antlr-3.5-complete-no-st3.jar"/>
+				</classpath>
+		</java>
+	</target>
+	
+	<target name="antlr" depends="syntax,modelbuilder">
 	</target>
 </project>
 

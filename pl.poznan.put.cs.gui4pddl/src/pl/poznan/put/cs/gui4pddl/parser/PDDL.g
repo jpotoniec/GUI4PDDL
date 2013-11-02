@@ -1,5 +1,10 @@
 grammar PDDL;
 
+options {
+	output = AST;
+	ASTLabelType=CommonTree;
+}
+
 @header {
 	package pl.poznan.put.cs.gui4pddl.parser;
 	
@@ -63,9 +68,9 @@ pddl_file
     ;
 
 definition 
-	:	'(' 'define' problem_header problem_item* ')'
-	|	'(' 'define' domain_header domain_item* ')'
-	|   '(' 'define' initsit_header initsit_body ')'
+	:	'(' 'define'^ problem_header problem_item* ')'!
+	|	'('! 'define'^ domain_header domain_item* ')'!
+	|   '('! 'define'^ initsit_header initsit_body ')'!
 	;
 
 /*
@@ -73,7 +78,7 @@ Domains (4)
 */
 
 domain_header 
-	:	'(' 'domain' NAME ')'
+	:	'('! 'domain'^ NAME ')'!
 	;
 
 domain_item
@@ -89,31 +94,31 @@ domain_item
 	;
 	
 extension_def 
-	:	'(' ':extends' NAME+ ')'
+	:	'('! ':extends' NAME+ ')'!
 	;
 	
 types_def 
-	:	'(' ':types' typed_list_of_name ')'
+	:	'('! ':types' typed_list_of_name ')'!
 	;
 	
 constants_def
-	:	'(' ':constants' typed_list_of_name ')'
+	:	'('! ':constants' typed_list_of_name ')'!
 	;
 
 domain_vars_def
-	:	'(' ':domain-variables' typed_list_of_domain_var_declaration ')'
+	:	'('! ':domain-variables' typed_list_of_domain_var_declaration ')'!
 	;
 
 predicates_def 
-	:	'(' ':predicates' atomic_formula_skeleton+ ')'
+	:	'('! ':predicates' atomic_formula_skeleton+ ')'!
 	;
 
 timeless_def
-	:	'(' ':timeless' literal_of_name+ ')'
+	:	'('! ':timeless' literal_of_name+ ')'!
 	;
 	
 safety_def 
-	:	'(' ':safety' gd ')'
+	:	'('! ':safety' gd ')'!
 	;
 	
 structure_def 
@@ -126,9 +131,9 @@ structure_def
 Actions (5)
 */
 action_def 
-	:	'(' ':action' action_functor
-			':parameters' '(' typed_list_of_variable ')'
-			action_def_body ')'
+	:	'('! ':action' action_functor
+			':parameters' '('! typed_list_of_variable ')'!
+			action_def_body ')'!
 	;
 	
 action_functor
@@ -140,7 +145,7 @@ action_def_body
     ;
     
 action_def_body_item
-    :    ':vars' '(' typed_list_of_variable ')' //:existential-preconditions, :conditional-effects
+    :    ':vars' '('! typed_list_of_variable ')'! //:existential-preconditions, :conditional-effects
     |    ':precondition' gd
     |    ':expansion' action_spec       //action expansions
     |    ':maintain' gd                  //action expansions
@@ -152,12 +157,12 @@ action_def_body_item
 Effects (7)
 */
 effect
-    :    '(' 'and' effect* ')'
-    |    '(' 'not' atomic_formula_of_term ')'
+    :    '('! 'and' effect* ')'!
+    |    '('! 'not' atomic_formula_of_term ')'!
     |    atomic_formula_of_term
-    |    '(' 'forall' '(' typed_list_of_variable ')' effect ')' //:conditional−effects
-    |    '(' 'when' gd effect ')' //:conditional−effects
-    |    '(' 'change' fluent expression ')'  //:fluents
+    |    '('! 'forall' '('! typed_list_of_variable ')'! effect ')'! //:conditional−effects
+    |    '('! 'when' gd effect ')'! //:conditional−effects
+    |    '('! 'change' fluent expression ')'!  //:fluents
     ;
 
 fluent
@@ -185,10 +190,10 @@ action_spec_od_action_term
 Axioms (9)
 */
 axiom_def 
-	:	'(' ':axiom' 
-	        ':vars' '(' typed_list_of_variable ')'
+	:	'('! ':axiom' 
+	        ':vars' '('! typed_list_of_variable ')'!
 	        ':context' gd
-	        ':implies' literal_of_term ')' 
+	        ':implies' literal_of_term ')'! 
 	;
 
 
@@ -199,7 +204,7 @@ Problems (13)
 */
 
 
-problem_header : '(' 'problem' NAME ')'
+problem_header : '('! 'problem' NAME ')'!
    ; 
 
 problem_item
@@ -213,39 +218,39 @@ problem_item
 	;
 
 domain_reference 
-	:	'(' ':domain' NAME ')'
+	:	'('! ':domain' NAME ')'!
 	;
 	
 require_def
-	:	'(' ':requirements' REQUIRE_KEY+ ')'
+	:	'('! ':requirements' REQUIRE_KEY+ ')'!
 	;
 	
 situation 
-	:	'(' ':situation' NAME ')'
+	:	'('! ':situation' NAME ')'!
 	;
 	
 object_declaration 
-	:	'(' ':objects' typed_list_of_name ')'
+	:	'('! ':objects' typed_list_of_name ')'!
 	;
 
-init 	:	'(' ':init' literal_of_name+ ')'
+init 	:	'('! ':init' literal_of_name+ ')'!
 	;
 
-goal	:	'(' ':goal' gd ')'
-	|	'(' ':expansion' action_spec_od_action_term ')' //:action-expansion
+goal	:	'('! ':goal' gd ')'!
+	|	'('! ':expansion' action_spec_od_action_term ')'! //:action-expansion
 	;
 	
 length_spec 
-	:	'(' ':length' ('(' ':serial' INTEGER ')')? ('(' ':parallel' INTEGER ')')? ')'
+	:	'('! ':length' ('('! ':serial' INTEGER ')'!)? ('('! ':parallel' INTEGER ')'!)? ')'!
 	;
 	
 	
 initsit_header
-    :   '(' 'situation' NAME ')'
+    :   '('! 'situation' NAME ')'!
     ;
 
 initsit_body
-    :  '(' ':domain' NAME ')'
+    :  '('! ':domain' NAME ')'!
             initsit_body_item*
     ;
     
@@ -262,13 +267,13 @@ gd  :   atomic_formula_of_term
     |   complicated_gd
     ;
 
-complicated_gd 	: 	'(' 'and' gd* ')'
-	|	'(' 'or' gd* ')' //:disjunctive-preconditions
-    |	'(' 'not' atomic_formula_of_term ')' 
-    |	'(' 'not' complicated_gd ')' //:disjunctive-preconditions
-	|	'(' 'imply' gd gd ')' //:disjunctive-preconditions
-	|	'(' 'exists' '(' typed_list_of_variable ')' gd ')' //:existential-preconditions
-	|	'(' 'forall' '(' typed_list_of_variable ')' gd ')' //:universal-predonditions
+complicated_gd 	: 	'('! 'and' gd* ')'!
+	|	'('! 'or' gd* ')'! //:disjunctive-preconditions
+    |	'('! 'not' atomic_formula_of_term ')'! 
+    |	'('! 'not' complicated_gd ')'! //:disjunctive-preconditions TODO lookahead
+	|	'('! 'imply' gd gd ')'! //:disjunctive-preconditions
+	|	'('! 'exists' '('! typed_list_of_variable ')'! gd ')'! //:existential-preconditions
+	|	'('! 'forall' '('! typed_list_of_variable ')'! gd ')'! //:universal-predonditions
 	;
 
 
@@ -284,20 +289,20 @@ term 	:	NAME
 
 literal_of_name 
 	:	atomic_formula_of_name
-	|	'(' 'not' atomic_formula_of_name ')'
+	|	'('! 'not' atomic_formula_of_name ')'!
 	;
 
 literal_of_term
 	:	atomic_formula_of_term
-	|	'(' 'not' atomic_formula_of_term ')'
+	|	'('! 'not' atomic_formula_of_term ')'!
 	;
 
 atomic_formula_of_term
-	:	'(' predicate term* ')'
+	:	'('! predicate term* ')'!
 	;
 	
 atomic_formula_of_name
-	:	'(' predicate NAME* ')'
+	:	'('! predicate NAME* ')'!
 	;
 
 typed_list_of_name 
@@ -311,21 +316,21 @@ typed_list_of_variable
 	;
 
 type 	:	NAME
-	|	'(' 'either' type+ ')'
-	|	'(' 'fluent' type ')' //:fluents
+	|	'('! 'either' type+ ')'!
+	|	'('! 'fluent' type ')'! //:fluents
 	;
 
 /*
 Addenda (11) -- Not supported
 */
 method_def
-	:	'(' ':method' general_tree_item* ')'
+	:	'('! ':method' general_tree_item* ')'!
 	;
 
 	
 //
 atomic_formula_skeleton 
-	:	'(' predicate typed_list_of_variable ')'
+	:	'('! predicate typed_list_of_variable ')'!
 	;
 	
 
@@ -335,7 +340,7 @@ atomic_formula_skeleton
  
 domain_var_declaration 
 	:	NAME
-	|	'(' NAME NAME ')'
+	|	'('! NAME NAME ')'!
 	;
 
 typed_list_of_domain_var_declaration 
@@ -348,7 +353,7 @@ Temp
 */
 
 general_tree 
-	:	'(' general_tree_item* ')'
+	:	'('! general_tree_item* ')'!
 	;
 	
 general_tree_item
@@ -369,6 +374,7 @@ boolean_type
 /*
 Tokens
 */
+
 
 TRUE
     :    'true'

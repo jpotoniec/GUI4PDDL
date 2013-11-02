@@ -10,6 +10,8 @@ import java.util.Map;
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.*;
+import org.antlr.runtime.tree.*;
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -139,7 +141,9 @@ public class Builder extends IncrementalProjectBuilder {
 			PDDLParser parser = new PDDLParser(tokens);
 			
 			try {
-				parser.pddl_file();
+				PDDLParser.pddl_file_return ret = parser.pddl_file();
+				CommonTree t = (CommonTree)ret.getTree();
+				System.out.println(t.toStringTree());
 			} catch (RecognitionException e) {
 				e.printStackTrace();
 			}
