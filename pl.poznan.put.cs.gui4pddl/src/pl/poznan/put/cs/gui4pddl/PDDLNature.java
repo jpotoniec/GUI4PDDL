@@ -10,16 +10,20 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
+import pl.poznan.put.cs.gui4pddl.codemodel.IPDDLCodeCompletionManager;
+import pl.poznan.put.cs.gui4pddl.codemodel.PDDLCodeCompletionManager;
 import pl.poznan.put.cs.gui4pddl.log.Log;
 import pl.poznan.put.cs.gui4pddl.parser.Builder;
 
-public class PDDLNature implements IProjectNature {
+public class PDDLNature implements IProjectNature, IPDDLNature {
 
 	public static final String PDDL_NATURE_ID = "pl.poznan.put.cs.gui4pddl.PDDLProject";
 
 	private IProject project;
+	private PDDLCodeCompletionManager completionManager;
 
 	public PDDLNature() {
+		completionManager = new PDDLCodeCompletionManager(this);
 	}
 
 	@Override
@@ -89,6 +93,11 @@ public class PDDLNature implements IProjectNature {
 		}
 		
 		return null;
+	}
+
+	@Override
+	public IPDDLCodeCompletionManager getCodeCompletionManager() {
+		return completionManager;
 	}
 
 }
