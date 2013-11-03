@@ -181,7 +181,7 @@
       <view
             category="pl.poznan.put.cs.gui4pddl.views.plan"
             class="pl.poznan.put.cs.gui4pddl.views.ui.PlanView"
-            icon="icons/sample.gif"
+            icon="icons/pddl_file.gif"
             id="pl.poznan.put.cs.gui4pddl.views.PlanView"
             name="Plan">
       </view>
