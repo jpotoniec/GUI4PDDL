@@ -1,5 +1,7 @@
 package pl.poznan.put.cs.gui4pddl.runners;
 
+import java.io.File;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -65,6 +67,17 @@ public class LaunchConfigurationCreator {
 				launchConfigurationType, location, projName, "", true);
 	}
 
+	public static String getBaseDirectory(IProject project) {
+		String baseDirectory = project.getLocation().toOSString();
+		File f = new File(baseDirectory + System.getProperty("file.separator") + "plans");
+		System.out.println("DIRECtORY" + f.getAbsolutePath());
+		if (!f.exists() || !f.isDirectory()) {
+			f.mkdir();
+		}
+		
+		return f.getAbsolutePath();
+	}
+
 	private static ILaunchConfigurationWorkingCopy createDefaultLaunchConfiguration(
 			IProject project, String launchConfigurationType, String location,
 			String projName, String programArguments, boolean captureOutput)
@@ -90,6 +103,8 @@ public class LaunchConfigurationCreator {
 
 		name = buffer.toString();
 
+		System.out.println(project == null);
+		
 		if (project != null) {
 			baseDirectory = project.getLocation().toOSString();
 
@@ -112,8 +127,9 @@ public class LaunchConfigurationCreator {
 				captureOutput);
 		workingCopy
 				.setAttribute(DebugPlugin.ATTR_CAPTURE_OUTPUT, captureOutput);
-		
-		workingCopy.setAttribute(DebugPlugin.ATTR_PROCESS_FACTORY_ID, PDDLProcessFactory.ID);
+
+		workingCopy.setAttribute(DebugPlugin.ATTR_PROCESS_FACTORY_ID,
+				PDDLProcessFactory.ID);
 
 		if (workingCopy.getAttribute(RunnerConstants.PLANNER, "").isEmpty()
 				|| workingCopy.getAttribute(RunnerConstants.WORKING_DIRECTORY,
