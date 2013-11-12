@@ -93,8 +93,10 @@ public class UniversalPlannerRunner {
 		monitor.beginTask("Launch Planner", 1);
 		monitor.subTask("Launch Planner");
 
-		String[] commandLine = createScriptCommandLine(config);
-		System.out.println(commandLine[3]);
+		String commandLine = createScriptCommandLine(config);
+		// for (String line : commandLine) {
+		System.out.println(commandLine);
+		// }
 
 		String baseDirectory = config.getAttribute(
 				RunnerConstants.WORKING_DIRECTORY, "");
@@ -109,16 +111,17 @@ public class UniversalPlannerRunner {
 
 		File workingDir = new File(workingPath);
 
-		/*
-		 * String[] cmdLine;
-		 * 
-		 * String OS = System.getProperty("os.name").toLowerCase(); if
-		 * (OS.indexOf("win") >= 0) { cmdLine = commandLine.split(" "); } else {
-		 * cmdLine = DebugPlugin.parseArguments(commandLine); }
-		 */
+		String[] cmdLine;
 
-		Process p = DebugPlugin.exec(commandLine, workingDir);
-		IProcess process = DebugPlugin.newProcess(launch, p, commandLine[0]);
+	//	String OS = System.getProperty("os.name").toLowerCase();
+	//	if (OS.indexOf("win") >= 0) {
+	//		cmdLine = commandLine.split(" ");
+	//	} else {
+			cmdLine = DebugPlugin.parseArguments(commandLine);
+	//	}
+
+		Process p = DebugPlugin.exec(cmdLine, workingDir);
+		IProcess process = DebugPlugin.newProcess(launch, p, cmdLine[0]);
 
 		while (!process.isTerminated()) {
 			if (monitor.isCanceled()) {
@@ -134,9 +137,9 @@ public class UniversalPlannerRunner {
 		return p;
 	}
 
-	private static String[] createScriptCommandLine(ILaunchConfiguration config)
+	private static String createScriptCommandLine(ILaunchConfiguration config)
 			throws CoreException {
-		List<String> cmdLine = new ArrayList<String>();
+		//List<String> cmdLine = new ArrayList<String>();
 		String script = config.getAttribute(RunnerConstants.PLANNER, "");
 		String argument = config.getAttribute(
 				RunnerConstants.PLANNER_ARGUMENTS, "");
@@ -149,14 +152,15 @@ public class UniversalPlannerRunner {
 
 		String[] arguments = DebugPlugin.parseArguments(argument);
 
-		cmdLine.add(script);
-		cmdLine.add(domain);
-		cmdLine.add(problem);
-		for (String arg : arguments) {
-			cmdLine.add(arg);
-		}
+		return "\"" + script + "\" " + "\"" + domain + "\" " + "\"" + problem
+				+ "\" " + arguments;
 
-		return cmdLine.toArray(new String[0]);
+		/*
+		 * cmdLine.add(script); cmdLine.add(domain); cmdLine.add(problem); for
+		 * (String arg : arguments) { cmdLine.add(arg); }
+		 * 
+		 * return cmdLine.toArray(new String[0]);
+		 */
 	}
 
 }
