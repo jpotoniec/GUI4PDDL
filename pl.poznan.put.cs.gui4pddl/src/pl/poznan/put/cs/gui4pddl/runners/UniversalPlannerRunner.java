@@ -113,12 +113,7 @@ public class UniversalPlannerRunner {
 
 		String[] cmdLine;
 
-	//	String OS = System.getProperty("os.name").toLowerCase();
-	//	if (OS.indexOf("win") >= 0) {
-	//		cmdLine = commandLine.split(" ");
-	//	} else {
-			cmdLine = DebugPlugin.parseArguments(commandLine);
-	//	}
+		cmdLine = DebugPlugin.parseArguments(commandLine);
 
 		Process p = DebugPlugin.exec(cmdLine, workingDir);
 		IProcess process = DebugPlugin.newProcess(launch, p, cmdLine[0]);
@@ -139,7 +134,7 @@ public class UniversalPlannerRunner {
 
 	private static String createScriptCommandLine(ILaunchConfiguration config)
 			throws CoreException {
-		//List<String> cmdLine = new ArrayList<String>();
+
 		String script = config.getAttribute(RunnerConstants.PLANNER, "");
 		String argument = config.getAttribute(
 				RunnerConstants.PLANNER_ARGUMENTS, "");
@@ -150,17 +145,9 @@ public class UniversalPlannerRunner {
 		problem = LaunchConfigurationCreator
 				.getAbsoluteFilePathFromRelativePath(problem);
 
-		String[] arguments = DebugPlugin.parseArguments(argument);
-
 		return "\"" + script + "\" " + "\"" + domain + "\" " + "\"" + problem
-				+ "\" " + arguments;
+				+ "\" " + argument;
 
-		/*
-		 * cmdLine.add(script); cmdLine.add(domain); cmdLine.add(problem); for
-		 * (String arg : arguments) { cmdLine.add(arg); }
-		 * 
-		 * return cmdLine.toArray(new String[0]);
-		 */
 	}
 
 }
