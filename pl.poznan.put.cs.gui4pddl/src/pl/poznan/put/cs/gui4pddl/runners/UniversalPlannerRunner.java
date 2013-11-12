@@ -39,17 +39,18 @@ public class UniversalPlannerRunner {
 				}
 			}
 		}
-		
-		int max = folderNumbersList.size() == 0 ? 1 : Collections.max(folderNumbersList) + 1;
-		
+
+		int max = folderNumbersList.size() == 0 ? 1 : Collections
+				.max(folderNumbersList) + 1;
+
 		return max;
 
 	}
 
 	public static String getWorkingPath(String basePath, String domainPath,
 			String problemPath) {
-		File baseDirectory = new File(basePath + System.getProperty("file.separator")
-				+ "plans");
+		File baseDirectory = new File(basePath
+				+ System.getProperty("file.separator") + "plans");
 		if (!baseDirectory.exists() || !baseDirectory.isDirectory()) {
 			baseDirectory.mkdir();
 		}
@@ -72,9 +73,11 @@ public class UniversalPlannerRunner {
 		if (!problemDir.exists() || !problemDir.isDirectory()) {
 			problemDir.mkdir();
 		}
-		
-		File numberDir = new File(problemDir.getAbsoluteFile() + System.getProperty("file.separator") + getFolderMaxNumber(problemDir));
-		
+
+		File numberDir = new File(problemDir.getAbsoluteFile()
+				+ System.getProperty("file.separator")
+				+ getFolderMaxNumber(problemDir));
+
 		if (!numberDir.exists() || !numberDir.isDirectory()) {
 			numberDir.mkdir();
 		}
@@ -90,8 +93,8 @@ public class UniversalPlannerRunner {
 		monitor.beginTask("Launch Planner", 1);
 		monitor.subTask("Launch Planner");
 
-		String commandLine = createScriptCommandLine(config);
-		System.out.println(commandLine);
+		String[] commandLine = createScriptCommandLine(config);
+		System.out.println(commandLine[3]);
 
 		String baseDirectory = config.getAttribute(
 				RunnerConstants.WORKING_DIRECTORY, "");
@@ -106,17 +109,16 @@ public class UniversalPlannerRunner {
 
 		File workingDir = new File(workingPath);
 
-		String[] cmdLine;
+		/*
+		 * String[] cmdLine;
+		 * 
+		 * String OS = System.getProperty("os.name").toLowerCase(); if
+		 * (OS.indexOf("win") >= 0) { cmdLine = commandLine.split(" "); } else {
+		 * cmdLine = DebugPlugin.parseArguments(commandLine); }
+		 */
 
-		String OS = System.getProperty("os.name").toLowerCase();
-		if (OS.indexOf("win") >= 0) {
-			cmdLine = commandLine.split(" ");
-		} else {
-			cmdLine = DebugPlugin.parseArguments(commandLine);
-		}
-
-		Process p = DebugPlugin.exec(cmdLine, workingDir);
-		IProcess process = DebugPlugin.newProcess(launch, p, cmdLine[0]);
+		Process p = DebugPlugin.exec(commandLine, workingDir);
+		IProcess process = DebugPlugin.newProcess(launch, p, commandLine[0]);
 
 		while (!process.isTerminated()) {
 			if (monitor.isCanceled()) {
@@ -132,10 +134,11 @@ public class UniversalPlannerRunner {
 		return p;
 	}
 
-	private static String createScriptCommandLine(ILaunchConfiguration config)
+	private static String[] createScriptCommandLine(ILaunchConfiguration config)
 			throws CoreException {
+		List<String> cmdLine = new ArrayList<String>();
 		String script = config.getAttribute(RunnerConstants.PLANNER, "");
-		String arguments = config.getAttribute(
+		String argument = config.getAttribute(
 				RunnerConstants.PLANNER_ARGUMENTS, "");
 		String domain = config.getAttribute(RunnerConstants.DOMAIN_FILE, "");
 		String problem = config.getAttribute(RunnerConstants.PROBLEM_FILE, "");
@@ -144,7 +147,16 @@ public class UniversalPlannerRunner {
 		problem = LaunchConfigurationCreator
 				.getAbsoluteFilePathFromRelativePath(problem);
 
-		return script + " " + domain + " " + problem + " " + arguments;
+		String[] arguments = DebugPlugin.parseArguments(argument);
+
+		cmdLine.add(script);
+		cmdLine.add(domain);
+		cmdLine.add(problem);
+		for (String arg : arguments) {
+			cmdLine.add(arg);
+		}
+
+		return cmdLine.toArray(new String[0]);
 	}
 
 }
