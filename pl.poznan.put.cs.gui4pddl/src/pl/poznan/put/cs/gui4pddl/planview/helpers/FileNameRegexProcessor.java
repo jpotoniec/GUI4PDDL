@@ -64,6 +64,7 @@ public class FileNameRegexProcessor {
 
 		for (File f : allFiles) {
 			if (pattern.matcher(f.getName()).matches()) {
+				System.out.println("NAME " + f.getName());
 				matchedFiles.add(f);
 			}
 		}

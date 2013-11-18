@@ -78,7 +78,7 @@ public class ProjectFilesPathsHelpers {
 	
 	}
 
-	public static String getWorkingPath(String basePath, String domainPath,
+	public static File getWorkingDir(String basePath, String domainPath,
 			String problemPath) {
 		File baseDirectory = new File(basePath
 				+ System.getProperty("file.separator") + "plans");
@@ -113,7 +113,7 @@ public class ProjectFilesPathsHelpers {
 			numberDir.mkdir();
 		}
 	
-		return numberDir.getAbsolutePath();
+		return numberDir;
 	}
 
 }

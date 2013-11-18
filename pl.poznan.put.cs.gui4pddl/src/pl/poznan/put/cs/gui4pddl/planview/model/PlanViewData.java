@@ -1,6 +1,6 @@
 package pl.poznan.put.cs.gui4pddl.planview.model;
 
-public class PlanViewModel {
+public class PlanViewData {
 	public enum Status {
 		RUNNING("Running"), OK("Ok"), WRONG("Wrong");
 
@@ -15,6 +15,7 @@ public class PlanViewModel {
 		}
 	}
 
+	private String projectName;
 	private String domain;
 	private String problem;
 	private String plannerName;
@@ -27,6 +28,14 @@ public class PlanViewModel {
 	private String planFilePath;
 	private String plannerArguments;
 
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+	
 	public String getDomain() {
 		return domain;
 	}

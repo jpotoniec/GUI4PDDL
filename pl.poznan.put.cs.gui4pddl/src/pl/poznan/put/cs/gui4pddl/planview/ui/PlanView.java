@@ -1,11 +1,13 @@
 package pl.poznan.put.cs.gui4pddl.planview.ui;
 
+import java.io.File;
 import java.util.List;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.part.*;
+import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
@@ -20,8 +22,8 @@ import org.eclipse.ui.*;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.SWT;
 
-import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewModel;
-import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewModelProvider;
+import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewData;
+import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewDataProvider;
 
 /**
  * This sample class demonstrates how to plug-in a new workbench view. The view
@@ -45,6 +47,7 @@ public class PlanView extends ViewPart {
 	 */
 	public static final String ID = "pl.poznan.put.cs.gui4pddl.views.PlanView";
 
+	private static final String PROJECT = "Project";
 	private static final String DOMAIN_LABEL = "Domain";
 	private static final String PROBLEM_LABEL = "Problem";
 	private static final String ID_LABEL = "Id";
@@ -81,8 +84,9 @@ public class PlanView extends ViewPart {
 		viewer.setContentProvider(new ArrayContentProvider());
 		// get the content for the viewer, setInput will call getElements in the
 		// contentProvider
-		//viewer.setInput(PlanViewModelProvider.getPlanViewModel());
+		// viewer.setInput(PlanViewModelProvider.getPlanViewModel());
 		// make the selection available to other views
+
 		getSite().setSelectionProvider(viewer);
 		// set the sorter for the table
 
@@ -106,67 +110,106 @@ public class PlanView extends ViewPart {
 		hookDoubleClickAction();
 		contributeToActionBars();
 	}
+
+	public static int updatePlanViewBeforePlanningProcess(ILaunchConfiguration configuration, File workingDir) {
+		final PlanViewDataProvider dataProvider = PlanViewDataProvider.getInstance();
+		int index = dataProvider.addPlanViewDataOfRunningProcess(configuration, workingDir);	
+		setData(dataProvider);
+		return index;
+	}
 	
-	public void setInput(List<PlanViewModel> list) {
+	public static void updatePlanViewAfterPlanningProcess(ILaunchConfiguration configuration, File workingDir, int insertedRowIndex) {
+		final PlanViewDataProvider dataProvider = PlanViewDataProvider.getInstance();
+		dataProvider.setPlanFilesPathsAndMarkAsEnded(configuration, workingDir, insertedRowIndex);
+		setData(dataProvider);
+	}
+	
+	private static void setData(final PlanViewDataProvider dataProvider) {
+		PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
+			public void run() {
+				try {
+					PlanView view = (PlanView) PlatformUI.getWorkbench()
+							.getActiveWorkbenchWindow().getActivePage()
+							.showView(ID);
+					view.setInput(dataProvider.getPlanViewDataList());
+				} catch (PartInitException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		
+	}
+	
+	private void setInput(List<PlanViewData> list) {
 		viewer.setInput(list);
 	}
 
 	// create the columns for the table
 	private void createColumns(TableColumnLayout layout,
 			final Composite parent, final TableViewer viewer) {
-		String[] titles = { DOMAIN_LABEL, PROBLEM_LABEL, ID_LABEL,
+		String[] titles = {PROJECT, DOMAIN_LABEL, PROBLEM_LABEL, ID_LABEL,
 				STATUS_LABEL, PLANNER_ARGUMENTS_LABEL };
 
-		// first column is for the first name
+		
 		TableViewerColumn col = createTableViewerColumn(layout, titles[0], 0);
 
 		col.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				PlanViewModel p = (PlanViewModel) element;
-				System.out.println("DOMAIN " + p.getDomain());
+				PlanViewData p = (PlanViewData) element;
+				return p.getProjectName();
+			}
+		});
+		
+		col = createTableViewerColumn(layout, titles[1], 1);
+
+		col.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				PlanViewData p = (PlanViewData) element;
 				return p.getDomain();
 			}
 		});
 
 		// second column is for the last name
-		col = createTableViewerColumn(layout, titles[1], 1);
-		col.setLabelProvider(new ColumnLabelProvider() {
-			@Override
-			public String getText(Object element) {
-
-				PlanViewModel p = (PlanViewModel) element;
-				return p.getProblem();
-			}
-		});
-
-		// now the gender
 		col = createTableViewerColumn(layout, titles[2], 2);
 		col.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
 
-				PlanViewModel p = (PlanViewModel) element;
+				PlanViewData p = (PlanViewData) element;
+				return p.getProblem();
+			}
+		});
+
+		// now the gender
+		col = createTableViewerColumn(layout, titles[3], 3);
+		col.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+
+				PlanViewData p = (PlanViewData) element;
 				return p.getId();
 			}
 		});
 
 		// now the status married
-		col = createTableViewerColumn(layout, titles[3], 3);
+		col = createTableViewerColumn(layout, titles[4], 4);
 		col.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				PlanViewModel p = (PlanViewModel) element;
+				PlanViewData p = (PlanViewData) element;
 				return p.getStatus().toString();
 			}
 
 		});
 
-		col = createTableViewerColumn(layout, titles[4], 4);
+		col = createTableViewerColumn(layout, titles[5], 5);
 		col.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				PlanViewModel p = (PlanViewModel) element;
+				PlanViewData p = (PlanViewData) element;
 				return p.getPlannerArguments();
 			}
 
@@ -176,11 +219,11 @@ public class PlanView extends ViewPart {
 
 	private TableViewerColumn createTableViewerColumn(TableColumnLayout layout,
 			String title, final int colNumber) {
-		
+
 		final TableViewerColumn viewerColumn = new TableViewerColumn(viewer,
 				SWT.NONE);
 		final TableColumn column = viewerColumn.getColumn();
-		layout.setColumnData(column, new ColumnWeightData(20));
+		layout.setColumnData(column, new ColumnWeightData(100/6));
 		column.addControlListener(new ControlAdapter() {
 			public void controlResized(ControlEvent e) {
 				if (column.getWidth() < 5)
