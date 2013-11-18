@@ -19,7 +19,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import pl.poznan.put.cs.gui4pddl.Activator;
 import pl.poznan.put.cs.gui4pddl.log.Log;
-import pl.poznan.put.cs.gui4pddl.views.ui.PlanView;
+import pl.poznan.put.cs.gui4pddl.planview.ui.PlanView;
 
 public class PDDLApplicationLaunchConfigurationDelegate extends
 		LaunchConfigurationDelegate implements ILaunchConfigurationDelegate {
@@ -55,7 +55,8 @@ public class PDDLApplicationLaunchConfigurationDelegate extends
 
 	@Override
 	public void launch(ILaunchConfiguration configuration, String mode,
-			ILaunch launch, IProgressMonitor monitor) {
+			ILaunch
+			launch, IProgressMonitor monitor) {
 
 		try {
 			UniversalPlannerRunner.run(configuration, monitor, launch);

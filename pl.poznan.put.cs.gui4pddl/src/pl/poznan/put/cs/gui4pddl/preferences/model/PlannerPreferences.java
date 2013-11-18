@@ -12,15 +12,17 @@ public class PlannerPreferences {
 	private String plannerName;
 	private String plannerFilePath;
 	private Map<String,String> argumentsMap;
+	private String planViewFilePattern;
 	
 	public PlannerPreferences() {
 		
 	}
 	
-	public PlannerPreferences(String plannerName, String plannerFilePath, Map<String,String> argumentsMap) {
+	public PlannerPreferences(String plannerName, String plannerFilePath, Map<String,String> argumentsMap, String planViewFilePattern) {
 		this.plannerFilePath = plannerFilePath;
 		this.plannerName = plannerName;
 		this.argumentsMap = argumentsMap;
+		this.planViewFilePattern = planViewFilePattern;
 	}
 
 	public String getPlannerName() {
@@ -45,5 +47,13 @@ public class PlannerPreferences {
 
 	public void setArgumentsMap(Map<String,String> argumentsMap) {
 		this.argumentsMap = argumentsMap;
+	}
+	
+	public String getPlanViewFilePattern() {
+		return planViewFilePattern;
+	}
+	
+	public void setPlanViewFilePattern(String planViewFilePattern) {
+		this.planViewFilePattern = planViewFilePattern;
 	}
 }

@@ -1,14 +1,9 @@
 package pl.poznan.put.cs.gui4pddl.runners;
 
-import java.io.File;
-
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.variables.IStringVariableManager;
-import org.eclipse.core.variables.VariablesPlugin;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationType;
@@ -27,39 +22,6 @@ import org.eclipse.ui.PlatformUI;
  */
 public class LaunchConfigurationCreator {
 
-	public static String getProjectLocation(IProject project) {
-		String loc = null;
-		if (project != null) {
-			loc = project.getLocation().toOSString();
-		} else {
-			return null;
-		}
-
-		return loc;
-	}
-
-	public static String getRelativeFileLocation(IFile file) {
-		String rel = null;
-		if (file != null) {
-			IStringVariableManager varManager = VariablesPlugin.getDefault()
-					.getStringVariableManager();
-			rel = file.getFullPath().makeRelative().toString();
-			rel = varManager.generateVariableExpression("workspace_loc", rel);
-		} else {
-			return null;
-		}
-		return rel;
-	}
-
-	public static String getAbsoluteFilePathFromRelativePath(String relativePath)
-			throws CoreException {
-		IStringVariableManager varManager = VariablesPlugin.getDefault()
-				.getStringVariableManager();
-		String filePath = null;
-		filePath = varManager.performStringSubstitution(relativePath);
-		return filePath;
-	}
-
 	public static ILaunchConfigurationWorkingCopy createDefaultLaunchConfiguration(
 			IProject project, String launchConfigurationType, String location,
 			String projName) throws CoreException {
@@ -67,16 +29,7 @@ public class LaunchConfigurationCreator {
 				launchConfigurationType, location, projName, "", true);
 	}
 
-	public static String getBaseDirectory(IProject project) {
-		String baseDirectory = project.getLocation().toOSString();
-		File f = new File(baseDirectory + System.getProperty("file.separator") + "plans");
-		System.out.println("DIRECtORY" + f.getAbsolutePath());
-		if (!f.exists() || !f.isDirectory()) {
-			f.mkdir();
-		}
-		
-		return f.getAbsolutePath();
-	}
+
 
 	private static ILaunchConfigurationWorkingCopy createDefaultLaunchConfiguration(
 			IProject project, String launchConfigurationType, String location,

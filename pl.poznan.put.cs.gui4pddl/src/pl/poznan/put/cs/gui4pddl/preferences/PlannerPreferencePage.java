@@ -111,7 +111,7 @@ public class PlannerPreferencePage extends PreferencePage implements
 		tabFolder.setVisible(true);
 
 		PlannerPreferences preferences = new PlannerPreferences("New Planner "
-				+ (tabFolder.getItemCount() + 1), "", null);
+				+ (tabFolder.getItemCount() + 1), "", null, "");
 
 		PlannerPreferencesPageTabItem plannerPreferencesPageTab = new PlannerPreferencesPageTabItem(
 				preferences, this, tabFolder);

@@ -12,8 +12,8 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import pl.poznan.put.cs.gui4pddl.editor.TokenManager;
+import pl.poznan.put.cs.gui4pddl.planview.ui.PlanView;
 import pl.poznan.put.cs.gui4pddl.preferences.helpers.PlannerPreferencesStore;
-import pl.poznan.put.cs.gui4pddl.views.ui.PlanView;
 
 /**
  * The activator class controls the plug-in life cycle

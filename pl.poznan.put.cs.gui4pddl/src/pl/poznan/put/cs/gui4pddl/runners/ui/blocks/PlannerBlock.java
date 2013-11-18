@@ -194,6 +194,9 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 			
 			conf.setAttribute(RunnerConstants.PLANNER,
 					preferences.getPlannerFilePath());
+			
+			conf.setAttribute(RunnerConstants.FILE_NAME_REGEXP, preferences.getPlanViewFilePattern());
+			
 		}
 		if (argumentsCombo.getSelectionIndex() >= 0) {
 			conf.setAttribute(RunnerConstants.ARGUMENTS_NAME,
