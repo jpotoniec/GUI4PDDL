@@ -101,7 +101,7 @@ public class PlanViewDataProvider {
 		}
 	}
 
-	public List<PlanViewData> getPlanViewDataList() {
+	public Vector<PlanViewData> getPlanViewDataList() {
 		return planViewDataList;
 	}
 

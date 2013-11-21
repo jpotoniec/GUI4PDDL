@@ -1,53 +1,53 @@
 package pl.poznan.put.cs.gui4pddl.planview.ui;
 
 import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.ui.ide.IDE;
-import org.eclipse.ui.part.*;
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.debug.core.ILaunchConfiguration;
-import org.eclipse.jface.viewers.*;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.layout.TableColumnLayout;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IColorProvider;
+import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.jface.action.*;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.layout.TableColumnLayout;
-import org.eclipse.ui.*;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.part.ViewPart;
 
 import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewData;
 import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewDataProvider;
-
-/**
- * This sample class demonstrates how to plug-in a new workbench view. The view
- * shows data obtained from the model. The sample creates a dummy model on the
- * fly, but a real implementation would connect to the model available either in
- * this or another plug-in (e.g. the workspace). The view is connected to the
- * model using a content provider.
- * <p>
- * The view uses a label provider to define how model objects should be
- * presented in the view. Each view can present the same model objects using
- * different labels and icons, if needed. Alternatively, a single label provider
- * can be shared between views in order to ensure that objects of the same type
- * are presented in the same way everywhere.
- * <p>
- */
 
 public class PlanView extends ViewPart {
 
@@ -55,6 +55,13 @@ public class PlanView extends ViewPart {
 	 * The ID of the view as specified by the extension.
 	 */
 	public static final String ID = "pl.poznan.put.cs.gui4pddl.views.PlanView";
+
+	private static final String CLEAR_SELECTED_PLANS_TEXT = "Clear selected finished plans";
+	private static final String CLEAR_SELECTED_PLANS_TOOLTIP = "Clear selected finished plans";
+	private static final String CLEAR_ALL_FINISHED_PLANS_TEXT = "Clear all finished plans";
+	private static final String CLEAR_ALL_FINISHED_PLANS_TOOLTIP = "Clear all finished plans";
+	private static final String OPEN_READY_PLANS_IN_EDITOR_TEXT = "Open ready plans in editor";
+	private static final String OPEN_READY_PLANS_IN_EDITOR_TOOLTIP = "Open ready plans in editor";
 
 	private static final String PROJECT = "Project";
 	private static final String DOMAIN_LABEL = "Domain";
@@ -129,13 +136,8 @@ public class PlanView extends ViewPart {
 		table.setLinesVisible(true);
 
 		viewer.setContentProvider(new ArrayContentProvider());
-		// get the content for the viewer, setInput will call getElements in the
-		// contentProvider
-		// viewer.setInput(PlanViewModelProvider.getPlanViewModel());
-		// make the selection available to other views
 
 		getSite().setSelectionProvider(viewer);
-		// set the sorter for the table
 
 		// define layout for the viewer
 		GridData gridData = new GridData();
@@ -158,48 +160,6 @@ public class PlanView extends ViewPart {
 		contributeToActionBars();
 	}
 
-	public static PlanViewData updatePlanViewBeforePlanningProcess(
-			ILaunchConfiguration configuration, File workingDir) {
-		final PlanViewDataProvider dataProvider = PlanViewDataProvider
-				.getInstance();
-		PlanViewData pvd = dataProvider.addPlanViewDataOfRunningProcess(configuration,
-				workingDir);
-		setData(dataProvider);
-		return pvd;
-	}
-
-	public static void updatePlanViewAfterPlanningProcess(
-			ILaunchConfiguration configuration, File workingDir,
-			PlanViewData pvd) {
-		final PlanViewDataProvider dataProvider = PlanViewDataProvider
-				.getInstance();
-		dataProvider.setPlanFilesPathsAndMarkAsEnded(configuration, workingDir,
-				pvd);
-		setData(dataProvider);
-	}
-
-	private static void setData(final PlanViewDataProvider dataProvider) {
-		PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
-			public void run() {
-				try {
-					PlanView view = (PlanView) PlatformUI.getWorkbench()
-							.getActiveWorkbenchWindow().getActivePage()
-							.showView(ID);
-					view.setInput(dataProvider.getPlanViewDataList());
-				} catch (PartInitException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-
-	}
-
-	private void setInput(List<PlanViewData> list) {
-		viewer.setInput(list);
-	}
-
-	// create the columns for the table
 	private void createColumns(TableColumnLayout layout,
 			final Composite parent, final TableViewer viewer) {
 		String[] titles = { PROJECT, DOMAIN_LABEL, PROBLEM_LABEL, ID_LABEL,
@@ -225,7 +185,6 @@ public class PlanView extends ViewPart {
 			}
 		});
 
-		// second column is for the last name
 		col = createTableViewerColumn(layout, titles[2], 2);
 		col.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -236,7 +195,6 @@ public class PlanView extends ViewPart {
 			}
 		});
 
-		// now the gender
 		col = createTableViewerColumn(layout, titles[3], 3);
 		col.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -247,7 +205,6 @@ public class PlanView extends ViewPart {
 			}
 		});
 
-		// now the status married
 		col = createTableViewerColumn(layout, titles[4], 4);
 		col.setLabelProvider(new ColorStatusColumnLabelProvider());
 
@@ -260,7 +217,6 @@ public class PlanView extends ViewPart {
 			}
 
 		});
-
 	}
 
 	private TableViewerColumn createTableViewerColumn(TableColumnLayout layout,
@@ -282,68 +238,33 @@ public class PlanView extends ViewPart {
 		return viewerColumn;
 	}
 
-	private void hookContextMenu() {
-		MenuManager menuMgr = new MenuManager("#PopupMenu");
-		menuMgr.setRemoveAllWhenShown(true);
-		menuMgr.addMenuListener(new IMenuListener() {
-			public void menuAboutToShow(IMenuManager manager) {
-				PlanView.this.fillContextMenu(manager);
-			}
-		});
-		Menu menu = menuMgr.createContextMenu(viewer.getControl());
-		viewer.getControl().setMenu(menu);
-		getSite().registerContextMenu(menuMgr, viewer);
-	}
-
-	private void contributeToActionBars() {
-		IActionBars bars = getViewSite().getActionBars();
-		// fillLocalPullDown(bars.getMenuManager());
-		fillLocalToolBar(bars.getToolBarManager());
-	}
-
-	private void fillLocalPullDown(IMenuManager manager) {
-		manager.add(clearSelectedPlanAction);
-		manager.add(new Separator());
-		manager.add(clearAllPlansAction);
-		manager.add(openPlanInEdtiorAction);
-	}
-
-	private void fillContextMenu(IMenuManager manager) {
-		manager.add(clearSelectedPlanAction);
-		manager.add(openPlanInEdtiorAction);
-		manager.add(new Separator());
-		manager.add(clearAllPlansAction);
-		// Other plug-ins can contribute there actions here
-		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
-	}
-
-	private void fillLocalToolBar(IToolBarManager manager) {
-		manager.add(clearSelectedPlanAction);
-		manager.add(clearAllPlansAction);
-		manager.add(openPlanInEdtiorAction);
-	}
-
 	private void makeActions() {
 		clearSelectedPlanAction = new Action() {
 			public void run() {
-				showMessage("Clear selected plan executed");
+				IStructuredSelection selection = (IStructuredSelection) viewer
+						.getSelection();
+				PlanViewData[] input = Arrays.copyOf(selection.toArray(),
+						selection.toArray().length, PlanViewData[].class);
+				removeNotRunningRows(input);
+
 			}
 		};
-
-		clearSelectedPlanAction.setText("Clear selected finished plan");
-		clearSelectedPlanAction
-				.setToolTipText("Clear selected finished plan tooltip");
+		clearSelectedPlanAction.setText(CLEAR_SELECTED_PLANS_TEXT);
+		clearSelectedPlanAction.setToolTipText(CLEAR_SELECTED_PLANS_TOOLTIP);
 		clearSelectedPlanAction.setImageDescriptor(PlatformUI.getWorkbench()
 				.getSharedImages()
 				.getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
 
 		clearAllPlansAction = new Action() {
 			public void run() {
-				showMessage("Clear all plans executed");
+				@SuppressWarnings("unchecked")
+				Vector<PlanViewData> input = (Vector<PlanViewData>) viewer
+						.getInput();
+				removeNotRunningRows(input.toArray(new PlanViewData[0]));
 			}
 		};
-		clearAllPlansAction.setText("Clear all finished plans");
-		clearAllPlansAction.setToolTipText("Clear all finished plans tooltip");
+		clearAllPlansAction.setText(CLEAR_ALL_FINISHED_PLANS_TEXT);
+		clearAllPlansAction.setToolTipText(CLEAR_ALL_FINISHED_PLANS_TOOLTIP);
 		clearAllPlansAction.setImageDescriptor(PlatformUI.getWorkbench()
 				.getSharedImages()
 				.getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
@@ -353,9 +274,9 @@ public class PlanView extends ViewPart {
 				openSelectedPlanFiles();
 			}
 		};
-		openPlanInEdtiorAction.setText("Open OK plans in editor");
+		openPlanInEdtiorAction.setText(OPEN_READY_PLANS_IN_EDITOR_TEXT);
 		openPlanInEdtiorAction
-				.setToolTipText("Open OK plans in editor tooltip");
+				.setToolTipText(OPEN_READY_PLANS_IN_EDITOR_TOOLTIP);
 		openPlanInEdtiorAction.setImageDescriptor(PlatformUI.getWorkbench()
 				.getSharedImages()
 				.getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
@@ -380,6 +301,19 @@ public class PlanView extends ViewPart {
 
 			}
 		});
+	}
+
+	private void removeNotRunningRows(PlanViewData[] input) {
+		Vector<PlanViewData> notRunning = new Vector<PlanViewData>();
+		for (PlanViewData row : input) {
+			if (row.getStatus() != PlanViewData.Status.RUNNING) {
+				notRunning.add(row);
+			}
+		}
+		PlanViewDataProvider dataProvider = PlanViewDataProvider.getInstance();
+		dataProvider.getPlanViewDataList().removeAll(notRunning);
+
+		setData(dataProvider);
 	}
 
 	private void openSelectedPlanFiles() {
@@ -438,6 +372,28 @@ public class PlanView extends ViewPart {
 		}
 	}
 
+	private void hookContextMenu() {
+		MenuManager menuMgr = new MenuManager("#PopupMenu");
+		menuMgr.setRemoveAllWhenShown(true);
+		menuMgr.addMenuListener(new IMenuListener() {
+			public void menuAboutToShow(IMenuManager manager) {
+				PlanView.this.fillContextMenu(manager);
+			}
+		});
+		Menu menu = menuMgr.createContextMenu(viewer.getControl());
+		viewer.getControl().setMenu(menu);
+		getSite().registerContextMenu(menuMgr, viewer);
+	}
+
+	private void fillContextMenu(IMenuManager manager) {
+		manager.add(clearSelectedPlanAction);
+		manager.add(openPlanInEdtiorAction);
+		manager.add(new Separator());
+		manager.add(clearAllPlansAction);
+		// Other plug-ins can contribute there actions here
+		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+	}
+
 	private void hookDoubleClickAction() {
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
 			public void doubleClick(DoubleClickEvent event) {
@@ -446,9 +402,64 @@ public class PlanView extends ViewPart {
 		});
 	}
 
-	private void showMessage(String message) {
-		MessageDialog.openInformation(viewer.getControl().getShell(), "Plan",
-				message);
+	private void contributeToActionBars() {
+		IActionBars bars = getViewSite().getActionBars();
+		// fillLocalPullDown(bars.getMenuManager());
+		fillLocalToolBar(bars.getToolBarManager());
+	}
+
+	private void fillLocalPullDown(IMenuManager manager) {
+		manager.add(clearSelectedPlanAction);
+		manager.add(new Separator());
+		manager.add(clearAllPlansAction);
+		manager.add(openPlanInEdtiorAction);
+	}
+
+	private void fillLocalToolBar(IToolBarManager manager) {
+		manager.add(clearSelectedPlanAction);
+		manager.add(clearAllPlansAction);
+		manager.add(openPlanInEdtiorAction);
+	}
+
+	public static PlanViewData updatePlanViewBeforePlanningProcess(
+			ILaunchConfiguration configuration, File workingDir) {
+		final PlanViewDataProvider dataProvider = PlanViewDataProvider
+				.getInstance();
+		PlanViewData pvd = dataProvider.addPlanViewDataOfRunningProcess(
+				configuration, workingDir);
+		setData(dataProvider);
+		return pvd;
+	}
+
+	public static void updatePlanViewAfterPlanningProcess(
+			ILaunchConfiguration configuration, File workingDir,
+			PlanViewData pvd) {
+		final PlanViewDataProvider dataProvider = PlanViewDataProvider
+				.getInstance();
+		dataProvider.setPlanFilesPathsAndMarkAsEnded(configuration, workingDir,
+				pvd);
+		setData(dataProvider);
+	}
+
+	private static void setData(final PlanViewDataProvider dataProvider) {
+		PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
+			public void run() {
+				try {
+					PlanView view = (PlanView) PlatformUI.getWorkbench()
+							.getActiveWorkbenchWindow().getActivePage()
+							.showView(ID);
+					view.setInput(dataProvider.getPlanViewDataList());
+				} catch (PartInitException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+
+	}
+
+	private void setInput(List<PlanViewData> list) {
+		viewer.setInput(list);
 	}
 
 	/**
