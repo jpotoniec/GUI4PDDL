@@ -308,12 +308,27 @@ public class PlanView extends ViewPart {
 		for (PlanViewData row : input) {
 			if (row.getStatus() != PlanViewData.Status.RUNNING) {
 				notRunning.add(row);
+				deleteDir(new File(row.getWorkingDirPath()));
 			}
 		}
 		PlanViewDataProvider dataProvider = PlanViewDataProvider.getInstance();
 		dataProvider.getPlanViewDataList().removeAll(notRunning);
 
 		setData(dataProvider);
+	}
+	
+	private boolean deleteDir(File dir) {
+	    if (dir.isDirectory()) {
+	        String[] children = dir.list();
+	        for (int i = 0; i < children.length; i++) {
+	            boolean success = deleteDir(new File(dir, children[i]));
+	            if (!success) {
+	                return false;
+	            }
+	        }
+	    }
+
+	    return dir.delete(); // The directory is empty now and can be deleted.
 	}
 
 	private void openSelectedPlanFiles() {
