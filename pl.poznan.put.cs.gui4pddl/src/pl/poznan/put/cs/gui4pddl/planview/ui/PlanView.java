@@ -46,8 +46,10 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
 
+import pl.poznan.put.cs.gui4pddl.Activator;
 import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewData;
 import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewDataProvider;
+import pl.poznan.put.cs.gui4pddl.runners.RunnerConstants;
 
 public class PlanView extends ViewPart {
 
@@ -253,7 +255,7 @@ public class PlanView extends ViewPart {
 		clearSelectedPlanAction.setToolTipText(CLEAR_SELECTED_PLANS_TOOLTIP);
 		clearSelectedPlanAction.setImageDescriptor(PlatformUI.getWorkbench()
 				.getSharedImages()
-				.getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
+				.getImageDescriptor(ISharedImages.IMG_ELCL_REMOVE));
 
 		clearAllPlansAction = new Action() {
 			public void run() {
@@ -267,7 +269,7 @@ public class PlanView extends ViewPart {
 		clearAllPlansAction.setToolTipText(CLEAR_ALL_FINISHED_PLANS_TOOLTIP);
 		clearAllPlansAction.setImageDescriptor(PlatformUI.getWorkbench()
 				.getSharedImages()
-				.getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
+				.getImageDescriptor(ISharedImages.IMG_ELCL_REMOVEALL));
 
 		openPlanInEdtiorAction = new Action() {
 			public void run() {
@@ -279,7 +281,7 @@ public class PlanView extends ViewPart {
 				.setToolTipText(OPEN_READY_PLANS_IN_EDITOR_TOOLTIP);
 		openPlanInEdtiorAction.setImageDescriptor(PlatformUI.getWorkbench()
 				.getSharedImages()
-				.getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
+				.getImageDescriptor(ISharedImages.IMG_OBJ_FILE));
 
 		doubleClickAction = new Action() {
 			public void run() {
@@ -309,12 +311,14 @@ public class PlanView extends ViewPart {
 			if (row.getStatus() != PlanViewData.Status.RUNNING) {
 				notRunning.add(row);
 				deleteDir(new File(row.getWorkingDirPath()));
+				Activator.refreshProject(row.getProjectName());
 			}
 		}
 		PlanViewDataProvider dataProvider = PlanViewDataProvider.getInstance();
 		dataProvider.getPlanViewDataList().removeAll(notRunning);
 
 		setData(dataProvider);
+		
 	}
 	
 	private boolean deleteDir(File dir) {
@@ -401,8 +405,8 @@ public class PlanView extends ViewPart {
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
-		manager.add(clearSelectedPlanAction);
 		manager.add(openPlanInEdtiorAction);
+		manager.add(clearSelectedPlanAction);
 		manager.add(new Separator());
 		manager.add(clearAllPlansAction);
 		// Other plug-ins can contribute there actions here
@@ -431,9 +435,9 @@ public class PlanView extends ViewPart {
 	}
 
 	private void fillLocalToolBar(IToolBarManager manager) {
-		manager.add(clearSelectedPlanAction);
-		manager.add(clearAllPlansAction);
 		manager.add(openPlanInEdtiorAction);
+		manager.add(clearSelectedPlanAction);
+		manager.add(clearAllPlansAction);	
 	}
 
 	public static PlanViewData updatePlanViewBeforePlanningProcess(

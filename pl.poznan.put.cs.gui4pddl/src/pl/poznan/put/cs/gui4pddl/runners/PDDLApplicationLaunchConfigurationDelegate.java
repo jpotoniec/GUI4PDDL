@@ -3,6 +3,7 @@ package pl.poznan.put.cs.gui4pddl.runners;
 import java.io.File;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -82,6 +83,7 @@ public class PDDLApplicationLaunchConfigurationDelegate extends
 			UniversalPlannerRunner.run(configuration, monitor, launch, workingDir);
 			
 			PlanView.updatePlanViewAfterPlanningProcess(configuration, workingDir, pvd);
+			Activator.refreshProject(configuration.getAttribute(RunnerConstants.PROJECT, ""));
 			 
 		
 		} catch (Exception e) {
