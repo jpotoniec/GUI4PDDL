@@ -1,9 +1,12 @@
 package pl.poznan.put.cs.gui4pddl.planview.ui;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.part.*;
@@ -12,6 +15,7 @@ import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -59,6 +63,43 @@ public class PlanView extends ViewPart {
 	private Action clearAllPlansAction;
 	private Action openPlanInEdtiorAction;
 	private Action doubleClickAction;
+
+	public class ColorStatusColumnLabelProvider extends ColumnLabelProvider
+			implements IColorProvider {
+
+		private Color color;
+
+		@Override
+		public Color getBackground(Object element) {
+			return null;
+		}
+
+		@Override
+		public Color getForeground(Object element) {
+			return color;
+		}
+
+		@Override
+		public String getText(Object element) {
+			PlanViewData p = (PlanViewData) element;
+			if (p.getStatus() == PlanViewData.Status.RUNNING) {
+
+				color = Display.getCurrent().getSystemColor(SWT.COLOR_YELLOW);
+			} else if (p.getStatus() == PlanViewData.Status.OK) {
+
+				color = Display.getCurrent().getSystemColor(SWT.COLOR_GREEN);
+			} else if (p.getStatus() == PlanViewData.Status.WRONG) {
+
+				color = Display.getCurrent().getSystemColor(SWT.COLOR_RED);
+			}
+			
+			IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+			setActionsDisabledDependsOnStatus(selection);
+			
+			return p.getStatus().toString();
+		}
+
+	}
 
 	/**
 	 * The constructor.
@@ -111,19 +152,26 @@ public class PlanView extends ViewPart {
 		contributeToActionBars();
 	}
 
-	public static int updatePlanViewBeforePlanningProcess(ILaunchConfiguration configuration, File workingDir) {
-		final PlanViewDataProvider dataProvider = PlanViewDataProvider.getInstance();
-		int index = dataProvider.addPlanViewDataOfRunningProcess(configuration, workingDir);	
+	public static int updatePlanViewBeforePlanningProcess(
+			ILaunchConfiguration configuration, File workingDir) {
+		final PlanViewDataProvider dataProvider = PlanViewDataProvider
+				.getInstance();
+		int index = dataProvider.addPlanViewDataOfRunningProcess(configuration,
+				workingDir);
 		setData(dataProvider);
 		return index;
 	}
-	
-	public static void updatePlanViewAfterPlanningProcess(ILaunchConfiguration configuration, File workingDir, int insertedRowIndex) {
-		final PlanViewDataProvider dataProvider = PlanViewDataProvider.getInstance();
-		dataProvider.setPlanFilesPathsAndMarkAsEnded(configuration, workingDir, insertedRowIndex);
+
+	public static void updatePlanViewAfterPlanningProcess(
+			ILaunchConfiguration configuration, File workingDir,
+			int insertedRowIndex) {
+		final PlanViewDataProvider dataProvider = PlanViewDataProvider
+				.getInstance();
+		dataProvider.setPlanFilesPathsAndMarkAsEnded(configuration, workingDir,
+				insertedRowIndex);
 		setData(dataProvider);
 	}
-	
+
 	private static void setData(final PlanViewDataProvider dataProvider) {
 		PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
 			public void run() {
@@ -138,9 +186,9 @@ public class PlanView extends ViewPart {
 				}
 			}
 		});
-		
+
 	}
-	
+
 	private void setInput(List<PlanViewData> list) {
 		viewer.setInput(list);
 	}
@@ -148,10 +196,9 @@ public class PlanView extends ViewPart {
 	// create the columns for the table
 	private void createColumns(TableColumnLayout layout,
 			final Composite parent, final TableViewer viewer) {
-		String[] titles = {PROJECT, DOMAIN_LABEL, PROBLEM_LABEL, ID_LABEL,
+		String[] titles = { PROJECT, DOMAIN_LABEL, PROBLEM_LABEL, ID_LABEL,
 				STATUS_LABEL, PLANNER_ARGUMENTS_LABEL };
 
-		
 		TableViewerColumn col = createTableViewerColumn(layout, titles[0], 0);
 
 		col.setLabelProvider(new ColumnLabelProvider() {
@@ -161,7 +208,7 @@ public class PlanView extends ViewPart {
 				return p.getProjectName();
 			}
 		});
-		
+
 		col = createTableViewerColumn(layout, titles[1], 1);
 
 		col.setLabelProvider(new ColumnLabelProvider() {
@@ -196,14 +243,7 @@ public class PlanView extends ViewPart {
 
 		// now the status married
 		col = createTableViewerColumn(layout, titles[4], 4);
-		col.setLabelProvider(new ColumnLabelProvider() {
-			@Override
-			public String getText(Object element) {
-				PlanViewData p = (PlanViewData) element;
-				return p.getStatus().toString();
-			}
-
-		});
+		col.setLabelProvider(new ColorStatusColumnLabelProvider());
 
 		col = createTableViewerColumn(layout, titles[5], 5);
 		col.setLabelProvider(new ColumnLabelProvider() {
@@ -223,7 +263,7 @@ public class PlanView extends ViewPart {
 		final TableViewerColumn viewerColumn = new TableViewerColumn(viewer,
 				SWT.NONE);
 		final TableColumn column = viewerColumn.getColumn();
-		layout.setColumnData(column, new ColumnWeightData(100/6));
+		layout.setColumnData(column, new ColumnWeightData(100 / 6));
 		column.addControlListener(new ControlAdapter() {
 			public void controlResized(ControlEvent e) {
 				if (column.getWidth() < 5)
@@ -283,8 +323,10 @@ public class PlanView extends ViewPart {
 				showMessage("Clear selected plan executed");
 			}
 		};
-		clearSelectedPlanAction.setText("Clear selected plan");
-		clearSelectedPlanAction.setToolTipText("Clear selected plan tooltip");
+
+		clearSelectedPlanAction.setText("Clear selected finished plan");
+		clearSelectedPlanAction
+				.setToolTipText("Clear selected finished plan tooltip");
 		clearSelectedPlanAction.setImageDescriptor(PlatformUI.getWorkbench()
 				.getSharedImages()
 				.getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
@@ -294,19 +336,20 @@ public class PlanView extends ViewPart {
 				showMessage("Clear all plans executed");
 			}
 		};
-		clearAllPlansAction.setText("Clear all plans");
-		clearAllPlansAction.setToolTipText("Clear all plans tooltip");
+		clearAllPlansAction.setText("Clear all finished plans");
+		clearAllPlansAction.setToolTipText("Clear all finished plans tooltip");
 		clearAllPlansAction.setImageDescriptor(PlatformUI.getWorkbench()
 				.getSharedImages()
 				.getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
 
 		openPlanInEdtiorAction = new Action() {
 			public void run() {
-				showMessage("Open plan in editor executed");
+				showMessage("Open OK plans in editor executed");
 			}
 		};
-		openPlanInEdtiorAction.setText("Open plan in editor");
-		openPlanInEdtiorAction.setToolTipText("Open plan in editor tooltip");
+		openPlanInEdtiorAction.setText("Open OK plans in editor");
+		openPlanInEdtiorAction
+				.setToolTipText("Open OK plans in editor tooltip");
 		openPlanInEdtiorAction.setImageDescriptor(PlatformUI.getWorkbench()
 				.getSharedImages()
 				.getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
@@ -319,7 +362,52 @@ public class PlanView extends ViewPart {
 				showMessage("Double-click detected on " + obj.toString());
 			}
 		};
+		
+		openPlanInEdtiorAction.setEnabled(false);
+		clearSelectedPlanAction.setEnabled(false);
+
+		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+
+				IStructuredSelection selection = (IStructuredSelection) event
+						.getSelection();
+				setActionsDisabledDependsOnStatus(selection);
+			
+
+			}
+		});
 	}
+	
+	private void setActionsDisabledDependsOnStatus(IStructuredSelection selection) {
+		
+		openPlanInEdtiorAction.setEnabled(true);
+		clearSelectedPlanAction.setEnabled(true);
+
+		int okStatus = 0;
+		int wrongStatus = 0;
+		int runningStatus = 0;
+
+		PlanViewData rows[] = Arrays.copyOf(selection.toArray(), selection.toArray().length, PlanViewData[].class);
+		for (PlanViewData row : rows) {
+			if (row.getStatus() == PlanViewData.Status.RUNNING) {
+				runningStatus++;
+			} else if (row.getStatus() == PlanViewData.Status.WRONG) {
+				wrongStatus++;
+			} else if (row.getStatus() == PlanViewData.Status.OK) {
+				okStatus++;
+			}
+		}
+
+		if ((wrongStatus + runningStatus) == rows.length) {
+			openPlanInEdtiorAction.setEnabled(false);
+		}
+		if ((runningStatus) == rows.length) {
+			clearSelectedPlanAction.setEnabled(false);
+		}
+	}
+	
 
 	private void hookDoubleClickAction() {
 		viewer.addDoubleClickListener(new IDoubleClickListener() {

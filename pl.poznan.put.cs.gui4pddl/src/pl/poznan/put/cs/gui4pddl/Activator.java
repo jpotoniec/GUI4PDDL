@@ -2,6 +2,8 @@ package pl.poznan.put.cs.gui4pddl;
 
 import java.util.ResourceBundle;
 
+import org.eclipse.debug.internal.ui.DebugUIPlugin;
+import org.eclipse.debug.internal.ui.preferences.IDebugPreferenceConstants;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.swt.graphics.RGB;
@@ -52,7 +54,17 @@ public class Activator extends AbstractUIPlugin {
 		super.start(context);
 		plugin = this;
 		PlannerPreferencesStore.loadPlannerPreferences();
+		
+		//TODO dowiedziec sie czy ukrywac widok konsoli od poczatku czy nie
+		/*IPreferenceStore debugUIPreferences = 
+				DebugUIPlugin.getDefault().getPreferenceStore(); 
 
+				debugUIPreferences.setValue(IDebugPreferenceConstants.CONSOLE_OPEN_ON_ERR, 
+				false); 
+
+				debugUIPreferences.setValue(IDebugPreferenceConstants.CONSOLE_OPEN_ON_OUT, 
+				false); 
+*/
 	}
 
 	public static void showPlanView() {

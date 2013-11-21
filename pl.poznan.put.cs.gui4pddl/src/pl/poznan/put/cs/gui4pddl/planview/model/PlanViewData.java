@@ -1,18 +1,21 @@
 package pl.poznan.put.cs.gui4pddl.planview.model;
 
+
 public class PlanViewData {
 	public enum Status {
 		RUNNING("Running"), OK("Ok"), WRONG("Wrong");
 
-		private final String text;
+		private final String text;	
 
 		private Status(String s) {
 			text = s;
+		
 		}
 
 		public String toString() {
 			return text;
 		}
+		
 	}
 
 	private String projectName;
@@ -35,7 +38,7 @@ public class PlanViewData {
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
 	}
-	
+
 	public String getDomain() {
 		return domain;
 	}
@@ -81,7 +84,8 @@ public class PlanViewData {
 	}
 
 	public void setWorkingDirPath(String workingDirPath) {
-		String elements[] = workingDirPath.split(System.getProperty("file.separator"));
+		String elements[] = workingDirPath.split(System
+				.getProperty("file.separator"));
 		id = elements[elements.length - 1];
 		this.workingDirPath = workingDirPath;
 	}
