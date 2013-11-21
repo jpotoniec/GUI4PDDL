@@ -78,12 +78,12 @@ public class PDDLApplicationLaunchConfigurationDelegate extends
 											.getAttribute(
 													RunnerConstants.PROBLEM_FILE,
 													"")));
-			int insertedRowIndex = PlanView.updatePlanViewBeforePlanningProcess(configuration, workingDir);
+			PlanViewData pvd = PlanView.updatePlanViewBeforePlanningProcess(configuration, workingDir);
 			UniversalPlannerRunner.run(configuration, monitor, launch, workingDir);
 			
-			PlanView.updatePlanViewAfterPlanningProcess(configuration, workingDir, insertedRowIndex);
+			PlanView.updatePlanViewAfterPlanningProcess(configuration, workingDir, pvd);
 			 
-			Activator.showPlanView();
+		
 		} catch (Exception e) {
 			Log.log(e);
 			finishLaunchWithError(launch);

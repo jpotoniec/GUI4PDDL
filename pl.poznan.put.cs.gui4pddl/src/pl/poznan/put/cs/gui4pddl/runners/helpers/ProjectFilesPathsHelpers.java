@@ -78,7 +78,7 @@ public class ProjectFilesPathsHelpers {
 	
 	}
 
-	public static File getWorkingDir(String basePath, String domainPath,
+	public static synchronized File getWorkingDir(String basePath, String domainPath,
 			String problemPath) {
 		File baseDirectory = new File(basePath
 				+ System.getProperty("file.separator") + "plans");

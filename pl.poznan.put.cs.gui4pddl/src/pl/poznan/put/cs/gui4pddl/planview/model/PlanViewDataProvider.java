@@ -3,6 +3,7 @@ package pl.poznan.put.cs.gui4pddl.planview.model;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
@@ -12,7 +13,7 @@ import pl.poznan.put.cs.gui4pddl.runners.RunnerConstants;
 import pl.poznan.put.cs.gui4pddl.runners.helpers.ProjectFilesPathsHelpers;
 
 public class PlanViewDataProvider {
-	private List<PlanViewData> planViewDataList;
+	private Vector<PlanViewData> planViewDataList;
 
 	private static volatile PlanViewDataProvider instance = null;
 
@@ -29,13 +30,13 @@ public class PlanViewDataProvider {
 	}
 
 	private PlanViewDataProvider() {
-		planViewDataList = new ArrayList<PlanViewData>();
+		planViewDataList = new Vector<PlanViewData>();
 	}
 
-	public int addPlanViewDataOfRunningProcess(ILaunchConfiguration config,
+	public PlanViewData addPlanViewDataOfRunningProcess(ILaunchConfiguration config,
 			File workingDir) {
+		PlanViewData planViewModel = new PlanViewData();
 		try {
-			System.out.println(workingDir.getAbsolutePath());
 
 			String domainAbsolutePath = ProjectFilesPathsHelpers
 					.getAbsoluteFilePathFromRelativePath(config.getAttribute(
@@ -44,8 +45,9 @@ public class PlanViewDataProvider {
 					.getAbsoluteFilePathFromRelativePath(config.getAttribute(
 							RunnerConstants.PROBLEM_FILE, ""));
 
-			PlanViewData planViewModel = new PlanViewData();
-			planViewModel.setProjectName(config.getAttribute(RunnerConstants.PROJECT, ""));
+			
+			planViewModel.setProjectName(config.getAttribute(
+					RunnerConstants.PROJECT, ""));
 			planViewModel.setDomain(ProjectFilesPathsHelpers
 					.getPDDLFileNameWithoutExtension(domainAbsolutePath));
 			planViewModel.setDomainFilePath(domainAbsolutePath);
@@ -66,35 +68,37 @@ public class PlanViewDataProvider {
 			e.printStackTrace();
 		}
 
-		return planViewDataList.size() == 0 ? 0 : planViewDataList.size() - 1;
+		return planViewModel;
 
 	}
 
 	public void setPlanFilesPathsAndMarkAsEnded(ILaunchConfiguration config,
-			File workingDir, int index) {
-		PlanViewData pvd = planViewDataList.remove(index);
-		try {
+			File workingDir, PlanViewData pvd) {
+		if (planViewDataList.remove(pvd) == true) {
+			try {
 
-			String regexp;
-			regexp = config.getAttribute(RunnerConstants.FILE_NAME_REGEXP, "");
-			File[] planFiles = FileNameRegexProcessor.getMatchedFiles(regexp,
-					workingDir, config);
-			if (planFiles.length > 0) {
-				for (File f : planFiles) {
-					pvd.setPlanFilePath(f.getAbsolutePath());
-					pvd.setStatus(PlanViewData.Status.OK);
+				String regexp;
+				regexp = config.getAttribute(RunnerConstants.FILE_NAME_REGEXP,
+						"");
+				File[] planFiles = FileNameRegexProcessor.getMatchedFiles(
+						regexp, workingDir, config);
+				if (planFiles.length > 0) {
+					for (File f : planFiles) {
+						pvd.setPlanFilePath(f.getAbsolutePath());
+						pvd.setStatus(PlanViewData.Status.OK);
+						planViewDataList.add(pvd);
+					}
+				} else {
+					pvd.setStatus(PlanViewData.Status.WRONG);
 					planViewDataList.add(pvd);
 				}
-			} else {
-				pvd.setStatus(PlanViewData.Status.WRONG);
-				planViewDataList.add(pvd);
+
+			} catch (CoreException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 
-		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-
 	}
 
 	public List<PlanViewData> getPlanViewDataList() {

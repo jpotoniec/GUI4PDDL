@@ -1,6 +1,8 @@
 package pl.poznan.put.cs.gui4pddl.planview.ui;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -9,7 +11,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.*;
+import org.eclipse.core.filesystem.EFS;
+import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.events.ControlAdapter;
@@ -92,10 +97,11 @@ public class PlanView extends ViewPart {
 
 				color = Display.getCurrent().getSystemColor(SWT.COLOR_RED);
 			}
-			
-			IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+
+			IStructuredSelection selection = (IStructuredSelection) viewer
+					.getSelection();
 			setActionsDisabledDependsOnStatus(selection);
-			
+
 			return p.getStatus().toString();
 		}
 
@@ -152,23 +158,23 @@ public class PlanView extends ViewPart {
 		contributeToActionBars();
 	}
 
-	public static int updatePlanViewBeforePlanningProcess(
+	public static PlanViewData updatePlanViewBeforePlanningProcess(
 			ILaunchConfiguration configuration, File workingDir) {
 		final PlanViewDataProvider dataProvider = PlanViewDataProvider
 				.getInstance();
-		int index = dataProvider.addPlanViewDataOfRunningProcess(configuration,
+		PlanViewData pvd = dataProvider.addPlanViewDataOfRunningProcess(configuration,
 				workingDir);
 		setData(dataProvider);
-		return index;
+		return pvd;
 	}
 
 	public static void updatePlanViewAfterPlanningProcess(
 			ILaunchConfiguration configuration, File workingDir,
-			int insertedRowIndex) {
+			PlanViewData pvd) {
 		final PlanViewDataProvider dataProvider = PlanViewDataProvider
 				.getInstance();
 		dataProvider.setPlanFilesPathsAndMarkAsEnded(configuration, workingDir,
-				insertedRowIndex);
+				pvd);
 		setData(dataProvider);
 	}
 
@@ -344,7 +350,7 @@ public class PlanView extends ViewPart {
 
 		openPlanInEdtiorAction = new Action() {
 			public void run() {
-				showMessage("Open OK plans in editor executed");
+				openSelectedPlanFiles();
 			}
 		};
 		openPlanInEdtiorAction.setText("Open OK plans in editor");
@@ -356,13 +362,10 @@ public class PlanView extends ViewPart {
 
 		doubleClickAction = new Action() {
 			public void run() {
-				ISelection selection = viewer.getSelection();
-				Object obj = ((IStructuredSelection) selection)
-						.getFirstElement();
-				showMessage("Double-click detected on " + obj.toString());
+				openSelectedPlanFiles();
 			}
 		};
-		
+
 		openPlanInEdtiorAction.setEnabled(false);
 		clearSelectedPlanAction.setEnabled(false);
 
@@ -374,14 +377,40 @@ public class PlanView extends ViewPart {
 				IStructuredSelection selection = (IStructuredSelection) event
 						.getSelection();
 				setActionsDisabledDependsOnStatus(selection);
-			
 
 			}
 		});
 	}
-	
-	private void setActionsDisabledDependsOnStatus(IStructuredSelection selection) {
-		
+
+	private void openSelectedPlanFiles() {
+		IStructuredSelection selection = (IStructuredSelection) viewer
+				.getSelection();
+		Iterator<?> itr = selection.iterator();
+		while (itr.hasNext()) {
+			PlanViewData pvd = (PlanViewData) itr.next();
+			if (pvd.getPlanFilePath() != null) {
+				File fileToOpen = new File(pvd.getPlanFilePath());
+				if (fileToOpen.exists() && fileToOpen.isFile()) {
+					IFileStore fileStore = EFS.getLocalFileSystem().getStore(
+							fileToOpen.toURI());
+					IWorkbenchPage page = PlatformUI.getWorkbench()
+							.getActiveWorkbenchWindow().getActivePage();
+
+					try {
+						IDE.openEditorOnFileStore(page, fileStore);
+					} catch (PartInitException e) {
+						// Put your exception handler here if you wish to
+					}
+				} else {
+					// Do something if the file does not exist
+				}
+			}
+		}
+	}
+
+	private void setActionsDisabledDependsOnStatus(
+			IStructuredSelection selection) {
+
 		openPlanInEdtiorAction.setEnabled(true);
 		clearSelectedPlanAction.setEnabled(true);
 
@@ -389,7 +418,8 @@ public class PlanView extends ViewPart {
 		int wrongStatus = 0;
 		int runningStatus = 0;
 
-		PlanViewData rows[] = Arrays.copyOf(selection.toArray(), selection.toArray().length, PlanViewData[].class);
+		PlanViewData rows[] = Arrays.copyOf(selection.toArray(),
+				selection.toArray().length, PlanViewData[].class);
 		for (PlanViewData row : rows) {
 			if (row.getStatus() == PlanViewData.Status.RUNNING) {
 				runningStatus++;
@@ -407,7 +437,6 @@ public class PlanView extends ViewPart {
 			clearSelectedPlanAction.setEnabled(false);
 		}
 	}
-	
 
 	private void hookDoubleClickAction() {
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
