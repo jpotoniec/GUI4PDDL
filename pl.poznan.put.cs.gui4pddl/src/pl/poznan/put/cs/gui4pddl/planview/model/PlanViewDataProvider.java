@@ -181,17 +181,28 @@ public class PlanViewDataProvider implements Serializable {
 	}
 
 	public void checkIfPlansFilesExistsAndRefreshData() {
+		ArrayList<PlanViewData> toRemove = new ArrayList<PlanViewData>();
 		for (PlanViewData row : instance.getPlanViewDataList()) {
-			if (row.getPlanFilePath() != null) {
-				File f = new File(row.getPlanFilePath());
-				if (f.exists() && f.isFile()) {
-					row.setStatus(PlanViewData.Status.OK);
+			if (row.getWorkingDirPath() != null) {
+				File workingDir = new File(row.getWorkingDirPath());
+				if (!workingDir.exists() || !workingDir.isDirectory()) {
+					toRemove.add(row);
 				} else {
-					row.setPlanFilePath(null);
-					row.setStatus(PlanViewData.Status.WRONG);
+					if (row.getPlanFilePath() != null) {
+						File planFile = new File(row.getPlanFilePath());
+						if (planFile.exists() && planFile.isFile()) {
+							row.setStatus(PlanViewData.Status.OK);
+						} else {
+							row.setPlanFilePath(null);
+							row.setStatus(PlanViewData.Status.WRONG);
+						}
+					}
 				}
 			}
+
 		}
+	
+		planViewDataList.removeAll(toRemove);
 	}
 
 }
