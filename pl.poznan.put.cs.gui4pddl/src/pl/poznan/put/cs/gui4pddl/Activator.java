@@ -18,6 +18,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import pl.poznan.put.cs.gui4pddl.editor.TokenManager;
+import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewDataProvider;
 import pl.poznan.put.cs.gui4pddl.planview.ui.PlanView;
 import pl.poznan.put.cs.gui4pddl.preferences.helpers.PlannerPreferencesStore;
 import pl.poznan.put.cs.gui4pddl.runners.RunnerConstants;
@@ -59,6 +60,11 @@ public class Activator extends AbstractUIPlugin {
 		super.start(context);
 		plugin = this;
 		PlannerPreferencesStore.loadPlannerPreferences();
+		PlanViewDataProvider.loadPlanBrowserDataFromFile();
+		PlanViewDataProvider planViewDataProvider = PlanViewDataProvider.getInstance();
+		planViewDataProvider.checkIfPlansFilesExistsAndRefreshData();
+		PlanView.setData(PlanViewDataProvider.getInstance());
+		PlanViewDataProvider.savePlanBrowserData();
 
 		// TODO dowiedziec sie czy ukrywac widok konsoli od poczatku czy nie
 		/*

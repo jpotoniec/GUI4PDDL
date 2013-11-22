@@ -1,7 +1,14 @@
 package pl.poznan.put.cs.gui4pddl.planview.model;
 
+import java.io.Serializable;
 
-public class PlanViewData {
+
+public class PlanViewData implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public enum Status {
 		RUNNING("Running"), OK("Ok"), WRONG("Wrong");
 

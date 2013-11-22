@@ -316,26 +316,29 @@ public class PlanView extends ViewPart {
 		}
 		PlanViewDataProvider dataProvider = PlanViewDataProvider.getInstance();
 		dataProvider.getPlanViewDataList().removeAll(notRunning);
+		dataProvider.savePlanBrowserData();
 
 		setData(dataProvider);
-		
-	}
-	
-	private boolean deleteDir(File dir) {
-	    if (dir.isDirectory()) {
-	        String[] children = dir.list();
-	        for (int i = 0; i < children.length; i++) {
-	            boolean success = deleteDir(new File(dir, children[i]));
-	            if (!success) {
-	                return false;
-	            }
-	        }
-	    }
 
-	    return dir.delete(); // The directory is empty now and can be deleted.
+	}
+
+	private boolean deleteDir(File dir) {
+		if (dir.isDirectory()) {
+			String[] children = dir.list();
+			for (int i = 0; i < children.length; i++) {
+				boolean success = deleteDir(new File(dir, children[i]));
+				if (!success) {
+					return false;
+				}
+			}
+		}
+
+		return dir.delete(); // The directory is empty now and can be deleted.
 	}
 
 	private void openSelectedPlanFiles() {
+		PlanViewDataProvider dataProvider = PlanViewDataProvider.getInstance();
+
 		IStructuredSelection selection = (IStructuredSelection) viewer
 				.getSelection();
 		Iterator<?> itr = selection.iterator();
@@ -355,8 +358,14 @@ public class PlanView extends ViewPart {
 						// Put your exception handler here if you wish to
 					}
 				} else {
-					// Do something if the file does not exist
+					dataProvider.checkIfPlansFilesExistsAndRefreshData();
+					setData(dataProvider);
+					PlanViewDataProvider.savePlanBrowserData();
 				}
+			} else {
+				dataProvider.checkIfPlansFilesExistsAndRefreshData();
+				setData(dataProvider);
+				PlanViewDataProvider.savePlanBrowserData();
 			}
 		}
 	}
@@ -437,7 +446,7 @@ public class PlanView extends ViewPart {
 	private void fillLocalToolBar(IToolBarManager manager) {
 		manager.add(openPlanInEdtiorAction);
 		manager.add(clearSelectedPlanAction);
-		manager.add(clearAllPlansAction);	
+		manager.add(clearAllPlansAction);
 	}
 
 	public static PlanViewData updatePlanViewBeforePlanningProcess(
@@ -460,7 +469,7 @@ public class PlanView extends ViewPart {
 		setData(dataProvider);
 	}
 
-	private static void setData(final PlanViewDataProvider dataProvider) {
+	public static void setData(final PlanViewDataProvider dataProvider) {
 		PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
 			public void run() {
 				try {
