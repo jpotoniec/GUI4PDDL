@@ -1,7 +1,5 @@
 package pl.poznan.put.cs.gui4pddl.planview.model;
 
-import java.beans.XMLEncoder;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -10,17 +8,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.Vector;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 
 import pl.poznan.put.cs.gui4pddl.Activator;
+import pl.poznan.put.cs.gui4pddl.log.Log;
 import pl.poznan.put.cs.gui4pddl.planview.helpers.FileNameRegexProcessor;
-import pl.poznan.put.cs.gui4pddl.planview.ui.PlanView;
-import pl.poznan.put.cs.gui4pddl.preferences.model.PlannerPreferences;
 import pl.poznan.put.cs.gui4pddl.runners.RunnerConstants;
 import pl.poznan.put.cs.gui4pddl.runners.helpers.ProjectFilesPathsHelpers;
 
@@ -31,11 +26,13 @@ public class PlanViewDataProvider implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Vector<PlanViewData> planViewDataList;
+	private Vector<PlanViewRowData> planViewRowDataVector;
 
 	public static String PLAN_BROWSER_DATA_LOCATION = Activator.getDefault()
 			.getStateLocation().toOSString()
 			+ File.separator + "plan_browser";
+	public static String PLAN_BROWSER_DATA_FILE_PATH = PLAN_BROWSER_DATA_LOCATION
+			+ File.separator + "plan_browser.ser";
 
 	private static volatile PlanViewDataProvider instance = null;
 
@@ -52,12 +49,12 @@ public class PlanViewDataProvider implements Serializable {
 	}
 
 	private PlanViewDataProvider() {
-		planViewDataList = new Vector<PlanViewData>();
+		planViewRowDataVector = new Vector<PlanViewRowData>();
 	}
 
-	public PlanViewData addPlanViewDataOfRunningProcess(
+	public PlanViewRowData addPlanViewDataOfRunningProcess(
 			ILaunchConfiguration config, File workingDir) {
-		PlanViewData planViewModel = new PlanViewData();
+		PlanViewRowData planViewRowData = new PlanViewRowData();
 		try {
 
 			String domainAbsolutePath = ProjectFilesPathsHelpers
@@ -67,35 +64,35 @@ public class PlanViewDataProvider implements Serializable {
 					.getAbsoluteFilePathFromRelativePath(config.getAttribute(
 							RunnerConstants.PROBLEM_FILE, ""));
 
-			planViewModel.setProjectName(config.getAttribute(
+			planViewRowData.setProjectName(config.getAttribute(
 					RunnerConstants.PROJECT, ""));
-			planViewModel.setDomain(ProjectFilesPathsHelpers
+			planViewRowData.setDomain(ProjectFilesPathsHelpers
 					.getPDDLFileNameWithoutExtension(domainAbsolutePath));
-			planViewModel.setDomainFilePath(domainAbsolutePath);
+			planViewRowData.setDomainFilePath(domainAbsolutePath);
 
-			planViewModel.setPlannerArguments(config.getAttribute(
+			planViewRowData.setPlannerArguments(config.getAttribute(
 					RunnerConstants.ARGUMENTS_NAME, ""));
-			planViewModel.setPlannerName(config.getAttribute(
+			planViewRowData.setPlannerName(config.getAttribute(
 					RunnerConstants.PLANNER_NAME, ""));
-			planViewModel.setProblem(ProjectFilesPathsHelpers
+			planViewRowData.setProblem(ProjectFilesPathsHelpers
 					.getPDDLFileNameWithoutExtension(problemAbsolutePath));
-			planViewModel.setProblemFilePath(problemAbsolutePath);
-			planViewModel.setStatus(PlanViewData.Status.RUNNING);
-			planViewModel.setWorkingDirPath(workingDir.getAbsolutePath());
-			planViewDataList.add(planViewModel);
+			planViewRowData.setProblemFilePath(problemAbsolutePath);
+			planViewRowData.setStatus(PlanViewRowData.Status.RUNNING);
+			planViewRowData.setWorkingDirPath(workingDir.getAbsolutePath());
+			planViewRowDataVector.add(planViewRowData);
 
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		return planViewModel;
+		return planViewRowData;
 
 	}
 
 	public void setPlanFilesPathsAndMarkAsEnded(ILaunchConfiguration config,
-			File workingDir, PlanViewData pvd) {
-		if (planViewDataList.remove(pvd) == true) {
+			File workingDir, PlanViewRowData pvrd) {
+		if (planViewRowDataVector.remove(pvrd) == true) {
 			try {
 
 				String regexp;
@@ -105,13 +102,13 @@ public class PlanViewDataProvider implements Serializable {
 						regexp, workingDir, config);
 				if (planFiles.length > 0) {
 					for (File f : planFiles) {
-						pvd.setPlanFilePath(f.getAbsolutePath());
-						pvd.setStatus(PlanViewData.Status.OK);
-						planViewDataList.add(pvd);
+						pvrd.setPlanFilePath(f.getAbsolutePath());
+						pvrd.setStatus(PlanViewRowData.Status.OK);
+						planViewRowDataVector.add(pvrd);
 					}
 				} else {
-					pvd.setStatus(PlanViewData.Status.WRONG);
-					planViewDataList.add(pvd);
+					pvrd.setStatus(PlanViewRowData.Status.WRONG);
+					planViewRowDataVector.add(pvrd);
 				}
 
 			} catch (CoreException e) {
@@ -123,8 +120,8 @@ public class PlanViewDataProvider implements Serializable {
 		savePlanBrowserData();
 	}
 
-	public Vector<PlanViewData> getPlanViewDataList() {
-		return planViewDataList;
+	public Vector<PlanViewRowData> getPlanViewDataList() {
+		return planViewRowDataVector;
 	}
 
 	public static void loadPlanBrowserDataFromFile() {
@@ -135,16 +132,13 @@ public class PlanViewDataProvider implements Serializable {
 			boolean result = planBrowserDataDir.mkdir();
 
 			if (!result) {
-				throw new RuntimeException(
-						"Could not create planner preferences directory");
+				Log.log("Could not create plan browser data directory");
 			}
 		}
 
 		try {
 			FileInputStream fileIn = new FileInputStream(
-					PLAN_BROWSER_DATA_LOCATION
-							+ System.getProperty("file.separator")
-							+ "plan_browser.ser");
+					PLAN_BROWSER_DATA_FILE_PATH);
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 			instance = (PlanViewDataProvider) in.readObject();
 			in.close();
@@ -164,15 +158,13 @@ public class PlanViewDataProvider implements Serializable {
 		PlanViewDataProvider provider = getInstance();
 		try {
 			FileOutputStream fileOut = new FileOutputStream(
-					PLAN_BROWSER_DATA_LOCATION
-							+ System.getProperty("file.separator")
-							+ "plan_browser.ser");
+					PLAN_BROWSER_DATA_FILE_PATH);
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(provider);
 			out.close();
 			fileOut.close();
 		} catch (IOException i) {
-			i.printStackTrace();
+			Log.log("Could not save plan browser data");
 			return false;
 		}
 
@@ -180,9 +172,9 @@ public class PlanViewDataProvider implements Serializable {
 
 	}
 
-	public void checkIfPlansFilesExistsAndRefreshData() {
-		ArrayList<PlanViewData> toRemove = new ArrayList<PlanViewData>();
-		for (PlanViewData row : instance.getPlanViewDataList()) {
+	public void refreshPlanBrowserData() {
+		ArrayList<PlanViewRowData> toRemove = new ArrayList<PlanViewRowData>();
+		for (PlanViewRowData row : instance.getPlanViewDataList()) {
 			if (row.getWorkingDirPath() != null) {
 				File workingDir = new File(row.getWorkingDirPath());
 				if (!workingDir.exists() || !workingDir.isDirectory()) {
@@ -191,18 +183,19 @@ public class PlanViewDataProvider implements Serializable {
 					if (row.getPlanFilePath() != null) {
 						File planFile = new File(row.getPlanFilePath());
 						if (planFile.exists() && planFile.isFile()) {
-							row.setStatus(PlanViewData.Status.OK);
+							row.setStatus(PlanViewRowData.Status.OK);
 						} else {
 							row.setPlanFilePath(null);
-							row.setStatus(PlanViewData.Status.WRONG);
+							row.setStatus(PlanViewRowData.Status.WRONG);
 						}
+					} else {
+						row.setPlanFilePath(null);
+						row.setStatus(PlanViewRowData.Status.WRONG);
 					}
 				}
 			}
-
 		}
-	
-		planViewDataList.removeAll(toRemove);
+		instance.getPlanViewDataList().removeAll(toRemove);
 	}
 
 }

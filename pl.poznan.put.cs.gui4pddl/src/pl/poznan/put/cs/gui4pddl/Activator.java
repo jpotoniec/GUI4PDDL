@@ -2,25 +2,15 @@ package pl.poznan.put.cs.gui4pddl;
 
 import java.util.ResourceBundle;
 
-import org.eclipse.core.resources.IMarkerDelta;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
-import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.debug.internal.ui.DebugUIPlugin;
-import org.eclipse.debug.internal.ui.preferences.IDebugPreferenceConstants;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.StringConverter;
-import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.graphics.RGB;
-import org.eclipse.ui.IPageLayout;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -28,7 +18,6 @@ import pl.poznan.put.cs.gui4pddl.editor.TokenManager;
 import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewDataProvider;
 import pl.poznan.put.cs.gui4pddl.planview.ui.PlanView;
 import pl.poznan.put.cs.gui4pddl.preferences.helpers.PlannerPreferencesStore;
-import pl.poznan.put.cs.gui4pddl.runners.RunnerConstants;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -68,23 +57,16 @@ public class Activator extends AbstractUIPlugin {
 		plugin = this;
 		PlannerPreferencesStore.loadPlannerPreferences();
 		PlanViewDataProvider.loadPlanBrowserDataFromFile();
-		final PlanViewDataProvider planViewDataProvider = PlanViewDataProvider.getInstance();
-		planViewDataProvider.checkIfPlansFilesExistsAndRefreshData();
-		PlanView.setData(PlanViewDataProvider.getInstance());
-		PlanViewDataProvider.savePlanBrowserData();
-		
-		
-		 ResourcesPlugin.getWorkspace().addResourceChangeListener(new IResourceChangeListener() {
-			
-			@Override
-			public void resourceChanged(IResourceChangeEvent arg0) {
-				planViewDataProvider.checkIfPlansFilesExistsAndRefreshData();
-				PlanView.setData(PlanViewDataProvider.getInstance());
-				PlanViewDataProvider.savePlanBrowserData();
-				
-			}
-		},IResourceChangeEvent.PRE_BUILD);
-		
+		PlanView.refreshPlanView();
+
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(
+				new IResourceChangeListener() {
+
+					@Override
+					public void resourceChanged(IResourceChangeEvent arg0) {
+						PlanView.refreshPlanView();
+					}
+				}, IResourceChangeEvent.PRE_BUILD);
 
 		// TODO dowiedziec sie czy ukrywac widok konsoli od poczatku czy nie
 		/*

@@ -3,7 +3,7 @@ package pl.poznan.put.cs.gui4pddl.planview.model;
 import java.io.Serializable;
 
 
-public class PlanViewData implements Serializable {
+public class PlanViewRowData implements Serializable {
 	/**
 	 * 
 	 */
@@ -33,7 +33,8 @@ public class PlanViewData implements Serializable {
 	private String problemFilePath;
 	private String id;
 	private String workingDirPath;
-	private Status status;
+	
+	private transient Status status;
 
 	private String planFilePath;
 	private String plannerArguments;

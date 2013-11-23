@@ -148,6 +148,7 @@ public class PlanViewDialog extends TitleAreaDialog {
 	// as soon as the Dialog closes
 	private void saveInput() {
 		regexp = regexpText.getText();
+		preferences.setPlanViewFilePattern(regexp);
 	}
 
 	@Override

@@ -3,7 +3,6 @@ package pl.poznan.put.cs.gui4pddl.runners;
 import java.io.File;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -17,15 +16,11 @@ import org.eclipse.debug.core.model.ILaunchConfigurationDelegate;
 import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.handlers.HandlerUtil;
 
 import pl.poznan.put.cs.gui4pddl.Activator;
 import pl.poznan.put.cs.gui4pddl.log.Log;
-import pl.poznan.put.cs.gui4pddl.planview.helpers.FileNameRegexProcessor;
-import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewData;
-import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewDataProvider;
+import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewRowData;
 import pl.poznan.put.cs.gui4pddl.planview.ui.PlanView;
 import pl.poznan.put.cs.gui4pddl.runners.helpers.ProjectFilesPathsHelpers;
 
@@ -79,7 +74,7 @@ public class PDDLApplicationLaunchConfigurationDelegate extends
 											.getAttribute(
 													RunnerConstants.PROBLEM_FILE,
 													"")));
-			PlanViewData pvd = PlanView.updatePlanViewBeforePlanningProcess(configuration, workingDir);
+			PlanViewRowData pvd = PlanView.updatePlanViewBeforePlanningProcess(configuration, workingDir);
 			UniversalPlannerRunner.run(configuration, monitor, launch, workingDir);
 			
 			PlanView.updatePlanViewAfterPlanningProcess(configuration, workingDir, pvd);

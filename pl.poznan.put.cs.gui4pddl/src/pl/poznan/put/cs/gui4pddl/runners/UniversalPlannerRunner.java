@@ -1,7 +1,6 @@
 package pl.poznan.put.cs.gui4pddl.runners;
 
 import java.io.File;
-import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -10,14 +9,7 @@ import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.model.IProcess;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 
-import pl.poznan.put.cs.gui4pddl.planview.helpers.FileNameRegexProcessor;
-import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewData;
-import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewDataProvider;
-import pl.poznan.put.cs.gui4pddl.planview.ui.PlanView;
 import pl.poznan.put.cs.gui4pddl.runners.helpers.ProjectFilesPathsHelpers;
 
 public class UniversalPlannerRunner {

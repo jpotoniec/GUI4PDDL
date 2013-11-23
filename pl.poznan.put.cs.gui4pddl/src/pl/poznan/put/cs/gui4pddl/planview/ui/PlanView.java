@@ -15,6 +15,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
@@ -47,9 +48,8 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
 
 import pl.poznan.put.cs.gui4pddl.Activator;
-import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewData;
 import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewDataProvider;
-import pl.poznan.put.cs.gui4pddl.runners.RunnerConstants;
+import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewRowData;
 
 public class PlanView extends ViewPart {
 
@@ -62,8 +62,8 @@ public class PlanView extends ViewPart {
 	private static final String CLEAR_SELECTED_PLANS_TOOLTIP = "Clear selected finished plans";
 	private static final String CLEAR_ALL_FINISHED_PLANS_TEXT = "Clear all finished plans";
 	private static final String CLEAR_ALL_FINISHED_PLANS_TOOLTIP = "Clear all finished plans";
-	private static final String OPEN_READY_PLANS_IN_EDITOR_TEXT = "Open ready plans in editor";
-	private static final String OPEN_READY_PLANS_IN_EDITOR_TOOLTIP = "Open ready plans in editor";
+	private static final String OPEN_READY_PLANS_IN_EDITOR_TEXT = "Open an existing plan in the editor";
+	private static final String OPEN_READY_PLANS_IN_EDITOR_TOOLTIP = "Open an existing plan in the editor";
 
 	private static final String PROJECT = "Project";
 	private static final String DOMAIN_LABEL = "Domain";
@@ -95,14 +95,14 @@ public class PlanView extends ViewPart {
 
 		@Override
 		public String getText(Object element) {
-			PlanViewData p = (PlanViewData) element;
-			if (p.getStatus() == PlanViewData.Status.RUNNING) {
+			PlanViewRowData p = (PlanViewRowData) element;
+			if (p.getStatus() == PlanViewRowData.Status.RUNNING) {
 
 				color = Display.getCurrent().getSystemColor(SWT.COLOR_YELLOW);
-			} else if (p.getStatus() == PlanViewData.Status.OK) {
+			} else if (p.getStatus() == PlanViewRowData.Status.OK) {
 
 				color = Display.getCurrent().getSystemColor(SWT.COLOR_GREEN);
-			} else if (p.getStatus() == PlanViewData.Status.WRONG) {
+			} else if (p.getStatus() == PlanViewRowData.Status.WRONG) {
 
 				color = Display.getCurrent().getSystemColor(SWT.COLOR_RED);
 			}
@@ -172,7 +172,7 @@ public class PlanView extends ViewPart {
 		col.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				PlanViewData p = (PlanViewData) element;
+				PlanViewRowData p = (PlanViewRowData) element;
 				return p.getProjectName();
 			}
 		});
@@ -182,7 +182,7 @@ public class PlanView extends ViewPart {
 		col.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				PlanViewData p = (PlanViewData) element;
+				PlanViewRowData p = (PlanViewRowData) element;
 				return p.getDomain();
 			}
 		});
@@ -192,7 +192,7 @@ public class PlanView extends ViewPart {
 			@Override
 			public String getText(Object element) {
 
-				PlanViewData p = (PlanViewData) element;
+				PlanViewRowData p = (PlanViewRowData) element;
 				return p.getProblem();
 			}
 		});
@@ -202,7 +202,7 @@ public class PlanView extends ViewPart {
 			@Override
 			public String getText(Object element) {
 
-				PlanViewData p = (PlanViewData) element;
+				PlanViewRowData p = (PlanViewRowData) element;
 				return p.getId();
 			}
 		});
@@ -214,7 +214,7 @@ public class PlanView extends ViewPart {
 		col.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				PlanViewData p = (PlanViewData) element;
+				PlanViewRowData p = (PlanViewRowData) element;
 				return p.getPlannerArguments();
 			}
 
@@ -245,10 +245,14 @@ public class PlanView extends ViewPart {
 			public void run() {
 				IStructuredSelection selection = (IStructuredSelection) viewer
 						.getSelection();
-				PlanViewData[] input = Arrays.copyOf(selection.toArray(),
-						selection.toArray().length, PlanViewData[].class);
-				removeNotRunningRows(input);
-
+				PlanViewRowData[] input = Arrays.copyOf(selection.toArray(),
+						selection.toArray().length, PlanViewRowData[].class);
+				if (MessageDialog.openConfirm(PlatformUI.getWorkbench()
+						.getActiveWorkbenchWindow().getShell(),
+						CLEAR_SELECTED_PLANS_TEXT,
+						"This operation cannot be undone. Are you sure?")) {
+					removeNotRunningRows(input);
+				}
 			}
 		};
 		clearSelectedPlanAction.setText(CLEAR_SELECTED_PLANS_TEXT);
@@ -260,9 +264,14 @@ public class PlanView extends ViewPart {
 		clearAllPlansAction = new Action() {
 			public void run() {
 				@SuppressWarnings("unchecked")
-				Vector<PlanViewData> input = (Vector<PlanViewData>) viewer
+				Vector<PlanViewRowData> input = (Vector<PlanViewRowData>) viewer
 						.getInput();
-				removeNotRunningRows(input.toArray(new PlanViewData[0]));
+				if (MessageDialog.openConfirm(PlatformUI.getWorkbench()
+						.getActiveWorkbenchWindow().getShell(),
+						CLEAR_ALL_FINISHED_PLANS_TEXT,
+						"This operation cannot be undone. Are you sure?")) {
+					removeNotRunningRows(input.toArray(new PlanViewRowData[0]));
+				}
 			}
 		};
 		clearAllPlansAction.setText(CLEAR_ALL_FINISHED_PLANS_TEXT);
@@ -305,10 +314,10 @@ public class PlanView extends ViewPart {
 		});
 	}
 
-	private void removeNotRunningRows(PlanViewData[] input) {
-		Vector<PlanViewData> notRunning = new Vector<PlanViewData>();
-		for (PlanViewData row : input) {
-			if (row.getStatus() != PlanViewData.Status.RUNNING) {
+	private void removeNotRunningRows(PlanViewRowData[] input) {
+		Vector<PlanViewRowData> notRunning = new Vector<PlanViewRowData>();
+		for (PlanViewRowData row : input) {
+			if (row.getStatus() != PlanViewRowData.Status.RUNNING) {
 				notRunning.add(row);
 				deleteDir(new File(row.getWorkingDirPath()));
 				Activator.refreshProject(row.getProjectName());
@@ -316,7 +325,7 @@ public class PlanView extends ViewPart {
 		}
 		PlanViewDataProvider dataProvider = PlanViewDataProvider.getInstance();
 		dataProvider.getPlanViewDataList().removeAll(notRunning);
-		dataProvider.savePlanBrowserData();
+		PlanViewDataProvider.savePlanBrowserData();
 
 		setData(dataProvider);
 
@@ -337,13 +346,11 @@ public class PlanView extends ViewPart {
 	}
 
 	private void openSelectedPlanFiles() {
-		PlanViewDataProvider dataProvider = PlanViewDataProvider.getInstance();
-
 		IStructuredSelection selection = (IStructuredSelection) viewer
 				.getSelection();
 		Iterator<?> itr = selection.iterator();
 		while (itr.hasNext()) {
-			PlanViewData pvd = (PlanViewData) itr.next();
+			PlanViewRowData pvd = (PlanViewRowData) itr.next();
 			if (pvd.getPlanFilePath() != null) {
 				File fileToOpen = new File(pvd.getPlanFilePath());
 				if (fileToOpen.exists() && fileToOpen.isFile()) {
@@ -351,23 +358,25 @@ public class PlanView extends ViewPart {
 							fileToOpen.toURI());
 					IWorkbenchPage page = PlatformUI.getWorkbench()
 							.getActiveWorkbenchWindow().getActivePage();
-
 					try {
 						IDE.openEditorOnFileStore(page, fileStore);
 					} catch (PartInitException e) {
 						// Put your exception handler here if you wish to
 					}
 				} else {
-					dataProvider.checkIfPlansFilesExistsAndRefreshData();
-					setData(dataProvider);
-					PlanViewDataProvider.savePlanBrowserData();
+					refreshPlanView();
 				}
 			} else {
-				dataProvider.checkIfPlansFilesExistsAndRefreshData();
-				setData(dataProvider);
-				PlanViewDataProvider.savePlanBrowserData();
+				refreshPlanView();
 			}
 		}
+	}
+
+	public static void refreshPlanView() {
+		PlanViewDataProvider dataProvider = PlanViewDataProvider.getInstance();
+		dataProvider.refreshPlanBrowserData();
+		setData(dataProvider);
+		PlanViewDataProvider.savePlanBrowserData();
 	}
 
 	private void setActionsDisabledDependsOnStatus(
@@ -376,19 +385,16 @@ public class PlanView extends ViewPart {
 		openPlanInEdtiorAction.setEnabled(true);
 		clearSelectedPlanAction.setEnabled(true);
 
-		int okStatus = 0;
 		int wrongStatus = 0;
 		int runningStatus = 0;
 
-		PlanViewData rows[] = Arrays.copyOf(selection.toArray(),
-				selection.toArray().length, PlanViewData[].class);
-		for (PlanViewData row : rows) {
-			if (row.getStatus() == PlanViewData.Status.RUNNING) {
+		PlanViewRowData rows[] = Arrays.copyOf(selection.toArray(),
+				selection.toArray().length, PlanViewRowData[].class);
+		for (PlanViewRowData row : rows) {
+			if (row.getStatus() == PlanViewRowData.Status.RUNNING) {
 				runningStatus++;
-			} else if (row.getStatus() == PlanViewData.Status.WRONG) {
+			} else if (row.getStatus() == PlanViewRowData.Status.WRONG) {
 				wrongStatus++;
-			} else if (row.getStatus() == PlanViewData.Status.OK) {
-				okStatus++;
 			}
 		}
 
@@ -436,12 +442,11 @@ public class PlanView extends ViewPart {
 		fillLocalToolBar(bars.getToolBarManager());
 	}
 
-	private void fillLocalPullDown(IMenuManager manager) {
-		manager.add(clearSelectedPlanAction);
-		manager.add(new Separator());
-		manager.add(clearAllPlansAction);
-		manager.add(openPlanInEdtiorAction);
-	}
+	/*
+	 * private void fillLocalPullDown(IMenuManager manager) {
+	 * manager.add(clearSelectedPlanAction); manager.add(new Separator());
+	 * manager.add(clearAllPlansAction); manager.add(openPlanInEdtiorAction); }
+	 */
 
 	private void fillLocalToolBar(IToolBarManager manager) {
 		manager.add(openPlanInEdtiorAction);
@@ -449,11 +454,11 @@ public class PlanView extends ViewPart {
 		manager.add(clearAllPlansAction);
 	}
 
-	public static PlanViewData updatePlanViewBeforePlanningProcess(
+	public static PlanViewRowData updatePlanViewBeforePlanningProcess(
 			ILaunchConfiguration configuration, File workingDir) {
 		final PlanViewDataProvider dataProvider = PlanViewDataProvider
 				.getInstance();
-		PlanViewData pvd = dataProvider.addPlanViewDataOfRunningProcess(
+		PlanViewRowData pvd = dataProvider.addPlanViewDataOfRunningProcess(
 				configuration, workingDir);
 		setData(dataProvider);
 		return pvd;
@@ -461,7 +466,7 @@ public class PlanView extends ViewPart {
 
 	public static void updatePlanViewAfterPlanningProcess(
 			ILaunchConfiguration configuration, File workingDir,
-			PlanViewData pvd) {
+			PlanViewRowData pvd) {
 		final PlanViewDataProvider dataProvider = PlanViewDataProvider
 				.getInstance();
 		dataProvider.setPlanFilesPathsAndMarkAsEnded(configuration, workingDir,
@@ -486,7 +491,7 @@ public class PlanView extends ViewPart {
 
 	}
 
-	private void setInput(List<PlanViewData> list) {
+	private void setInput(List<PlanViewRowData> list) {
 		viewer.setInput(list);
 	}
 

@@ -53,8 +53,6 @@ public class FileNameRegexProcessor {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		System.out.println(regexp);
 
 		Pattern pattern = Pattern.compile(regexp);
 
@@ -64,7 +62,6 @@ public class FileNameRegexProcessor {
 
 		for (File f : allFiles) {
 			if (pattern.matcher(f.getName()).matches()) {
-				System.out.println("NAME " + f.getName());
 				matchedFiles.add(f);
 			}
 		}
