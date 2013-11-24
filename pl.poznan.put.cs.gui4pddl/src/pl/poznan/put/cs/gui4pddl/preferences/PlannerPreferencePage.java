@@ -3,6 +3,7 @@ package pl.poznan.put.cs.gui4pddl.preferences;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -16,6 +17,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.ui.PlatformUI;
 
 import pl.poznan.put.cs.gui4pddl.preferences.helpers.PlannerPreferencesStore;
 import pl.poznan.put.cs.gui4pddl.preferences.model.PlannerPreferences;
@@ -23,6 +25,9 @@ import pl.poznan.put.cs.gui4pddl.preferences.ui.PlannerPreferencesPageTabItem;
 
 public class PlannerPreferencePage extends PreferencePage implements
 		IWorkbenchPreferencePage {
+
+	private static final String SAVE_DIALOG_TITLE = "Save Planner Preferences";
+	private static final String SAVE_DIALOG_TEXT = "Do you want to save this configuration?";
 
 	private Button newPlannerButton;
 
@@ -40,6 +45,26 @@ public class PlannerPreferencePage extends PreferencePage implements
 	@Override
 	public boolean performOk() {
 
+		boolean preferencesChanged = false;
+		for (PlannerPreferencesPageTabItem item : tabsList) {
+			preferencesChanged = (preferencesChanged || item
+					.preferencesChanged());
+		}
+		if (preferencesChanged) {
+			if (MessageDialog.openQuestion(getShell(), SAVE_DIALOG_TITLE,
+					SAVE_DIALOG_TEXT)) {
+				for (PlannerPreferencesPageTabItem item : tabsList) {
+					boolean saveOk = item.savePlannerPreferences();
+					if (!saveOk) {
+						MessageDialog
+								.openError(getShell(), "Error while saving",
+										"Could not save planner preferences. Restart Eclipse and try again.");
+						throw new RuntimeException(
+								"Could not save planner preferences");
+					}
+				}
+			}
+		}
 		return super.performOk();
 	}
 
@@ -60,15 +85,16 @@ public class PlannerPreferencePage extends PreferencePage implements
 			}
 
 		});
-		
+
 		// refresh save button while tab selection
 		plannerTabFolder.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
 				if (tabsList.size() > plannerTabFolder.getSelectionIndex()) {
-					tabsList.get(plannerTabFolder.getSelectionIndex())
-					.setSavePlannerButtonEnabledIfConfigurationValid();
+					checkIfAllPageTabItemsAreValid();
+					/*tabsList.get(plannerTabFolder.getSelectionIndex())
+							.setSavePlannerButtonEnabledIfConfigurationValid();*/
 				}
-				
+
 			}
 
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -103,7 +129,7 @@ public class PlannerPreferencePage extends PreferencePage implements
 		tabFolderGrid.horizontalSpan = 3;
 		tabFolder.setLayoutData(tabFolderGrid);
 
-		//tabFolder.setVisible(false);
+		// tabFolder.setVisible(false);
 		return tabFolder;
 	}
 
@@ -115,8 +141,10 @@ public class PlannerPreferencePage extends PreferencePage implements
 
 		PlannerPreferencesPageTabItem plannerPreferencesPageTab = new PlannerPreferencesPageTabItem(
 				preferences, this, tabFolder);
-		
-		plannerPreferencesPageTab.setSavePlannerButtonEnabledIfConfigurationValid();
+
+		//plannerPreferencesPageTab
+		//		.setSavePlannerButtonEnabledIfConfigurationValid();
+		checkIfAllPageTabItemsAreValid();
 
 		tabsList.add(plannerPreferencesPageTab);
 	}
@@ -129,8 +157,10 @@ public class PlannerPreferencePage extends PreferencePage implements
 
 			PlannerPreferencesPageTabItem plannerPreferencesPageTab = new PlannerPreferencesPageTabItem(
 					preferences, this, tabFolder);
-			
-			plannerPreferencesPageTab.setSavePlannerButtonEnabledIfConfigurationValid();
+
+			//plannerPreferencesPageTab
+			//		.setSavePlannerButtonEnabledIfConfigurationValid();
+			checkIfAllPageTabItemsAreValid();
 
 			tabsList.add(plannerPreferencesPageTab);
 
@@ -138,6 +168,15 @@ public class PlannerPreferencePage extends PreferencePage implements
 		tabFolder.setVisible(PlannerPreferencesStore.getPlannerPreferences()
 				.size() > 0);
 
+	}
+	
+	public void checkIfAllPageTabItemsAreValid() {
+		for (PlannerPreferencesPageTabItem item : tabsList) {
+			if (!item.checkIfTabItemIsValidAndSetErrorMessages()) {
+				setValid(false);
+				break;
+			}
+		}
 	}
 
 	@Override

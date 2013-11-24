@@ -29,7 +29,6 @@ public class PlanViewDialog extends TitleAreaDialog {
 
 	private Text regexpText;
 	private String regexp;
-	private PlannerPreferences preferences;
 	private Button workingDirButton;
 	private Button projectNameButton;
 	private Button domainFileNameButton;
@@ -37,9 +36,8 @@ public class PlanViewDialog extends TitleAreaDialog {
 
 	private final static String INFO_TEXT = "Enter regular expression of file which will be opened at the end of the planning process";
 
-	public PlanViewDialog(Shell parentShell, PlannerPreferences preferences) {
+	public PlanViewDialog(Shell parentShell) {
 		super(parentShell);
-		this.preferences = preferences;
 	}
 
 	@Override
@@ -91,7 +89,7 @@ public class PlanViewDialog extends TitleAreaDialog {
 
 		regexpText = new Text(container, SWT.BORDER);
 		regexpText.setLayoutData(regexpGridData);
-		regexpText.setText(preferences.getPlanViewFilePattern() == null ? "" : preferences.getPlanViewFilePattern());
+		regexpText.setText(regexp);
 	}
 	
 	private void createRegexSpecialWordsButtons(Composite container) {
@@ -148,13 +146,16 @@ public class PlanViewDialog extends TitleAreaDialog {
 	// as soon as the Dialog closes
 	private void saveInput() {
 		regexp = regexpText.getText();
-		preferences.setPlanViewFilePattern(regexp);
 	}
 
 	@Override
 	protected void okPressed() {
 		saveInput();
 		super.okPressed();
+	}
+	
+	public void setRegexp(String regexp) {
+		this.regexp = regexp;
 	}
 
 	public String getRegexp() {

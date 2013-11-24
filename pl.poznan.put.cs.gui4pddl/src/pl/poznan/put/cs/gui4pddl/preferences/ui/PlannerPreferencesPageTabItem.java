@@ -26,12 +26,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
+import pl.poznan.put.cs.gui4pddl.preferences.PlannerPreferencePage;
 import pl.poznan.put.cs.gui4pddl.preferences.helpers.PlannerPreferencesStore;
 import pl.poznan.put.cs.gui4pddl.preferences.model.PlannerPreferences;
 
@@ -46,19 +48,19 @@ public class PlannerPreferencesPageTabItem {
 	private Button newArgumentButton;
 	private Button editArgumentButton;
 	private Button removeArgumentButton;
-	private Button savePlannerButton;
+	// private Button savePlannerButton;
 	private Button removePlannerButton;
 	private Button planViewDialogButton;
 	private PlannerArgumentsDialog addEditArgumentsDialog;
 	private Table argumentsTable;
 	private PlannerPreferences preferences;
-	private PreferencePage page;
+	private PlannerPreferencePage page;
 	private PlanViewDialog planViewDialog;
 
 	private static final int PLANNER_NAME_TEXT_LIMIT = 30;
 
 	public PlannerPreferencesPageTabItem(final PlannerPreferences preferences,
-			final PreferencePage page, final TabFolder tabFolder) {
+			final PlannerPreferencePage page, final TabFolder tabFolder) {
 
 		this.preferences = preferences;
 		this.page = page;
@@ -73,8 +75,11 @@ public class PlannerPreferencesPageTabItem {
 		plannerName.setTextLimit(PLANNER_NAME_TEXT_LIMIT);
 
 		argumentsTable = createArgumentsTable(tabItemComposite);
-		
-		planViewDialog = new PlanViewDialog(tabItemComposite.getShell(), preferences);
+
+		planViewDialog = new PlanViewDialog(tabItemComposite.getShell());
+		planViewDialog
+				.setRegexp((preferences.getPlanViewFilePattern() != null) ? preferences
+						.getPlanViewFilePattern() : "");
 
 		Composite tableButtonsComposite = createTableButtonsComposite(tabItemComposite);
 
@@ -92,8 +97,10 @@ public class PlannerPreferencesPageTabItem {
 
 		removePlannerButton = createTableButton(tableButtonsComposite,
 				"Remove Planner");
-		savePlannerButton = createTableButton(tableButtonsComposite,
-				"Save Planner");
+		/*
+		 * savePlannerButton = createTableButton(tableButtonsComposite,
+		 * "Save Planner");
+		 */
 
 		createTableButtonsSeparator(tableButtonsComposite);
 
@@ -109,7 +116,7 @@ public class PlannerPreferencesPageTabItem {
 		addSelectionListenerToEditArgumentButton(tabItemComposite);
 		addSelectionListenerToRemoveArgumentButton(tabItemComposite);
 
-		addSelectionListenerToSavePlannerButton(tabItemComposite);
+		// addSelectionListenerToSavePlannerButton(tabItemComposite);
 		addSelectionListenerToRemovePlannerButton(tabItemComposite, tabFolder);
 
 		addSelectionListenerToPlanViewDialogButton();
@@ -117,9 +124,10 @@ public class PlannerPreferencesPageTabItem {
 		if (this.preferences.getArgumentsMap() != null)
 			setArguments(this.preferences.getArgumentsMap());
 
-		if (plannerFile.getStringValue().isEmpty()) {
-			savePlannerButton.setEnabled(false);
-		}
+		/*
+		 * if (plannerFile.getStringValue().isEmpty()) {
+		 * savePlannerButton.setEnabled(false); }
+		 */
 
 		item.setControl(tabItemComposite);
 
@@ -175,10 +183,11 @@ public class PlannerPreferencesPageTabItem {
 
 		argumentsTable.setLinesVisible(true);
 		argumentsTable.setHeaderVisible(true);
-		
+
 		String[] titles = { "Name", "Text" };
 		for (int i = 0; i < titles.length; i++) {
-			final TableColumn column = new TableColumn(argumentsTable, SWT.CENTER);
+			final TableColumn column = new TableColumn(argumentsTable,
+					SWT.CENTER);
 			column.setText(titles[i]);
 			layout.setColumnData(column, new ColumnWeightData(50));
 			column.setResizable(true);
@@ -236,7 +245,8 @@ public class PlannerPreferencesPageTabItem {
 			@Override
 			public void propertyChange(PropertyChangeEvent ev) {
 
-				setSavePlannerButtonEnabledIfConfigurationValid();
+				// setSavePlannerButtonEnabledIfConfigurationValid();
+				page.checkIfAllPageTabItemsAreValid();
 				tabFolder.getSelection()[0].setText(plannerName
 						.getStringValue());
 			}
@@ -249,12 +259,13 @@ public class PlannerPreferencesPageTabItem {
 			@Override
 			public void propertyChange(PropertyChangeEvent arg0) {
 
-				setSavePlannerButtonEnabledIfConfigurationValid();
+				page.checkIfAllPageTabItemsAreValid();
+				// setSavePlannerButtonEnabledIfConfigurationValid();
 			}
 		});
 	}
 
-	public void setSavePlannerButtonEnabledIfConfigurationValid() {
+	public boolean checkIfTabItemIsValidAndSetErrorMessages() {
 		boolean valid = true;
 
 		if (plannerName.isValid() && plannerFile.isValid()
@@ -265,20 +276,22 @@ public class PlannerPreferencesPageTabItem {
 					plannerName.getStringValue()) != null
 					&& !plannerName.getStringValue().equals(
 							preferences.getPlannerName())) {
-				page.setErrorMessage("Planner name already exists");
-				savePlannerButton.setEnabled(false);
+				page.setErrorMessage("Planner name of "
+						+ plannerName.getStringValue() + " already exists");
+				// savePlannerButton.setEnabled(false);
 				page.setValid(false);
 				valid = false;
 			} else {
 				page.setErrorMessage(null);
-				savePlannerButton.setEnabled(true);
+				// savePlannerButton.setEnabled(true);
 				page.setValid(true);
 				valid = true;
 			}
 		} else {
-			page.setErrorMessage("Planner file/name is not correct");
+			page.setErrorMessage("Planner file/name of "
+					+ plannerName.getStringValue() + " is not correct");
 			page.setValid(false);
-			savePlannerButton.setEnabled(false);
+			// savePlannerButton.setEnabled(false);
 			valid = false;
 		}
 
@@ -297,13 +310,16 @@ public class PlannerPreferencesPageTabItem {
 		}
 		if (validString && valid) {
 			page.setErrorMessage(null);
-			savePlannerButton.setEnabled(true);
+			// savePlannerButton.setEnabled(true);
 			page.setValid(true);
 		} else if (!validString) {
-			page.setErrorMessage("Planner name is not correct");
-			savePlannerButton.setEnabled(false);
+			page.setErrorMessage("Planner name of "
+					+ plannerName.getStringValue() + " is not correct");
+			// savePlannerButton.setEnabled(false);
 			page.setValid(false);
 		}
+
+		return validString && valid;
 	}
 
 	private void addListenersToArgumentsTable() {
@@ -407,31 +423,71 @@ public class PlannerPreferencesPageTabItem {
 		});
 	}
 
-	private void addSelectionListenerToSavePlannerButton(final Composite fParent) {
+	/*
+	 * private void addSelectionListenerToSavePlannerButton(final Composite
+	 * fParent) {
+	 * 
+	 * savePlannerButton.addSelectionListener(new SelectionAdapter() {
+	 * 
+	 * @Override public void widgetSelected(SelectionEvent arg0) { boolean
+	 * saveOk = PlannerPreferencesStore
+	 * .savePlannerPreferences(plannerName.getStringValue(),
+	 * plannerFile.getStringValue(), getArguments(), planViewDialog.getRegexp(),
+	 * preferences); if (saveOk) { preferences = PlannerPreferencesStore
+	 * .getPlannerPreferences().get( plannerName.getStringValue());
+	 * MessageDialog.openInformation(fParent.getShell(), "Save successfull",
+	 * "Planner preferences has been saved correctly."); } else {
+	 * MessageDialog.openError(fParent.getShell(), "Error while saving",
+	 * "Could not save planner preferences. Restart Eclipse and try again.");
+	 * throw new RuntimeException( "Could not save planner preferences"); } }
+	 * }); }
+	 */
 
-		savePlannerButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent arg0) {
-				boolean saveOk = PlannerPreferencesStore
-						.savePlannerPreferences(plannerName.getStringValue(),
-								plannerFile.getStringValue(), getArguments(), planViewDialog.getRegexp(),
-								preferences);
-				if (saveOk) {
-					preferences = PlannerPreferencesStore
-							.getPlannerPreferences().get(
-									plannerName.getStringValue());
-					MessageDialog.openInformation(fParent.getShell(),
-							"Save successfull",
-							"Planner preferences has been saved correctly.");
-				} else {
-					MessageDialog.openError(fParent.getShell(),
-							"Error while saving",
-							"Could not save planner preferences. Restart Eclipse and try again.");
-					throw new RuntimeException(
-							"Could not save planner preferences");
-				}
+	public boolean savePlannerPreferences() {
+		boolean saveOk = PlannerPreferencesStore.savePlannerPreferences(
+				plannerName.getStringValue(), plannerFile.getStringValue(),
+				getArguments(), planViewDialog.getRegexp(), preferences);
+		if (saveOk) {
+			preferences = PlannerPreferencesStore.getPlannerPreferences().get(
+					plannerName.getStringValue());
+		}
+
+		return saveOk;
+	}
+
+	public boolean preferencesChanged() {
+		boolean temp = (!plannerName.getStringValue().equals(
+				preferences.getPlannerName()))
+				|| (!plannerFile.getStringValue().equals(
+						preferences.getPlannerFilePath()))
+				|| (!planViewDialog.getRegexp().equals(
+						preferences.getPlanViewFilePattern()));
+
+		Map<String, String> map = getArguments();
+
+		boolean argsChanged = false;
+
+		for (String key : map.keySet()) {
+			if (preferences.getArgumentsMap().containsKey(key)) {
+				argsChanged = argsChanged
+						|| (!preferences.getArgumentsMap().get(key)
+								.equals(map.get(key)));
+			} else {
+				argsChanged = true;
+				break;
 			}
-		});
+		}
+		for (String key : preferences.getArgumentsMap().keySet()) {
+			if (map.containsKey(key)) {
+				argsChanged = argsChanged
+						|| (!preferences.getArgumentsMap().get(key)
+								.equals(map.get(key)));
+			} else {
+				argsChanged = true;
+				break;
+			}
+		}
+		return argsChanged || temp;
 	}
 
 	private void addSelectionListenerToRemovePlannerButton(
@@ -473,7 +529,7 @@ public class PlannerPreferencesPageTabItem {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				planViewDialog.open();
-				
+
 			}
 
 		});
