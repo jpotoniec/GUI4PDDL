@@ -183,15 +183,10 @@
             class="pl.poznan.put.cs.gui4pddl.planview.ui.PlanView"
             icon="icons/pddl_file.gif"
             id="pl.poznan.put.cs.gui4pddl.views.PlanView"
-            name="Plan">
+            name="Plan Browser">
       </view>
    </extension>
-   <extension
-         point="org.eclipse.help.contexts">
-      <contexts
-            file="contexts.xml">
-      </contexts>
-   </extension>
+   
    <!-- PROCESS FACTORIES -->
    <extension
          point="org.eclipse.debug.core.processFactories">
