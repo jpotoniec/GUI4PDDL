@@ -316,19 +316,48 @@ public class PlanView extends ViewPart {
 
 	private void removeNotRunningRows(PlanViewRowData[] input) {
 		Vector<PlanViewRowData> notRunning = new Vector<PlanViewRowData>();
+
 		for (PlanViewRowData row : input) {
 			if (row.getStatus() != PlanViewRowData.Status.RUNNING) {
 				notRunning.add(row);
-				deleteDir(new File(row.getWorkingDirPath()));
+				deleteFile(new File(row.getPlanFilePath()));
 				Activator.refreshProject(row.getProjectName());
 			}
 		}
+
 		PlanViewDataProvider dataProvider = PlanViewDataProvider.getInstance();
 		dataProvider.getPlanViewDataList().removeAll(notRunning);
 		PlanViewDataProvider.savePlanBrowserData();
-
 		setData(dataProvider);
+		deleteEmptyDirs(notRunning);
+	}
 
+
+	private boolean deleteFile(File file) {
+		if (file.exists() && file.isFile()) {
+			return file.delete();
+		}
+		return false;
+	}
+	
+	private void deleteEmptyDirs(Vector<PlanViewRowData> notRunning) {
+
+		PlanViewDataProvider dataProvider = PlanViewDataProvider.getInstance();
+		for (PlanViewRowData external : notRunning) {
+			boolean deleteDir = true;
+			for (PlanViewRowData internal : dataProvider.getPlanViewDataList()) {
+				if (external.getProjectName().equals(internal.getProjectName())
+						&& external.getDomain().equals(internal.getDomain())
+						&& external.getProblem().equals(internal.getProblem())
+						&& external.getId().equals(internal.getId())) {
+					deleteDir = false;
+				}
+			}
+			if (deleteDir) {
+				deleteDir(new File(external.getWorkingDirPath()));
+				Activator.refreshProject(external.getProjectName());
+			}
+		}
 	}
 
 	private boolean deleteDir(File dir) {
