@@ -102,9 +102,19 @@ public class PlanViewDataProvider implements Serializable {
 						regexp, workingDir, config);
 				if (planFiles.length > 0) {
 					for (File f : planFiles) {
-						pvrd.setPlanFilePath(f.getAbsolutePath());
-						pvrd.setStatus(PlanViewRowData.Status.OK);
-						planViewRowDataVector.add(pvrd);
+						PlanViewRowData tmp = new PlanViewRowData();
+						tmp.setDomain(pvrd.getDomain());
+						tmp.setDomainFilePath(pvrd.getDomainFilePath());
+						tmp.setPlannerArguments(pvrd.getPlannerArguments());
+						tmp.setPlannerName(pvrd.getPlannerName());
+						tmp.setProblem(pvrd.getProblem());
+						tmp.setProblemFilePath(pvrd.getProblemFilePath());
+						tmp.setProjectName(pvrd.getProjectName());
+						tmp.setStatus(pvrd.getStatus());
+						tmp.setWorkingDirPath(pvrd.getWorkingDirPath());
+						tmp.setPlanFilePath(f.getAbsolutePath());
+						tmp.setStatus(PlanViewRowData.Status.OK);
+						planViewRowDataVector.add(tmp);
 					}
 				} else {
 					pvrd.setStatus(PlanViewRowData.Status.WRONG);

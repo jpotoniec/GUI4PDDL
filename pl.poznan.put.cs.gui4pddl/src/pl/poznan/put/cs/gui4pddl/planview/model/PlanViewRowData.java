@@ -1,5 +1,6 @@
 package pl.poznan.put.cs.gui4pddl.planview.model;
 
+import java.io.File;
 import java.io.Serializable;
 
 
@@ -92,9 +93,10 @@ public class PlanViewRowData implements Serializable {
 	}
 
 	public void setWorkingDirPath(String workingDirPath) {
-		String elements[] = workingDirPath.split(System
-				.getProperty("file.separator"));
-		id = elements[elements.length - 1];
+		File f = new File(workingDirPath);
+		if (f.exists() && f.isDirectory()) {
+			id = f.getName();
+		}
 		this.workingDirPath = workingDirPath;
 	}
 

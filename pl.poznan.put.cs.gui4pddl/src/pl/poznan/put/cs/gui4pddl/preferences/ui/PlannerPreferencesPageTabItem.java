@@ -467,24 +467,28 @@ public class PlannerPreferencesPageTabItem {
 
 		boolean argsChanged = false;
 
-		for (String key : map.keySet()) {
-			if (preferences.getArgumentsMap().containsKey(key)) {
-				argsChanged = argsChanged
-						|| (!preferences.getArgumentsMap().get(key)
-								.equals(map.get(key)));
-			} else {
-				argsChanged = true;
-				break;
+		if (map != null && map.size() > 0) {
+			for (String key : map.keySet()) {
+				if (preferences.getArgumentsMap().containsKey(key)) {
+					argsChanged = argsChanged
+							|| (!preferences.getArgumentsMap().get(key)
+									.equals(map.get(key)));
+				} else {
+					argsChanged = true;
+					break;
+				}
 			}
 		}
-		for (String key : preferences.getArgumentsMap().keySet()) {
-			if (map.containsKey(key)) {
-				argsChanged = argsChanged
-						|| (!preferences.getArgumentsMap().get(key)
-								.equals(map.get(key)));
-			} else {
-				argsChanged = true;
-				break;
+		if (preferences.getArgumentsMap() != null && preferences.getArgumentsMap().size() > 0) {
+			for (String key : preferences.getArgumentsMap().keySet()) {
+				if (map.containsKey(key)) {
+					argsChanged = argsChanged
+							|| (!preferences.getArgumentsMap().get(key)
+									.equals(map.get(key)));
+				} else {
+					argsChanged = true;
+					break;
+				}
 			}
 		}
 		return argsChanged || temp;
