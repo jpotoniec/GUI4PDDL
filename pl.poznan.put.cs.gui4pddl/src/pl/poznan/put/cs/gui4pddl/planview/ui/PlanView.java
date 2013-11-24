@@ -320,7 +320,10 @@ public class PlanView extends ViewPart {
 		for (PlanViewRowData row : input) {
 			if (row.getStatus() != PlanViewRowData.Status.RUNNING) {
 				notRunning.add(row);
-				deleteFile(new File(row.getPlanFilePath()));
+				if (row.getPlanFilePath() != null) {
+					deleteFile(new File(row.getPlanFilePath()));
+				}
+				
 				Activator.refreshProject(row.getProjectName());
 			}
 		}
