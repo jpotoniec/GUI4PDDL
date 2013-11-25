@@ -57,16 +57,18 @@ public class Activator extends AbstractUIPlugin {
 		plugin = this;
 		PlannerPreferencesStore.loadPlannerPreferences();
 		PlanViewDataProvider.loadPlanBrowserDataFromFile();
-		PlanView.refreshPlanView();
+		
+		PlanView.setRefreshMode(PlanView.ACTIVATE_VIEW_AFTER_DATA_UPDATE);
+		PlanView.refreshPlanViewWithoutActivate();
 
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(
 				new IResourceChangeListener() {
 
 					@Override
 					public void resourceChanged(IResourceChangeEvent arg0) {
-						PlanView.refreshPlanView();
+						PlanView.refreshPlanViewWithoutActivate();
 					}
-				}, IResourceChangeEvent.PRE_BUILD);
+				}, IResourceChangeEvent.POST_CHANGE);
 
 		// TODO dowiedziec sie czy ukrywac widok konsoli od poczatku czy nie
 		/*
@@ -80,6 +82,8 @@ public class Activator extends AbstractUIPlugin {
 		 * , false);
 		 */
 	}
+	
+	
 
 	public static void refreshProject(String projectName) {
 		try {

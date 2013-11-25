@@ -44,6 +44,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -52,6 +53,7 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
 
 import pl.poznan.put.cs.gui4pddl.Activator;
+import pl.poznan.put.cs.gui4pddl.log.Log;
 import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewDataProvider;
 import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewRowData;
 
@@ -76,9 +78,16 @@ public class PlanView extends ViewPart {
 	private static final String PLAN_FILE_NAME_LABEL = "Plan file";
 	private static final String STATUS_LABEL = "Status";
 	private static final String PLANNER_ARGUMENTS_LABEL = "Planner arguments";
-	
-	private static final String[] titles = { PROJECT, DOMAIN_LABEL, PROBLEM_LABEL, ID_LABEL, PLAN_FILE_NAME_LABEL,
-			STATUS_LABEL, PLANNER_ARGUMENTS_LABEL };
+
+	private static final String[] columnTitles = { PROJECT, DOMAIN_LABEL,
+			PROBLEM_LABEL, ID_LABEL, PLAN_FILE_NAME_LABEL, STATUS_LABEL,
+			PLANNER_ARGUMENTS_LABEL };
+
+	public static final int NOT_ACTIVATE_VIEW_AFTER_DATA_UPDATE = 0;
+	public static final int ACTIVATE_VIEW_AFTER_DATA_UPDATE = 1;
+	private static boolean showViewAfterRefresh;
+	private static int focusMode;
+	private static int currentRefreshMode;
 
 	private TableViewer viewer;
 	private Action clearSelectedPlanAction;
@@ -168,12 +177,13 @@ public class PlanView extends ViewPart {
 		hookContextMenu();
 		hookDoubleClickAction();
 		contributeToActionBars();
+		setInput(PlanViewDataProvider.getInstance().getPlanViewDataList());
 	}
 
 	private void createColumns(TableColumnLayout layout,
 			final Composite parent, final TableViewer viewer) {
 
-		TableViewerColumn col = createTableViewerColumn(layout, titles[0], 0);
+		TableViewerColumn col = createTableViewerColumn(layout, columnTitles[0], 0);
 
 		col.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -183,7 +193,7 @@ public class PlanView extends ViewPart {
 			}
 		});
 
-		col = createTableViewerColumn(layout, titles[1], 1);
+		col = createTableViewerColumn(layout, columnTitles[1], 1);
 
 		col.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -193,7 +203,7 @@ public class PlanView extends ViewPart {
 			}
 		});
 
-		col = createTableViewerColumn(layout, titles[2], 2);
+		col = createTableViewerColumn(layout, columnTitles[2], 2);
 		col.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -203,7 +213,7 @@ public class PlanView extends ViewPart {
 			}
 		});
 
-		col = createTableViewerColumn(layout, titles[3], 3);
+		col = createTableViewerColumn(layout, columnTitles[3], 3);
 		col.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -212,8 +222,8 @@ public class PlanView extends ViewPart {
 				return p.getId();
 			}
 		});
-		
-		col = createTableViewerColumn(layout, titles[4], 4);
+
+		col = createTableViewerColumn(layout, columnTitles[4], 4);
 		col.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -230,10 +240,10 @@ public class PlanView extends ViewPart {
 			}
 		});
 
-		col = createTableViewerColumn(layout, titles[5], 5);
+		col = createTableViewerColumn(layout, columnTitles[5], 5);
 		col.setLabelProvider(new ColorStatusColumnLabelProvider());
 
-		col = createTableViewerColumn(layout, titles[6], 6);
+		col = createTableViewerColumn(layout, columnTitles[6], 6);
 		col.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -250,7 +260,7 @@ public class PlanView extends ViewPart {
 		final TableViewerColumn viewerColumn = new TableViewerColumn(viewer,
 				SWT.NONE);
 		final TableColumn column = viewerColumn.getColumn();
-		layout.setColumnData(column, new ColumnWeightData(100 / titles.length));
+		layout.setColumnData(column, new ColumnWeightData(100 / columnTitles.length));
 		column.addControlListener(new ControlAdapter() {
 			public void controlResized(ControlEvent e) {
 				if (column.getWidth() < 5)
@@ -339,7 +349,7 @@ public class PlanView extends ViewPart {
 
 	private void removeNotRunningRows(final PlanViewRowData[] input) {
 		Job job = new Job("Removing Plans") {
-			
+
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				monitor.beginTask("Removing plans", 10000);
@@ -351,16 +361,17 @@ public class PlanView extends ViewPart {
 						if (row.getPlanFilePath() != null) {
 							deleteFile(new File(row.getPlanFilePath()));
 						}
-						
+
 						Activator.refreshProject(row.getProjectName());
 					}
-					monitor.worked(9000/(input.length));
+					monitor.worked(9000 / (input.length));
 				}
 
-				PlanViewDataProvider dataProvider = PlanViewDataProvider.getInstance();
+				PlanViewDataProvider dataProvider = PlanViewDataProvider
+						.getInstance();
 				dataProvider.getPlanViewDataList().removeAll(notRunning);
 				PlanViewDataProvider.savePlanBrowserData();
-				setData(dataProvider);
+				showDataInView(dataProvider);
 				deleteEmptyDirs(notRunning);
 				monitor.worked(1000);
 				monitor.done();
@@ -369,9 +380,8 @@ public class PlanView extends ViewPart {
 		};
 		job.setUser(true);
 		job.schedule();
-		
-	}
 
+	}
 
 	private boolean deleteFile(File file) {
 		if (file.exists() && file.isFile()) {
@@ -379,7 +389,7 @@ public class PlanView extends ViewPart {
 		}
 		return false;
 	}
-	
+
 	private void deleteEmptyDirs(Vector<PlanViewRowData> notRunning) {
 
 		PlanViewDataProvider dataProvider = PlanViewDataProvider.getInstance();
@@ -441,10 +451,13 @@ public class PlanView extends ViewPart {
 		}
 	}
 
-	public static void refreshPlanView() {
-		PlanViewDataProvider dataProvider = PlanViewDataProvider.getInstance();
+	private static void refreshPlanView() {
+		final PlanViewDataProvider dataProvider = PlanViewDataProvider
+				.getInstance();
 		dataProvider.refreshPlanBrowserData();
-		setData(dataProvider);
+
+		showDataInView(dataProvider);
+
 		PlanViewDataProvider.savePlanBrowserData();
 	}
 
@@ -511,12 +524,6 @@ public class PlanView extends ViewPart {
 		fillLocalToolBar(bars.getToolBarManager());
 	}
 
-	/*
-	 * private void fillLocalPullDown(IMenuManager manager) {
-	 * manager.add(clearSelectedPlanAction); manager.add(new Separator());
-	 * manager.add(clearAllPlansAction); manager.add(openPlanInEdtiorAction); }
-	 */
-
 	private void fillLocalToolBar(IToolBarManager manager) {
 		manager.add(openPlanInEdtiorAction);
 		manager.add(clearSelectedPlanAction);
@@ -529,7 +536,8 @@ public class PlanView extends ViewPart {
 				.getInstance();
 		PlanViewRowData pvd = dataProvider.addPlanViewDataOfRunningProcess(
 				configuration, workingDir);
-		setData(dataProvider);
+		showDataInView(dataProvider);
+	
 		return pvd;
 	}
 
@@ -540,28 +548,55 @@ public class PlanView extends ViewPart {
 				.getInstance();
 		dataProvider.setPlanFilesPathsAndMarkAsEnded(configuration, workingDir,
 				pvd);
-		setData(dataProvider);
+		showDataInView(dataProvider);
 	}
 
-	public static void setData(final PlanViewDataProvider dataProvider) {
+	private static void showDataInView(final PlanViewDataProvider dataProvider) {
 		PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
 			public void run() {
 				try {
-					PlanView view = (PlanView) PlatformUI.getWorkbench()
+					IViewPart foundView = PlatformUI.getWorkbench()
 							.getActiveWorkbenchWindow().getActivePage()
-							.showView(ID);
-					view.setInput(dataProvider.getPlanViewDataList());
+							.findView(ID);
+					if (PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+							.getActivePage().isPartVisible(foundView)
+							|| showViewAfterRefresh) {
+						PlanView planView;
+						planView = (PlanView) PlatformUI.getWorkbench()
+								.getActiveWorkbenchWindow().getActivePage()
+								.showView(ID, null, focusMode);
+						planView.setInput(dataProvider.getPlanViewDataList());
+					}
 				} catch (PartInitException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		});
-
 	}
 
 	private void setInput(List<PlanViewRowData> list) {
 		viewer.setInput(list);
+	}
+
+	public static synchronized void setRefreshMode(int mode) {
+		if (mode == NOT_ACTIVATE_VIEW_AFTER_DATA_UPDATE) {
+			showViewAfterRefresh = false;
+			focusMode = IWorkbenchPage.VIEW_VISIBLE;
+		} else if (mode == ACTIVATE_VIEW_AFTER_DATA_UPDATE) {
+			showViewAfterRefresh = true;
+			focusMode = IWorkbenchPage.VIEW_ACTIVATE;
+		} else {
+			Log.log("There is no such refresh mode");
+		}
+		currentRefreshMode = mode;
+	}
+	
+	public static void refreshPlanViewWithoutActivate() {
+		int oldMode = currentRefreshMode;
+		setRefreshMode(NOT_ACTIVATE_VIEW_AFTER_DATA_UPDATE);
+		refreshPlanView();
+		setRefreshMode(oldMode);
 	}
 
 	/**

@@ -466,8 +466,8 @@ public class PlannerPreferencesPageTabItem {
 		Map<String, String> map = getArguments();
 
 		boolean argsChanged = false;
-
-		if (map != null && map.size() > 0) {
+		//TODO zmienic metode porownywania map
+		if (map != null && map.size() > 0 && preferences.getArgumentsMap() != null && preferences.getArgumentsMap().size() > 0) {
 			for (String key : map.keySet()) {
 				if (preferences.getArgumentsMap().containsKey(key)) {
 					argsChanged = argsChanged
@@ -479,7 +479,7 @@ public class PlannerPreferencesPageTabItem {
 				}
 			}
 		}
-		if (preferences.getArgumentsMap() != null && preferences.getArgumentsMap().size() > 0) {
+		if (map != null && map.size() > 0 && preferences.getArgumentsMap() != null && preferences.getArgumentsMap().size() > 0) {
 			for (String key : preferences.getArgumentsMap().keySet()) {
 				if (map.containsKey(key)) {
 					argsChanged = argsChanged
