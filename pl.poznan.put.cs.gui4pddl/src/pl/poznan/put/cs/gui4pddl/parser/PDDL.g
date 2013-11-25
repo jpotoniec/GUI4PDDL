@@ -94,31 +94,31 @@ domain_item
 	;
 	
 extension_def 
-	:	'('! ':extends' NAME+ ')'!
+	:	'('! ':extends'^ NAME+ ')'!
 	;
 	
 types_def 
-	:	'('! ':types' typed_list_of_name ')'!
+	:	'('! ':types'^ typed_list_of_name ')'!
 	;
 	
 constants_def
-	:	'('! ':constants' typed_list_of_name ')'!
+	:	'('! ':constants'^ typed_list_of_name ')'!
 	;
 
 domain_vars_def
-	:	'('! ':domain-variables' typed_list_of_domain_var_declaration ')'!
+	:	'('! ':domain-variables'^ typed_list_of_domain_var_declaration ')'!
 	;
 
 predicates_def 
-	:	'('! ':predicates' atomic_formula_skeleton+ ')'!
+	:	'('! ':predicates'^ atomic_formula_skeleton+ ')'!
 	;
 
 timeless_def
-	:	'('! ':timeless' literal_of_name+ ')'!
+	:	'('! ':timeless'^ literal_of_name+ ')'!
 	;
 	
 safety_def 
-	:	'('! ':safety' gd ')'!
+	:	'('! ':safety'^ gd ')'!
 	;
 	
 structure_def 
@@ -222,7 +222,7 @@ domain_reference
 	;
 	
 require_def
-	:	'('! ':requirements' REQUIRE_KEY+ ')'!
+	:	'('! ':requirements'^ REQUIRE_KEY+ ')'!
 	;
 	
 situation 
@@ -307,7 +307,8 @@ atomic_formula_of_name
 
 typed_list_of_name 
 	:	
-	|	NAME+ ('-' type typed_list_of_name)? //:typing
+	|	NAME+  -> ^(NAMEDEF NAME)+
+	|   NAME+ '-' type typed_list_of_name -> ^(NAMEDEF NAME type)+ typed_list_of_name       //:typing
 	;
 
 typed_list_of_variable
@@ -315,9 +316,9 @@ typed_list_of_variable
 	|	VARIABLE+ ('-' type typed_list_of_variable)? //:typing
 	;
 
-type 	:	NAME
-	|	'('! 'either' type+ ')'!
-	|	'('! 'fluent' type ')'! //:fluents
+type 	:	NAME -> NAME
+	|	'(' 'either' type+ ')' -> ^('either' type+)
+	|	'(' 'fluent' type ')' -> ^('fluent' type)   //:fluents
 	;
 
 /*
@@ -405,4 +406,7 @@ VARIABLE
 	:	'?'('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'_'|'-'|'0'..'9')*
 	;
 
+NAMEDEF
+    :
+    ;
 
