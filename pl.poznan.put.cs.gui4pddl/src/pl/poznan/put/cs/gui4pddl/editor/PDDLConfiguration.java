@@ -9,6 +9,7 @@ import org.eclipse.jface.text.rules.DefaultDamagerRepairer;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 
+import pl.poznan.put.cs.gui4pddl.editor.PDDLCompletionAssistant;
 import pl.poznan.put.cs.gui4pddl.editor.scanners.CommentScanner;
 import pl.poznan.put.cs.gui4pddl.editor.scanners.DefaultScanner;
 import pl.poznan.put.cs.gui4pddl.editor.scanners.PDDLPartitionScanner;
@@ -31,7 +32,7 @@ public class PDDLConfiguration extends SourceViewerConfiguration {
 		dr = new DefaultDamagerRepairer(new DefaultScanner(tokenManager));
 		reconciler.setDamager(dr, IDocument.DEFAULT_CONTENT_TYPE);
 		reconciler.setRepairer(dr, IDocument.DEFAULT_CONTENT_TYPE);
-		
+
 		dr = new DefaultDamagerRepairer(new CommentScanner(tokenManager));
 		reconciler.setDamager(dr, PDDLPartitionScanner.PDDL_COMMENT);
 		reconciler.setRepairer(dr, PDDLPartitionScanner.PDDL_COMMENT);

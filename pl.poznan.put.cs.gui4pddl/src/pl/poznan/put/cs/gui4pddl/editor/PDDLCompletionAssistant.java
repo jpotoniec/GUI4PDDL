@@ -1,6 +1,5 @@
 package pl.poznan.put.cs.gui4pddl.editor;
 
-import java.awt.List;
 import java.util.Iterator;
 
 import org.eclipse.core.resources.IFile;
@@ -18,8 +17,12 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 
 import pl.poznan.put.cs.gui4pddl.PDDLNature;
+import pl.poznan.put.cs.gui4pddl.codemodel.IPDDLCodeCompletionManager;
+import pl.poznan.put.cs.gui4pddl.codemodel.PDDLCodeCompletionManager;
+import pl.poznan.put.cs.gui4pddl.codemodel.PDDLCodeCompletionProposal;
 
-public abstract class PDDLCompletionAssistant implements IContentAssistProcessor {
+public class PDDLCompletionAssistant implements IContentAssistProcessor {
+	@SuppressWarnings("null")
 	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer,
 			int documentOffset, PDDLEditor editor) {
 		ICompletionProposal[] proposals = null;
@@ -34,14 +37,16 @@ public abstract class PDDLCompletionAssistant implements IContentAssistProcessor
 			IFile file = ((IFileEditorInput) editor_input).getFile();
 			IProject project = file.getProject();
 			PDDLNature nature = PDDLNature.getPDDLNature(project);
-			//PDDLCompletionManager manager = nature.getCompletionManager();
-			//List completions = manager.
+			IPDDLCodeCompletionManager manager = nature.getCodeCompletionManager();
+			java.util.List<PDDLCodeCompletionProposal> completions = manager.getCodeCompletionProposals(document, documentOffset);
 			
-			/*int i = 0;
-			for (Iterator iter = completions.iterator(); iter.hasNext();) {
+			
+			int i = 0;
+			for (@SuppressWarnings("rawtypes")
+			Iterator iter = completions.iterator(); iter.hasNext();) {
 				String completion = (String) iter.next();
 				proposals[i++] = new CompletionProposal(completion, start,
-						documentOffset - start, completion.length());*/
+						documentOffset - start, completion.length());
 			}
 		} catch (Exception e) {
 			DebugPlugin.log(e);
@@ -55,5 +60,31 @@ public abstract class PDDLCompletionAssistant implements IContentAssistProcessor
 
 	public String getErrorMessage() {
 		return "No completions available.";
+	}
+
+	@Override
+	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer,
+			int offset) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IContextInformation[] computeContextInformation(ITextViewer viewer,
+			int offset) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public char[] getContextInformationAutoActivationCharacters() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IContextInformationValidator getContextInformationValidator() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
