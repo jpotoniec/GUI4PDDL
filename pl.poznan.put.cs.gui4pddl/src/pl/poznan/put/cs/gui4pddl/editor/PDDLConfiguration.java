@@ -39,12 +39,12 @@ public class PDDLConfiguration extends SourceViewerConfiguration {
 		return reconciler;
 	}
 
-	/*public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
+	public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
 		ContentAssistant assistant = new ContentAssistant();
-		assistant.setContentAssistProcessor(new PropertiesAssistant(),
+		assistant.setContentAssistProcessor(new PDDLCompletionAssistant(),
 				IDocument.DEFAULT_CONTENT_TYPE);
 		assistant.enableAutoActivation(true);
 		assistant.enableAutoInsert(true);
 		return assistant;
-	}*/
+	}
 }
