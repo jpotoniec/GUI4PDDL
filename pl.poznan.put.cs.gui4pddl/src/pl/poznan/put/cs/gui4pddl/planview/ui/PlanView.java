@@ -8,6 +8,10 @@ import java.util.Vector;
 
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
@@ -69,8 +73,12 @@ public class PlanView extends ViewPart {
 	private static final String DOMAIN_LABEL = "Domain";
 	private static final String PROBLEM_LABEL = "Problem";
 	private static final String ID_LABEL = "Id";
+	private static final String PLAN_FILE_NAME_LABEL = "Plan file";
 	private static final String STATUS_LABEL = "Status";
 	private static final String PLANNER_ARGUMENTS_LABEL = "Planner arguments";
+	
+	private static final String[] titles = { PROJECT, DOMAIN_LABEL, PROBLEM_LABEL, ID_LABEL, PLAN_FILE_NAME_LABEL,
+			STATUS_LABEL, PLANNER_ARGUMENTS_LABEL };
 
 	private TableViewer viewer;
 	private Action clearSelectedPlanAction;
@@ -164,8 +172,6 @@ public class PlanView extends ViewPart {
 
 	private void createColumns(TableColumnLayout layout,
 			final Composite parent, final TableViewer viewer) {
-		String[] titles = { PROJECT, DOMAIN_LABEL, PROBLEM_LABEL, ID_LABEL,
-				STATUS_LABEL, PLANNER_ARGUMENTS_LABEL };
 
 		TableViewerColumn col = createTableViewerColumn(layout, titles[0], 0);
 
@@ -206,11 +212,28 @@ public class PlanView extends ViewPart {
 				return p.getId();
 			}
 		});
-
+		
 		col = createTableViewerColumn(layout, titles[4], 4);
-		col.setLabelProvider(new ColorStatusColumnLabelProvider());
+		col.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+
+				PlanViewRowData p = (PlanViewRowData) element;
+				String name = "";
+				if (p.getPlanFilePath() != null) {
+					if (!p.getPlanFilePath().isEmpty()) {
+						File f = new File(p.getPlanFilePath());
+						name = f.getName();
+					}
+				}
+				return name;
+			}
+		});
 
 		col = createTableViewerColumn(layout, titles[5], 5);
+		col.setLabelProvider(new ColorStatusColumnLabelProvider());
+
+		col = createTableViewerColumn(layout, titles[6], 6);
 		col.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -227,7 +250,7 @@ public class PlanView extends ViewPart {
 		final TableViewerColumn viewerColumn = new TableViewerColumn(viewer,
 				SWT.NONE);
 		final TableColumn column = viewerColumn.getColumn();
-		layout.setColumnData(column, new ColumnWeightData(100 / 6));
+		layout.setColumnData(column, new ColumnWeightData(100 / titles.length));
 		column.addControlListener(new ControlAdapter() {
 			public void controlResized(ControlEvent e) {
 				if (column.getWidth() < 5)
@@ -314,25 +337,39 @@ public class PlanView extends ViewPart {
 		});
 	}
 
-	private void removeNotRunningRows(PlanViewRowData[] input) {
-		Vector<PlanViewRowData> notRunning = new Vector<PlanViewRowData>();
+	private void removeNotRunningRows(final PlanViewRowData[] input) {
+		Job job = new Job("Removing Plans") {
+			
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				monitor.beginTask("Removing plans", 10000);
+				Vector<PlanViewRowData> notRunning = new Vector<PlanViewRowData>();
 
-		for (PlanViewRowData row : input) {
-			if (row.getStatus() != PlanViewRowData.Status.RUNNING) {
-				notRunning.add(row);
-				if (row.getPlanFilePath() != null) {
-					deleteFile(new File(row.getPlanFilePath()));
+				for (PlanViewRowData row : input) {
+					if (row.getStatus() != PlanViewRowData.Status.RUNNING) {
+						notRunning.add(row);
+						if (row.getPlanFilePath() != null) {
+							deleteFile(new File(row.getPlanFilePath()));
+						}
+						
+						Activator.refreshProject(row.getProjectName());
+					}
+					monitor.worked(9000/(input.length));
 				}
-				
-				Activator.refreshProject(row.getProjectName());
-			}
-		}
 
-		PlanViewDataProvider dataProvider = PlanViewDataProvider.getInstance();
-		dataProvider.getPlanViewDataList().removeAll(notRunning);
-		PlanViewDataProvider.savePlanBrowserData();
-		setData(dataProvider);
-		deleteEmptyDirs(notRunning);
+				PlanViewDataProvider dataProvider = PlanViewDataProvider.getInstance();
+				dataProvider.getPlanViewDataList().removeAll(notRunning);
+				PlanViewDataProvider.savePlanBrowserData();
+				setData(dataProvider);
+				deleteEmptyDirs(notRunning);
+				monitor.worked(1000);
+				monitor.done();
+				return Status.OK_STATUS;
+			}
+		};
+		job.setUser(true);
+		job.schedule();
+		
 	}
 
 
