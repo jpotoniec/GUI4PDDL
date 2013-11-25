@@ -39,8 +39,8 @@ import org.eclipse.ui.model.WorkbenchLabelProvider;
 
 import pl.poznan.put.cs.gui4pddl.Activator;
 import pl.poznan.put.cs.gui4pddl.PDDLNature;
-import pl.poznan.put.cs.gui4pddl.runners.LaunchConfigurationCreator;
 import pl.poznan.put.cs.gui4pddl.runners.RunnerConstants;
+import pl.poznan.put.cs.gui4pddl.runners.helpers.ProjectFilesPathsHelpers;
 
 /**
  * A control for selecting a pddl domain and problem files.
@@ -142,7 +142,7 @@ public class DomainAndProblemFilesBlock extends AbstractLaunchConfigurationTab {
 								if (dialResult[0] instanceof IFile) {
 
 									IFile file = (IFile) dialResult[0];
-									lText.setText(LaunchConfigurationCreator
+									lText.setText(ProjectFilesPathsHelpers
 											.getRelativeFileLocation(file));
 								}
 							}
@@ -253,9 +253,9 @@ public class DomainAndProblemFilesBlock extends AbstractLaunchConfigurationTab {
 			String problemFullPath = null;
 			
 			try {
-				domainFullPath = LaunchConfigurationCreator
+				domainFullPath = ProjectFilesPathsHelpers
 						.getAbsoluteFilePathFromRelativePath(domainPath);
-				problemFullPath = LaunchConfigurationCreator
+				problemFullPath = ProjectFilesPathsHelpers
 						.getAbsoluteFilePathFromRelativePath(problemPath);
 			} catch (CoreException e) {
 				result = false;

@@ -6,6 +6,7 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.console.IConsoleConstants;
 
+import pl.poznan.put.cs.gui4pddl.planview.ui.PlanView;
 import pl.poznan.put.cs.gui4pddl.ui.wizards.PDDLFileWizard;
 import pl.poznan.put.cs.gui4pddl.ui.wizards.PDDLProjectWizard;
 
@@ -39,6 +40,7 @@ public class PDDLPerspectiveFactory implements IPerspectiveFactory {
 				IPageLayout.BOTTOM, 0.66f, editorArea);
 		bottom.addView(IPageLayout.ID_PROBLEM_VIEW);
 		bottom.addView(IConsoleConstants.ID_CONSOLE_VIEW);
+		bottom.addView(PlanView.ID);
 
 	}
 
@@ -67,6 +69,7 @@ public class PDDLPerspectiveFactory implements IPerspectiveFactory {
 		layout.addShowViewShortcut(IConsoleConstants.ID_CONSOLE_VIEW);
 //		layout.addShowViewShortcut(IPageLayout.ID_OUTLINE);
 		layout.addShowViewShortcut(IPageLayout.ID_PROBLEM_VIEW);
+		layout.addShowViewShortcut(PlanView.ID);
 		// layout.addShowViewShortcut(IPageLayout.ID_RES_NAV);-- Navigator no
 		// longer supported
 		layout.addShowViewShortcut("org.eclipse.pde.runtime.LogView");

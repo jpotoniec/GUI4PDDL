@@ -172,7 +172,7 @@ public class PlannerPreferencesStore {
 	}
 
 	public static boolean savePlannerPreferences(String plannerName,
-			String plannerFile, Map<String, String> arguments,
+			String plannerFile, Map<String, String> arguments, String planViewFilePattern,
 			PlannerPreferences preferences) {
 
 		// remove old preferences file if name changed
@@ -187,7 +187,7 @@ public class PlannerPreferencesStore {
 		}
 
 		PlannerPreferences plannerPreferences = new PlannerPreferences(
-				plannerName, plannerFile, arguments);
+				plannerName, plannerFile, arguments, planViewFilePattern);
 
 		plannerPreferencesMap.put(plannerName, plannerPreferences);
 

@@ -33,6 +33,7 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
 import pl.poznan.put.cs.gui4pddl.Activator;
 import pl.poznan.put.cs.gui4pddl.log.Log;
+import pl.poznan.put.cs.gui4pddl.runners.helpers.ProjectFilesPathsHelpers;
 
 public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 
@@ -144,7 +145,7 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 					.getLaunchConfigurations(type);
 
 			// let's see if we can find it with a location relative or not.
-			String location = LaunchConfigurationCreator
+			String location = ProjectFilesPathsHelpers
 					.getProjectLocation(project);
 
 			for (int i = 0; i < configs.length; i++) {
@@ -182,7 +183,7 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 		ILaunchConfigurationWorkingCopy createdConfiguration = LaunchConfigurationCreator
 				.createDefaultLaunchConfiguration(project,
 						getLaunchConfigurationType(),
-						LaunchConfigurationCreator.getProjectLocation(project),
+						ProjectFilesPathsHelpers.getProjectLocation(project),
 						projName);
 
 		// Common Tab Arguments

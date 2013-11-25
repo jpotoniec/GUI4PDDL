@@ -2,18 +2,22 @@ package pl.poznan.put.cs.gui4pddl;
 
 import java.util.ResourceBundle;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.swt.graphics.RGB;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import pl.poznan.put.cs.gui4pddl.editor.TokenManager;
+import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewDataProvider;
+import pl.poznan.put.cs.gui4pddl.planview.ui.PlanView;
 import pl.poznan.put.cs.gui4pddl.preferences.helpers.PlannerPreferencesStore;
-import pl.poznan.put.cs.gui4pddl.views.ui.PlanView;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -52,32 +56,44 @@ public class Activator extends AbstractUIPlugin {
 		super.start(context);
 		plugin = this;
 		PlannerPreferencesStore.loadPlannerPreferences();
+		PlanViewDataProvider.loadPlanBrowserDataFromFile();
+		
+		PlanView.setRefreshMode(PlanView.ACTIVATE_VIEW_AFTER_DATA_UPDATE);
+		PlanView.refreshPlanViewWithoutActivate();
 
-	}
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(
+				new IResourceChangeListener() {
 
-	public static void showPlanView() {
-		PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
-			public void run() {
-								try {
-					IViewPart view = PlatformUI.getWorkbench()
-							.getActiveWorkbenchWindow().getActivePage()
-							.showView(PlanView.ID);
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+					@Override
+					public void resourceChanged(IResourceChangeEvent arg0) {
+						PlanView.refreshPlanViewWithoutActivate();
 					}
+				}, IResourceChangeEvent.POST_CHANGE);
 
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-							.getActivePage().activate(view);
-				} catch (PartInitException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
+		// TODO dowiedziec sie czy ukrywac widok konsoli od poczatku czy nie
+		/*
+		 * IPreferenceStore debugUIPreferences =
+		 * DebugUIPlugin.getDefault().getPreferenceStore();
+		 * 
+		 * debugUIPreferences.setValue(IDebugPreferenceConstants.CONSOLE_OPEN_ON_ERR
+		 * , false);
+		 * 
+		 * debugUIPreferences.setValue(IDebugPreferenceConstants.CONSOLE_OPEN_ON_OUT
+		 * , false);
+		 */
+	}
+	
+	
 
+	public static void refreshProject(String projectName) {
+		try {
+			IProject project = ResourcesPlugin.getWorkspace().getRoot()
+					.getProject(projectName);
+			project.refreshLocal(IResource.DEPTH_INFINITE, null);
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/*
