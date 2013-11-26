@@ -1,6 +1,7 @@
 package pl.poznan.put.cs.gui4pddl.editor;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -22,29 +23,35 @@ import pl.poznan.put.cs.gui4pddl.codemodel.PDDLCodeCompletionManager;
 import pl.poznan.put.cs.gui4pddl.codemodel.PDDLCodeCompletionProposal;
 
 public class PDDLCompletionAssistant implements IContentAssistProcessor {
+
+	private final PDDLEditor Editor;
+
+	public PDDLCompletionAssistant(PDDLEditor Editor) {
+		this.Editor = Editor;
+	}
+
 	@SuppressWarnings("null")
 	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer,
-			int documentOffset, PDDLEditor editor) {
+			int documentOffset) {
 		ICompletionProposal[] proposals = null;
 		try {
 			IDocument document = viewer.getDocument();
 			IRegion range = document.getLineInformationOfOffset(documentOffset);
 			int start = range.getOffset();
-			String prefix = document.get(start, documentOffset - start);
-			
-			
-			IEditorInput editor_input = editor.getEditorInput();
+			//String prefix = document.get(start, documentOffset - start);
+
+			IEditorInput editor_input = Editor.getEditorInput();
 			IFile file = ((IFileEditorInput) editor_input).getFile();
 			IProject project = file.getProject();
 			PDDLNature nature = PDDLNature.getPDDLNature(project);
-			IPDDLCodeCompletionManager manager = nature.getCodeCompletionManager();
-			java.util.List<PDDLCodeCompletionProposal> completions = manager.getCodeCompletionProposals(document, documentOffset);
-			
-			
+			IPDDLCodeCompletionManager manager = nature
+					.getCodeCompletionManager();
+			List<PDDLCodeCompletionProposal> completions = manager
+					.getCodeCompletionProposals(document, documentOffset);
+			proposals = new CompletionProposal[completions.size()];
 			int i = 0;
-			for (@SuppressWarnings("rawtypes")
-			Iterator iter = completions.iterator(); iter.hasNext();) {
-				String completion = (String) iter.next();
+			for (Iterator<PDDLCodeCompletionProposal> iter = completions.iterator(); iter.hasNext();) {
+				String completion = (String) iter.next().getText();
 				proposals[i++] = new CompletionProposal(completion, start,
 						documentOffset - start, completion.length());
 			}
@@ -63,13 +70,6 @@ public class PDDLCompletionAssistant implements IContentAssistProcessor {
 	}
 
 	@Override
-	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer,
-			int offset) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public IContextInformation[] computeContextInformation(ITextViewer viewer,
 			int offset) {
 		// TODO Auto-generated method stub
@@ -78,8 +78,7 @@ public class PDDLCompletionAssistant implements IContentAssistProcessor {
 
 	@Override
 	public char[] getContextInformationAutoActivationCharacters() {
-		// TODO Auto-generated method stub
-		return null;
+		return new char[] { ':', '?', '-' };
 	}
 
 	@Override

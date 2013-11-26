@@ -16,13 +16,15 @@ import pl.poznan.put.cs.gui4pddl.Activator;
 
 public class PDDLEditor extends TextEditor {
 	private final TokenManager tokenManager;
+	private final PDDLEditor Editor;
 	private final ResourceBundle resourceBundle;
 
 	public PDDLEditor() {
 		super();
+		Editor = this;
 		tokenManager = Activator.getDefault().getTokenManager();
 		resourceBundle = Activator.getDefault().getResourceBundle();
-		setSourceViewerConfiguration(new PDDLConfiguration(tokenManager));
+		setSourceViewerConfiguration(new PDDLConfiguration(tokenManager,Editor));
 		setDocumentProvider(new PDDLDocumentProvider());
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 	}
@@ -37,13 +39,13 @@ public class PDDLEditor extends TextEditor {
 		super.handlePreferenceStoreChanged(event);
 	}
 
-	/*protected void createActions() {
-		super.createActions();
-		ContentAssistAction action = new ContentAssistAction(resourceBundle,
-				"ContentAssistProposal.", this);
-		action.setActionDefinitionId(ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS);
-		setAction("ContentAssistProposal", action);
-	}*/
+//	protected void createActions() {
+//		super.createActions();
+//		ContentAssistAction action = new ContentAssistAction(resourceBundle,
+//				"ContentAssistProposal.", this);
+//		action.setActionDefinitionId(ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS);
+//		setAction("ContentAssistProposal", action);
+//	}
 	
 	public final static String EDITOR_MATCHING_BRACKETS = "matchingBrackets";
 	public final static String EDITOR_MATCHING_BRACKETS_COLOR= "matchingBracketsColor";

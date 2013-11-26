@@ -16,9 +16,11 @@ import pl.poznan.put.cs.gui4pddl.editor.scanners.PDDLPartitionScanner;
 
 public class PDDLConfiguration extends SourceViewerConfiguration {
 	private final TokenManager tokenManager;
+	private final PDDLEditor Editor;
 
-	public PDDLConfiguration(TokenManager tokenManager) {
+	public PDDLConfiguration(TokenManager tokenManager,PDDLEditor Editor) {
 		this.tokenManager = tokenManager;
+		this.Editor = Editor;
 	}
 
 	public String[] getConfiguredContentTypes(ISourceViewer sourceViewer) {
@@ -42,7 +44,7 @@ public class PDDLConfiguration extends SourceViewerConfiguration {
 
 	public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
 		ContentAssistant assistant = new ContentAssistant();
-		assistant.setContentAssistProcessor(new PDDLCompletionAssistant(),
+		assistant.setContentAssistProcessor(new PDDLCompletionAssistant(Editor),
 				IDocument.DEFAULT_CONTENT_TYPE);
 		assistant.enableAutoActivation(true);
 		assistant.enableAutoInsert(true);
