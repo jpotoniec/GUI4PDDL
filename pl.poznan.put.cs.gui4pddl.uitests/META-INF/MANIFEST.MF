@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Gui4pddl Tests
-Bundle-SymbolicName: pl.poznan.put.cs.gui4pddl.tests;singleton:=true
+Bundle-SymbolicName: pl.poznan.put.cs.gui4pddl.uitests;singleton:=true
 Bundle-Version: 0.0.1
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.swtbot.eclipse.core;bundle-version="2.1.1",
