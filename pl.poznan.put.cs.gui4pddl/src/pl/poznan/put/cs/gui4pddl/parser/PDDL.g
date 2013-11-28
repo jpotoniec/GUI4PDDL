@@ -310,6 +310,12 @@ typed_list_of_name
 	|	NAME+  -> ^(NAMEDEF NAME)+
 	|   NAME+ '-' type typed_list_of_name -> ^(NAMEDEF NAME type)+ typed_list_of_name       //:typing
 	;
+	
+//This rule is needed to parse input consisting of typed_list_of_name
+//If that rule is called directly a mismatch with ) and EOF occurs
+typed_list_of_name_test
+	: typed_list_of_name
+	;
 
 typed_list_of_variable
 	:	
