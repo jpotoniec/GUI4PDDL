@@ -62,13 +62,8 @@ public class Activator extends AbstractUIPlugin {
 		PlanView.refreshPlanViewWithoutActivate();
 
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(
-				new IResourceChangeListener() {
-
-					@Override
-					public void resourceChanged(IResourceChangeEvent arg0) {
-						PlanView.refreshPlanViewWithoutActivate();
-					}
-				}, IResourceChangeEvent.POST_CHANGE);
+				new PlanFilesTreeChangeListener(),
+				IResourceChangeEvent.POST_CHANGE);
 
 		// TODO dowiedziec sie czy ukrywac widok konsoli od poczatku czy nie
 		/*
