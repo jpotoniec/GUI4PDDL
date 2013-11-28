@@ -279,9 +279,7 @@ public class PlanView extends ViewPart {
 	}
 
 	private void makeActions() {
-		
-		
-		
+
 		clearSelectedPlanAction = new Action() {
 			public void run() {
 				IStructuredSelection selection = (IStructuredSelection) viewer
@@ -296,9 +294,7 @@ public class PlanView extends ViewPart {
 				}
 			}
 		};
-		
 
-		
 		clearSelectedPlanAction.setText(CLEAR_SELECTED_PLANS_TEXT);
 		clearSelectedPlanAction.setToolTipText(CLEAR_SELECTED_PLANS_TOOLTIP);
 		clearSelectedPlanAction.setImageDescriptor(PlatformUI.getWorkbench()
@@ -559,21 +555,27 @@ public class PlanView extends ViewPart {
 							.getActiveWorkbenchWindow().getActivePage()
 							.findView(ID);
 					PlanView thisView = (PlanView) foundView;
-					if (/*PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-							.getActivePage().isPartVisible(foundView)
-							||*/ showViewAfterRefresh) {
-						
-						/*PlanView planView = (PlanView)*/ PlatformUI.getWorkbench()
-								.getActiveWorkbenchWindow().getActivePage()
-								.showView(ID, null, focusMode);
-						// planView.setInput(dataProvider.getPlanViewDataList());
-						//planView.getViewer().refresh();
-						
-					} else {
-						
-						
+					if (thisView != null) {
+
+						if (/*
+							 * PlatformUI.getWorkbench().getActiveWorkbenchWindow
+							 * () .getActivePage().isPartVisible(foundView) ||
+							 */showViewAfterRefresh) {
+
+							/* PlanView planView = (PlanView) */PlatformUI
+									.getWorkbench().getActiveWorkbenchWindow()
+									.getActivePage()
+									.showView(ID, null, focusMode);
+							// planView.setInput(dataProvider.getPlanViewDataList());
+							// planView.getViewer().refresh();
+
+						} else {
+
+						}
+						if (thisView.getViewer() != null) {
+							thisView.getViewer().refresh();
+						}
 					}
-					thisView.getViewer().refresh();
 				} catch (PartInitException e) { // TODO Auto-generated catch
 												// block
 					e.printStackTrace();
