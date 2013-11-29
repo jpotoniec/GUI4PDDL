@@ -14,15 +14,25 @@ options {
 
 @members {
     private List<PDDLError> errors = new LinkedList<PDDLError>();
+    private boolean printToStdErr = true;
+    
+    public void setPrintToStdErr(boolean val) {
+    	printToStdErr = val;
+    }
+    
     public void displayRecognitionError(String[] tokenNames,
                                         RecognitionException e) {
         String hdr = getErrorHeader(e);
         String msg = getErrorMessage(e, tokenNames);
+        
         PDDLError error = new PDDLError();
         error.message = hdr + " " + msg;
         error.line = e.line;
         error.charPositionInLine = e.charPositionInLine;
         errors.add(error);
+        
+        if (printToStdErr)
+        	System.err.println(hdr + " " + msg);
     }
     public List<PDDLError> getErrors() {
         return errors;

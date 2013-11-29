@@ -139,6 +139,7 @@ public class Builder extends IncrementalProjectBuilder {
 			PDDLLexer lexer = new PDDLLexer(input);
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			PDDLParser parser = new PDDLParser(tokens);
+			parser.setPrintToStdErr(false);
 			
 			try {
 				PDDLParser.pddl_file_return ret = parser.pddl_file();
