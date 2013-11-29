@@ -1,0 +1,37 @@
+<!-- this file should not be invoked separately.
+     it is called by customBuildCallbacks and 
+     project's custom builder -->
+
+<project name="Generate parser sources from grammar files" default="antlr">
+	
+	<target name="pddltest.check">
+			<condition property="pddltest.uptodate" >
+						<and>
+							<uptodate srcfile="tests/pl/poznan/put/cs/gui4pddl/parser/PDDL.gunit"
+								targetfile="gen/pl/poznan/put/cs/gui4pddl/parser/PDDLTest.java"/>
+						</and>
+			</condition>	
+		</target>
+		
+	<target name="pddltest" depends="pddltest.check" unless="pddltest.uptodate">
+			<mkdir dir="gen/pl/poznan/put/cs/gui4pddl/parser/" />
+			<java classname="org.antlr.gunit.Interp" fork="true" failonerror="true"
+					dir = "gen/pl/poznan/put/cs/gui4pddl/parser" >	
+				   
+					<arg value="-o" />
+					<arg value="-p" />
+					<arg value="pl.poznan.put.cs.gui4pddl.parser" />
+					<arg path="tests/pl/poznan/put/cs/gui4pddl/parser/PDDL.gunit" />
+					
+					<classpath>
+						<pathelement location="../pl.poznan.put.cs.gui4pddl/buildTools/antlr-3.5.1-complete.jar"/>
+						<pathelement location="../pl.poznan.put.cs.gui4pddl/bin/"/>
+					</classpath>
+			</java>
+		</target>
+	
+	
+	<target name="antlr" depends="pddltest">
+	</target>
+</project>
+

@@ -1,0 +1,29 @@
+gunit PDDL;
+
+@header {package pl.poznan.put.cs.gui4pddl.parser;}
+
+//Bug #207
+action_def:
+<<
+(:action move
+        :parameters (?e - engine ?a ?b - town)
+        :precondition (and
+            (at ?e ?a)
+            (or (is-connected ?a ?b) (is-connected ?b ?a))
+            )
+        :effect (and
+            (not (at ?e ?a))
+            (at ?e ?b)
+            (forall 
+                (?c - car) 
+                (when 
+                    (coupled ?e ?c) 
+                    (and
+                        (not (car-at ?c ?a)) 
+                        (car-at ?c ?b))
+                )
+            )
+        )
+    )
+>> OK
+

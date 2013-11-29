@@ -1,4 +1,4 @@
-package pl.poznan.put.cs.gui4pddl.tests.manual;
+package pl.poznan.put.cs.gui4pddl.tests;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -23,7 +23,7 @@ import pl.poznan.put.cs.gui4pddl.parser.PDDLParser;
 
 
 
-public class ParsePDDL {
+public class Manual {
 
 	void run() {
 
@@ -69,7 +69,7 @@ public class ParsePDDL {
 	}
 	
 	public static void main(String[] args) {
-		ParsePDDL runner = new ParsePDDL();
+		Manual runner = new Manual();
 		runner.run();
 	}
 

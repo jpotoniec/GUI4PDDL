@@ -36,7 +36,7 @@
 				<arg path="src/pl/poznan/put/cs/gui4pddl/parser/PDDL.g" />
 				
 				<classpath>
-					<pathelement location="buildTools/antlr-3.5-complete-no-st3.jar"/>
+					<pathelement location="buildTools/antlr-3.5.1-complete.jar"/>
 				</classpath>
 		</java>
 	</target>
@@ -51,7 +51,7 @@
 				<arg path="src/pl/poznan/put/cs/gui4pddl/parser/PDDLModelBuilder.g" />
 				
 				<classpath>
-					<pathelement location="buildTools/antlr-3.5-complete-no-st3.jar"/>
+					<pathelement location="buildTools/antlr-3.5.1-complete.jar"/>
 				</classpath>
 		</java>
 	</target>
