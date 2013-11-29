@@ -56,6 +56,7 @@ import pl.poznan.put.cs.gui4pddl.Activator;
 import pl.poznan.put.cs.gui4pddl.log.Log;
 import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewDataProvider;
 import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewRowData;
+import pl.poznan.put.cs.gui4pddl.runners.helpers.ProjectFilesPathsHelpers;
 
 public class PlanView extends ViewPart {
 
@@ -177,13 +178,16 @@ public class PlanView extends ViewPart {
 		hookContextMenu();
 		hookDoubleClickAction();
 		contributeToActionBars();
+
 		setInput(PlanViewDataProvider.getInstance().getPlanViewDataList());
+
 	}
 
 	private void createColumns(TableColumnLayout layout,
 			final Composite parent, final TableViewer viewer) {
 
-		TableViewerColumn col = createTableViewerColumn(layout, columnTitles[0], 0);
+		TableViewerColumn col = createTableViewerColumn(layout,
+				columnTitles[0], 0);
 
 		col.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -260,7 +264,8 @@ public class PlanView extends ViewPart {
 		final TableViewerColumn viewerColumn = new TableViewerColumn(viewer,
 				SWT.NONE);
 		final TableColumn column = viewerColumn.getColumn();
-		layout.setColumnData(column, new ColumnWeightData(100 / columnTitles.length));
+		layout.setColumnData(column, new ColumnWeightData(
+				100 / columnTitles.length));
 		column.addControlListener(new ControlAdapter() {
 			public void controlResized(ControlEvent e) {
 				if (column.getWidth() < 5)
@@ -274,6 +279,7 @@ public class PlanView extends ViewPart {
 	}
 
 	private void makeActions() {
+
 		clearSelectedPlanAction = new Action() {
 			public void run() {
 				IStructuredSelection selection = (IStructuredSelection) viewer
@@ -288,6 +294,7 @@ public class PlanView extends ViewPart {
 				}
 			}
 		};
+
 		clearSelectedPlanAction.setText(CLEAR_SELECTED_PLANS_TEXT);
 		clearSelectedPlanAction.setToolTipText(CLEAR_SELECTED_PLANS_TOOLTIP);
 		clearSelectedPlanAction.setImageDescriptor(PlatformUI.getWorkbench()
@@ -316,6 +323,7 @@ public class PlanView extends ViewPart {
 		openPlanInEdtiorAction = new Action() {
 			public void run() {
 				openSelectedPlanFiles();
+
 			}
 		};
 		openPlanInEdtiorAction.setText(OPEN_READY_PLANS_IN_EDITOR_TEXT);
@@ -359,7 +367,8 @@ public class PlanView extends ViewPart {
 					if (row.getStatus() != PlanViewRowData.Status.RUNNING) {
 						notRunning.add(row);
 						if (row.getPlanFilePath() != null) {
-							deleteFile(new File(row.getPlanFilePath()));
+							ProjectFilesPathsHelpers.deleteFile(new File(row
+									.getPlanFilePath()));
 						}
 
 						Activator.refreshProject(row.getProjectName());
@@ -383,19 +392,13 @@ public class PlanView extends ViewPart {
 
 	}
 
-	private boolean deleteFile(File file) {
-		if (file.exists() && file.isFile()) {
-			return file.delete();
-		}
-		return false;
-	}
-
 	private void deleteEmptyDirs(Vector<PlanViewRowData> notRunning) {
 
 		PlanViewDataProvider dataProvider = PlanViewDataProvider.getInstance();
 		for (PlanViewRowData external : notRunning) {
 			boolean deleteDir = true;
 			for (PlanViewRowData internal : dataProvider.getPlanViewDataList()) {
+
 				if (external.getProjectName().equals(internal.getProjectName())
 						&& external.getDomain().equals(internal.getDomain())
 						&& external.getProblem().equals(internal.getProblem())
@@ -404,27 +407,15 @@ public class PlanView extends ViewPart {
 				}
 			}
 			if (deleteDir) {
-				deleteDir(new File(external.getWorkingDirPath()));
+				ProjectFilesPathsHelpers.deleteDir(new File(external
+						.getWorkingDirPath()));
 				Activator.refreshProject(external.getProjectName());
 			}
 		}
 	}
 
-	private boolean deleteDir(File dir) {
-		if (dir.isDirectory()) {
-			String[] children = dir.list();
-			for (int i = 0; i < children.length; i++) {
-				boolean success = deleteDir(new File(dir, children[i]));
-				if (!success) {
-					return false;
-				}
-			}
-		}
-
-		return dir.delete(); // The directory is empty now and can be deleted.
-	}
-
 	private void openSelectedPlanFiles() {
+
 		IStructuredSelection selection = (IStructuredSelection) viewer
 				.getSelection();
 		Iterator<?> itr = selection.iterator();
@@ -452,8 +443,8 @@ public class PlanView extends ViewPart {
 	}
 
 	private static void refreshPlanView() {
-		final PlanViewDataProvider dataProvider = PlanViewDataProvider
-				.getInstance();
+
+		PlanViewDataProvider dataProvider = PlanViewDataProvider.getInstance();
 		dataProvider.refreshPlanBrowserData();
 
 		showDataInView(dataProvider);
@@ -537,7 +528,7 @@ public class PlanView extends ViewPart {
 		PlanViewRowData pvd = dataProvider.addPlanViewDataOfRunningProcess(
 				configuration, workingDir);
 		showDataInView(dataProvider);
-	
+
 		return pvd;
 	}
 
@@ -551,24 +542,42 @@ public class PlanView extends ViewPart {
 		showDataInView(dataProvider);
 	}
 
+	private TableViewer getViewer() {
+		return viewer;
+	}
+
 	private static void showDataInView(final PlanViewDataProvider dataProvider) {
+
 		PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
 			public void run() {
 				try {
 					IViewPart foundView = PlatformUI.getWorkbench()
 							.getActiveWorkbenchWindow().getActivePage()
 							.findView(ID);
-					if (PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-							.getActivePage().isPartVisible(foundView)
-							|| showViewAfterRefresh) {
-						PlanView planView;
-						planView = (PlanView) PlatformUI.getWorkbench()
-								.getActiveWorkbenchWindow().getActivePage()
-								.showView(ID, null, focusMode);
-						planView.setInput(dataProvider.getPlanViewDataList());
+					PlanView thisView = (PlanView) foundView;
+					if (thisView != null) {
+
+						if (/*
+							 * PlatformUI.getWorkbench().getActiveWorkbenchWindow
+							 * () .getActivePage().isPartVisible(foundView) ||
+							 */showViewAfterRefresh) {
+
+							/* PlanView planView = (PlanView) */PlatformUI
+									.getWorkbench().getActiveWorkbenchWindow()
+									.getActivePage()
+									.showView(ID, null, focusMode);
+							// planView.setInput(dataProvider.getPlanViewDataList());
+							// planView.getViewer().refresh();
+
+						} else {
+
+						}
+						if (thisView.getViewer() != null) {
+							thisView.getViewer().refresh();
+						}
 					}
-				} catch (PartInitException e) {
-					// TODO Auto-generated catch block
+				} catch (PartInitException e) { // TODO Auto-generated catch
+												// block
 					e.printStackTrace();
 				}
 			}
@@ -591,7 +600,7 @@ public class PlanView extends ViewPart {
 		}
 		currentRefreshMode = mode;
 	}
-	
+
 	public static void refreshPlanViewWithoutActivate() {
 		int oldMode = currentRefreshMode;
 		setRefreshMode(NOT_ACTIVATE_VIEW_AFTER_DATA_UPDATE);

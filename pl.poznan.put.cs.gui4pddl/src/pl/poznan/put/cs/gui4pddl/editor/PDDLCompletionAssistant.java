@@ -1,6 +1,7 @@
 package pl.poznan.put.cs.gui4pddl.editor;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -19,18 +20,17 @@ import org.eclipse.ui.IFileEditorInput;
 
 import pl.poznan.put.cs.gui4pddl.PDDLNature;
 import pl.poznan.put.cs.gui4pddl.codemodel.IPDDLCodeCompletionManager;
-import pl.poznan.put.cs.gui4pddl.codemodel.PDDLCodeCompletionManager;
 import pl.poznan.put.cs.gui4pddl.codemodel.PDDLCodeCompletionProposal;
 
 public class PDDLCompletionAssistant implements IContentAssistProcessor {
 
 	private final PDDLEditor Editor;
+	private List<PDDLCodeCompletionProposal> baseProps;
 
 	public PDDLCompletionAssistant(PDDLEditor Editor) {
 		this.Editor = Editor;
 	}
 
-	@SuppressWarnings("null")
 	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer,
 			int documentOffset) {
 		ICompletionProposal[] proposals = null;
@@ -38,7 +38,9 @@ public class PDDLCompletionAssistant implements IContentAssistProcessor {
 			IDocument document = viewer.getDocument();
 			IRegion range = document.getLineInformationOfOffset(documentOffset);
 			int start = range.getOffset();
-			//String prefix = document.get(start, documentOffset - start);
+			String prefix = document.get(start, documentOffset - start);
+			prefix = cutOffString(prefix);
+			start = documentOffset - prefix.length();
 
 			IEditorInput editor_input = Editor.getEditorInput();
 			IFile file = ((IFileEditorInput) editor_input).getFile();
@@ -46,12 +48,14 @@ public class PDDLCompletionAssistant implements IContentAssistProcessor {
 			PDDLNature nature = PDDLNature.getPDDLNature(project);
 			IPDDLCodeCompletionManager manager = nature
 					.getCodeCompletionManager();
-			List<PDDLCodeCompletionProposal> completions = manager
-					.getCodeCompletionProposals(document, documentOffset);
+			baseProps = manager.getCodeCompletionProposals(document,
+					documentOffset);
+
+			List<String> completions = getCompletions(prefix);
 			proposals = new CompletionProposal[completions.size()];
 			int i = 0;
-			for (Iterator<PDDLCodeCompletionProposal> iter = completions.iterator(); iter.hasNext();) {
-				String completion = (String) iter.next().getText();
+			for (Iterator<String> iter = completions.iterator(); iter.hasNext();) {
+				String completion = (String) iter.next();
 				proposals[i++] = new CompletionProposal(completion, start,
 						documentOffset - start, completion.length());
 			}
@@ -78,12 +82,42 @@ public class PDDLCompletionAssistant implements IContentAssistProcessor {
 
 	@Override
 	public char[] getContextInformationAutoActivationCharacters() {
-		return new char[] { ':', '?', '-' };
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public IContextInformationValidator getContextInformationValidator() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public List<String> getCompletions(String prefix) {
+		List<String> completions = new LinkedList<String>();
+		for (Iterator<PDDLCodeCompletionProposal> iter = baseProps.iterator(); iter
+				.hasNext();) {
+			String test = (String) iter.next().getText();
+			if (testCompletion(test, prefix))
+				completions.add(test);
+		}
+		return completions;
+	}
+
+	private boolean testCompletion(String completion, String prefix) {
+		return completion.toLowerCase().startsWith(prefix.toLowerCase())
+				&& (completion.lastIndexOf(".") == prefix.lastIndexOf("."));
+	}
+
+	private String cutOffString(String test) {
+		for (int i = test.length() - 1; i >= 0; i--) {
+			char c = test.charAt(i);
+			if(!Character.isLetter(c) && (((c != ':') && (c != '?')) || Character.isWhitespace(c))){
+				if(i == test.length()-1)
+					return "";
+				else
+					return test.substring(i+1);
+			}
+		}
+		return test;
 	}
 }

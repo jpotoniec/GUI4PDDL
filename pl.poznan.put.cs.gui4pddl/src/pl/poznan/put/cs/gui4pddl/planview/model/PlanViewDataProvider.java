@@ -19,6 +19,7 @@ import pl.poznan.put.cs.gui4pddl.planview.helpers.FileNameRegexProcessor;
 import pl.poznan.put.cs.gui4pddl.runners.RunnerConstants;
 import pl.poznan.put.cs.gui4pddl.runners.helpers.ProjectFilesPathsHelpers;
 
+
 public class PlanViewDataProvider implements Serializable {
 
 	/**
