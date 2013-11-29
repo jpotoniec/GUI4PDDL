@@ -61,7 +61,7 @@ types_def
 	;
 	
 constants_def
-	:	^(':constants' typed_list_of_name_item[$definition::domain.getConstants()]* )
+	:	^(':constants' typed_list_of_name[$definition::domain.getConstants()] )
 	;
 
 domain_vars_def
@@ -84,6 +84,11 @@ structure_def
 	:	
 	;
     
+typed_list_of_name
+	[PDDLTypedList list]
+	:   typed_list_of_name_item[$list]*
+	;
+
 typed_list_of_name_item
     [PDDLTypedList list]
     : ^(NAMEDEF NAME) {list.add($NAME.text, null);}
