@@ -2,6 +2,12 @@ gunit PDDL;
 
 @header {package pl.poznan.put.cs.gui4pddl.parser;}
 
+typed_list_of_name_test:
+"ala ma - kota" OK
+"object1 object2 - type1 object3 - type2" OK
+"object1 object2 - type1 object3 - type2 object4" OK
+
+
 //Bug #207
 action_def:
 <<

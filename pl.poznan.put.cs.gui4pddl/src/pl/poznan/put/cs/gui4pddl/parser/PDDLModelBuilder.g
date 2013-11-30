@@ -9,6 +9,7 @@ options {
 	package pl.poznan.put.cs.gui4pddl.parser;
 	
 	import pl.poznan.put.cs.gui4pddl.codemodel.*;
+	import java.util.LinkedList;
 }
 
 pddl_file
@@ -91,15 +92,19 @@ typed_list_of_name
 
 typed_list_of_name_item
     [PDDLTypedList list]
-    : ^(NAMEDEF NAME) {list.add($NAME.text, null);}
+    : NAMEDEF
+    | ^(NAMEDEF NAME) {list.add($NAME.text, null);}
     | ^(NAMEDEF NAME type) {list.add($NAME.text, $type.t);}
 	;
 
 
 type returns [PDDLType t]
-    :	NAME {$t = PDDLType.getType($NAME.text);}
-	|	^('either' type+) {$t = null;}
-	|   ^('fluent' nested=type) {$t = PDDLType.toFluent($nested.t);} 
+	@init {
+		List<PDDLType> eitherTypes = new LinkedList<PDDLType>();
+	}
+    :	NAME {$t = PDDLType.simpleType($NAME.text);} 
+	|	^('either' (nested=type {eitherTypes.add($nested.t);})+) {$t = PDDLType.eitherType(eitherTypes);}
+	|   ^('fluent' nested=type) {$t = PDDLType.fluentType($nested.t);} 
 	;
 
     

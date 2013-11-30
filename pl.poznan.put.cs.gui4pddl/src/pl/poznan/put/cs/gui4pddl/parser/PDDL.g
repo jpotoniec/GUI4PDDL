@@ -315,10 +315,15 @@ atomic_formula_of_name
 	:	'('! predicate NAME* ')'!
 	;
 
-typed_list_of_name 
-	:	
-	|	NAME+  -> ^(NAMEDEF NAME)+
-	|   NAME+ '-' type typed_list_of_name -> ^(NAMEDEF NAME type)+ typed_list_of_name       //:typing
+typed_list_of_name
+	:   -> ^(NAMEDEF)
+	|   NAME+ -> ^(NAMEDEF NAME)+
+	|   NAME+ '-' type tail=typed_list_of_name -> ^(NAMEDEF NAME type)+ $tail
+	;
+	
+typed_list_of_name_item
+	:   NAME+
+	|   NAME+ '-' type   //:typing
 	;
 	
 //This rule is needed to parse input consisting of typed_list_of_name
