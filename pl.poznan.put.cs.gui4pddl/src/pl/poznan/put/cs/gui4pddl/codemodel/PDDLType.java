@@ -2,6 +2,7 @@ package pl.poznan.put.cs.gui4pddl.codemodel;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
 
 public class PDDLType {
 	
@@ -12,6 +13,52 @@ public class PDDLType {
 	private ArrayList<PDDLType> either;
 	
 	private PDDLType() {
+	}
+	
+	public String getName() {
+		if (isFluent())
+			return fluent.getName();
+		else
+			return name;
+	}
+	
+	public void addNames(Set<String> names) {
+		if (either == null)
+			names.add(getName());
+		else {
+			for (PDDLType t: either) {
+				t.addNames(names);
+			}
+		}
+	}
+	
+	public boolean isFluent() {
+		return fluent != null;
+	}
+	
+	//Checks if type st can be casted to type this
+	//This doesn't check types hierarchy specified in domain
+	public boolean isCastable(PDDLType st) {
+		if (st == null)
+			return false;
+		
+		String name = getName();
+		
+		if (name != null) {
+			String stName = st.getName();
+			if (name.equals(stName))
+				return true;
+			else
+				return false;
+		}
+		
+		if (either != null) {
+			for(PDDLType et : either) {
+				if (et.isCastable(st))
+					return true;
+			}
+		}
+		return false;
 	}
 	
 	public static PDDLType defaultType() {

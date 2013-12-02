@@ -13,12 +13,11 @@ public class PDDLDomain {
 	private Map<String,PDDLType> types = new TreeMap<String, PDDLType>();
 	private PDDLTypedList constants = new PDDLTypedList();
 	private PDDLTypedList domain_vars = new PDDLTypedList();
-	//TODO: set of predicates
-	//TODO: actions
+	private Set<PDDLPredicate> predicates = new TreeSet<PDDLPredicate>();
+	private Set<PDDLAction> actions = new TreeSet<PDDLAction>();
 	
 	public PDDLDomain(String name) {
 		this.name = name;
-		System.out.printf("Constructed domain %s\n", name);
 	}
 	
 	public String getName() {
@@ -35,55 +34,104 @@ public class PDDLDomain {
 	
 	public void addRequirement(String name) {
 		requirements.add(name);
-		System.out.printf("Added requirement %s\n", name);
 	}
 	
-	public boolean isSubtype(PDDLType type, PDDLType supertype) {
-		//TODO: Implement accepts
-		/*
-		 * do
-		 *    if supertype.accepts(type) return true
-		 *    type = types[type.name]
-		 * while type != object or null
-		 */
-		return true;
+	public PDDLRequirementSet getRequirementSet() {
+		return requirements;
+	}
+	
+	public boolean isCastable(PDDLType required, PDDLType actual) {
+		
+		if (required == null)
+			return true;
+		if (actual == null)
+			return false;
+		
+		if (required.equals(PDDLType.defaultType()))
+			return true;
+		
+		do {	
+			if (required.isCastable(actual))
+				return true;
+			String name = actual.getName();
+			if (name != null) 
+				actual = types.get(name);
+			else
+				actual = null;
+		} while (actual != null);
+		
+		return false;
 	}
 	
 	public Set<String> getTypeNames() {
-		return types.keySet();
+		Set<String> result =  types.keySet();
+		result.add("object");
+		return result;
 	}
 	
 	public void addTypes(PDDLTypedList list) {
-		//TODO: Add PDDLTypedList iterator
-		/*
-		 * for( entry : list) {
-		 * 	types.add(entry.name, entry.type)
-		 * }
-		 * 
-		 */
+		for (PDDLTypedList.Entry e : list) {
+			types.put(e.name, e.type);
+			if (e.type != null) {
+				Set<String> impliedTypes = new TreeSet<String>();
+				e.type.addNames(impliedTypes);
+				for(String s : impliedTypes) {
+					if( !types.containsKey(s))
+						types.put(s, PDDLType.defaultType());
+				}
+			}
+		}
 	}
 	
-	//addConstant(name, type)
-	//getConstants(PDDLType type)
-	public PDDLTypedList getConstants() {
-		return constants;
+	public void addConstant(String name, PDDLType type) {
+		constants.add(name, type);
 	}
 	
-	//addDomainVar(name, type)
-	//getDomainsVars(PDDLType type)
-	public PDDLTypedList getDomainVars() {
-		return constants;
+	public void addConstants(PDDLTypedList list) {
+		constants.append(list);
 	}
 	
-	//private method filter(PDDLTypedList, type)
+	//type == null to return all constants
+	public Set<String> getConstants(PDDLType type) {
+		return filterTypedList(constants, type);
+	}
 	
-	//TODO: remove method
-	public void addDomainVar(String name, PDDLType type) {
+	public void addDomainVariable(String name, PDDLType type) {
 		domain_vars.add(name, type);
-		System.out.printf("Added domain var %s of type %s \n", name, type);
 	}
 	
-	//addPredicate <PDDLPredicate>
-	//addAction <PDDLAction>
+	public void addDomainVariables(PDDLTypedList list) {
+		domain_vars.append(list);
+	}
 	
+	//if type == null, returns all domain variables 
+	public Set<String> getDomainVariables(PDDLType type) {
+		return filterTypedList(domain_vars, type);
+	}
+
+	public void addPredicate(PDDLPredicate predicate) {
+		predicates.add(predicate);
+	}
+	
+	public Set<PDDLPredicate> getPredicates() {
+		return predicates;
+	}
+	
+	public void addAction(PDDLAction action) {
+		actions.add(action);
+	}
+	
+	public Set<PDDLAction> getActions() {
+		return actions;
+	}
+	
+	private Set<String> filterTypedList(PDDLTypedList list, PDDLType type) {
+		Set<String> result = new TreeSet<String>();
+		for(PDDLTypedList.Entry e: list) {
+			if ((type == null) || (isCastable(type, e.type))) {
+				result.add(e.name);
+			}
+		}
+		return result;
+	}
 }

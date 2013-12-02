@@ -33,7 +33,7 @@ public class TestTypedListParse {
 		
 		CommonTreeNodeStream nodes = new CommonTreeNodeStream(t);
 	    PDDLModelBuilder walker = new PDDLModelBuilder(nodes);
-	    walker.typed_list_of_name(list);
+	    list = walker.typed_list();
 	    
 	    return list;
 	}

@@ -1,13 +1,16 @@
 package pl.poznan.put.cs.gui4pddl.codemodel;
 
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.Collection;
+import java.util.Set;
+import java.util.TreeSet;
+
 
 public class PDDLFile {
 	
-	private String path;
-	private Map<String, PDDLDomain> domains = new TreeMap<String, PDDLDomain>();
+	private String path;	
+	private Set<PDDLDomain> domains = new TreeSet<PDDLDomain>();
+	private Set<PDDLProblem> problems = new TreeSet<PDDLProblem>();
+	private Set<PDDLInitialSituation> initialSituations = new TreeSet<PDDLInitialSituation>();
 	
 	public PDDLFile(String path) {
 		this.path = path;
@@ -16,21 +19,34 @@ public class PDDLFile {
 	public String getPath() {
 		return path;
 	}
-
-	public PDDLDomain getOrCreateDomain(String name) {
-		PDDLDomain domain = domains.get(name);
-		if (domain == null) {
-			domain = new PDDLDomain(name);
-			domains.put(name, domain);
-		}
-		return domain;
-	}
 	
 	public void clear() {
 		domains.clear();
+		problems.clear();
+		initialSituations.clear();
 	}
 	
-	public Iterable<PDDLDomain> getDomains() {
-		return new LinkedList<PDDLDomain>(domains.values());
+	public Collection<PDDLDomain> getDomains() {
+		return domains;
+	}
+	
+	public Collection<PDDLProblem> getProblems() {
+		return problems;
+	}
+	
+	public Collection<PDDLInitialSituation> getInitialSituations() {
+		return initialSituations;
+	}
+	
+	public void addProblem(PDDLProblem problem) {
+		problems.add(problem);
+	}
+	
+	public void addDomain(PDDLDomain domain) {
+		domains.add(domain);
+	}
+	
+	public void addInitialSituation(PDDLInitialSituation initsit) {
+		initialSituations.add(initsit);
 	}
 }

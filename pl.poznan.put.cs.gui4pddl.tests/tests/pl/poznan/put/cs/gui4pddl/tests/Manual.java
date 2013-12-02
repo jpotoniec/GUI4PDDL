@@ -15,7 +15,6 @@ import org.antlr.runtime.tree.CommonTreeNodeStream;
 import pl.poznan.put.cs.gui4pddl.PDDLStructureConfigHelpers;
 import pl.poznan.put.cs.gui4pddl.codemodel.IPDDLCodeModel;
 import pl.poznan.put.cs.gui4pddl.codemodel.PDDLCodeModel;
-import pl.poznan.put.cs.gui4pddl.codemodel.PDDLCodeOutline;
 import pl.poznan.put.cs.gui4pddl.codemodel.PDDLFile;
 import pl.poznan.put.cs.gui4pddl.parser.PDDLLexer;
 import pl.poznan.put.cs.gui4pddl.parser.PDDLModelBuilder;
@@ -51,10 +50,6 @@ public class Manual {
 			     
 			     PDDLFile file = model.getOrCreateFile("test.pddl");
 			     walker.pddl_file(file);                 // launch at start rule prog
-			     
-			     PDDLCodeOutline outline = new PDDLCodeOutline();
-			     String text = outline.getOutline(model);
-			     System.out.println(text);
 			
 			} catch (RecognitionException e) {
 				e.printStackTrace();
