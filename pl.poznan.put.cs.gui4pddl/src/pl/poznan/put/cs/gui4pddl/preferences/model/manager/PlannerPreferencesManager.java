@@ -172,7 +172,9 @@ public class PlannerPreferencesManager {
 		URL fileURL = bundle.getEntry("resources/FastDownward.xml");	
 		try {
 			URL url = org.eclipse.core.runtime.FileLocator.toFileURL(fileURL);
-			File file = new File(FileLocator.resolve(url).toURI());
+			String str = url.toString().replace(" ", "%20");
+			
+			File file = new File(FileLocator.resolve(new URL(str)).toURI());
 			if (file != null) {
 				InputStream is = null;
 				OutputStream os = null;
