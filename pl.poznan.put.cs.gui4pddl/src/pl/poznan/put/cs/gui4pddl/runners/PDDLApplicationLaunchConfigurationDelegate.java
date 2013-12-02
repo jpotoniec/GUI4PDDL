@@ -2,6 +2,7 @@ package pl.poznan.put.cs.gui4pddl.runners;
 
 import java.io.File;
 
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -20,7 +21,7 @@ import org.eclipse.ui.PlatformUI;
 
 import pl.poznan.put.cs.gui4pddl.Activator;
 import pl.poznan.put.cs.gui4pddl.log.Log;
-import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewRowData;
+import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewDataRow;
 import pl.poznan.put.cs.gui4pddl.planview.ui.PlanView;
 import pl.poznan.put.cs.gui4pddl.runners.helpers.ProjectFilesPathsHelpers;
 
@@ -58,29 +59,46 @@ public class PDDLApplicationLaunchConfigurationDelegate extends
 
 	@Override
 	public void launch(ILaunchConfiguration configuration, String mode,
-			ILaunch
-			launch, IProgressMonitor monitor) {
+			ILaunch launch, IProgressMonitor monitor) {
 
 		try {
+			/*Activator.refreshProject(configuration.getAttribute(
+					RunnerConstants.PROJECT, ""));*/
 			
-			File workingDir = ProjectFilesPathsHelpers
-					.getWorkingDir(
-							configuration.getAttribute(
-									RunnerConstants.WORKING_DIRECTORY, ""),
-							ProjectFilesPathsHelpers.getAbsoluteFilePathFromRelativePath(configuration
-									.getAttribute(RunnerConstants.DOMAIN_FILE, "")),
-							ProjectFilesPathsHelpers
-									.getAbsoluteFilePathFromRelativePath(configuration
-											.getAttribute(
-													RunnerConstants.PROBLEM_FILE,
-													"")));
-			PlanViewRowData pvd = PlanView.updatePlanViewBeforePlanningProcess(configuration, workingDir);
-			UniversalPlannerRunner.run(configuration, monitor, launch, workingDir);
+			IFolder workingDir = ProjectFilesPathsHelpers.createWorkingDir(
+					configuration.getAttribute(RunnerConstants.PROJECT, ""),
+					ProjectFilesPathsHelpers
+							.getAbsoluteFilePathFromRelativePath(configuration
+									.getAttribute(RunnerConstants.DOMAIN_FILE,
+											"")), ProjectFilesPathsHelpers
+							.getAbsoluteFilePathFromRelativePath(configuration
+									.getAttribute(RunnerConstants.PROBLEM_FILE,
+											"")));
+			/*
+			 * File workingDir = ProjectFilesPathsHelpers .getWorkingDir(
+			 * configuration.getAttribute( RunnerConstants.WORKING_DIRECTORY,
+			 * ""),
+			 * ProjectFilesPathsHelpers.getAbsoluteFilePathFromRelativePath(
+			 * configuration .getAttribute(RunnerConstants.DOMAIN_FILE, "")),
+			 * ProjectFilesPathsHelpers
+			 * .getAbsoluteFilePathFromRelativePath(configuration .getAttribute(
+			 * RunnerConstants.PROBLEM_FILE, "")));
+			 */
+		/*	PlanViewDataRow pvd = PlanView.updatePlanViewBeforePlanningProcess(
+					configuration, workingDir);*/
+
+			UniversalPlannerRunner.run(configuration, monitor, launch,
+					workingDir);
+
+			/*PlanView.updatePlanViewAfterPlanningProcess(configuration,
+					workingDir, pvd);*/
+			Activator.refreshProject(configuration.getAttribute(
+					RunnerConstants.PROJECT, ""));
 			
-			PlanView.updatePlanViewAfterPlanningProcess(configuration, workingDir, pvd);
-			Activator.refreshProject(configuration.getAttribute(RunnerConstants.PROJECT, ""));
-			 
-		
+			PlanView.createRowAndActivateView(configuration, workingDir);
+			
+			
+
 		} catch (Exception e) {
 			Log.log(e);
 			finishLaunchWithError(launch);
@@ -88,8 +106,6 @@ public class PDDLApplicationLaunchConfigurationDelegate extends
 		}
 
 	}
-	
-
 
 	private void handleError(ILaunch launch, final Exception e) {
 		Display.getDefault().asyncExec(new Runnable() {

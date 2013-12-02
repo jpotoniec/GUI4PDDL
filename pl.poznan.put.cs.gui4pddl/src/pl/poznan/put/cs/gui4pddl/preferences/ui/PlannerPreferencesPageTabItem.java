@@ -34,8 +34,8 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import pl.poznan.put.cs.gui4pddl.preferences.PlannerPreferencePage;
-import pl.poznan.put.cs.gui4pddl.preferences.helpers.PlannerPreferencesStore;
 import pl.poznan.put.cs.gui4pddl.preferences.model.PlannerPreferences;
+import pl.poznan.put.cs.gui4pddl.preferences.model.manager.PlannerPreferencesManager;
 
 /**
  * TabFolder tab - planner arguments settings
@@ -272,7 +272,7 @@ public class PlannerPreferencesPageTabItem {
 				&& plannerFile.getStringValue().length() > 0) {
 
 			// if plannerName has been changed to name that exists
-			if (PlannerPreferencesStore.getPlannerPreferences().get(
+			if (PlannerPreferencesManager.getManager().getPlannerPreferences().get(
 					plannerName.getStringValue()) != null
 					&& !plannerName.getStringValue().equals(
 							preferences.getPlannerName())) {
@@ -444,11 +444,11 @@ public class PlannerPreferencesPageTabItem {
 	 */
 
 	public boolean savePlannerPreferences() {
-		boolean saveOk = PlannerPreferencesStore.savePlannerPreferences(
+		boolean saveOk = PlannerPreferencesManager.getManager().savePlannerPreferences(
 				plannerName.getStringValue(), plannerFile.getStringValue(),
 				getArguments(), planViewDialog.getRegexp(), preferences);
 		if (saveOk) {
-			preferences = PlannerPreferencesStore.getPlannerPreferences().get(
+			preferences = PlannerPreferencesManager.getManager().getPlannerPreferences().get(
 					plannerName.getStringValue());
 		}
 
@@ -504,7 +504,7 @@ public class PlannerPreferencesPageTabItem {
 						fParent.getShell(), "Remove planner preferences",
 						"Are you sure?");
 				if (dialogOk) {
-					boolean removeOk = PlannerPreferencesStore
+					boolean removeOk = PlannerPreferencesManager.getManager()
 							.removePlannerPreferences(preferences);
 					if (removeOk) {
 						tabFolder.getSelection()[0].dispose();

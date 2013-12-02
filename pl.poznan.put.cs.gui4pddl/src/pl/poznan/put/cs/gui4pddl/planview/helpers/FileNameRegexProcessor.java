@@ -13,7 +13,7 @@ import pl.poznan.put.cs.gui4pddl.runners.helpers.ProjectFilesPathsHelpers;
 
 public class FileNameRegexProcessor {
 
-	public static File[] getMatchedFiles(String regexp, File workingDir,
+	public static List<String> getMatchedFiles(String regexp, File workingDir,
 			ILaunchConfiguration config) {
 
 		// TODO komunikat jesli wzorzec nie jest poprawny (bo ktos wczesniej
@@ -58,14 +58,14 @@ public class FileNameRegexProcessor {
 
 		File[] allFiles = workingDir.listFiles();
 
-		List<File> matchedFiles = new ArrayList<File>();
+		List<String> matchedFiles = new ArrayList<String>();
 
 		for (File f : allFiles) {
 			if (pattern.matcher(f.getName()).matches()) {
-				matchedFiles.add(f);
+				matchedFiles.add(f.getName());
 			}
 		}
-		return matchedFiles.toArray(new File[0]);
+		return matchedFiles;
 	}
 
 	private static String getRegexWithReplacements(String regexp,

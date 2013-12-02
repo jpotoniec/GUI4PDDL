@@ -1,5 +1,6 @@
 package pl.poznan.put.cs.gui4pddl.runners.ui.blocks;
 
+import java.io.File;
 import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
@@ -18,8 +19,8 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-import pl.poznan.put.cs.gui4pddl.preferences.helpers.PlannerPreferencesStore;
 import pl.poznan.put.cs.gui4pddl.preferences.model.PlannerPreferences;
+import pl.poznan.put.cs.gui4pddl.preferences.model.manager.PlannerPreferencesManager;
 import pl.poznan.put.cs.gui4pddl.runners.RunnerConstants;
 
 public class PlannerBlock extends AbstractLaunchConfigurationTab {
@@ -33,14 +34,14 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 
 		plannerCombo = createCombo(plannerGroup);
 		argumentsCombo = createCombo(plannerGroup);
-			
-		Map<String, PlannerPreferences> preferencesMap = PlannerPreferencesStore
-				.getPlannerPreferences();
+
+		Map<String, PlannerPreferences> preferencesMap = PlannerPreferencesManager
+				.getManager().getPlannerPreferences();
 		for (String key : preferencesMap.keySet()) {
 			PlannerPreferences preferences = preferencesMap.get(key);
 			plannerCombo.add(preferences.getPlannerName());
 		}
-		
+
 		plannerCombo.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -50,13 +51,13 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 		});
 
 	}
-	
+
 	private void plannerArgumentsComboUpdate() {
 		if (plannerCombo.getSelectionIndex() >= 0) {
-			PlannerPreferences preferences = PlannerPreferencesStore
+			PlannerPreferences preferences = PlannerPreferencesManager
+					.getManager()
 					.getPlannerPreferences()
-					.get(plannerCombo.getItem(plannerCombo
-							.getSelectionIndex()));
+					.get(plannerCombo.getItem(plannerCombo.getSelectionIndex()));
 			updateLaunchConfigurationDialog();
 			argumentsCombo.removeAll();
 			for (String key : preferences.getArgumentsMap().keySet()) {
@@ -64,7 +65,7 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 			}
 		}
 	}
-	
+
 	private Group createPlannerGroup(Composite parent) {
 		Font font = parent.getFont();
 		Group plannerGroup = initializeGroup(parent, font, 4);
@@ -72,10 +73,10 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 		Label label = new Label(plannerGroup, SWT.NONE);
 		label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
 		label.setText("Planner:");
-		
+
 		return plannerGroup;
 	}
-	
+
 	private Combo createCombo(Group plannerGroup) {
 		GridData gd = new GridData();
 		gd.grabExcessHorizontalSpace = true;
@@ -92,7 +93,8 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				if (argumentsCombo.getSelectionIndex() >= 0) {
-					Map<String, String> preferences = PlannerPreferencesStore
+					Map<String, String> preferences = PlannerPreferencesManager
+							.getManager()
 							.getPlannerPreferences()
 							.get(plannerCombo.getItem(plannerCombo
 									.getSelectionIndex())).getArgumentsMap();
@@ -121,7 +123,6 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 		return group;
 	}
 
-
 	@Override
 	public boolean isValid(ILaunchConfiguration launchConfig) {
 		boolean result = super.isValid(launchConfig);
@@ -137,9 +138,30 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 				result = false;
 			}
 			if (plannerCombo.getItemCount() == 0) {
-				setErrorMessage("Go to Window->Preferences->PDDL->Planners and configure PDDL Planner");
+				setErrorMessage("Go to Window->Preferences->PDDL->Planners and configure PDDL Planner.");
 			}
 
+			if (plannerCombo.getItemCount() > 0 && plannerCombo.getSelectionIndex() > -1) {
+				PlannerPreferences preferences = PlannerPreferencesManager
+						.getManager()
+						.getPlannerPreferences()
+						.get(plannerCombo.getItem(plannerCombo
+								.getSelectionIndex()));
+
+				if (preferences.getPlannerFilePath() != null
+						&& !preferences.getPlannerFilePath().isEmpty()) {
+					File file = new File(preferences.getPlannerFilePath());
+					if (!file.exists() || !file.isFile()) {
+						setErrorMessage("There is no such file "
+								+ file.getAbsolutePath()
+								+ ". Go to Window->Preferences->PDDL->Planners and configure PDDL Planner.");
+						result = false;
+					}
+				} else {
+					setErrorMessage("There is no planner file specified in this configuration. Go to Window->Preferences->PDDL->Planners and configure PDDL Planner.");
+					result = false;
+				}
+			}
 		}
 		return result;
 	}
@@ -167,7 +189,7 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 				plannerCombo.select(i);
 			}
 		}
-		
+
 		plannerArgumentsComboUpdate();
 
 		if (plannerCombo.getSelectionIndex() >= 0) {
@@ -184,19 +206,20 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy conf) {
 		if (plannerCombo.getSelectionIndex() >= 0) {
-			PlannerPreferences preferences = PlannerPreferencesStore
-					.getPlannerPreferences().get(
-							plannerCombo.getItem(plannerCombo
-									.getSelectionIndex()));
+			PlannerPreferences preferences = PlannerPreferencesManager
+					.getManager()
+					.getPlannerPreferences()
+					.get(plannerCombo.getItem(plannerCombo.getSelectionIndex()));
 
 			conf.setAttribute(RunnerConstants.PLANNER_NAME,
 					preferences.getPlannerName());
-			
+
 			conf.setAttribute(RunnerConstants.PLANNER,
 					preferences.getPlannerFilePath());
-			
-			conf.setAttribute(RunnerConstants.FILE_NAME_REGEXP, preferences.getPlanViewFilePattern());
-			
+
+			conf.setAttribute(RunnerConstants.FILE_NAME_REGEXP,
+					preferences.getPlanViewFilePattern());
+
 		}
 		if (argumentsCombo.getSelectionIndex() >= 0) {
 			conf.setAttribute(RunnerConstants.ARGUMENTS_NAME,
