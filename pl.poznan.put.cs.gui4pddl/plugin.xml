@@ -195,6 +195,15 @@
             id="pl.poznan.put.cs.gui4pddl.PDDLProcessFactory">
       </processFactory>
    </extension>
+   <extension
+         point="org.eclipse.core.resources.markers"
+         id="planfoldermarker"
+         name="Plan Folder Marker" >
+         <super type="org.eclipse.core.resources.marker" />
+         <persistent value="true" />
+         
+         
+   </extension>
    
   
 </plugin>

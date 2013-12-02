@@ -19,8 +19,8 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
-import pl.poznan.put.cs.gui4pddl.preferences.helpers.PlannerPreferencesStore;
 import pl.poznan.put.cs.gui4pddl.preferences.model.PlannerPreferences;
+import pl.poznan.put.cs.gui4pddl.preferences.model.manager.PlannerPreferencesManager;
 import pl.poznan.put.cs.gui4pddl.preferences.ui.PlannerPreferencesPageTabItem;
 
 public class PlannerPreferencePage extends PreferencePage implements
@@ -150,9 +150,9 @@ public class PlannerPreferencePage extends PreferencePage implements
 	}
 
 	private void addPlannersToTabFolder(final TabFolder tabFolder) {
-		for (String key : PlannerPreferencesStore.getPlannerPreferences()
+		for (String key : PlannerPreferencesManager.getManager().getPlannerPreferences()
 				.keySet()) {
-			PlannerPreferences preferences = PlannerPreferencesStore
+			PlannerPreferences preferences = PlannerPreferencesManager.getManager()
 					.getPlannerPreferences().get(key);
 
 			PlannerPreferencesPageTabItem plannerPreferencesPageTab = new PlannerPreferencesPageTabItem(
@@ -160,12 +160,13 @@ public class PlannerPreferencePage extends PreferencePage implements
 
 			//plannerPreferencesPageTab
 			//		.setSavePlannerButtonEnabledIfConfigurationValid();
-			checkIfAllPageTabItemsAreValid();
+			
 
 			tabsList.add(plannerPreferencesPageTab);
 
 		}
-		tabFolder.setVisible(PlannerPreferencesStore.getPlannerPreferences()
+		checkIfAllPageTabItemsAreValid();
+		tabFolder.setVisible(PlannerPreferencesManager.getManager().getPlannerPreferences()
 				.size() > 0);
 
 	}

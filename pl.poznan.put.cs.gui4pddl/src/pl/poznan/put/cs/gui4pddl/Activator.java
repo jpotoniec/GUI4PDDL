@@ -15,9 +15,9 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import pl.poznan.put.cs.gui4pddl.editor.TokenManager;
-import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewDataProvider;
+import pl.poznan.put.cs.gui4pddl.planview.model.manager.PlanViewDataManager;
 import pl.poznan.put.cs.gui4pddl.planview.ui.PlanView;
-import pl.poznan.put.cs.gui4pddl.preferences.helpers.PlannerPreferencesStore;
+import pl.poznan.put.cs.gui4pddl.preferences.model.manager.PlannerPreferencesManager;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -42,7 +42,7 @@ public class Activator extends AbstractUIPlugin {
 		tokenManager = new TokenManager(getPreferenceStore());
 		// loggingModel = new LoggingModel();
 		// setupReceiver();
-
+		
 	}
 
 	/*
@@ -55,15 +55,13 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-		PlannerPreferencesStore.loadPlannerPreferences();
-		PlanViewDataProvider.loadPlanBrowserDataFromFile();
 		
-		PlanView.setRefreshMode(PlanView.ACTIVATE_VIEW_AFTER_DATA_UPDATE);
-		PlanView.refreshPlanViewWithoutActivate();
+		System.out.println("PDDL PLUGIN START");
+		
+		PlanView.setActivateMode(PlanView.ACTIVATE_VIEW_AFTER_DATA_UPDATE);
 
-		ResourcesPlugin.getWorkspace().addResourceChangeListener(
-				new PlanFilesTreeChangeListener(),
-				IResourceChangeEvent.POST_CHANGE);
+
+		
 
 		// TODO dowiedziec sie czy ukrywac widok konsoli od poczatku czy nie
 		/*
@@ -101,6 +99,9 @@ public class Activator extends AbstractUIPlugin {
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
+		PlanViewDataManager.getManager().savePlanViewData();
+		
+		System.out.println("PDDL PLUGIN STOP");
 	}
 
 	/**

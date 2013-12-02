@@ -2,6 +2,7 @@ package pl.poznan.put.cs.gui4pddl.runners;
 
 import java.io.File;
 
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -15,7 +16,7 @@ import pl.poznan.put.cs.gui4pddl.runners.helpers.ProjectFilesPathsHelpers;
 public class UniversalPlannerRunner {
 
 	public static Process run(ILaunchConfiguration config,
-			IProgressMonitor monitor, ILaunch launch, File workingDir) throws CoreException {
+			IProgressMonitor monitor, ILaunch launch, IFolder workingDir) throws CoreException {
 
 		if (monitor == null)
 			monitor = new NullProgressMonitor();
@@ -28,7 +29,7 @@ public class UniversalPlannerRunner {
 
 		cmdLine = DebugPlugin.parseArguments(commandLine);
 
-		Process p = DebugPlugin.exec(cmdLine, workingDir);
+		Process p = DebugPlugin.exec(cmdLine, new File(workingDir.getRawLocation().toOSString()));
 		IProcess process = DebugPlugin.newProcess(launch, p, cmdLine[0]);
 
 		while (!process.isTerminated()) {
