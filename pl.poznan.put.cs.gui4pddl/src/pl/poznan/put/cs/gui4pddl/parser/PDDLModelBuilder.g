@@ -57,8 +57,11 @@ require_def
 	:	^(':requirements' (REQUIRE_KEY {$definition::domain.addRequirement($REQUIRE_KEY.text);})+)
 	;
 
-types_def 
-	:	^(':types' typed_list_of_name_item[$definition::domain.getTypes()]* )
+types_def
+@init {
+	PDDLTypedList types = new PDDLTypedList();
+}
+	:	^(':types' typed_list_of_name_item[types]* ) {$definition::domain.addTypes(types);}
 	;
 	
 constants_def
