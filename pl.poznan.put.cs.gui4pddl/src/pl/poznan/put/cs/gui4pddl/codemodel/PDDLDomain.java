@@ -134,4 +134,78 @@ public class PDDLDomain {
 		}
 		return result;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((actions == null) ? 0 : actions.hashCode());
+		result = prime * result
+				+ ((constants == null) ? 0 : constants.hashCode());
+		result = prime * result
+				+ ((domain_vars == null) ? 0 : domain_vars.hashCode());
+		result = prime * result
+				+ ((extensions == null) ? 0 : extensions.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result
+				+ ((predicates == null) ? 0 : predicates.hashCode());
+		result = prime * result
+				+ ((requirements == null) ? 0 : requirements.hashCode());
+		result = prime * result + ((types == null) ? 0 : types.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PDDLDomain other = (PDDLDomain) obj;
+		if (actions == null) {
+			if (other.actions != null)
+				return false;
+		} else if (!actions.equals(other.actions))
+			return false;
+		if (constants == null) {
+			if (other.constants != null)
+				return false;
+		} else if (!constants.equals(other.constants))
+			return false;
+		if (domain_vars == null) {
+			if (other.domain_vars != null)
+				return false;
+		} else if (!domain_vars.equals(other.domain_vars))
+			return false;
+		if (extensions == null) {
+			if (other.extensions != null)
+				return false;
+		} else if (!extensions.equals(other.extensions))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (predicates == null) {
+			if (other.predicates != null)
+				return false;
+		} else if (!predicates.equals(other.predicates))
+			return false;
+		if (requirements == null) {
+			if (other.requirements != null)
+				return false;
+		} else if (!requirements.equals(other.requirements))
+			return false;
+		if (types == null) {
+			if (other.types != null)
+				return false;
+		} else if (!types.equals(other.types))
+			return false;
+		return true;
+	}
+	
+	
 }

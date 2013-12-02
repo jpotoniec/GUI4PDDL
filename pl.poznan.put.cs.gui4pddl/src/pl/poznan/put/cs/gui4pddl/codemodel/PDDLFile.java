@@ -49,4 +49,51 @@ public class PDDLFile {
 	public void addInitialSituation(PDDLInitialSituation initsit) {
 		initialSituations.add(initsit);
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((domains == null) ? 0 : domains.hashCode());
+		result = prime
+				* result
+				+ ((initialSituations == null) ? 0 : initialSituations
+						.hashCode());
+		result = prime * result + ((path == null) ? 0 : path.hashCode());
+		result = prime * result
+				+ ((problems == null) ? 0 : problems.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PDDLFile other = (PDDLFile) obj;
+		if (domains == null) {
+			if (other.domains != null)
+				return false;
+		} else if (!domains.equals(other.domains))
+			return false;
+		if (initialSituations == null) {
+			if (other.initialSituations != null)
+				return false;
+		} else if (!initialSituations.equals(other.initialSituations))
+			return false;
+		if (path == null) {
+			if (other.path != null)
+				return false;
+		} else if (!path.equals(other.path))
+			return false;
+		if (problems == null) {
+			if (other.problems != null)
+				return false;
+		} else if (!problems.equals(other.problems))
+			return false;
+		return true;
+	}
 }

@@ -9,4 +9,6 @@ public class PDDLAction {
 		this.functor = functor;
 	}
 	
+	//TODO: Implement PDDL actions
+	
 }
