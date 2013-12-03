@@ -19,8 +19,8 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 
 import pl.poznan.put.cs.gui4pddl.PDDLNature;
-import pl.poznan.put.cs.gui4pddl.codemodel.IPDDLCodeCompletionManager;
-import pl.poznan.put.cs.gui4pddl.codemodel.PDDLCodeCompletionProposal;
+import pl.poznan.put.cs.gui4pddl.codecompletion.IPDDLCodeCompletionManager;
+import pl.poznan.put.cs.gui4pddl.codecompletion.PDDLCodeCompletionProposal;
 
 public class PDDLCompletionAssistant implements IContentAssistProcessor {
 
