@@ -55,12 +55,13 @@ public class FileNameRegexProcessor {
 		}
 
 		Pattern pattern = Pattern.compile(regexp);
-
+		System.out.println(regexp);
 		File[] allFiles = workingDir.listFiles();
 
 		List<String> matchedFiles = new ArrayList<String>();
 
 		for (File f : allFiles) {
+			System.out.println(f.getName());
 			if (pattern.matcher(f.getName()).matches()) {
 				matchedFiles.add(f.getName());
 			}
