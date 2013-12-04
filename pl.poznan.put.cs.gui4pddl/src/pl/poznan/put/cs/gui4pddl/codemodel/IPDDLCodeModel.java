@@ -1,10 +1,14 @@
 package pl.poznan.put.cs.gui4pddl.codemodel;
 
+import org.eclipse.core.resources.IFile;
+
 public interface IPDDLCodeModel {
 	PDDLFile getFile(String path);
 	
 	PDDLFile getOrCreateFile(String path);
 
+	PDDLFile getOrCreateFile(IFile file);
+	
 	void removeFile(String path);
 	
 	void clear();

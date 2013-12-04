@@ -3,6 +3,8 @@ package pl.poznan.put.cs.gui4pddl.codemodel;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
+import org.eclipse.core.resources.IFile;
+
 public class PDDLCodeModel implements IPDDLCodeModel {
 
 	private TreeMap<String, PDDLFile> files = new TreeMap<String, PDDLFile>();
@@ -10,6 +12,11 @@ public class PDDLCodeModel implements IPDDLCodeModel {
 	@Override
 	public PDDLFile getFile(String path) {
 		return files.get(path);
+	}
+	
+	@Override
+	public PDDLFile getOrCreateFile(IFile file) {
+		return getOrCreateFile(file.getFullPath().toPortableString());
 	}
 	
 	@Override
