@@ -15,6 +15,8 @@ import org.eclipse.debug.ui.ILaunchGroup;
 import org.eclipse.jface.window.Window;
 import org.eclipse.ui.PlatformUI;
 
+import pl.poznan.put.cs.gui4pddl.Constants;
+
 /**
  * A utility class that creates new {@link ILaunchConfiguration}s.
  * 
@@ -56,7 +58,6 @@ public class LaunchConfigurationCreator {
 
 		name = buffer.toString();
 
-		System.out.println(project == null);
 		
 		if (project != null) {
 			baseDirectory = project.getLocation().toOSString();
@@ -68,12 +69,12 @@ public class LaunchConfigurationCreator {
 		ILaunchConfigurationWorkingCopy workingCopy = type.newInstance(null,
 				name);
 
-		workingCopy.setAttribute(RunnerConstants.LAUNCH_CONFIG_TYPE,
+		workingCopy.setAttribute(Constants.LAUNCH_CONFIG_TYPE,
 				"pl.poznan.put.cs.gui4pddl.runners.PDDLApplication");
 
-		workingCopy.setAttribute(RunnerConstants.PROJECT, projName);
+		workingCopy.setAttribute(Constants.PROJECT, projName);
 
-		workingCopy.setAttribute(RunnerConstants.WORKING_DIRECTORY,
+		workingCopy.setAttribute(Constants.WORKING_DIRECTORY,
 				baseDirectory);
 
 		workingCopy.setAttribute(IDebugUIConstants.ATTR_LAUNCH_IN_BACKGROUND,
@@ -84,14 +85,14 @@ public class LaunchConfigurationCreator {
 		workingCopy.setAttribute(DebugPlugin.ATTR_PROCESS_FACTORY_ID,
 				PDDLProcessFactory.ID);
 
-		if (workingCopy.getAttribute(RunnerConstants.PLANNER, "").isEmpty()
-				|| workingCopy.getAttribute(RunnerConstants.WORKING_DIRECTORY,
+		if (workingCopy.getAttribute(Constants.PLANNER, "").isEmpty()
+				|| workingCopy.getAttribute(Constants.WORKING_DIRECTORY,
 						"").isEmpty()
-				|| workingCopy.getAttribute(RunnerConstants.PROJECT, "")
+				|| workingCopy.getAttribute(Constants.PROJECT, "")
 						.isEmpty()
-				|| workingCopy.getAttribute(RunnerConstants.DOMAIN_FILE, "")
+				|| workingCopy.getAttribute(Constants.DOMAIN_FILE, "")
 						.isEmpty()
-				|| workingCopy.getAttribute(RunnerConstants.PROBLEM_FILE, "")
+				|| workingCopy.getAttribute(Constants.PROBLEM_FILE, "")
 						.isEmpty()) {
 
 			ILaunchGroup group = DebugUITools.getLaunchGroup(workingCopy,

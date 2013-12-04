@@ -29,6 +29,8 @@ public class Activator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static Activator plugin;
+	
+	private ImageCache imageCache;
 
 	private ResourceBundle resourceBundle;
 	// private LoggingModel loggingModel;
@@ -55,6 +57,7 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		imageCache = new ImageCache(getDefault().getBundle().getEntry("/"));
 		
 		System.out.println("PDDL PLUGIN START");
 		
@@ -89,6 +92,10 @@ public class Activator extends AbstractUIPlugin {
 		}
 	}
 
+	 public static ImageCache getImageCache() {
+	        return plugin.imageCache;
+	    }
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -100,6 +107,7 @@ public class Activator extends AbstractUIPlugin {
 		plugin = null;
 		super.stop(context);
 		PlanViewDataManager.getManager().savePlanViewData();
+		imageCache.dispose();
 		
 		System.out.println("PDDL PLUGIN STOP");
 	}

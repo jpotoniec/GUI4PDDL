@@ -1,8 +1,10 @@
-package pl.poznan.put.cs.gui4pddl.runners;
+package pl.poznan.put.cs.gui4pddl;
 
-import pl.poznan.put.cs.gui4pddl.Activator;
 
-public interface RunnerConstants {
+public interface Constants {
+	
+	public static final String ARGUMENTS_ICON = "icons/arguments.gif";
+	public static final String MAIN_ICON = "icons/nature_image.gif";
 
 	public static final String PROJECT = Activator.PLUGIN_ID
 			+ ".ATTR_PROJECT";

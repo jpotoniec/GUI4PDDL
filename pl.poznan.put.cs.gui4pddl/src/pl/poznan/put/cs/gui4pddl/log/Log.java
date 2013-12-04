@@ -30,7 +30,7 @@ public class Log {
 		Status s = new Status(errorLevel, id, errorLevel, message, e);
 		CoreException coreException = new CoreException(s);
 
-		// TODO check if we should log repetitive exceptions
+		// TODO find out if we should log repetitive exceptions
 
 		try {
 			if (plugin != null) {
@@ -74,6 +74,6 @@ public class Log {
 		return log(IStatus.INFO, msg, e);
 	}
 	
-	//TODO check if we need log to file
+	//TODO find out if we need log to file
 
 }

@@ -6,23 +6,26 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.model.IProcess;
 
+import pl.poznan.put.cs.gui4pddl.Constants;
 import pl.poznan.put.cs.gui4pddl.runners.helpers.ProjectFilesPathsHelpers;
 
 public class UniversalPlannerRunner {
 
-	public static Process run(ILaunchConfiguration config,
+	public static IProcess run(ILaunchConfiguration config,
 			IProgressMonitor monitor, ILaunch launch, IFolder workingDir) throws CoreException {
 
 		if (monitor == null)
 			monitor = new NullProgressMonitor();
-		monitor.beginTask("Launch Planner", 1);
-		monitor.subTask("Launch Planner");
-
+		IProgressMonitor subMonitor = new SubProgressMonitor(monitor, 1);
+		
+		subMonitor.subTask("Launch Planner");
+		
 		String commandLine = createScriptCommandLine(config);
 
 		String[] cmdLine;
@@ -31,29 +34,37 @@ public class UniversalPlannerRunner {
 
 		Process p = DebugPlugin.exec(cmdLine, new File(workingDir.getRawLocation().toOSString()));
 		IProcess process = DebugPlugin.newProcess(launch, p, cmdLine[0]);
-
-		while (!process.isTerminated()) {
+		subMonitor.worked(1);
+		
+		try {
+			p.waitFor();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		/*//bash and bat scripts
+		while (!process.isTerminated() && process != null) {
 			if (monitor.isCanceled()) {
-
 				if (process.canTerminate())
 					process.terminate();
 			}
-		}
-		monitor.worked(1);
+		}*/
 
-		monitor.done();
 
-		return p;
+		subMonitor.done();
+
+		return process;
 	}
 
 	private static String createScriptCommandLine(ILaunchConfiguration config)
 			throws CoreException {
 
-		String script = config.getAttribute(RunnerConstants.PLANNER, "");
+		String script = config.getAttribute(Constants.PLANNER, "");
 		String argument = config.getAttribute(
-				RunnerConstants.PLANNER_ARGUMENTS, "");
-		String domain = config.getAttribute(RunnerConstants.DOMAIN_FILE, "");
-		String problem = config.getAttribute(RunnerConstants.PROBLEM_FILE, "");
+				Constants.PLANNER_ARGUMENTS, "");
+		String domain = config.getAttribute(Constants.DOMAIN_FILE, "");
+		String problem = config.getAttribute(Constants.PROBLEM_FILE, "");
 		domain = ProjectFilesPathsHelpers
 				.getAbsoluteFilePathFromRelativePath(domain);
 		problem = ProjectFilesPathsHelpers

@@ -60,7 +60,6 @@ public class ProjectFilesPathsHelpers {
 	}
 
 	public static Integer getFolderMaxNumber(File folder) {
-		System.out.println(folder.getAbsolutePath());
 		File[] listOfFiles = folder.listFiles();
 		List<Integer> folderNumbersList = new ArrayList<Integer>();
 

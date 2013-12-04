@@ -5,9 +5,12 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
 import org.eclipse.debug.ui.ILaunchConfigurationDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
+import pl.poznan.put.cs.gui4pddl.Activator;
+import pl.poznan.put.cs.gui4pddl.Constants;
 import pl.poznan.put.cs.gui4pddl.runners.ui.blocks.PlannerArgumentsBlock;
 import pl.poznan.put.cs.gui4pddl.runners.ui.blocks.PlannerBlock;
 
@@ -81,6 +84,11 @@ public class PlannerTab extends AbstractLaunchConfigurationTab {
 	@Override
 	public String getName() {
 		return "Planner";
+	}
+	
+	@Override
+	public Image getImage() {
+		return Activator.getImageCache().get(Constants.ARGUMENTS_ICON);
 	}
 
 	@Override

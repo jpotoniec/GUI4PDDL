@@ -29,12 +29,10 @@ public class PlanViewDataManager implements Serializable {
 
 	private Vector<PlanViewDataRow> planViewDataRows;
 
-	private final String PLAN_DATA_DIR = Activator.getDefault()
+	private static final String PLAN_DATA_DIR = Activator.getDefault()
 			.getStateLocation().append("plan_browser").toOSString();
 
-	private final File PLAN_DATA_FILE = new File(Activator.getDefault()
-			.getStateLocation().append("plan_browser")
-			.append("planViewData.xml").toOSString());
+	private static final String PLAN_DATA_FILE_NAME = "planViewData.xml";
 	
 	private static final String TAG_PLANVIEWDATA = "PlanViewData";
 	private static final String TAG_PLANVIEWDATAROW = "PlanViewDataRow";
@@ -65,12 +63,8 @@ public class PlanViewDataManager implements Serializable {
 	}
 
 	private PlanViewDataManager() {
-		File f = new File(PLAN_DATA_DIR);
-		if (!f.exists() || !f.isDirectory()) {
-			f.mkdir();
-		}
 	}
-
+	
 	public void addPlanViewDataRow(PlanViewDataRow row) {
 		if (row == null) {
 			return;
@@ -84,65 +78,13 @@ public class PlanViewDataManager implements Serializable {
 		firePlanViewDataRowsChanged(l.toArray(new PlanViewDataRow[0]),
 				new PlanViewDataRow[0]);
 	}
-
-	public void removePlanViewDataRows(List<PlanViewDataRow> list) {
-		if (list == null) {
-			return;
-		}
-		if (planViewDataRows == null) {
-			loadPlanViewData();
-		}
-		planViewDataRows.removeAll(list);
-		firePlanViewDataRowsChanged(new PlanViewDataRow[0],
-				list.toArray(new PlanViewDataRow[0]));
-	}
-
-	public boolean removePlanViewDataRow(PlanViewDataRow row) {
-		if (row == null) {
-			return false;
-		}
-		if (planViewDataRows == null) {
-			loadPlanViewData();
-		}
-		boolean res = planViewDataRows.remove(row);
-		PlanViewDataRow[] a = new PlanViewDataRow[1];
-		a[0] = row;
-		firePlanViewDataRowsChanged(new PlanViewDataRow[0], a);
-		return res;
-	}
-
-	public void addPlanViewDataManagerListener(
-			IPlanViewDataManagerChangeListener listener) {
-		if (!listeners.contains(listener))
-			listeners.add(listener);
-	}
-
-	public void removePlanViewDataManagerListener(
-			IPlanViewDataManagerChangeListener listener) {
-		listeners.remove(listener);
-	}
-
-	private void firePlanViewDataRowsChanged(PlanViewDataRow[] itemsAdded,
-			PlanViewDataRow[] itemsRemoved) {
-		PlanViewDataManagerEvent event = new PlanViewDataManagerEvent(this,
-				itemsAdded, itemsRemoved);
-		for (Iterator<IPlanViewDataManagerChangeListener> iter = listeners.iterator(); iter
-				.hasNext();)
-			iter.next().planViewDataChanged(event);
-	}
-
-	public Vector<PlanViewDataRow> getPlanViewDataRows() {
-		if (planViewDataRows == null)
-			loadPlanViewData();
-		return planViewDataRows;
-	}
-
+	
 	public void loadPlanViewData() {
 
 		planViewDataRows = new Vector<PlanViewDataRow>();
 		FileReader reader = null;
 		try {
-			reader = new FileReader(PLAN_DATA_FILE);
+			reader = new FileReader(getPlanViewDataDir().getAbsolutePath() + File.separator + PLAN_DATA_FILE_NAME);
 			loadPlanViewData(XMLMemento.createReadRoot(reader));
 		} catch (FileNotFoundException e) {
 			// Ignored... no Favorites items exist yet.
@@ -157,9 +99,24 @@ public class PlanViewDataManager implements Serializable {
 				Log.log(e);
 			}
 		}
-
 	}
+	
+	private File getPlanViewDataDir() {
+		File planViewDataDir = new File(PLAN_DATA_DIR);
 
+		// if the directory does not exist, create it
+		if (!planViewDataDir.exists()
+				|| !planViewDataDir.isDirectory()) {
+			boolean result = planViewDataDir.mkdir();
+
+			if (!result) {
+				throw new RuntimeException(
+						"Could not create plan view directory");
+			}
+		}
+		return planViewDataDir;
+	}
+	
 	private void loadPlanViewData(XMLMemento memento) {
 		IMemento[] children = memento.getChildren(TAG_PLANVIEWDATAROW);
 		for (int i = 0; i < children.length; i++) {
@@ -184,6 +141,58 @@ public class PlanViewDataManager implements Serializable {
 				planViewDataRows.add(item);
 		}
 	}
+	
+	private void firePlanViewDataRowsChanged(PlanViewDataRow[] itemsAdded,
+			PlanViewDataRow[] itemsRemoved) {
+		PlanViewDataManagerEvent event = new PlanViewDataManagerEvent(this,
+				itemsAdded, itemsRemoved);
+		for (Iterator<IPlanViewDataManagerChangeListener> iter = listeners.iterator(); iter
+				.hasNext();)
+			iter.next().planViewDataChanged(event);
+	}
+
+	public boolean removePlanViewDataRow(PlanViewDataRow row) {
+		if (row == null) {
+			return false;
+		}
+		if (planViewDataRows == null) {
+			loadPlanViewData();
+		}
+		boolean res = planViewDataRows.remove(row);
+		PlanViewDataRow[] a = new PlanViewDataRow[1];
+		a[0] = row;
+		firePlanViewDataRowsChanged(new PlanViewDataRow[0], a);
+		return res;
+	}
+	
+	public void removePlanViewDataRows(List<PlanViewDataRow> list) {
+		if (list == null) {
+			return;
+		}
+		if (planViewDataRows == null) {
+			loadPlanViewData();
+		}
+		planViewDataRows.removeAll(list);
+		firePlanViewDataRowsChanged(new PlanViewDataRow[0],
+				list.toArray(new PlanViewDataRow[0]));
+	}
+
+	public void addPlanViewDataManagerListener(
+			IPlanViewDataManagerChangeListener listener) {
+		if (!listeners.contains(listener))
+			listeners.add(listener);
+	}
+
+	public void removePlanViewDataManagerListener(
+			IPlanViewDataManagerChangeListener listener) {
+		listeners.remove(listener);
+	}
+
+	public Vector<PlanViewDataRow> getPlanViewDataRows() {
+		if (planViewDataRows == null)
+			loadPlanViewData();
+		return planViewDataRows;
+	}
 
 	public void savePlanViewData() {
 		if (planViewDataRows == null)
@@ -192,7 +201,7 @@ public class PlanViewDataManager implements Serializable {
 		savePlanViewData(memento);
 		FileWriter writer = null;
 		try {
-			writer = new FileWriter(PLAN_DATA_FILE);
+			writer = new FileWriter(getPlanViewDataDir() + File.separator + PLAN_DATA_FILE_NAME);
 			memento.save(writer);
 		} catch (IOException e) {
 			Log.log(e);

@@ -1,16 +1,11 @@
 package pl.poznan.put.cs.gui4pddl.planview.model;
 
-import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.Path;
 
 public class PlanViewDataRow implements Serializable {
 	/**

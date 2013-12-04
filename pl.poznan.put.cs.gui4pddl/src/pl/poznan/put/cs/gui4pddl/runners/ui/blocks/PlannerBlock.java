@@ -19,9 +19,9 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
+import pl.poznan.put.cs.gui4pddl.Constants;
 import pl.poznan.put.cs.gui4pddl.preferences.model.PlannerPreferences;
 import pl.poznan.put.cs.gui4pddl.preferences.model.manager.PlannerPreferencesManager;
-import pl.poznan.put.cs.gui4pddl.runners.RunnerConstants;
 
 public class PlannerBlock extends AbstractLaunchConfigurationTab {
 
@@ -177,9 +177,9 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 		String plannerName = "";
 		String plannerArguments = "";
 		try {
-			plannerName = conf.getAttribute(RunnerConstants.PLANNER_NAME, "");
+			plannerName = conf.getAttribute(Constants.PLANNER_NAME, "");
 			plannerArguments = conf.getAttribute(
-					RunnerConstants.ARGUMENTS_NAME, "");
+					Constants.ARGUMENTS_NAME, "");
 		} catch (CoreException e) {
 		}
 
@@ -211,18 +211,18 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 					.getPlannerPreferences()
 					.get(plannerCombo.getItem(plannerCombo.getSelectionIndex()));
 
-			conf.setAttribute(RunnerConstants.PLANNER_NAME,
+			conf.setAttribute(Constants.PLANNER_NAME,
 					preferences.getPlannerName());
 
-			conf.setAttribute(RunnerConstants.PLANNER,
+			conf.setAttribute(Constants.PLANNER,
 					preferences.getPlannerFilePath());
 
-			conf.setAttribute(RunnerConstants.FILE_NAME_REGEXP,
+			conf.setAttribute(Constants.FILE_NAME_REGEXP,
 					preferences.getPlanViewFilePattern());
 
 		}
 		if (argumentsCombo.getSelectionIndex() >= 0) {
-			conf.setAttribute(RunnerConstants.ARGUMENTS_NAME,
+			conf.setAttribute(Constants.ARGUMENTS_NAME,
 					argumentsCombo.getItem(argumentsCombo.getSelectionIndex()));
 		}
 	}

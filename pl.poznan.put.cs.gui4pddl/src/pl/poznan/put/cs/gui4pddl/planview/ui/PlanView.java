@@ -64,18 +64,15 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
 
 import pl.poznan.put.cs.gui4pddl.Activator;
+import pl.poznan.put.cs.gui4pddl.Constants;
 import pl.poznan.put.cs.gui4pddl.log.Log;
 import pl.poznan.put.cs.gui4pddl.planview.helpers.DesktopApi;
 import pl.poznan.put.cs.gui4pddl.planview.helpers.FileNameRegexProcessor;
 import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewDataRow;
 import pl.poznan.put.cs.gui4pddl.planview.model.manager.PlanViewDataManager;
-import pl.poznan.put.cs.gui4pddl.runners.RunnerConstants;
 import pl.poznan.put.cs.gui4pddl.runners.helpers.ProjectFilesPathsHelpers;
 
 public class PlanView extends ViewPart {
-
-	public static final String FOLDER_MARKER_ID = Activator.PLUGIN_ID
-			+ ".planfoldermarker";
 
 	/**
 	 * The ID of the view as specified by the extension.
@@ -98,11 +95,12 @@ public class PlanView extends ViewPart {
 	private static final String PROBLEM_LABEL = "Problem";
 	private static final String ID_LABEL = "Id";
 	private static final String PLAN_FILE_NAMES_LABEL = "Plan files";
+	private static final String PLANNER_NAME_LABEL = "Planner name";
 
 	private static final String PLANNER_ARGUMENTS_LABEL = "Planner arguments";
 
 	private static final String[] columnTitles = { PROJECT, DOMAIN_LABEL,
-			PROBLEM_LABEL, ID_LABEL, PLAN_FILE_NAMES_LABEL,
+			PROBLEM_LABEL, ID_LABEL, PLAN_FILE_NAMES_LABEL, PLANNER_NAME_LABEL,
 			PLANNER_ARGUMENTS_LABEL };
 
 	public static final int NOT_ACTIVATE_VIEW_AFTER_DATA_UPDATE = 0;
@@ -310,6 +308,16 @@ public class PlanView extends ViewPart {
 			@Override
 			public String getText(Object element) {
 				PlanViewDataRow p = (PlanViewDataRow) element;
+				return p.getPlannerName();
+			}
+
+		});
+
+		col = createTableViewerColumn(layout, columnTitles[6], 6);
+		col.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				PlanViewDataRow p = (PlanViewDataRow) element;
 				return p.getPlannerArguments();
 			}
 
@@ -334,22 +342,9 @@ public class PlanView extends ViewPart {
 
 		clearSelectedPlanAction = new Action() {
 			public void run() {
-				IStructuredSelection selection = (IStructuredSelection) viewer
-						.getSelection();
-				if (selection.size() > 0) {
-					PlanViewDataRow[] input = Arrays.copyOf(
-							selection.toArray(), selection.toArray().length,
-							PlanViewDataRow[].class);
-					if (MessageDialog.openConfirm(PlatformUI.getWorkbench()
-							.getActiveWorkbenchWindow().getShell(),
-							CLEAR_SELECTED_PLANS_TEXT,
-							"This operation cannot be undone. Are you sure?")) {
-						removeNotRunningRows(input);
-					}
-				}
+				clearSelectedPlans();
 			}
 		};
-
 		clearSelectedPlanAction.setText(CLEAR_SELECTED_PLANS_TEXT);
 		clearSelectedPlanAction.setToolTipText(CLEAR_SELECTED_PLANS_TOOLTIP);
 		clearSelectedPlanAction.setImageDescriptor(PlatformUI.getWorkbench()
@@ -358,17 +353,7 @@ public class PlanView extends ViewPart {
 
 		clearAllPlansAction = new Action() {
 			public void run() {
-				PlanViewDataManager input = (PlanViewDataManager) viewer
-						.getInput();
-				List<PlanViewDataRow> list = input.getPlanViewDataRows();
-				if (MessageDialog.openConfirm(PlatformUI.getWorkbench()
-						.getActiveWorkbenchWindow().getShell(),
-						CLEAR_ALL_FINISHED_PLANS_TEXT,
-						"This operation cannot be undone. Are you sure?")) {
-
-					removeNotRunningRows(list.toArray(new PlanViewDataRow[0]));
-
-				}
+				clearAllPlans();
 			}
 		};
 		clearAllPlansAction.setText(CLEAR_ALL_FINISHED_PLANS_TEXT);
@@ -379,74 +364,13 @@ public class PlanView extends ViewPart {
 
 		refreshAllProjectsAction = new Action() {
 			public void run() {
-				Job job = new Job("Refresh all projects") {
-					@Override
-					protected IStatus run(IProgressMonitor monitor) {
-
-						List<PlanViewDataRow> list = PlanViewDataManager
-								.getManager().getPlanViewDataRows();
-						List<PlanViewDataRow> toRemove = new ArrayList<PlanViewDataRow>();
-						monitor.beginTask("Refresh all projects", 100);
-						for (PlanViewDataRow row : list) {
-							try {
-								monitor.subTask("Refreshing "
-										+ row.getProjectName());
-								row.getWorkingFolder().refreshLocal(
-										IResource.DEPTH_INFINITE, monitor);
-								if (!row.getWorkingFolder().exists()) {
-									toRemove.add(row);
-								}
-							} catch (CoreException e) {
-								Log.log("Error while refreshing projects", e);
-							}
-							monitor.worked(100 / list.size());
-						}
-						PlanViewDataManager.getManager()
-								.removePlanViewDataRows(toRemove);
-
-						monitor.done();
-						Display.getDefault().asyncExec(new Runnable() {
-
-							@Override
-							public void run() {
-								refresh();
-							}
-						});
-						return Status.OK_STATUS;
-					}
-				};
-				job.schedule();
-
+				refreshAllProjectsFromPlanView();
 			}
 		};
 
 		openPlanWorkingDirAction = new Action() {
 			public void run() {
-				IStructuredSelection selection = (IStructuredSelection) viewer
-						.getSelection();
-				if (selection.size() > 0) {
-					for (Object o : selection.toArray()) {
-						PlanViewDataRow row = (PlanViewDataRow) o;
-						File file = row.getWorkingFolder().getRawLocation()
-								.toFile();
-						if (file.exists() && file.isDirectory()) {
-							DesktopApi.open(file);
-						} else {
-							MessageDialog
-									.openInformation(
-											PlatformUI.getWorkbench()
-													.getActiveWorkbenchWindow()
-													.getShell(),
-											"Opening folder",
-											"There is no such folder "
-													+ row.getWorkingFolder()
-															.getFullPath()
-															.toOSString()
-													+ " in the file system. Refresh Plan Browser.");
-						}
-
-					}
-				}
+				openPlansFolder();
 			}
 		};
 		openPlanWorkingDirAction.setText(OPEN_PLAN_WORKING_DIR_TEXT);
@@ -458,7 +382,6 @@ public class PlanView extends ViewPart {
 		openPlanFileInExternalEditor = new Action() {
 			public void run() {
 				openSelectedPlanFiles(true);
-
 			}
 		};
 		openPlanFileInExternalEditor
@@ -469,7 +392,6 @@ public class PlanView extends ViewPart {
 		openPlanFileInEdtiorAction = new Action() {
 			public void run() {
 				openSelectedPlanFiles(false);
-
 			}
 		};
 		openPlanFileInEdtiorAction.setText(OPEN_READY_PLANS_IN_EDITOR_TEXT);
@@ -502,7 +424,26 @@ public class PlanView extends ViewPart {
 		});
 	}
 
-	private void removeNotRunningRows(final PlanViewDataRow[] input) {
+	private void clearSelectedPlans() {
+		IStructuredSelection selection = (IStructuredSelection) viewer
+				.getSelection();
+		if (selection.size() > 0) {
+			PlanViewDataRow[] input = Arrays.copyOf(selection.toArray(),
+					selection.toArray().length, PlanViewDataRow[].class);
+			if (removeConfirmDialog()) {
+				removePlansFoldersAndRowsFromListAsBackgroundJob(input);
+			}
+		}
+	}
+
+	private boolean removeConfirmDialog() {
+		return MessageDialog.openConfirm(PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getShell(), "Remove plans",
+				"This operation cannot be undone. Are you sure?");
+	}
+
+	private void removePlansFoldersAndRowsFromListAsBackgroundJob(
+			final PlanViewDataRow[] input) {
 		Job job = new Job("Removing Plans") {
 
 			@Override
@@ -536,14 +477,83 @@ public class PlanView extends ViewPart {
 
 	}
 
-	private void openSelectedPlanFiles(boolean externalEditor) {
+	private void clearAllPlans() {
+		PlanViewDataManager input = (PlanViewDataManager) viewer.getInput();
+		List<PlanViewDataRow> list = input.getPlanViewDataRows();
+		if (removeConfirmDialog()) {
+			removePlansFoldersAndRowsFromListAsBackgroundJob(list
+					.toArray(new PlanViewDataRow[0]));
+		}
+	}
 
+	private void refreshAllProjectsFromPlanView() {
+		Job job = new Job("Refresh all projects") {
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+
+				List<PlanViewDataRow> list = PlanViewDataManager.getManager()
+						.getPlanViewDataRows();
+				List<PlanViewDataRow> toRemove = new ArrayList<PlanViewDataRow>();
+				monitor.beginTask("Refresh all projects", 100);
+				for (PlanViewDataRow row : list) {
+					try {
+						monitor.subTask("Refreshing " + row.getProjectName());
+						row.getWorkingFolder().refreshLocal(
+								IResource.DEPTH_INFINITE, monitor);
+						if (!row.getWorkingFolder().exists()) {
+							toRemove.add(row);
+						}
+					} catch (CoreException e) {
+						Log.log("Error while refreshing projects", e);
+					}
+					monitor.worked(100 / list.size());
+				}
+				PlanViewDataManager.getManager().removePlanViewDataRows(
+						toRemove);
+
+				monitor.done();
+				Display.getDefault().asyncExec(new Runnable() {
+
+					@Override
+					public void run() {
+						refresh();
+					}
+				});
+				return Status.OK_STATUS;
+			}
+		};
+		job.schedule();
+	}
+
+	private void openPlansFolder() {
+		IStructuredSelection selection = (IStructuredSelection) viewer
+				.getSelection();
+		if (selection.size() > 0) {
+			for (Object o : selection.toArray()) {
+				PlanViewDataRow row = (PlanViewDataRow) o;
+				File file = row.getWorkingFolder().getRawLocation().toFile();
+				if (file.exists() && file.isDirectory()) {
+					DesktopApi.open(file);
+				} else {
+					infoDialog("Opening folder", "There is no such folder "
+							+ row.getWorkingFolder().getFullPath().toOSString()
+							+ " in the file system. Refresh Plan Browser.");
+				}
+			}
+		}
+	}
+
+	private void infoDialog(String title, String text) {
+		MessageDialog.openInformation(PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getShell(), title, text);
+	}
+
+	private void openSelectedPlanFiles(boolean externalEditor) {
 		IStructuredSelection selection = (IStructuredSelection) viewer
 				.getSelection();
 		Iterator<?> itr = selection.iterator();
 		while (itr.hasNext()) {
 			PlanViewDataRow pvdr = (PlanViewDataRow) itr.next();
-
 			List<String> files = pvdr.getPlanFileNames();
 			if (files != null) {
 				if (files.size() == 1) {
@@ -552,12 +562,10 @@ public class PlanView extends ViewPart {
 						if (externalEditor) {
 							openExistingFileInExternalEditor(file);
 						} else {
-							openFileInEditor(file);
+							openFileInDefaultEditor(file);
 						}
 					} else {
-						MessageDialog.openInformation(PlatformUI.getWorkbench()
-								.getActiveWorkbenchWindow().getShell(),
-								"Opening plan file",
+						infoDialog("Opening plan file",
 								"This file (" + file.getFullPath()
 										+ ") does not exist.");
 					}
@@ -566,16 +574,12 @@ public class PlanView extends ViewPart {
 							pvdr.getDomain(), pvdr.getProblem(), pvdr.getId(),
 							pvdr.getWorkingFolder(), externalEditor);
 
-				} else {
-					MessageDialog.openInformation(PlatformUI.getWorkbench()
-							.getActiveWorkbenchWindow().getShell(),
-							"Opening plan file",
+				} else if (files.size() == 0) {
+					infoDialog("Opening plan file",
 							"There is no plan files to open.");
 				}
 			} else {
-				MessageDialog.openInformation(PlatformUI.getWorkbench()
-						.getActiveWorkbenchWindow().getShell(),
-						"Opening plan file",
+				infoDialog("Opening plan file",
 						"There is no plan files to open.");
 			}
 		}
@@ -586,18 +590,26 @@ public class PlanView extends ViewPart {
 		if (f.exists() && f.isFile()) {
 			DesktopApi.open(f);
 		} else {
-			MessageDialog.openInformation(PlatformUI.getWorkbench()
-					.getActiveWorkbenchWindow().getShell(),
-					"Opening plan file", "This file ( "
-							+ file.getFullPath().toOSString()
-							+ ") does not exist. Refresh Plan Browser.");
+			infoDialog("Opening plan file", "This file ( "
+					+ file.getFullPath().toOSString()
+					+ ") does not exist. Refresh Plan Browser.");
+		}
+	}
+
+	private void openFileInDefaultEditor(IFile file) {
+		IWorkbenchPage page = PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getActivePage();
+		try {
+			IDE.openEditor(page, file);
+		} catch (PartInitException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
 	private void selectFilesAndOpenInEditor(List<String> files, String project,
 			String domain, String problem, String id, IFolder workingDir,
 			boolean externalEditor) {
-
 		List<IFile> ifileList = new ArrayList<IFile>();
 		for (String fileName : files) {
 			IFile f = workingDir.getFile(fileName);
@@ -618,16 +630,12 @@ public class PlanView extends ViewPart {
 					openExistingFileInExternalEditor(f);
 				}
 			} else {
-				openFilesInEditor(toOpenFiles);
+				openFilesInDefaultEditor(toOpenFiles);
 			}
 		} else {
-			MessageDialog
-					.openInformation(PlatformUI.getWorkbench()
-							.getActiveWorkbenchWindow().getShell(),
-							"Opening plan file",
-							"There is no existing plan files in "
-									+ workingDir.getFullPath().toOSString()
-									+ " folder");
+			infoDialog("Opening plan file",
+					"There is no existing plan files in "
+							+ workingDir.getFullPath().toOSString() + " folder");
 		}
 	}
 
@@ -672,21 +680,9 @@ public class PlanView extends ViewPart {
 			return dialog.getResult();
 		}
 		return null;
-
 	}
 
-	private void openFileInEditor(IFile file) {
-		IWorkbenchPage page = PlatformUI.getWorkbench()
-				.getActiveWorkbenchWindow().getActivePage();
-		try {
-			IDE.openEditor(page, file);
-		} catch (PartInitException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	private void openFilesInEditor(IFile[] files) {
+	private void openFilesInDefaultEditor(IFile[] files) {
 		IWorkbenchPage page = PlatformUI.getWorkbench()
 				.getActiveWorkbenchWindow().getActivePage();
 		try {
@@ -695,7 +691,6 @@ public class PlanView extends ViewPart {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	private void setActionsDisabledDependsOnStatus(
@@ -755,7 +750,6 @@ public class PlanView extends ViewPart {
 		for (TableColumn tableColumn : viewer.getTable().getColumns()) {
 			createShowHideColumnAction(tableColumn, manager, viewer);
 		}
-
 	}
 
 	private void createShowHideColumnAction(final TableColumn column,
@@ -791,28 +785,29 @@ public class PlanView extends ViewPart {
 			PlanViewDataRow planViewRowData = null;
 			String domainAbsolutePath = ProjectFilesPathsHelpers
 					.getAbsoluteFilePathFromRelativePath(config.getAttribute(
-							RunnerConstants.DOMAIN_FILE, ""));
+							Constants.DOMAIN_FILE, ""));
 
 			String problemAbsolutePath = ProjectFilesPathsHelpers
 					.getAbsoluteFilePathFromRelativePath(config.getAttribute(
-							RunnerConstants.PROBLEM_FILE, ""));
+							Constants.PROBLEM_FILE, ""));
 
 			String regexp = config.getAttribute(
-					RunnerConstants.FILE_NAME_REGEXP, "");
+					Constants.FILE_NAME_REGEXP, "");
 
-			List<String> planFiles = FileNameRegexProcessor.getMatchedFiles(
-					regexp, workingDir.getRawLocation().toFile(), config);
+			List<String> planFiles = FileNameRegexProcessor
+					.getMatchedFilesNames(regexp, workingDir.getRawLocation()
+							.toFile(), config);
 
 			planViewRowData = new PlanViewDataRow(
-					config.getAttribute(RunnerConstants.PROJECT, ""),
+					config.getAttribute(Constants.PROJECT, ""),
 					ProjectFilesPathsHelpers
 							.getPDDLFileNameWithoutExtension(domainAbsolutePath),
 					ProjectFilesPathsHelpers
 							.getPDDLFileNameWithoutExtension(problemAbsolutePath),
 					workingDir.getName(), config.getAttribute(
-							RunnerConstants.PLANNER_NAME, ""),
+							Constants.PLANNER_NAME, ""),
 					domainAbsolutePath, problemAbsolutePath, planFiles, config
-							.getAttribute(RunnerConstants.ARGUMENTS_NAME, ""));
+							.getAttribute(Constants.ARGUMENTS_NAME, ""));
 			PlanViewDataManager.getManager()
 					.addPlanViewDataRow(planViewRowData);
 			activateView();
@@ -822,19 +817,16 @@ public class PlanView extends ViewPart {
 		}
 	}
 
-	public static void refreshView() {
-		PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
-			public void run() {
-				IViewPart foundView = PlatformUI.getWorkbench()
-						.getActiveWorkbenchWindow().getActivePage()
-						.findView(ID);
-				PlanView thisView = (PlanView) foundView;
-				if (thisView != null)
-					thisView.refresh();
-
-			}
-		});
-	}
+	/*
+	 * public static void refreshView() {
+	 * PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() { public
+	 * void run() { IViewPart foundView = PlatformUI.getWorkbench()
+	 * .getActiveWorkbenchWindow().getActivePage() .findView(ID); PlanView
+	 * thisView = (PlanView) foundView; if (thisView != null)
+	 * thisView.refresh();
+	 * 
+	 * } }); }
+	 */
 
 	private void refresh() {
 		if (viewer != null)
@@ -842,7 +834,6 @@ public class PlanView extends ViewPart {
 	}
 
 	private static void activateView() {
-
 		PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
 			public void run() {
 				try {
