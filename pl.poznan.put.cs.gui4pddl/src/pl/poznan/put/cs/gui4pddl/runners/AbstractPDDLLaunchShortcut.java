@@ -137,7 +137,6 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 				.getLaunchConfigurationType(getLaunchConfigurationType());
 		List<ILaunchConfiguration> validConfigs = new ArrayList<ILaunchConfiguration>();
 		if (type == null) {
-
 			return validConfigs;
 		}
 
@@ -154,7 +153,6 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 						Constants.WORKING_DIRECTORY, "");
 
 				if (location.equals(configPath)) {
-
 					validConfigs.add(configs[i]);
 				}
 			}
@@ -220,12 +218,10 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 								return labelProvider.getText(element)
 										+ " - "
 										+ configuration.getAttribute(
-												Constants.PLANNER_NAME,
-												"")
+												Constants.PLANNER_NAME, "")
 										+ " : "
 										+ configuration.getAttribute(
-												Constants.ARGUMENTS_NAME,
-												"");
+												Constants.ARGUMENTS_NAME, "");
 							} catch (CoreException ex) {
 								// ignore
 							}
@@ -290,13 +286,12 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 					return;
 				}
 			}
-		}
 
-		if (conf != null) {
-			DebugUITools.launch(conf, mode);
-			return;
+			if (conf != null) {
+				DebugUITools.launch(conf, mode);
+				return;
+			}
 		}
-
 	}
 
 }
