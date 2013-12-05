@@ -623,14 +623,19 @@ public class PlanView extends ViewPart {
 					"Choose a plan file to open.\n" + "Project: " + project
 							+ "\nDomain: " + domain + "\nProblem: " + problem
 							+ "\nId: " + id);
-			IFile[] toOpenFiles = Arrays.copyOf(toOpen, toOpen.length,
-					IFile[].class);
-			if (externalEditor) {
-				for (IFile f : toOpenFiles) {
-					openExistingFileInExternalEditor(f);
+			IFile[] toOpenFiles = null;
+			if (toOpen != null) {
+				toOpenFiles = Arrays.copyOf(toOpen, toOpen.length,
+						IFile[].class);
+			}
+			if (toOpenFiles != null) {
+				if (externalEditor) {
+					for (IFile f : toOpenFiles) {
+						openExistingFileInExternalEditor(f);
+					}
+				} else {
+					openFilesInDefaultEditor(toOpenFiles);
 				}
-			} else {
-				openFilesInDefaultEditor(toOpenFiles);
 			}
 		} else {
 			infoDialog("Opening plan file",
@@ -791,8 +796,7 @@ public class PlanView extends ViewPart {
 					.getAbsoluteFilePathFromRelativePath(config.getAttribute(
 							Constants.PROBLEM_FILE, ""));
 
-			String regexp = config.getAttribute(
-					Constants.FILE_NAME_REGEXP, "");
+			String regexp = config.getAttribute(Constants.FILE_NAME_REGEXP, "");
 
 			List<String> planFiles = FileNameRegexProcessor
 					.getMatchedFilesNames(regexp, workingDir.getRawLocation()
@@ -805,9 +809,9 @@ public class PlanView extends ViewPart {
 					ProjectFilesPathsHelpers
 							.getPDDLFileNameWithoutExtension(problemAbsolutePath),
 					workingDir.getName(), config.getAttribute(
-							Constants.PLANNER_NAME, ""),
-					domainAbsolutePath, problemAbsolutePath, planFiles, config
-							.getAttribute(Constants.ARGUMENTS_NAME, ""));
+							Constants.PLANNER_NAME, ""), domainAbsolutePath,
+					problemAbsolutePath, planFiles, config.getAttribute(
+							Constants.ARGUMENTS_NAME, ""));
 			PlanViewDataManager.getManager()
 					.addPlanViewDataRow(planViewRowData);
 			activateView();
