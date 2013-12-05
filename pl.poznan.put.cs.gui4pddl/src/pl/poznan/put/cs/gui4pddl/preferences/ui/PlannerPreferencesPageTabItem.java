@@ -272,8 +272,8 @@ public class PlannerPreferencesPageTabItem {
 				&& plannerFile.getStringValue().length() > 0) {
 
 			// if plannerName has been changed to name that exists
-			if (PlannerPreferencesManager.getManager().getPlannerPreferences().get(
-					plannerName.getStringValue()) != null
+			if (PlannerPreferencesManager.getManager().getPlannerPreferences()
+					.get(plannerName.getStringValue()) != null
 					&& !plannerName.getStringValue().equals(
 							preferences.getPlannerName())) {
 				page.setErrorMessage("Planner name of "
@@ -444,12 +444,13 @@ public class PlannerPreferencesPageTabItem {
 	 */
 
 	public boolean savePlannerPreferences() {
-		boolean saveOk = PlannerPreferencesManager.getManager().savePlannerPreferences(
-				plannerName.getStringValue(), plannerFile.getStringValue(),
-				getArguments(), planViewDialog.getRegexp(), preferences);
+		boolean saveOk = PlannerPreferencesManager.getManager()
+				.savePlannerPreferences(plannerName.getStringValue(),
+						plannerFile.getStringValue(), getArguments(),
+						planViewDialog.getRegexp(), preferences);
 		if (saveOk) {
-			preferences = PlannerPreferencesManager.getManager().getPlannerPreferences().get(
-					plannerName.getStringValue());
+			preferences = PlannerPreferencesManager.getManager()
+					.getPlannerPreferences().get(plannerName.getStringValue());
 		}
 
 		return saveOk;
@@ -466,8 +467,33 @@ public class PlannerPreferencesPageTabItem {
 		Map<String, String> map = getArguments();
 
 		boolean argsChanged = false;
-		//TODO zmienic metode porownywania map
-		if (map != null && map.size() > 0 && preferences.getArgumentsMap() != null && preferences.getArgumentsMap().size() > 0) {
+
+		if (map != null && preferences.getArgumentsMap() != null) {
+			if (map.size() != preferences.getArgumentsMap().size()) {
+				argsChanged = true;
+			} else {
+				for (Map.Entry<String, String> entry : map.entrySet()) {
+					if (!preferences.getArgumentsMap().containsKey(
+							entry.getKey())
+							|| !preferences.getArgumentsMap()
+									.get(entry.getKey())
+									.equals(entry.getValue())) {
+						argsChanged = true;
+						break;
+					}
+				}
+			}
+
+		} else if (map == null && preferences.getArgumentsMap() == null) {
+			argsChanged = false;
+		} else {
+			argsChanged = true;
+		}
+
+		// TODO zmienic metode porownywania map
+		/*if (map != null && map.size() > 0
+				&& preferences.getArgumentsMap() != null
+				&& preferences.getArgumentsMap().size() > 0) {
 			for (String key : map.keySet()) {
 				if (preferences.getArgumentsMap().containsKey(key)) {
 					argsChanged = argsChanged
@@ -479,7 +505,9 @@ public class PlannerPreferencesPageTabItem {
 				}
 			}
 		}
-		if (map != null && map.size() > 0 && preferences.getArgumentsMap() != null && preferences.getArgumentsMap().size() > 0) {
+		if (map != null && map.size() > 0
+				&& preferences.getArgumentsMap() != null
+				&& preferences.getArgumentsMap().size() > 0) {
 			for (String key : preferences.getArgumentsMap().keySet()) {
 				if (map.containsKey(key)) {
 					argsChanged = argsChanged
@@ -490,7 +518,7 @@ public class PlannerPreferencesPageTabItem {
 					break;
 				}
 			}
-		}
+		}*/
 		return argsChanged || temp;
 	}
 
