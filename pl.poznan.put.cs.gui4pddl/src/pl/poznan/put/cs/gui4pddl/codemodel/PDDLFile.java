@@ -4,6 +4,9 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+
 
 public class PDDLFile {
 	
@@ -14,6 +17,10 @@ public class PDDLFile {
 	
 	public PDDLFile(String path) {
 		this.path = path;
+	}
+	
+	public IPath getFullPath() {
+		return Path.fromPortableString(path);
 	}
 	
 	public String getPath() {
@@ -39,10 +46,12 @@ public class PDDLFile {
 	}
 	
 	public void addProblem(PDDLProblem problem) {
+		problem.setFile(this);
 		problems.add(problem);
 	}
 	
 	public void addDomain(PDDLDomain domain) {
+		domain.setFile(this);
 		domains.add(domain);
 	}
 	

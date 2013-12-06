@@ -24,8 +24,8 @@ scope {
 	PDDLProblem problem;
 	PDDLInitialSituation initsit;
 }
-	:	^( 'define' problem_header {$definition::problem=$problem_header.val;} problem_item* ) {$file.addProblem($definition::problem);}
-	|	^( 'define' domain_header {$definition::domain=$domain_header.val;} domain_item* ) {$file.addDomain($definition::domain);}
+	:	^( 'define' problem_header {$definition::problem=$problem_header.val; $file.addProblem($definition::problem);} problem_item* )
+	|	^( 'define' domain_header {$definition::domain=$domain_header.val; $file.addDomain($definition::domain);} domain_item* )
 	|   ^( 'define' initsit_header {$definition::initsit=$initsit_header.val;} initsit_body ) {$file.addInitialSituation($definition::initsit);}
 	;
 

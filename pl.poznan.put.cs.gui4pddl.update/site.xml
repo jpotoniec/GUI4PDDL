@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/pl.poznan.put.cs.gui4pddl_0.1.0.201312022350.jar" id="pl.poznan.put.cs.gui4pddl" version="0.1.0.201312022350">
+   <feature url="features/pl.poznan.put.cs.gui4pddl_0.1.0.201312042232.jar" id="pl.poznan.put.cs.gui4pddl" version="0.1.0.201312042232" os="linux,win32">
       <category name="pl.poznan.put.cs.gui4pddl.lang"/>
    </feature>
    <category-def name="pl.poznan.put.cs.gui4pddl.lang" label="Programming Languages">

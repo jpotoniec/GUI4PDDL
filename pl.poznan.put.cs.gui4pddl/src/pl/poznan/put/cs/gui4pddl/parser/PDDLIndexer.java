@@ -64,6 +64,14 @@ public class PDDLIndexer {
 		//checks semantic errors based on PDDLCodeModel and commonTree
 	}
 	
+	public static void indexPDDLFile(IFile file, IPDDLCodeModel codeModel) {
+		PDDLIndexer.IErrorHandler dummyErrorHandler = new PDDLIndexer.IErrorHandler() {
+			public void reportError(IFile file, PDDLError error) {
+			}
+		};
+		indexPDDLFile(file, codeModel, dummyErrorHandler);
+	}
+	
 	public static void indexPDDLFile(IFile file, IPDDLCodeModel codeModel, IErrorHandler errorHandler) {
 		try {
 			CommonTree ast = scanPDDLFile(file, errorHandler);
