@@ -23,6 +23,15 @@ public class PDDLFile {
 		return Path.fromPortableString(path);
 	}
 	
+	public String getName() {
+		IPath p = Path.fromPortableString(path);
+		String lastSegment = p.lastSegment();
+		if (lastSegment != null) {
+			return lastSegment;
+		}
+		return null;
+	}
+	
 	public String getPath() {
 		return path;
 	}
@@ -31,6 +40,14 @@ public class PDDLFile {
 		domains.clear();
 		problems.clear();
 		initialSituations.clear();
+	}
+	
+	public PDDLDomain getDomain(String name) {
+		for (PDDLDomain domain : domains) {
+			if (domain.getName().equals(name))
+				return domain;
+		}
+		return null;
 	}
 	
 	public Collection<PDDLDomain> getDomains() {

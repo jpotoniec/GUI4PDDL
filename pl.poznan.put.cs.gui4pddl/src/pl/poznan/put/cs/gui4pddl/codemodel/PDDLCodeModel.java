@@ -16,7 +16,12 @@ public class PDDLCodeModel implements IPDDLCodeModel {
 	
 	@Override
 	public PDDLFile getOrCreateFile(IFile f) {
-		String path = f.getFullPath().toPortableString();
+		return getOrCreateFile(f.getFullPath());
+	}
+	
+	@Override
+	public PDDLFile getOrCreateFile(IPath p) {
+		String path = p.toPortableString();
 		PDDLFile file = files.get(path);
 		if (file == null) {
 			file = new PDDLFile(path);

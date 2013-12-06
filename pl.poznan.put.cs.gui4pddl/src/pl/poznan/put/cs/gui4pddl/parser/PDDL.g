@@ -78,7 +78,7 @@ pddl_file
     ;
 
 definition 
-	:	'(' 'define'^ problem_header problem_item* ')'!
+	:	'('! 'define'^ problem_header problem_item* ')'!
 	|	'('! 'define'^ domain_header domain_item* ')'!
 	|   '('! 'define'^ initsit_header initsit_body ')'!
 	;
@@ -214,7 +214,7 @@ Problems (13)
 */
 
 
-problem_header : '('! 'problem' NAME ')'!
+problem_header : '('! 'problem'^ NAME ')'!
    ; 
 
 problem_item
@@ -253,15 +253,15 @@ goal	:	'('! ':goal' gd ')'!
 length_spec 
 	:	'('! ':length' ('('! ':serial' INTEGER ')'!)? ('('! ':parallel' INTEGER ')'!)? ')'!
 	;
-	
+	 
 	
 initsit_header
-    :   '('! 'situation' NAME ')'!
+    :   '('! 'situation'^ NAME ')'!
     ;
 
 initsit_body
-    :  '('! ':domain' NAME ')'!
-            initsit_body_item*
+    :  '(' ':domain' NAME ')'
+            initsit_body_item*   -> ^(':domain' NAME) initsit_body_item*
     ;
     
 initsit_body_item

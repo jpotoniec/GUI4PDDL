@@ -8,6 +8,7 @@ import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
+import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 
@@ -56,12 +57,24 @@ public class PDDLIndexer {
 		return result;
 	}
 	
-	public static void updateIndex(CommonTree ast, PDDLFile index) {
+	public static void updateIndex(CommonTree ast, PDDLFile index) throws RecognitionException {
 		//we can update PDDLFile from commonTree
 	}
 	
-	public static void checkSemanticErrors(IFile file, CommonTree ast, IPDDLCodeModel codeModel, IErrorHandler errorHandler) {
-		//checks semantic errors based on PDDLCodeModel and commonTree
+	public static void checkSemanticErrors(IFile file, CommonTree ast, IPDDLCodeModel codeModel, IErrorHandler errorHandler) throws RecognitionException{
+		 
+		System.out.println(ast.toStringTree());
+		
+		CommonTreeNodeStream nodes = new CommonTreeNodeStream(ast);
+	     PDDLSemanticChecker checker = new PDDLSemanticChecker(nodes);
+	     PDDLFile fileIndex = codeModel.getFile(file, false);
+	     fileIndex = new PDDLFile(file.getFullPath().toPortableString());
+	     try {
+	    	 checker.pddl_file(codeModel, fileIndex);
+	     } finally {
+			List<PDDLError> errors = checker.getErrors();
+			reportErrors(file, errors, errorHandler);
+	     }
 	}
 	
 	public static void indexPDDLFile(IFile file, IPDDLCodeModel codeModel) {
@@ -77,7 +90,9 @@ public class PDDLIndexer {
 			CommonTree ast = scanPDDLFile(file, errorHandler);
 			if (codeModel != null) {
 				PDDLFile index = codeModel.getOrCreateFile(file);
-				updateIndex(ast, index);
+				try {
+					updateIndex(ast, index);
+				} catch (RecognitionException e) {}
 				checkSemanticErrors(file, ast, codeModel, errorHandler);
 			}
 		} catch (CoreException e) {
