@@ -26,6 +26,7 @@ public class PDDLNature implements IProjectNature, IPDDLNature {
 	private PDDLCodeModel codeModel;
 
 	public PDDLNature() {
+		codeModel = new PDDLCodeModel();
 		completionManager = new PDDLCodeCompletionManager(this);
 	}
 

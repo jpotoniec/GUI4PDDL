@@ -1,11 +1,10 @@
 package pl.poznan.put.cs.gui4pddl.codemodel;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IPath;
 
 public interface IPDDLCodeModel {
-	PDDLFile getFile(String path);
-	
-	PDDLFile getOrCreateFile(String path);
+	PDDLFile getFile(IFile file, boolean parse);
 
 	PDDLFile getOrCreateFile(IFile file);
 	
@@ -18,4 +17,8 @@ public interface IPDDLCodeModel {
 	Iterable<PDDLProblem> getProblems(String name);
 	
 	Iterable<PDDLInitialSituation> getInitialSituations(String name);
+
+	PDDLDomain getDomain(PDDLProblem problem);
+
+	PDDLFile getOrCreateFile(IPath p);
 }

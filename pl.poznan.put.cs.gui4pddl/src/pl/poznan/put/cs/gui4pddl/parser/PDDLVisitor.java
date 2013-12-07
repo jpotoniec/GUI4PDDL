@@ -24,7 +24,10 @@ class PDDLVisitor implements IResourceVisitor, IResourceDeltaVisitor {
 			try {
 				IMarker marker = file.createMarker(MARKER_ID);
 				marker.setAttribute(IMarker.MESSAGE, error.message);
-				marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+				if (error.type == PDDLError.Type.WARNING)
+					marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
+				else
+					marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
 				marker.setAttribute(IMarker.LINE_NUMBER, error.line);
 			} catch (CoreException e) {
 				Log.log(e);

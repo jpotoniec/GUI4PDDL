@@ -1,19 +1,36 @@
 package pl.poznan.put.cs.gui4pddl.codemodel;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
+
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 
 
 public class PDDLFile {
 	
 	private String path;	
-	private Set<PDDLDomain> domains = new TreeSet<PDDLDomain>();
-	private Set<PDDLProblem> problems = new TreeSet<PDDLProblem>();
-	private Set<PDDLInitialSituation> initialSituations = new TreeSet<PDDLInitialSituation>();
+	private Set<PDDLDomain> domains = new HashSet<PDDLDomain>();
+	private Set<PDDLProblem> problems = new HashSet<PDDLProblem>();
+	private Set<PDDLInitialSituation> initialSituations = new HashSet<PDDLInitialSituation>();
 	
 	public PDDLFile(String path) {
 		this.path = path;
+	}
+	
+	public IPath getFullPath() {
+		return Path.fromPortableString(path);
+	}
+	
+	public String getName() {
+		IPath p = Path.fromPortableString(path);
+		String lastSegment = p.lastSegment();
+		if (lastSegment != null) {
+			return lastSegment;
+		}
+		return null;
 	}
 	
 	public String getPath() {
@@ -24,6 +41,14 @@ public class PDDLFile {
 		domains.clear();
 		problems.clear();
 		initialSituations.clear();
+	}
+	
+	public PDDLDomain getDomain(String name) {
+		for (PDDLDomain domain : domains) {
+			if (domain.getName().equals(name))
+				return domain;
+		}
+		return null;
 	}
 	
 	public Collection<PDDLDomain> getDomains() {
@@ -39,10 +64,12 @@ public class PDDLFile {
 	}
 	
 	public void addProblem(PDDLProblem problem) {
+		problem.setFile(this);
 		problems.add(problem);
 	}
 	
 	public void addDomain(PDDLDomain domain) {
+		domain.setFile(this);
 		domains.add(domain);
 	}
 	

@@ -7,6 +7,7 @@ import java.util.TreeSet;
 
 public class PDDLDomain {
 	
+	private PDDLFile file;
 	private String name = "";
 	private Set<String> extensions = new TreeSet<String>();
 	private PDDLRequirementSet requirements = new PDDLRequirementSet();
@@ -18,6 +19,14 @@ public class PDDLDomain {
 	
 	public PDDLDomain(String name) {
 		this.name = name;
+	}
+	
+	public void setFile(PDDLFile file) {
+		this.file = file;
+	}
+	
+	public PDDLFile getFile() {
+		return file;
 	}
 	
 	public String getName() {

@@ -1,6 +1,7 @@
 package pl.poznan.put.cs.gui4pddl.codemodel;
 
 public class PDDLProblem {
+	private PDDLFile file;
 	private String name;
 	private String domain;
 	private PDDLRequirementSet requirements = new PDDLRequirementSet();
@@ -11,6 +12,14 @@ public class PDDLProblem {
 		this.name = name;
 	}
 	
+	public void setFile(PDDLFile file) {
+		this.file = file;
+	}
+	
+	public PDDLFile getFile() {
+		return file;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -19,7 +28,7 @@ public class PDDLProblem {
 		domain = name;
 	}
 	
-	public String getDomain(String name) {
+	public String getDomainName() {
 		return domain;
 	}
 	
