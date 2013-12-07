@@ -88,8 +88,6 @@ public class PDDLApplicationLaunchConfigurationDelegate extends
 			PlanView.createRowAndActivateView(configuration, workingDir);
 			monitor.worked(20);
 			monitor.done();
-			
-
 		} catch (Exception e) {
 			Log.log(e);
 			finishLaunchWithError(launch);
