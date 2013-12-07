@@ -77,6 +77,9 @@ public class PDDLTypedList implements Iterable<PDDLTypedList.Entry>{
 	}
 	
 	public void append(PDDLTypedList right) {
+		if (right == null || right.list == null)
+			return;
+
 		for(Entry e : right.list){
 			this.list.add(e);
 		}

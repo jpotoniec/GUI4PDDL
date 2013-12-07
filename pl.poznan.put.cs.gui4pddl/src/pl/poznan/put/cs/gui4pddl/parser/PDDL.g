@@ -250,14 +250,14 @@ situation
 	;
 	
 object_declaration 
-	:	'('! ':objects' typed_list_of_name ')'!
+	:	'('! ':objects'^ typed_list_of_name ')'!
 	;
 
-init 	:	'('! ':init' literal_of_name+ ')'!
+init 	:	'('! ':init'^ literal_of_name+ ')'!
 	;
 
-goal	:	'('! ':goal' gd ')'!
-	|	'('! ':expansion' action_spec_od_action_term ')'! //:action-expansion
+goal	:	'('! ':goal'^ gd ')'!
+	|	'('! ':expansion'^ action_spec_od_action_term ')'! //:action-expansion
 	;
 	
 length_spec 

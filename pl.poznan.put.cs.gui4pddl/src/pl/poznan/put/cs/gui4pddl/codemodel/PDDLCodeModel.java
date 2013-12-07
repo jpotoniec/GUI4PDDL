@@ -8,6 +8,7 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 
+import pl.poznan.put.cs.gui4pddl.log.Log;
 import pl.poznan.put.cs.gui4pddl.parser.PDDLIndexer;
 
 public class PDDLCodeModel implements IPDDLCodeModel, IPDDLFileSet {
@@ -39,7 +40,11 @@ public class PDDLCodeModel implements IPDDLCodeModel, IPDDLFileSet {
 	public PDDLFile getFile(IFile file, boolean parse) {
 		PDDLFile fileIndex = files.get(file.getFullPath().toPortableString());
 		if (fileIndex == null && parse) {
-			PDDLIndexer.indexPDDLFile(file, this);
+			try {
+				PDDLIndexer.indexPDDLFile(file, this);
+			} catch (RuntimeException e) {
+				Log.log(e);
+			}
 			fileIndex = files.get(file.getFullPath().toPortableString());
 		}
 		return fileIndex;
@@ -105,7 +110,12 @@ public class PDDLCodeModel implements IPDDLCodeModel, IPDDLFileSet {
 			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 			IFile file = root.getFile(path);
 			if (file.exists()) {
-				PDDLIndexer.indexPDDLFile(file, this);
+				try {
+					PDDLIndexer.indexPDDLFile(file, this);
+				} catch (RuntimeException e) {
+					Log.log(e);
+				}
+				
 				fileIndex = files.get(key);
 				if (fileIndex == null)
 					return null;
