@@ -76,6 +76,9 @@ public class PDDLType {
 		return false;
 	}
 	
+	public static PDDLType defaultType() {
+		return simpleType("object");
+	}
 	
 	/**
 	 * Creates a simple type with a name.

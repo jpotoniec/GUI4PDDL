@@ -31,6 +31,15 @@ public class PDDLCodeCompletionContext {
 		getContextInfo(document, offset);
 	}
 	
+	//pobiera token znajdujący się jako piewszy po tym samym nawiasie co kursor
+	public Token getOpeningToken() {
+		try {
+			return openingTokenStack.peek();
+		} catch (EmptyStackException e) {
+			return null;
+		}
+	}
+	
 	
 	private void getContextInfo(IDocument document, int offset) {
 		try {

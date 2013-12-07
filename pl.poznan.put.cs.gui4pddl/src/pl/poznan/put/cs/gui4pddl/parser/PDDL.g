@@ -12,6 +12,7 @@ tokens {
 	SITUATION_DEF = 'situation';
 	PLEFT = '(';
 	PRIGHT = ')';
+	REQUIRE_DEF = ':requirements';
 }
 
 @header {
