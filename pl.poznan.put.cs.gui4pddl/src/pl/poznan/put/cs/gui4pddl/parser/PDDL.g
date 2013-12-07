@@ -5,6 +5,15 @@ options {
 	ASTLabelType=CommonTree;
 }
 
+tokens {
+	DEFINE = 'define';
+	DOMAIN_DEF = 'domain';
+	PROBLEM_DEF = 'problem';
+	SITUATION_DEF = 'situation';
+	PLEFT = '(';
+	PRIGHT = ')';
+}
+
 @header {
 	package pl.poznan.put.cs.gui4pddl.parser;
 	

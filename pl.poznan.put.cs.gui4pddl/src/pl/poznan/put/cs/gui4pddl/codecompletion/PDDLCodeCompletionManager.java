@@ -15,7 +15,11 @@ public class PDDLCodeCompletionManager implements IPDDLCodeCompletionManager {
 
 	@Override
 	public List<PDDLCodeCompletionProposal> getCodeCompletionProposals(
-			IDocument document, int documentOffset) {
+			IDocument document, int offset) {
+		
+		PDDLCodeCompletionContext context = new PDDLCodeCompletionContext(document, offset);
+		
+		System.out.println(context);
 		
 		LinkedList<PDDLCodeCompletionProposal> proposals = new LinkedList<PDDLCodeCompletionProposal>();
 		
