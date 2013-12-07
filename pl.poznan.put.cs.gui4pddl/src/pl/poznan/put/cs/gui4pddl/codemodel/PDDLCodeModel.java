@@ -83,6 +83,8 @@ public class PDDLCodeModel implements IPDDLCodeModel {
 	 * @return
 	 */
 	private PDDLDomain checkDomainFile(IPath path, String name) {
+		System.out.printf("Checking domain file %s\n", path.toOSString());
+		
 		PDDLFile fileIndex = getFile(path, true);
 		if (fileIndex == null)
 			return null;
@@ -102,10 +104,12 @@ public class PDDLCodeModel implements IPDDLCodeModel {
 		if (fileIndex == null && parse) {
 			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 			IFile file = root.getFile(path);
-			PDDLIndexer.indexPDDLFile(file, this);
-			fileIndex = files.get(key);
-			if (fileIndex == null)
-				return null;
+			if (file.exists()) {
+				PDDLIndexer.indexPDDLFile(file, this);
+				fileIndex = files.get(key);
+				if (fileIndex == null)
+					return null;
+			}
 		}
 		return fileIndex;
 	}

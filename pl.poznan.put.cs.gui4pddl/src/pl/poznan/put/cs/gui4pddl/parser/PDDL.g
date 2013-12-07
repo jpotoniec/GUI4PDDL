@@ -228,7 +228,7 @@ problem_item
 	;
 
 domain_reference 
-	:	'('! ':domain' NAME ')'!
+	:	'('! ':domain'^ NAME ')'!
 	;
 	
 require_def

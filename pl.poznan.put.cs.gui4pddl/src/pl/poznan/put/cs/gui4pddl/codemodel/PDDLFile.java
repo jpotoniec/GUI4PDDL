@@ -1,6 +1,7 @@
 package pl.poznan.put.cs.gui4pddl.codemodel;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -11,9 +12,9 @@ import org.eclipse.core.runtime.Path;
 public class PDDLFile {
 	
 	private String path;	
-	private Set<PDDLDomain> domains = new TreeSet<PDDLDomain>();
-	private Set<PDDLProblem> problems = new TreeSet<PDDLProblem>();
-	private Set<PDDLInitialSituation> initialSituations = new TreeSet<PDDLInitialSituation>();
+	private Set<PDDLDomain> domains = new HashSet<PDDLDomain>();
+	private Set<PDDLProblem> problems = new HashSet<PDDLProblem>();
+	private Set<PDDLInitialSituation> initialSituations = new HashSet<PDDLInitialSituation>();
 	
 	public PDDLFile(String path) {
 		this.path = path;

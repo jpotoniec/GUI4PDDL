@@ -13,7 +13,9 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 
 import pl.poznan.put.cs.gui4pddl.codemodel.IPDDLCodeModel;
+import pl.poznan.put.cs.gui4pddl.codemodel.PDDLDomain;
 import pl.poznan.put.cs.gui4pddl.codemodel.PDDLFile;
+import pl.poznan.put.cs.gui4pddl.codemodel.PDDLProblem;
 import pl.poznan.put.cs.gui4pddl.log.Log;
 
 public class PDDLIndexer {
@@ -57,24 +59,29 @@ public class PDDLIndexer {
 		return result;
 	}
 	
-	public static void updateIndex(CommonTree ast, PDDLFile index) throws RecognitionException {
-		//we can update PDDLFile from commonTree
-	}
-	
-	public static void checkSemanticErrors(IFile file, CommonTree ast, IPDDLCodeModel codeModel, IErrorHandler errorHandler) throws RecognitionException{
-		 
+	public static void updateIndex(CommonTree ast, PDDLFile index)
+			throws RecognitionException {
 		System.out.println(ast.toStringTree());
-		
+
 		CommonTreeNodeStream nodes = new CommonTreeNodeStream(ast);
-	     PDDLSemanticChecker checker = new PDDLSemanticChecker(nodes);
-	     PDDLFile fileIndex = codeModel.getFile(file, false);
-	     fileIndex = new PDDLFile(file.getFullPath().toPortableString());
-	     try {
-	    	 checker.pddl_file(codeModel, fileIndex);
-	     } finally {
+		PDDLModelBuilder builder = new PDDLModelBuilder(nodes);
+		builder.pddl_file(index);
+	}
+
+	public static void checkSemanticErrors(IFile file, CommonTree ast,
+			IPDDLCodeModel codeModel, IErrorHandler errorHandler)
+			throws RecognitionException {
+
+		CommonTreeNodeStream nodes = new CommonTreeNodeStream(ast);
+		PDDLSemanticChecker checker = new PDDLSemanticChecker(nodes);
+		PDDLFile fileIndex = codeModel.getFile(file, false);
+		fileIndex = new PDDLFile(file.getFullPath().toPortableString());
+		try {
+			checker.pddl_file(codeModel, fileIndex);
+		} finally {
 			List<PDDLError> errors = checker.getErrors();
 			reportErrors(file, errors, errorHandler);
-	     }
+		}
 	}
 	
 	public static void indexPDDLFile(IFile file, IPDDLCodeModel codeModel) {
@@ -90,9 +97,24 @@ public class PDDLIndexer {
 			CommonTree ast = scanPDDLFile(file, errorHandler);
 			if (codeModel != null) {
 				PDDLFile index = codeModel.getOrCreateFile(file);
+				index.clear();
 				try {
 					updateIndex(ast, index);
 				} catch (RecognitionException e) {}
+				
+				//Debug code for prining
+				for(PDDLDomain d: codeModel.getDomains(null)) {
+					System.out.println(d.getName());
+				}
+				
+				for(PDDLProblem p: index.getProblems()) {
+					PDDLDomain d = codeModel.getDomain(p);
+					if (d != null)
+						System.out.printf("Domain for %s is %s at %s", p.getName(), d.getName(), d.getFile().getFullPath().toOSString());
+					else
+						System.out.printf("Domain for %s is NULL", p.getName());
+				}
+				
 				checkSemanticErrors(file, ast, codeModel, errorHandler);
 			}
 		} catch (CoreException e) {
