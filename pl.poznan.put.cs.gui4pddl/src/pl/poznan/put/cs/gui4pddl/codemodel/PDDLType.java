@@ -2,7 +2,15 @@ package pl.poznan.put.cs.gui4pddl.codemodel;
 
 import java.util.List;
 import java.util.ArrayList;
+
+/**
+ *Representation of PDDL type. 
+ *
+ *
+ */
+
 import java.util.Set;
+
 
 public class PDDLType {
 	
@@ -15,6 +23,13 @@ public class PDDLType {
 	private PDDLType() {
 	}
 	
+
+	/**
+	 * Creates a default type. Default type in PDDL is object.
+	 * 
+	 * @return default type
+	 */
+
 	public String getName() {
 		if (isFluent())
 			return fluent.getName();
@@ -61,24 +76,33 @@ public class PDDLType {
 		return false;
 	}
 	
-	public static PDDLType defaultType() {
-		PDDLType ret = new PDDLType();
-		ret.name = "object";
-		return ret;
-	}
 	
+	/**
+	 * Creates a simple type with a name.
+	 * @param name name of the type
+	 * @return simple type with a name
+	 */
 	public static PDDLType simpleType(String name) {
 		PDDLType ret = new PDDLType();
 		ret.name = name;
 		return ret;
 	}
-	
+	/**
+	 * Creates the type of an object whose value varies from situation to situation,
+	 * and is always of type t.
+	 * @param type type of object
+	 * @return fluent type
+	 */
 	public static PDDLType fluentType(PDDLType type) {
 		PDDLType ret = new PDDLType();
 		ret.fluent = type;
 		return ret;
 	}
-	
+	/**
+	 * Creates the either type, union of types.
+	 * @param list list of a types
+	 * @return either type
+	 */
 	public static PDDLType eitherType(List<PDDLType> list) {
 		PDDLType ret = new PDDLType();
 		ret.either = new ArrayList<PDDLType>(list);

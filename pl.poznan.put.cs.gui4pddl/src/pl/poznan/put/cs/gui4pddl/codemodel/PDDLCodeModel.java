@@ -10,7 +10,7 @@ import org.eclipse.core.runtime.IPath;
 
 import pl.poznan.put.cs.gui4pddl.parser.PDDLIndexer;
 
-public class PDDLCodeModel implements IPDDLCodeModel {
+public class PDDLCodeModel implements IPDDLCodeModel, IPDDLFileSet {
 
 	private TreeMap<String, PDDLFile> files = new TreeMap<String, PDDLFile>();
 	
