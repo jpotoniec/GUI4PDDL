@@ -9,10 +9,14 @@ import org.eclipse.debug.ui.RefreshTab;
 
 public class PDDLApplicationTabGroup extends AbstractLaunchConfigurationTabGroup {
 
+	private MainTab mainModuleTab;
+	private PlannerTab plannerTab;
+	
 	@Override
 	public void createTabs(ILaunchConfigurationDialog arg0, String arg1) {
-		  MainTab mainModuleTab = new MainTab();
-		  PlannerTab plannerTab = new PlannerTab();
+		 plannerTab = new PlannerTab();
+		mainModuleTab = new MainTab(plannerTab.getArgumentsBlock());
+		 
 	        ILaunchConfigurationTab[] tabs = new ILaunchConfigurationTab[] { mainModuleTab, plannerTab,
 	        		new RefreshTab(), new EnvironmentTab(), new CommonTab()};
 	        setTabs(tabs);

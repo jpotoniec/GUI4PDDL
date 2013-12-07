@@ -16,11 +16,11 @@ import pl.poznan.put.cs.gui4pddl.runners.ui.blocks.PlannerBlock;
 
 public class PlannerTab extends AbstractLaunchConfigurationTab {
 
-	private PlannerBlock plannerBlock;
-	private PlannerArgumentsBlock plannerArgumentsBlock;
+	//private PlannerBlock plannerBlock;
+	public PlannerArgumentsBlock plannerArgumentsBlock;
 
 	public PlannerTab() {
-		plannerBlock = new PlannerBlock();
+		//plannerBlock = new PlannerBlock();
 		plannerArgumentsBlock = new PlannerArgumentsBlock();
 	}
 
@@ -31,19 +31,23 @@ public class PlannerTab extends AbstractLaunchConfigurationTab {
 		GridLayout gridLayout = new GridLayout();
 		composite.setLayout(gridLayout);
 
-		plannerBlock.createControl(composite);
+		//plannerBlock.createControl(composite);
 		plannerArgumentsBlock.createControl(composite);
-		plannerBlock.addSelectionListenerToArgumentsCombo(plannerArgumentsBlock.getArgumentText());
+	//	plannerBlock.addSelectionListenerToArgumentsCombo(plannerArgumentsBlock.getArgumentText());
 
+	}
+	
+	public PlannerArgumentsBlock getArgumentsBlock() {
+		return plannerArgumentsBlock;
 	}
 
 	@Override
 	public String getErrorMessage() {
 		String result = super.getErrorMessage();
 
-		if (result == null) {
+	/*	if (result == null) {
 			result = plannerBlock.getErrorMessage();
-		}
+		}*/
 
 		return result;
 	}
@@ -57,9 +61,9 @@ public class PlannerTab extends AbstractLaunchConfigurationTab {
 	public String getMessage() {
 		String result = super.getMessage();
 
-		if (result == null) {
+		/*if (result == null) {
 			result = plannerBlock.getMessage();
-		}
+		}*/
 
 		return result;
 	}
@@ -75,9 +79,9 @@ public class PlannerTab extends AbstractLaunchConfigurationTab {
 	public boolean isValid(ILaunchConfiguration launchConfig) {
 		boolean result = super.isValid(launchConfig);
 
-		if (result) {
+		/*if (result) {
 			result = plannerBlock.isValid(launchConfig);
-		}
+		}*/
 		return result;
 	}
 
@@ -93,14 +97,14 @@ public class PlannerTab extends AbstractLaunchConfigurationTab {
 
 	@Override
 	public void initializeFrom(ILaunchConfiguration conf) {
-		plannerBlock.initializeFrom(conf);
+		//plannerBlock.initializeFrom(conf);
 		plannerArgumentsBlock.initializeFrom(conf);
 
 	}
 
 	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy conf) {
-		plannerBlock.performApply(conf);
+		//plannerBlock.performApply(conf);
 		plannerArgumentsBlock.performApply(conf);
 
 	}
@@ -109,7 +113,7 @@ public class PlannerTab extends AbstractLaunchConfigurationTab {
 	public void setLaunchConfigurationDialog(ILaunchConfigurationDialog dialog) {
 		super.setLaunchConfigurationDialog(dialog);
 
-		plannerBlock.setLaunchConfigurationDialog(dialog);
+	//	plannerBlock.setLaunchConfigurationDialog(dialog);
 		plannerArgumentsBlock.setLaunchConfigurationDialog(dialog);
 
 	}

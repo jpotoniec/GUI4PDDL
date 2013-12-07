@@ -86,7 +86,7 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 		return combo;
 	}
 
-	public void addSelectionListenerToArgumentsCombo(final Text argumentsText) {
+	public void addSelectionListenerToArgumentsCombo(final PlannerArgumentsBlock block) {
 
 		argumentsCombo.addSelectionListener(new SelectionAdapter() {
 
@@ -100,8 +100,9 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 									.getSelectionIndex())).getArgumentsMap();
 					String argument = preferences.get(argumentsCombo
 							.getItem(argumentsCombo.getSelectionIndex()));
-					argumentsText.setText(argument);
-					argumentsText.update();
+					/*arguments.setText(argument);
+					arguments.update();*/
+					block.setArgumentText(argument);
 				}
 			}
 

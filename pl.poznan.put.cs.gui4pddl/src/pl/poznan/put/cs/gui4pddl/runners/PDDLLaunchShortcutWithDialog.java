@@ -1,5 +1,6 @@
 package pl.poznan.put.cs.gui4pddl.runners;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
@@ -20,11 +21,11 @@ public class PDDLLaunchShortcutWithDialog extends PDDLLaunchShortcut {
 	 * @param mode
 	 *            the mode in which the file should be executed
 	 */
-	protected void launch(IProject project, String mode) {
+	protected void launch(IProject project, String mode, IFile file) {
 
 		String groupId = IDebugUIConstants.ID_RUN_LAUNCH_GROUP;
 
-		ILaunchConfiguration conf = createDefaultLaunchConfiguration(project);
+		ILaunchConfiguration conf = createDefaultLaunchConfiguration(project, file);
 
 		if (conf != null) {
 			DebugUITools.openLaunchConfigurationDialog(Activator.getDefault()
@@ -35,9 +36,9 @@ public class PDDLLaunchShortcutWithDialog extends PDDLLaunchShortcut {
 	}
 
 	public ILaunchConfiguration createDefaultLaunchConfiguration(
-			IProject project) {
+			IProject project, IFile file) {
 		try {
-			ILaunchConfigurationWorkingCopy createdConfiguration = createDefaultLaunchConfigurationWithoutSaving(project);
+			ILaunchConfigurationWorkingCopy createdConfiguration = createDefaultLaunchConfigurationWithoutSaving(project, file);
 
 			if (createdConfiguration == null) {
 				return null;

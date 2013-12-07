@@ -57,7 +57,7 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 					if (resource != null) {
 						IProject project = resource.getProject();
 						if (project != null) {
-							launch(project, mode);
+							launch(project, mode, (IFile) resource);
 						}
 						return;
 					}
@@ -69,7 +69,7 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 						if (folder instanceof IProject) {
 							IProject project = folder.getProject();
 							if (project != null)
-								launch(project, mode);
+								launch(project, mode, null);
 						}
 						return;
 					}
@@ -92,7 +92,7 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 		if (file != null) {
 			IProject project = file.getProject();
 			if (project != null)
-				launch(project, mode);
+				launch(project, mode, file);
 			return;
 		}
 		fileNotFound();
@@ -165,9 +165,9 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 	}
 
 	public ILaunchConfiguration createDefaultLaunchConfiguration(
-			IProject project) {
+			IProject project, IFile file) {
 		try {
-			ILaunchConfigurationWorkingCopy createdConfiguration = createDefaultLaunchConfigurationWithoutSaving(project);
+			ILaunchConfigurationWorkingCopy createdConfiguration = createDefaultLaunchConfigurationWithoutSaving(project, file);
 			
 			createdConfiguration = showLaunchConfigurationDialogWhenAttributesAreNotCompleted(createdConfiguration);
 			
@@ -209,13 +209,13 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 	}
 
 	public ILaunchConfigurationWorkingCopy createDefaultLaunchConfigurationWithoutSaving(
-			IProject project) throws CoreException {
+			IProject project, IFile file) throws CoreException {
 		String projName = project.getName();
 		ILaunchConfigurationWorkingCopy createdConfiguration = LaunchConfigurationCreator
 				.createDefaultLaunchConfiguration(project,
 						getLaunchConfigurationType(),
 						ProjectFilesPathsHelpers.getProjectLocation(project),
-						projName);
+						projName, file);
 
 		// Common Tab Arguments
 		if (createdConfiguration != null) {
@@ -300,12 +300,12 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 	 * @param mode
 	 *            the mode in which the file should be executed
 	 */
-	protected void launch(IProject project, String mode) {
+	protected void launch(IProject project, String mode, IFile file) {
 		System.out.println("IM IN");
 		ILaunchConfiguration conf = null;
 		List<ILaunchConfiguration> configurations = findExistingLaunchConfigurations(project);
 		if (configurations.isEmpty())
-			conf = createDefaultLaunchConfiguration(project);
+			conf = createDefaultLaunchConfiguration(project,file);
 		else {
 			if (configurations.size() == 1) {
 				conf = configurations.get(0);
