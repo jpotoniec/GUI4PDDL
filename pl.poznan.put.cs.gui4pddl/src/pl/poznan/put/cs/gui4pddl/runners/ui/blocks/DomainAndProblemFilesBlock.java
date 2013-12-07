@@ -143,7 +143,7 @@ public class DomainAndProblemFilesBlock extends AbstractLaunchConfigurationTab {
 
 									IFile file = (IFile) dialResult[0];
 									lText.setText(ProjectFilesPathsHelpers
-											.getRelativeFileLocation(file));
+											.getRelativeFileLocation(file.getFullPath()));
 								}
 							}
 

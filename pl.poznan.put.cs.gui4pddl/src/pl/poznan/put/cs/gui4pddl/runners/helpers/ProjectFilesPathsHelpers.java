@@ -13,6 +13,7 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.variables.IStringVariableManager;
 import org.eclipse.core.variables.VariablesPlugin;
 
@@ -29,12 +30,12 @@ public class ProjectFilesPathsHelpers {
 		return loc;
 	}
 
-	public static String getRelativeFileLocation(IFile file) {
+	public static String getRelativeFileLocation(IPath file) {
 		String rel = null;
 		if (file != null) {
 			IStringVariableManager varManager = VariablesPlugin.getDefault()
 					.getStringVariableManager();
-			rel = file.getFullPath().makeRelative().toString();
+			rel = file.makeRelative().toString();
 			rel = varManager.generateVariableExpression("workspace_loc", rel);
 		} else {
 			return null;

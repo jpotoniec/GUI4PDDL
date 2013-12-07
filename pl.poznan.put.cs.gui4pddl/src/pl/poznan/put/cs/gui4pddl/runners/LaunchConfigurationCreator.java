@@ -73,18 +73,18 @@ public class LaunchConfigurationCreator {
 		ILaunchConfigurationWorkingCopy workingCopy = type.newInstance(null,
 				name);
 
-	/*	workingCopy.setAttribute(Constants.PROBLEM_FILE,
-				ProjectFilesPathsHelpers.getRelativeFileLocation(file));*/
+		/*
+		 * workingCopy.setAttribute(Constants.PROBLEM_FILE,
+		 * ProjectFilesPathsHelpers.getRelativeFileLocation(file));
+		 */
 		IPath domain = getDomainPath(file);
-	//	System.out.println("DOMAIN " + domain.toOSString());
 	
+		if (domain != null) {		
+			  workingCopy .setAttribute(Constants.DOMAIN_FILE,
+			  ProjectFilesPathsHelpers
+			  .getRelativeFileLocation(domain));
+		}
 		
-	/*	workingCopy
-				.setAttribute(
-						Constants.DOMAIN_FILE,
-						ProjectFilesPathsHelpers
-								.getRelativeFileLocation(findFileResourceByLocation(domain
-										.toOSString())));*/
 
 		workingCopy.setAttribute(Constants.LAUNCH_CONFIG_TYPE,
 				"pl.poznan.put.cs.gui4pddl.runners.PDDLApplication");
@@ -106,33 +106,28 @@ public class LaunchConfigurationCreator {
 	}
 
 	private static IPath getDomainPath(IFile currentlyEditedFile) {
-		System.out.println(currentlyEditedFile.getRawLocation().toOSString());
-		IProject project = currentlyEditedFile.getProject();
-		IPDDLNature nature = PDDLNature.getPDDLNature(project);
-		IPDDLCodeModel codeModel = nature.getCodeModel();
-		PDDLFile file = codeModel.getFile(currentlyEditedFile, true);
-		
-		for (PDDLProblem problem : file.getProblems()) {
-			// getProblems zwraca kolekcję, nie posiadającą metody at(1) lub get
-			// tylko można używać iteratora
-			PDDLDomain domain = codeModel.getDomain(problem);
-			IPath domainPath = domain.getFile().getFullPath();
-			System.out.println("WYNIK " + domainPath.toOSString());
-			return domainPath;
+		if (currentlyEditedFile != null) {
+			IProject project = currentlyEditedFile.getProject();
+			if (project != null) {
+				IPDDLNature nature = PDDLNature.getPDDLNature(project);
+				IPDDLCodeModel codeModel = nature.getCodeModel();
+				PDDLFile file = codeModel.getFile(currentlyEditedFile, true);
+				if (file != null) {
+					for (PDDLProblem problem : file.getProblems()) {
+						// getProblems zwraca kolekcję, nie posiadającą metody
+						// at(1)
+						// lub get
+						// tylko można używać iteratora
+						PDDLDomain domain = codeModel.getDomain(problem);
+						if (domain != null) {
+							IPath domainPath = domain.getFile().getFullPath();
+							return domainPath;
+						}
+					}
+				}
+			}
 		}
 		return null;
-	}
-
-	public static IFile findFileResourceByLocation(String FileLocation) {
-		IPath ResourcePath = new Path(FileLocation);
-		if (!ResourcePath.isAbsolute()) {
-			// this methods does not support relative paths
-			return null;
-		} else {
-			IFile[] Files = ResourcesPlugin.getWorkspace().getRoot()
-					.findFilesForLocation(ResourcePath);
-			return (Files.length > 0) ? Files[0] : null;
-		}
 	}
 
 }
