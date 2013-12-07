@@ -6,6 +6,7 @@ typed_list_of_name_test:
 "ala ma - kota" OK
 "object1 object2 - type1 object3 - type2" OK
 "object1 object2 - type1 object3 - type2 object4" OK
+"object1 -" FAIL
 
 
 //Bug #207
@@ -33,3 +34,16 @@ action_def:
     )
 >> OK
 
+<<
+(:action load
+        :parameters (?e - engine ?c - car ?t - town ?x - cargo)
+        :precondition (and
+            (cargo-at ?x ?t)
+            (car-at ?c ?t)
+            (not (exists (?y - cargo) (cargo-in ?y ?c)))
+            )
+        :effect (and
+            (not (cargo-at ?x ?t))
+            (cargo-in ?x ?c))
+    )
+>> OK
