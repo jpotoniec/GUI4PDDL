@@ -18,6 +18,7 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.ui.CommonTab;
 import org.eclipse.debug.ui.DebugUITools;
+import org.eclipse.debug.ui.ILaunchGroup;
 import org.eclipse.debug.ui.ILaunchShortcut;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -29,6 +30,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
 import pl.poznan.put.cs.gui4pddl.Activator;
@@ -143,7 +145,7 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 		try {
 			ILaunchConfiguration[] configs = manager
 					.getLaunchConfigurations(type);
-
+			
 			// let's see if we can find it with a location relative or not.
 			String location = ProjectFilesPathsHelpers
 					.getProjectLocation(project);
@@ -166,14 +168,44 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 			IProject project) {
 		try {
 			ILaunchConfigurationWorkingCopy createdConfiguration = createDefaultLaunchConfigurationWithoutSaving(project);
+			
+			createdConfiguration = showLaunchConfigurationDialogWhenAttributesAreNotCompleted(createdConfiguration);
+			
 			if (createdConfiguration == null) {
 				return null;
 			}
+
 			return createdConfiguration.doSave();
 		} catch (CoreException e) {
 			reportError(null, e);
 			return null;
 		}
+	}
+
+	public ILaunchConfigurationWorkingCopy showLaunchConfigurationDialogWhenAttributesAreNotCompleted(
+			ILaunchConfigurationWorkingCopy createdConfiguration) throws CoreException {
+		if (createdConfiguration.getAttribute(Constants.PLANNER, "").isEmpty()
+				|| createdConfiguration.getAttribute(
+						Constants.WORKING_DIRECTORY, "").isEmpty()
+				|| createdConfiguration.getAttribute(Constants.PROJECT, "")
+						.isEmpty()
+				|| createdConfiguration.getAttribute(Constants.DOMAIN_FILE, "")
+						.isEmpty()
+				|| createdConfiguration
+						.getAttribute(Constants.PROBLEM_FILE, "").isEmpty()) {
+
+			ILaunchGroup group = DebugUITools.getLaunchGroup(
+					createdConfiguration, ILaunchManager.RUN_MODE);
+			String groupID = group.getIdentifier();
+			int result = DebugUITools.openLaunchConfigurationDialog(PlatformUI
+					.getWorkbench().getActiveWorkbenchWindow().getShell(),
+					createdConfiguration, groupID, null);
+			if (result == Window.OK) {
+				return createdConfiguration;
+			}
+
+		}
+		return null;
 	}
 
 	public ILaunchConfigurationWorkingCopy createDefaultLaunchConfigurationWithoutSaving(
@@ -269,6 +301,7 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 	 *            the mode in which the file should be executed
 	 */
 	protected void launch(IProject project, String mode) {
+		System.out.println("IM IN");
 		ILaunchConfiguration conf = null;
 		List<ILaunchConfiguration> configurations = findExistingLaunchConfigurations(project);
 		if (configurations.isEmpty())

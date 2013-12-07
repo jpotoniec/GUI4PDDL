@@ -85,29 +85,9 @@ public class LaunchConfigurationCreator {
 		workingCopy.setAttribute(DebugPlugin.ATTR_PROCESS_FACTORY_ID,
 				PDDLProcessFactory.ID);
 
-		if (workingCopy.getAttribute(Constants.PLANNER, "").isEmpty()
-				|| workingCopy.getAttribute(Constants.WORKING_DIRECTORY,
-						"").isEmpty()
-				|| workingCopy.getAttribute(Constants.PROJECT, "")
-						.isEmpty()
-				|| workingCopy.getAttribute(Constants.DOMAIN_FILE, "")
-						.isEmpty()
-				|| workingCopy.getAttribute(Constants.PROBLEM_FILE, "")
-						.isEmpty()) {
+		
 
-			ILaunchGroup group = DebugUITools.getLaunchGroup(workingCopy,
-					ILaunchManager.RUN_MODE);
-			String groupID = group.getIdentifier();
-			int result = DebugUITools.openLaunchConfigurationDialog(PlatformUI
-					.getWorkbench().getActiveWorkbenchWindow().getShell(),
-					workingCopy, groupID, null);
-			if (result == Window.OK) {
-				return workingCopy;
-			}
-
-		}
-
-		return null;
+		return workingCopy;
 
 	}
 }
