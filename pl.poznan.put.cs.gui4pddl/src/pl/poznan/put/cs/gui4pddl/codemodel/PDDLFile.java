@@ -55,6 +55,16 @@ public class PDDLFile {
 		return domains;
 	}
 	
+	public PDDLProblem getProblem(String name) {
+		System.out.printf("get problem == %s \n", name);
+		for (PDDLProblem problem : problems) {
+			System.out.printf("get problem %s\n", problem.getName());
+			if (problem.getName().equals(name))
+				return problem;
+		}
+		return null;
+	}
+	
 	public Collection<PDDLProblem> getProblems() {
 		return problems;
 	}

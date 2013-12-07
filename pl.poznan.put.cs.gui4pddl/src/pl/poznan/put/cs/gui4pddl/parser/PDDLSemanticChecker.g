@@ -24,7 +24,15 @@ options {
 	}
 	
 	void error(int line, String message) {
-		System.out.printf("error " +  message);
+		PDDLError e = new PDDLError();
+		e.line = line;
+		e.message = message;
+		e.type = PDDLError.Type.ERROR;
+		errors.add(e);
+	}
+	
+	void critical(String message) throws RuntimeException{
+		throw new RuntimeException(message);
 	}
 	
 	public List<PDDLError> getErrors() {
@@ -34,11 +42,13 @@ options {
 
 pddl_file
     [IPDDLCodeModel model, PDDLFile file]
+    throws RuntimeException
     :   definition[$model, $file]*
     ;
 
 definition
 [IPDDLCodeModel model, PDDLFile file]
+throws RuntimeException
 scope {
 	PDDLDomain domain;
 	PDDLProblem problem;
@@ -54,7 +64,20 @@ scope {
 		domain_item* )
 	
 	
-	|	^( 'define' problem_header {} problem_item* )
+	|	^( define='define' problem_header
+		{
+			String name = $problem_header.name;
+			
+			for(PDDLProblem p: $file.getProblems()) {
+				System.out.println(p.getName());
+			}
+			
+			$definition::problem = $file.getProblem(name);
+			if ($definition::problem ==  null)
+				critical("Problem index not found");
+			$definition::domain = model.getDomain($definition::problem);
+		}
+		problem_item* )
 	
 	|   ^( 'define' initsit_header {} initsit_body )
 	;
@@ -79,9 +102,18 @@ problem_header
 	;
 
 problem_item
-	: .
+	: domain_reference
+	| .
 	;
 	catch [Throwable t] {}
+
+domain_reference 
+	:	^(':domain'^ NAME )
+		{
+			if ($definition::domain == null)
+				error($NAME.line, "Domain not found in project");
+		}
+	;
 
 initsit_header
 	returns [String name]

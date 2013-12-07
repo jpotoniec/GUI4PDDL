@@ -69,13 +69,11 @@ public class PDDLIndexer {
 	}
 
 	public static void checkSemanticErrors(IFile file, CommonTree ast,
-			IPDDLCodeModel codeModel, IErrorHandler errorHandler)
+			IPDDLCodeModel codeModel, PDDLFile fileIndex, IErrorHandler errorHandler)
 			throws RecognitionException {
 
 		CommonTreeNodeStream nodes = new CommonTreeNodeStream(ast);
 		PDDLSemanticChecker checker = new PDDLSemanticChecker(nodes);
-		PDDLFile fileIndex = codeModel.getFile(file, false);
-		fileIndex = new PDDLFile(file.getFullPath().toPortableString());
 		try {
 			checker.pddl_file(codeModel, fileIndex);
 		} finally {
@@ -115,13 +113,15 @@ public class PDDLIndexer {
 						System.out.printf("Domain for %s is NULL", p.getName());
 				}
 				
-				checkSemanticErrors(file, ast, codeModel, errorHandler);
+				checkSemanticErrors(file, ast, codeModel, index, errorHandler);
 			}
 		} catch (CoreException e) {
 			Log.log(e);
 		} catch (IOException e) {
 			Log.log(e);
 		} catch (RecognitionException e) {
+			Log.log(e);
+		} catch (RuntimeException e) {
 			Log.log(e);
 		}
 	}
