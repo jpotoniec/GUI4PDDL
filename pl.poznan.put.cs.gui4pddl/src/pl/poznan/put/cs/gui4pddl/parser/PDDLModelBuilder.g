@@ -13,63 +13,61 @@ options {
 }
 
 pddl_file
-    [PDDLFile filemodel]
-    scope {
-    	PDDLFile file;
-    }
-    :    {$pddl_file::file = $filemodel;} definition*
+    [PDDLFile file]
+    :   definition[$file]*
     ;
 
 definition
+[PDDLFile file]
 scope {
 	PDDLDomain domain;
+	PDDLProblem problem;
+	PDDLInitialSituation initsit;
 }
-//	:	^( 'define' problem_header problem_item* )
-	:	^( 'define' domain_header domain_item* ) 
-//	|   ^( 'define' initsit_header initsit_body )
+	:	^( 'define' problem_header {$definition::problem=$problem_header.val; $file.addProblem($definition::problem);} problem_item* )
+	|	^( 'define' domain_header {$definition::domain=$domain_header.val; $file.addDomain($definition::domain);} domain_item* )
+	|   ^( 'define' initsit_header {$definition::initsit=$initsit_header.val;} initsit_body ) {$file.addInitialSituation($definition::initsit);}
 	;
 
 /*
 Domains (4)
 */
 
-domain_header 
-	:	^( 'domain' NAME ) {$definition::domain = $pddl_file::file.getOrCreateDomain($NAME.text);}
+domain_header
+	returns [PDDLDomain val]
+	:	^( 'domain' NAME ) {$val = new PDDLDomain($NAME.text);}
 	;
 
 domain_item
 	:	extension_def
-	|	require_def
+	|	require_def[$definition::domain.getRequirementSet()]
 	|	types_def
 	|	constants_def
 	|	domain_vars_def
 	|	predicates_def
 	|	timeless_def
 	|	safety_def
-//	|	structure_def
+	|	structure_def
 	;
 	
 extension_def 
 	:	^(':extends' (NAME {$definition::domain.addExtension($NAME.text);} )+ )
 	;
 
-require_def
-	:	^(':requirements' (REQUIRE_KEY {$definition::domain.addRequirement($REQUIRE_KEY.text);})+)
+require_def [PDDLRequirementSet rs]
+	:	^(':requirements' (REQUIRE_KEY {$rs.add($REQUIRE_KEY.text);})+)
 	;
 
 types_def
-@init {
-	PDDLTypedList types = new PDDLTypedList();
-}
-	:	^(':types' typed_list_of_name_item[types]* ) {$definition::domain.addTypes(types);}
+	:	^(':types' list=typed_list) {$definition::domain.addTypes($list.list);}
 	;
 	
 constants_def
-	:	^(':constants' typed_list_of_name[$definition::domain.getConstants()] )
+	:	^(':constants' list=typed_list ){$definition::domain.addConstants($list.list);}
 	;
 
 domain_vars_def
-	:	^(':domain-variables' typed_list_of_domain_var_declaration)
+	:	^(':domain-variables' list=typed_list) {$definition::domain.addDomainVariables($list.list);}
 	;
 
 predicates_def 
@@ -85,23 +83,33 @@ safety_def
 	;
 	
 structure_def 
-	:	
+	:	^(':action' .* )
+	|   ^(':axiom' .* )
+	|   ^(':method' .* )
 	;
-    
-typed_list_of_name
-	[PDDLTypedList list]
-	:   typed_list_of_name_item[$list]*
+	catch [RecognitionException e] {}
+
+typed_list
+	returns[PDDLTypedList list]
+	@init {
+		$list = new PDDLTypedList();	
+	}
+	:   typed_list_item[$list]*
 	;
 
-typed_list_of_name_item
+typed_list_item
     [PDDLTypedList list]
     : NAMEDEF
     | ^(NAMEDEF NAME) {list.add($NAME.text, null);}
+    | ^(NAMEDEF VARIABLE) {list.add($VARIABLE.text, null);}
     | ^(NAMEDEF NAME type) {list.add($NAME.text, $type.t);}
+    | ^(NAMEDEF VARIABLE type) {list.add($VARIABLE.text, $type.t);}
 	;
 
+//TODO: support for domain-var nested values
 
-type returns [PDDLType t]
+type
+	returns [PDDLType t]
 	@init {
 		List<PDDLType> eitherTypes = new LinkedList<PDDLType>();
 	}
@@ -110,15 +118,72 @@ type returns [PDDLType t]
 	|   ^('fluent' nested=type) {$t = PDDLType.fluentType($nested.t);} 
 	;
 
-    
-typed_list_of_domain_var_declaration
-    :  .
-    ;
-    catch [RuntimeException e] {
-    }
 
 atomic_formula_skeleton
-    :  .
+	returns [PDDLPredicate val]
+    :  NAME list=typed_list {$val = new PDDLPredicate($NAME.text, $list.list);}
     ;
-    catch [RuntimeException e] {
-    }
+    
+ /* Problems (13)*/  
+problem_header
+	returns [PDDLProblem val]
+	:	^( 'problem' NAME ) {$val = new PDDLProblem($NAME.text);}
+	;
+
+problem_item
+	:	domain_reference
+	|	require_def[$definition::problem.getRequirementSet()]
+	|	situation
+	|	object_declaration[$definition::problem.getObjects()]
+	|	init
+	|	goal
+	|	length_spec
+	;
+
+domain_reference
+	:	^(':domain' NAME) {$definition::problem.addDomain($NAME.text);}
+	;
+	
+//require_def is defined earlier
+
+situation 
+	:	^(':situation' NAME) {$definition::problem.addSituation($NAME.text);}
+	;
+
+object_declaration
+	[PDDLTypedList objects]
+	:	^(':objects' list=typed_list) {$objects.append($list.list);}
+	;
+
+init
+ 	:	^(':init' .*)
+	;
+	catch [RecognitionException e] {}
+
+goal
+	:	^(':goal' .*)
+	|	^(':expansion' .*) 
+	;
+	catch [RecognitionException e] {}
+	
+length_spec 
+	:	^(':length' .*)
+	;
+	catch [RecognitionException e] {}
+	
+/* Initial situations (13) */
+initsit_header
+	returns [PDDLInitialSituation val]
+    :   ^('situation' NAME) {$val = new PDDLInitialSituation($NAME.text);}
+    ;
+
+initsit_body
+    :  ':domain' NAME {$definition::initsit.addDomain($NAME.text);}
+       initsit_body_item*
+    ;
+    
+initsit_body_item
+    :   object_declaration[$definition::initsit.getObjects()]
+    |   init
+    ;
+

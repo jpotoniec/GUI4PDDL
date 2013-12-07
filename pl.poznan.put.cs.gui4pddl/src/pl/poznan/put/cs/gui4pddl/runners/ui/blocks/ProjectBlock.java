@@ -26,9 +26,9 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
+import pl.poznan.put.cs.gui4pddl.Constants;
 import pl.poznan.put.cs.gui4pddl.PDDLNature;
 import pl.poznan.put.cs.gui4pddl.log.Log;
-import pl.poznan.put.cs.gui4pddl.runners.RunnerConstants;
 
 public class ProjectBlock extends AbstractLaunchConfigurationTab {
 
@@ -142,10 +142,10 @@ public class ProjectBlock extends AbstractLaunchConfigurationTab {
 	public void initializeFrom(ILaunchConfiguration configuration) {
 		String projectName = "";
 		try {
-			projectName = configuration.getAttribute(RunnerConstants.PROJECT,
+			projectName = configuration.getAttribute(Constants.PROJECT,
 					"");
 			projectLocation = configuration.getAttribute(
-					RunnerConstants.WORKING_DIRECTORY, "");
+					Constants.WORKING_DIRECTORY, "");
 		} catch (CoreException e) {
 		}
 		projectText.setText(projectName);
@@ -160,8 +160,8 @@ public class ProjectBlock extends AbstractLaunchConfigurationTab {
 	 */
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
 		String value = projectText.getText().trim();
-		setAttribute(configuration, RunnerConstants.PROJECT, value);
-		setAttribute(configuration, RunnerConstants.WORKING_DIRECTORY,
+		setAttribute(configuration, Constants.PROJECT, value);
+		setAttribute(configuration, Constants.WORKING_DIRECTORY,
 				projectLocation);
 	}
 

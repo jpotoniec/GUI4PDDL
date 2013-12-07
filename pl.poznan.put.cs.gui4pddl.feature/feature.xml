@@ -4,9 +4,10 @@
       label="PDDL support"
       version="0.1.0.qualifier"
       provider-name="Poznan Univeristy of Technology"
-      plugin="pl.poznan.put.cs.gui4pddl">
+      plugin="pl.poznan.put.cs.gui4pddl"
+      os="linux,win32">
 
-   <description url="http://www.example.com/description">
+   <description url="http://www.gui4pddl.pl">
       Support for Planning Domain Definition Language.
    </description>
 

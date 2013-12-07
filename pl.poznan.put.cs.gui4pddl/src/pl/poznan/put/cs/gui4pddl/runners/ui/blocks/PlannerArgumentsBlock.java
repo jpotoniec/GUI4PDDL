@@ -20,8 +20,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 
+import pl.poznan.put.cs.gui4pddl.Constants;
 import pl.poznan.put.cs.gui4pddl.log.Log;
-import pl.poznan.put.cs.gui4pddl.runners.RunnerConstants;
 
 public class PlannerArgumentsBlock extends AbstractLaunchConfigurationTab {
 
@@ -93,7 +93,7 @@ public class PlannerArgumentsBlock extends AbstractLaunchConfigurationTab {
      */
     public void initializeFrom(ILaunchConfiguration configuration) {
         try {
-            String text = configuration.getAttribute(RunnerConstants.PLANNER_ARGUMENTS, "");
+            String text = configuration.getAttribute(Constants.PLANNER_ARGUMENTS, "");
             argumentsText.setText(text);
         } catch (CoreException e) {
             setErrorMessage("Exception occurred reading configuration" + e.getStatus().getMessage());
@@ -106,7 +106,7 @@ public class PlannerArgumentsBlock extends AbstractLaunchConfigurationTab {
      * @see org.eclipse.debug.ui.ILaunchConfigurationTab#performApply(org.eclipse.debug.core.ILaunchConfigurationWorkingCopy)
      */
     public void performApply(ILaunchConfigurationWorkingCopy configuration) {
-        configuration.setAttribute(RunnerConstants.PLANNER_ARGUMENTS, argumentsText.getText().trim());
+        configuration.setAttribute(Constants.PLANNER_ARGUMENTS, argumentsText.getText().trim());
     }
 
     /*

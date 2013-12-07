@@ -2,11 +2,9 @@ package pl.poznan.put.cs.gui4pddl.codemodel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.Iterator;
 
-public class PDDLTypedList {
+public class PDDLTypedList implements Iterable<PDDLTypedList.Entry>{
 
 	static public class Entry {
 		public String name;
@@ -77,6 +75,12 @@ public class PDDLTypedList {
 		//TODO: Implementation
 		return false;
 	}
+	
+	public void append(PDDLTypedList right) {
+		for(Entry e : right.list){
+			this.list.add(e);
+		}
+	}
 
 	@Override
 	public int hashCode() {
@@ -101,5 +105,10 @@ public class PDDLTypedList {
 		} else if (!list.equals(other.list))
 			return false;
 		return true;
+	}
+
+	@Override
+	public Iterator<Entry> iterator() {
+		return list.iterator();
 	}
 }

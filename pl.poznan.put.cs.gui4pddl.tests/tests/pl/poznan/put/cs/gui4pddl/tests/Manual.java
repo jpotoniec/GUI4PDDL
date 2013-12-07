@@ -1,21 +1,19 @@
 package pl.poznan.put.cs.gui4pddl.tests;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream.GetField;
+import java.net.URL;
 
 import org.antlr.runtime.ANTLRInputStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 
-import pl.poznan.put.cs.gui4pddl.PDDLStructureConfigHelpers;
-import pl.poznan.put.cs.gui4pddl.codemodel.IPDDLCodeModel;
 import pl.poznan.put.cs.gui4pddl.codemodel.PDDLCodeModel;
-import pl.poznan.put.cs.gui4pddl.codemodel.PDDLCodeOutline;
 import pl.poznan.put.cs.gui4pddl.codemodel.PDDLFile;
 import pl.poznan.put.cs.gui4pddl.parser.PDDLLexer;
 import pl.poznan.put.cs.gui4pddl.parser.PDDLModelBuilder;
@@ -48,13 +46,11 @@ public class Manual {
 				 CommonTreeNodeStream nodes = new CommonTreeNodeStream(t);
 			     PDDLModelBuilder walker = new PDDLModelBuilder(nodes); // create a tree parser
 			     
+			     URL filepath = this.getClass().getResource("test.pddl");
+			     IPath path = Path.fromOSString(filepath.getPath());
 			     
-			     PDDLFile file = model.getOrCreateFile("test.pddl");
+			     PDDLFile file = model.getOrCreateFile(path);
 			     walker.pddl_file(file);                 // launch at start rule prog
-			     
-			     PDDLCodeOutline outline = new PDDLCodeOutline();
-			     String text = outline.getOutline(model);
-			     System.out.println(text);
 			
 			} catch (RecognitionException e) {
 				e.printStackTrace();

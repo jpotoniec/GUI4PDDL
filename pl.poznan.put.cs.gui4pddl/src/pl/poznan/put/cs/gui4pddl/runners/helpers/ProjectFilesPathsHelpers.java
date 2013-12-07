@@ -60,7 +60,6 @@ public class ProjectFilesPathsHelpers {
 	}
 
 	public static Integer getFolderMaxNumber(File folder) {
-		System.out.println(folder.getAbsolutePath());
 		File[] listOfFiles = folder.listFiles();
 		List<Integer> folderNumbersList = new ArrayList<Integer>();
 
@@ -108,21 +107,23 @@ public class ProjectFilesPathsHelpers {
 		try {
 			plans.refreshLocal(IResource.DEPTH_INFINITE, null);
 			if (!plans.exists()) {
-				plans.create(true, true, null);			
-				plans.setDerived(true, null);
-				plans.setHidden(true);
-				plans.refreshLocal(IResource.DEPTH_INFINITE, null);
+				plans.create( IResource.DERIVED | IResource.HIDDEN, true, null);				
 			}
-			if (!domain.exists())
-				domain.create(true, true, null);
-			if (!problem.exists())
-				problem.create(true, true, null);
+			if (!domain.exists()) {
+				domain.create(IResource.DERIVED | IResource.HIDDEN, true, null);
+			}
+			if (!problem.exists()) {
+				problem.create(IResource.DERIVED | IResource.HIDDEN, true, null);
+			}
 			String path = problem.getRawLocation().toOSString();
 			int max = getFolderMaxNumber(new File(path));
 			id = problem.getFolder(String.valueOf(max));
-			if (!id.exists())
-				id.create(true, true, null);
+			if (!id.exists()) {
+				id.create(IResource.DERIVED | IResource.HIDDEN, true, null);
+			}
 
+			
+			plans.refreshLocal(IResource.DEPTH_INFINITE, null);
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

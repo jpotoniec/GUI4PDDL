@@ -38,8 +38,8 @@ import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 
 import pl.poznan.put.cs.gui4pddl.Activator;
+import pl.poznan.put.cs.gui4pddl.Constants;
 import pl.poznan.put.cs.gui4pddl.PDDLNature;
-import pl.poznan.put.cs.gui4pddl.runners.RunnerConstants;
 import pl.poznan.put.cs.gui4pddl.runners.helpers.ProjectFilesPathsHelpers;
 
 /**
@@ -211,11 +211,11 @@ public class DomainAndProblemFilesBlock extends AbstractLaunchConfigurationTab {
 		String problemFileLocation = "";
 		try {
 			domainFileLocation = configuration.getAttribute(
-					RunnerConstants.DOMAIN_FILE, "");
+					Constants.DOMAIN_FILE, "");
 
 			problemFileLocation = configuration.getAttribute(
-					RunnerConstants.PROBLEM_FILE, "");
-			projectName = configuration.getAttribute(RunnerConstants.PROJECT,
+					Constants.PROBLEM_FILE, "");
+			projectName = configuration.getAttribute(Constants.PROJECT,
 					"");
 		} catch (CoreException e) {
 		}
@@ -234,8 +234,8 @@ public class DomainAndProblemFilesBlock extends AbstractLaunchConfigurationTab {
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
 		String domainFile = domainFileText.getText().trim();
 		String problemFile = problemFileText.getText().trim();
-		setAttribute(configuration, RunnerConstants.DOMAIN_FILE, domainFile);
-		setAttribute(configuration, RunnerConstants.PROBLEM_FILE, problemFile);
+		setAttribute(configuration, Constants.DOMAIN_FILE, domainFile);
+		setAttribute(configuration, Constants.PROBLEM_FILE, problemFile);
 	}
 
 	@Override

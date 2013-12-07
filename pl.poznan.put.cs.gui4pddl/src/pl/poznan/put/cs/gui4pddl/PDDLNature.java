@@ -10,9 +10,9 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
-import pl.poznan.put.cs.gui4pddl.codemodel.IPDDLCodeCompletionManager;
+import pl.poznan.put.cs.gui4pddl.codecompletion.IPDDLCodeCompletionManager;
+import pl.poznan.put.cs.gui4pddl.codecompletion.PDDLCodeCompletionManager;
 import pl.poznan.put.cs.gui4pddl.codemodel.IPDDLCodeModel;
-import pl.poznan.put.cs.gui4pddl.codemodel.PDDLCodeCompletionManager;
 import pl.poznan.put.cs.gui4pddl.codemodel.PDDLCodeModel;
 import pl.poznan.put.cs.gui4pddl.log.Log;
 import pl.poznan.put.cs.gui4pddl.parser.Builder;
@@ -26,6 +26,7 @@ public class PDDLNature implements IProjectNature, IPDDLNature {
 	private PDDLCodeModel codeModel;
 
 	public PDDLNature() {
+		codeModel = new PDDLCodeModel();
 		completionManager = new PDDLCodeCompletionManager(this);
 	}
 

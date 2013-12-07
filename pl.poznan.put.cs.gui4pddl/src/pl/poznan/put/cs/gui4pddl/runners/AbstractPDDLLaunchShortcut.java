@@ -32,6 +32,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
 import pl.poznan.put.cs.gui4pddl.Activator;
+import pl.poznan.put.cs.gui4pddl.Constants;
 import pl.poznan.put.cs.gui4pddl.log.Log;
 import pl.poznan.put.cs.gui4pddl.runners.helpers.ProjectFilesPathsHelpers;
 
@@ -136,7 +137,6 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 				.getLaunchConfigurationType(getLaunchConfigurationType());
 		List<ILaunchConfiguration> validConfigs = new ArrayList<ILaunchConfiguration>();
 		if (type == null) {
-
 			return validConfigs;
 		}
 
@@ -150,10 +150,9 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 
 			for (int i = 0; i < configs.length; i++) {
 				String configPath = configs[i].getAttribute(
-						RunnerConstants.WORKING_DIRECTORY, "");
+						Constants.WORKING_DIRECTORY, "");
 
 				if (location.equals(configPath)) {
-
 					validConfigs.add(configs[i]);
 				}
 			}
@@ -219,12 +218,10 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 								return labelProvider.getText(element)
 										+ " - "
 										+ configuration.getAttribute(
-												RunnerConstants.PLANNER_NAME,
-												"")
+												Constants.PLANNER_NAME, "")
 										+ " : "
 										+ configuration.getAttribute(
-												RunnerConstants.ARGUMENTS_NAME,
-												"");
+												Constants.ARGUMENTS_NAME, "");
 							} catch (CoreException ex) {
 								// ignore
 							}
@@ -289,13 +286,12 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 					return;
 				}
 			}
-		}
 
-		if (conf != null) {
-			DebugUITools.launch(conf, mode);
-			return;
+			if (conf != null) {
+				DebugUITools.launch(conf, mode);
+				return;
+			}
 		}
-
 	}
 
 }

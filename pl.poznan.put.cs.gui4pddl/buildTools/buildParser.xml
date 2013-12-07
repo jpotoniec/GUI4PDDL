@@ -26,6 +26,17 @@
 		</condition>	
 	</target>
 	
+	<target name="semantic.check">
+		<condition property="semantic.uptodate" >
+					<and>
+						<uptodate srcfile="src/pl/poznan/put/cs/gui4pddl/parser/PDDLSemanticChecker.g"
+							targetfile="gen/pl/poznan/put/cs/gui4pddl/parser/PDDLSemanticChecker.java"/>
+						<uptodate srcfile="gen/pl/poznan/put/cs/gui4pddl/parser/PDDL.tokens"
+							targetfile="gen/pl/poznan/put/cs/gui4pddl/parser/PDDLSemanticChecker.java"/>
+					</and>
+		</condition>	
+	</target>
+	
 	<target name="syntax" depends="syntax.check" unless="syntax.uptodate">
 		
 		<java classname="org.antlr.Tool" fork="true" failonerror="true">
@@ -56,7 +67,22 @@
 		</java>
 	</target>
 	
-	<target name="antlr" depends="syntax,modelbuilder">
+	<target name="semantic" depends="semantic.check" unless="semantic.uptodate">
+		
+		<java classname="org.antlr.Tool" fork="true" failonerror="true">
+				
+				<arg value="-verbose" />
+				<arg value="-o" />
+				<arg path="gen/pl/poznan/put/cs/gui4pddl/parser" />
+				<arg path="src/pl/poznan/put/cs/gui4pddl/parser/PDDLSemanticChecker.g" />
+				
+				<classpath>
+					<pathelement location="buildTools/antlr-3.5.1-complete.jar"/>
+				</classpath>
+		</java>
+	</target>
+	
+	<target name="antlr" depends="syntax,modelbuilder,semantic">
 	</target>
 </project>
 

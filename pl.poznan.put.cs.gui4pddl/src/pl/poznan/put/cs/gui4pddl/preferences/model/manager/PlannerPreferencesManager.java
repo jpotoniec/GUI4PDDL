@@ -69,86 +69,34 @@ public class PlannerPreferencesManager {
 
 		for (File file : listOfFiles) {
 			if (file.isFile() && file.canRead()) {
-				String extension = null;
-				int i = file.getName().lastIndexOf('.');
-				if (i > 0) {
-					extension = file.getName().substring(i + 1);
-				}
+				String extension = getFileExtension(file);
+
 				if (extension != null && extension.equalsIgnoreCase("xml")) {
-					final String filename = file.getName();
 
 					PlannerPreferences preferences = loadPlannerPreferences(file
 							.getAbsolutePath());
 					// if planner name and file path are not empty or null
 					if (preferences != null
 							&& preferences.getPlannerName() != null
-							&& !preferences.getPlannerName().isEmpty()
-					/*
-					 * && preferences.getPlannerFilePath() != null &&
-					 * !preferences.getPlannerFilePath().isEmpty()
-					 */) {
+							&& !preferences.getPlannerName().isEmpty()) {
 
-						boolean filenameOk = checkIfNameIsCorrect(filename);
+						boolean filenameOk = checkIfNameIsCorrect(file.getName());
 						boolean plannerNameOk = checkIfNameIsCorrect(preferences
 								.getPlannerName());
-						// if names have invalid signs
-						/*
-						 * if (!filenameOk || !plannerNameOk) { MessageDialog
-						 * .openError( Activator.getDefault() .getWorkbench()
-						 * .getActiveWorkbenchWindow() .getShell(), "Error",
-						 * "XML configuration file name and planner name in " +
-						 * filename +
-						 * " file may contain only A-Z a-z 0-9 . _ - and whitespaces."
-						 * ); } else {
-						 */
 						if (filenameOk && plannerNameOk) {
-							int k = filename.lastIndexOf('.');
-							String name = filename.substring(0, k);
-							// if xml filename and planner name in this file are
-							// not the same
-							/*
-							 * if (!name.equals(preferences.getPlannerName())) {
-							 * MessageDialog.openError(Activator.getDefault()
-							 * .getWorkbench()
-							 * .getActiveWorkbenchWindow().getShell(), "Error",
-							 * "XML configuration file name " + name +
-							 * " and planner name " +
-							 * preferences.getPlannerName() +
-							 * " must be the same."); } else {
-							 */
+							String name = getFileNameWithoutExtension(file);
 							if (name.equals(preferences.getPlannerName())) {
-
-								/*
-								 * File f = new File(
-								 * preferences.getPlannerFilePath()); // if file
-								 * given in planner path not exists if
-								 * (!f.exists()) { MessageDialog .openError(
-								 * Activator .getDefault() .getWorkbench()
-								 * .getActiveWorkbenchWindow() .getShell(),
-								 * "Error", "Planner script file given in " +
-								 * filename +
-								 * " configuration file does not exist."); }
-								 * else {
-								 */
 								plannerPreferencesMap.put(
 										preferences.getPlannerName(),
 										preferences);
-								// }
 							}
 						}
-					} /*
-					 * else { MessageDialog .openError(
-					 * Activator.getDefault().getWorkbench()
-					 * .getActiveWorkbenchWindow() .getShell(), "Error",
-					 * "Xml configuration file " + filename +
-					 * " is not correct. Missing planner name or/and planner path."
-					 * ); }
-					 */
+					}
 				}
 			}
 		}
 	}
-
+	
 	private File getPlannerPreferencesDir() {
 		File plannerPreferencesDir = new File(PLANNER_PREFERENCES_LOCATION);
 
@@ -157,50 +105,66 @@ public class PlannerPreferencesManager {
 				|| !plannerPreferencesDir.isDirectory()) {
 			boolean result = plannerPreferencesDir.mkdir();
 
-			loadDefaultPlannerPreferences(plannerPreferencesDir);
-
 			if (!result) {
 				throw new RuntimeException(
 						"Could not create planner preferences directory");
 			}
+			loadDefaultPlannerPreferences(plannerPreferencesDir);
 		}
 		return plannerPreferencesDir;
 	}
-
+	
+	//TODO do sprawdzenia
 	private void loadDefaultPlannerPreferences(File dest) {
 		Bundle bundle = Platform.getBundle("pl.poznan.put.cs.gui4pddl");
-		URL fileURL = bundle.getEntry("resources/FastDownward.xml");	
+		URL fileURL = bundle.getEntry("resources/FastDownward.xml");
 		try {
-			URL url = org.eclipse.core.runtime.FileLocator.toFileURL(fileURL);
+			URL url = FileLocator.toFileURL(fileURL);
 			String str = url.toString().replace(" ", "%20");
-			
+
 			File file = new File(FileLocator.resolve(new URL(str)).toURI());
 			if (file != null) {
 				InputStream is = null;
 				OutputStream os = null;
 				try {
 					is = new FileInputStream(file);
-					os = new FileOutputStream(new File(dest.getAbsolutePath() + File.separator + file.getName()));
+					os = new FileOutputStream(new File(dest.getAbsolutePath()
+							+ File.separator + file.getName()));
 					byte[] buffer = new byte[1024];
 					int length;
 					while ((length = is.read(buffer)) > 0) {
 						os.write(buffer, 0, length);
 					}
-				}  finally {
+				} finally {
 					is.close();
 					os.close();
 				}
 			}
 		} catch (URISyntaxException e1) {
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
+		} catch (IOException e1) {		
 		}
-		
+
+	}
+	
+
+	private String getFileExtension(File file) {
+		String extension = null;
+		int i = file.getName().lastIndexOf('.');
+		if (i > 0) {
+			extension = file.getName().substring(i + 1);
+		}
+		return extension;
+	}
+	
+	private String getFileNameWithoutExtension(File file) {
+		String filename = file.getName();
+		int k = filename.lastIndexOf('.');
+		String name = filename.substring(0, k);
+		return name;
 	}
 
-	private PlannerPreferences loadPlannerPreferences(String path) {
 
+	private PlannerPreferences loadPlannerPreferences(String path) {
 		FileReader reader = null;
 		PlannerPreferences preferences = null;
 		try {
@@ -208,7 +172,7 @@ public class PlannerPreferencesManager {
 			preferences = loadPlannerPreferences(XMLMemento
 					.createReadRoot(reader));
 		} catch (FileNotFoundException e) {
-			// Ignored... no Favorites items exist yet.
+			// Ignored... 
 		} catch (Exception e) {
 			// Log the exception and move on.
 			Log.log(e);
@@ -230,12 +194,12 @@ public class PlannerPreferencesManager {
 				.getChild(TAG_PLANNER_ARGUMENTS);
 
 		if (plannerArgumentsChild != null) {
-			IMemento[] plannerArgumentRows = plannerArgumentsChild
+			IMemento[] plannerArgumentEntries = plannerArgumentsChild
 					.getChildren(TAG_PLANNER_ARGUMENTS_ENTRY);
-			for (IMemento plannerArgumentRow : plannerArgumentRows) {
-				argumentsMap.put(plannerArgumentRow
+			for (IMemento plannerArgumentEntry : plannerArgumentEntries) {
+				argumentsMap.put(plannerArgumentEntry
 						.getString(TAG_PLANNER_ARGUMENT_KEY),
-						plannerArgumentRow
+						plannerArgumentEntry
 								.getString(TAG_PLANNER_ARGUMENT_VALUE));
 			}
 		}
@@ -259,11 +223,7 @@ public class PlannerPreferencesManager {
 				break;
 			}
 		}
-		if (validString) {
-			return true;
-		} else {
-			return false;
-		}
+		return validString;
 	}
 
 	public boolean savePlannerPreferences(String plannerName,
@@ -288,17 +248,14 @@ public class PlannerPreferencesManager {
 
 		plannerPreferencesMap.put(plannerName, plannerPreferences);
 
-		savePlannerPreferences(getPlannerPreferencesDir().getAbsolutePath()
+		return savePlannerPreferences(getPlannerPreferencesDir().getAbsolutePath()
 				+ File.separator + plannerName + ".xml", plannerPreferences);
-
-		return true;
-
 	}
 
-	private void savePlannerPreferences(String path,
+	private boolean savePlannerPreferences(String path,
 			PlannerPreferences preferences) {
 		if (plannerPreferencesMap == null)
-			return;
+			return false;
 		XMLMemento memento = XMLMemento
 				.createWriteRoot(TAG_PLANNER_PREFERENCES);
 		savePlannerPreferences(memento, preferences);
@@ -308,6 +265,7 @@ public class PlannerPreferencesManager {
 			memento.save(writer);
 		} catch (IOException e) {
 			Log.log(e);
+			return false;
 		} finally {
 			try {
 				if (writer != null)
@@ -316,6 +274,7 @@ public class PlannerPreferencesManager {
 				Log.log(e);
 			}
 		}
+		return true;
 	}
 
 	private void savePlannerPreferences(XMLMemento memento,

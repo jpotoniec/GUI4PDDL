@@ -1,4 +1,4 @@
-package pl.poznan.put.cs.gui4pddl.codemodel;
+package pl.poznan.put.cs.gui4pddl.codecompletion;
 
 public class PDDLCodeCompletionProposal {
 	

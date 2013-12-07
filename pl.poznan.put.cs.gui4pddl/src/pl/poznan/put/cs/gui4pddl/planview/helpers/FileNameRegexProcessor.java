@@ -4,49 +4,46 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 
-import pl.poznan.put.cs.gui4pddl.runners.RunnerConstants;
+import pl.poznan.put.cs.gui4pddl.Constants;
+import pl.poznan.put.cs.gui4pddl.log.Log;
 import pl.poznan.put.cs.gui4pddl.runners.helpers.ProjectFilesPathsHelpers;
 
 public class FileNameRegexProcessor {
 
-	public static List<String> getMatchedFiles(String regexp, File workingDir,
-			ILaunchConfiguration config) {
-
-		// TODO komunikat jesli wzorzec nie jest poprawny (bo ktos wczesniej
-		// zmienial plik xml z konfiguracja)
-
-
+	public static List<String> getMatchedFilesNames(String regexp,
+			File workingDir, ILaunchConfiguration config) {
 		try {
 			regexp = getRegexWithReplacements(regexp,
-					RunnerConstants.REGEXP_PROJECT_NAME, Pattern.quote(config
-							.getAttribute(RunnerConstants.PROJECT, "")));
-			
+					Constants.REGEXP_PROJECT_NAME, Pattern.quote(config
+							.getAttribute(Constants.PROJECT, "")));
+
 			regexp = getRegexWithReplacements(regexp,
-					RunnerConstants.REGEXP_WORKING_DIRECTORY,
+					Constants.REGEXP_WORKING_DIRECTORY,
 					Pattern.quote(workingDir.getName()));
 
 			String domainNameWithoutExtension = ProjectFilesPathsHelpers
 					.getPDDLFileNameWithoutExtension(ProjectFilesPathsHelpers
 							.getAbsoluteFilePathFromRelativePath(config
-									.getAttribute(RunnerConstants.DOMAIN_FILE,
+									.getAttribute(Constants.DOMAIN_FILE,
 											"")));
 
 			regexp = getRegexWithReplacements(regexp,
-					RunnerConstants.REGEXP_DOMAIN_FILE_NAME,
+					Constants.REGEXP_DOMAIN_FILE_NAME,
 					Pattern.quote(domainNameWithoutExtension));
 
 			String problemNameWithoutExtension = ProjectFilesPathsHelpers
 					.getPDDLFileNameWithoutExtension(ProjectFilesPathsHelpers
 							.getAbsoluteFilePathFromRelativePath(config
-									.getAttribute(RunnerConstants.PROBLEM_FILE,
+									.getAttribute(Constants.PROBLEM_FILE,
 											"")));
 
 			regexp = getRegexWithReplacements(regexp,
-					RunnerConstants.REGEXP_PROBLEM_FILE_NAME,
+					Constants.REGEXP_PROBLEM_FILE_NAME,
 					Pattern.quote(problemNameWithoutExtension));
 
 		} catch (CoreException e) {
@@ -54,17 +51,21 @@ public class FileNameRegexProcessor {
 			e.printStackTrace();
 		}
 
-		Pattern pattern = Pattern.compile(regexp);
-
-		File[] allFiles = workingDir.listFiles();
-
 		List<String> matchedFiles = new ArrayList<String>();
+		try {
+			Pattern pattern = Pattern.compile(regexp);
 
-		for (File f : allFiles) {
-			if (pattern.matcher(f.getName()).matches()) {
-				matchedFiles.add(f.getName());
+			File[] allFiles = workingDir.listFiles();
+
+			for (File f : allFiles) {
+				if (pattern.matcher(f.getName()).matches()) {
+					matchedFiles.add(f.getName());
+				}
 			}
+		} catch (PatternSyntaxException e) {
+			Log.log("File name regular pattern error", e);
 		}
+
 		return matchedFiles;
 	}
 
@@ -74,7 +75,8 @@ public class FileNameRegexProcessor {
 		int index = regexp.indexOf(keyword);
 
 		while (index >= 0) {
-			regexp = replaceRegexSpecialWord(regexp, index, keyword, replacement);
+			regexp = replaceRegexSpecialWord(regexp, index, keyword,
+					replacement);
 			index = regexp.indexOf(keyword, index + keyword.length());
 		}
 

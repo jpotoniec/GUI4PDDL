@@ -2,11 +2,16 @@ package pl.poznan.put.cs.gui4pddl.codemodel;
 
 import java.util.List;
 import java.util.ArrayList;
+
 /**
  *Representation of PDDL type. 
  *
  *
  */
+
+import java.util.Set;
+
+
 public class PDDLType {
 	
 	private String name;
@@ -18,16 +23,59 @@ public class PDDLType {
 	private PDDLType() {
 	}
 	
+
 	/**
 	 * Creates a default type. Default type in PDDL is object.
 	 * 
 	 * @return default type
 	 */
-	public static PDDLType defaultType() {
-		PDDLType ret = new PDDLType();
-		ret.name = "object";
-		return ret;
+
+	public String getName() {
+		if (isFluent())
+			return fluent.getName();
+		else
+			return name;
 	}
+	
+	public void addNames(Set<String> names) {
+		if (either == null)
+			names.add(getName());
+		else {
+			for (PDDLType t: either) {
+				t.addNames(names);
+			}
+		}
+	}
+	
+	public boolean isFluent() {
+		return fluent != null;
+	}
+	
+	//Checks if type st can be casted to type this
+	//This doesn't check types hierarchy specified in domain
+	public boolean isCastable(PDDLType st) {
+		if (st == null)
+			return false;
+		
+		String name = getName();
+		
+		if (name != null) {
+			String stName = st.getName();
+			if (name.equals(stName))
+				return true;
+			else
+				return false;
+		}
+		
+		if (either != null) {
+			for(PDDLType et : either) {
+				if (et.isCastable(st))
+					return true;
+			}
+		}
+		return false;
+	}
+	
 	
 	/**
 	 * Creates a simple type with a name.

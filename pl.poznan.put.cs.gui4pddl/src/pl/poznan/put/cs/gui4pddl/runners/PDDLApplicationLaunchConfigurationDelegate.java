@@ -1,13 +1,12 @@
 package pl.poznan.put.cs.gui4pddl.runners;
 
-import java.io.File;
-
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunch;
@@ -20,8 +19,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
 import pl.poznan.put.cs.gui4pddl.Activator;
+import pl.poznan.put.cs.gui4pddl.Constants;
 import pl.poznan.put.cs.gui4pddl.log.Log;
-import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewDataRow;
 import pl.poznan.put.cs.gui4pddl.planview.ui.PlanView;
 import pl.poznan.put.cs.gui4pddl.runners.helpers.ProjectFilesPathsHelpers;
 
@@ -39,9 +38,10 @@ public class PDDLApplicationLaunchConfigurationDelegate extends
 	@Override
 	public boolean preLaunchCheck(ILaunchConfiguration configuration,
 			String mode, IProgressMonitor monitor) throws CoreException {
+
 		fOrderedProjects = null;
 
-		String projName = configuration.getAttribute(RunnerConstants.PROJECT,
+		String projName = configuration.getAttribute(Constants.PROJECT,
 				"");
 		if (projName.length() > 0) {
 
@@ -60,43 +60,34 @@ public class PDDLApplicationLaunchConfigurationDelegate extends
 	@Override
 	public void launch(ILaunchConfiguration configuration, String mode,
 			ILaunch launch, IProgressMonitor monitor) {
-
 		try {
-			/*Activator.refreshProject(configuration.getAttribute(
-					RunnerConstants.PROJECT, ""));*/
-			
+			 if (monitor == null) {
+		            monitor = new NullProgressMonitor();
+		        }
+			monitor.beginTask("Planning", 20);
+			monitor.subTask("Creating working directory");
 			IFolder workingDir = ProjectFilesPathsHelpers.createWorkingDir(
-					configuration.getAttribute(RunnerConstants.PROJECT, ""),
+					configuration.getAttribute(Constants.PROJECT, ""),
 					ProjectFilesPathsHelpers
 							.getAbsoluteFilePathFromRelativePath(configuration
-									.getAttribute(RunnerConstants.DOMAIN_FILE,
+									.getAttribute(Constants.DOMAIN_FILE,
 											"")), ProjectFilesPathsHelpers
 							.getAbsoluteFilePathFromRelativePath(configuration
-									.getAttribute(RunnerConstants.PROBLEM_FILE,
+									.getAttribute(Constants.PROBLEM_FILE,
 											"")));
-			/*
-			 * File workingDir = ProjectFilesPathsHelpers .getWorkingDir(
-			 * configuration.getAttribute( RunnerConstants.WORKING_DIRECTORY,
-			 * ""),
-			 * ProjectFilesPathsHelpers.getAbsoluteFilePathFromRelativePath(
-			 * configuration .getAttribute(RunnerConstants.DOMAIN_FILE, "")),
-			 * ProjectFilesPathsHelpers
-			 * .getAbsoluteFilePathFromRelativePath(configuration .getAttribute(
-			 * RunnerConstants.PROBLEM_FILE, "")));
-			 */
-		/*	PlanViewDataRow pvd = PlanView.updatePlanViewBeforePlanningProcess(
-					configuration, workingDir);*/
-
+			
+			monitor.worked(2);
+			monitor.subTask("Planning");
 			UniversalPlannerRunner.run(configuration, monitor, launch,
 					workingDir);
-
-			/*PlanView.updatePlanViewAfterPlanningProcess(configuration,
-					workingDir, pvd);*/
 			Activator.refreshProject(configuration.getAttribute(
-					RunnerConstants.PROJECT, ""));
+					Constants.PROJECT, ""));
+			monitor.worked(18);
 			
+			monitor.subTask("Creating Plan Browser row");
 			PlanView.createRowAndActivateView(configuration, workingDir);
-			
+			monitor.worked(20);
+			monitor.done();
 			
 
 		} catch (Exception e) {

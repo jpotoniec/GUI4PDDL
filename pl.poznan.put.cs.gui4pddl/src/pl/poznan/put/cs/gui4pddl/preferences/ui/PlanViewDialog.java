@@ -22,8 +22,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import pl.poznan.put.cs.gui4pddl.Constants;
 import pl.poznan.put.cs.gui4pddl.preferences.model.PlannerPreferences;
-import pl.poznan.put.cs.gui4pddl.runners.RunnerConstants;
 
 public class PlanViewDialog extends TitleAreaDialog {
 
@@ -109,22 +109,22 @@ public class PlanViewDialog extends TitleAreaDialog {
 		
 		workingDirButton.addSelectionListener(new SelectionAdapter() {	
 			public void widgetSelected(SelectionEvent arg0) {
-				appendTextInSelection(RunnerConstants.REGEXP_WORKING_DIRECTORY);			
+				appendTextInSelection(Constants.REGEXP_WORKING_DIRECTORY);			
 			}
 		});
 		projectNameButton.addSelectionListener(new SelectionAdapter() {	
 			public void widgetSelected(SelectionEvent arg0) {
-				appendTextInSelection(RunnerConstants.REGEXP_PROJECT_NAME);			
+				appendTextInSelection(Constants.REGEXP_PROJECT_NAME);			
 			}
 		});
 		domainFileNameButton.addSelectionListener(new SelectionAdapter() {	
 			public void widgetSelected(SelectionEvent arg0) {
-				appendTextInSelection(RunnerConstants.REGEXP_DOMAIN_FILE_NAME);			
+				appendTextInSelection(Constants.REGEXP_DOMAIN_FILE_NAME);			
 			}
 		});
 		problemFileNameButton.addSelectionListener(new SelectionAdapter() {	
 			public void widgetSelected(SelectionEvent arg0) {
-				appendTextInSelection(RunnerConstants.REGEXP_PROBLEM_FILE_NAME);			
+				appendTextInSelection(Constants.REGEXP_PROBLEM_FILE_NAME);			
 			}
 		});
 	}
