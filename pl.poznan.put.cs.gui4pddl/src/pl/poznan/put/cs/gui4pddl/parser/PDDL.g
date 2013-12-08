@@ -340,9 +340,11 @@ typed_list_of_name_test
 	;
 
 typed_list_of_variable
-	:	
-	|	VARIABLE+ ('-' type typed_list_of_variable)? //:typing
+	:   -> ^(NAMEDEF)
+	|   VARIABLE+ -> ^(NAMEDEF VARIABLE)+
+	|   VARIABLE+ '-' type tail=typed_list_of_variable -> ^(NAMEDEF VARIABLE type)+ $tail
 	;
+
 
 type 	:	NAME -> NAME
 	|	'(' 'either' type+ ')' -> ^('either' type+)
@@ -359,7 +361,7 @@ method_def
 	
 //
 atomic_formula_skeleton 
-	:	'('! predicate typed_list_of_variable ')'!
+	:	'('! predicate^ typed_list_of_variable ')'!
 	;
 	
 
