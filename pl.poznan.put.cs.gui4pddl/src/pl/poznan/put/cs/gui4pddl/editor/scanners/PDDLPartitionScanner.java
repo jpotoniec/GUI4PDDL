@@ -19,7 +19,7 @@ public class PDDLPartitionScanner extends RuleBasedPartitionScanner {
 		
 		SingleLineRule commentRule = new SingleLineRule(";", null,
 				commentPartition, (char) 0, true);
-		commentRule.setColumnConstraint(0);
+		//commentRule.setColumnConstraint(0);
 
 		setPredicateRules(new IPredicateRule[] { commentRule });
 	}
