@@ -22,6 +22,10 @@ public class PDDLCodeCompletionProposal {
 		return description;
 	}
 	
+	public boolean getInvalid() {
+		return false;
+	}
+	
 	public void setText(String text) {
 		this.text = text;
 	}
