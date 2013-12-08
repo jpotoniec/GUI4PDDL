@@ -83,7 +83,7 @@ safety_def
 	;
 	
 structure_def 
-	:	^(':action' .* )
+	:	action_def
 	|   ^(':axiom' .* )
 	|   ^(':method' .* )
 	;
@@ -123,6 +123,10 @@ atomic_formula_skeleton
 	returns [PDDLPredicate val]
     :  NAME list=typed_list {$val = new PDDLPredicate($NAME.text, $list.list);}
     ;
+    
+action_def
+	: ^(':action' NAME ^(':parameters' typed_list) .*) 
+	;
     
  /* Problems (13)*/  
 problem_header

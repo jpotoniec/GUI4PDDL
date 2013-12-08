@@ -151,14 +151,11 @@ structure_def
 Actions (5)
 */
 action_def 
-	:	'('! ':action' action_functor
-			':parameters' '('! typed_list_of_variable ')'!
-			action_def_body ')'!
+	:	'(' ':action' NAME
+			':parameters' '(' typed_list_of_variable ')'
+			action_def_body ')'   -> ^(':action' NAME ^(':parameters' typed_list_of_variable) action_def_body) 
 	;
-	
-action_functor
-	:    NAME
-	;
+
 	
 action_def_body
     :    action_def_body_item*
