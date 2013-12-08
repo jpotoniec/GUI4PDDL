@@ -162,12 +162,12 @@ action_def_body
     ;
     
 action_def_body_item
-    :    ':vars' '('! typed_list_of_variable ')'! //:existential-preconditions, :conditional-effects
-    |    ':precondition' gd
-    |    ':expansion' action_spec       //action expansions
-    |    ':maintain' gd                  //action expansions
-    |    ':effect' effect
-    |    ':only-in-expansions' boolean_type  //action expansions
+    :    ':vars'^ '('! typed_list_of_variable ')'! //:existential-preconditions, :conditional-effects
+    |    ':precondition'^ gd
+    |    ':expansion'^ action_spec       //action expansions
+    |    ':maintain'^ gd                  //action expansions
+    |    ':effect'^ effect
+    |    ':only-in-expansions'^ boolean_type  //action expansions
     ;
 
 /*
