@@ -48,7 +48,7 @@ public class PDDLCompletionAssistant implements IContentAssistProcessor {
 			PDDLNature nature = PDDLNature.getPDDLNature(project);
 			IPDDLCodeCompletionManager manager = nature
 					.getCodeCompletionManager();
-			baseProps = manager.getCodeCompletionProposals(document,
+			baseProps = manager.getCodeCompletionProposals(file, document,
 					documentOffset);
 
 			List<String> completions = getCompletions(prefix);

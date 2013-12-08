@@ -1,6 +1,7 @@
 package pl.poznan.put.cs.gui4pddl.codemodel;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IPath;
 
 public interface IPDDLCodeModel extends IPDDLFileSet {
 	
@@ -13,4 +14,6 @@ public interface IPDDLCodeModel extends IPDDLFileSet {
 	Iterable<PDDLInitialSituation> getInitialSituations(String name);
 
 	PDDLDomain getDomain(PDDLProblem problem);
+	
+	PDDLDomain getDomain(IPath dirpath, String domainName) ;
 }

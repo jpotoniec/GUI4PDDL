@@ -75,6 +75,15 @@ public class PDDLFile {
 		return problems;
 	}
 	
+	public PDDLInitialSituation getInitialSituation(String name) {
+		for (PDDLInitialSituation s : initialSituations) {
+			if (s.getName().equals(name)) {
+				return s;
+			}
+		}
+		return null;
+	}
+	
 	public Collection<PDDLInitialSituation> getInitialSituations() {
 		return initialSituations;
 	}

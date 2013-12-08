@@ -17,7 +17,7 @@ public class PDDLInitialSituation {
 		domain = name;
 	}
 	
-	public String getDomain() {
+	public String getDomainName() {
 		return domain;
 	}
 	

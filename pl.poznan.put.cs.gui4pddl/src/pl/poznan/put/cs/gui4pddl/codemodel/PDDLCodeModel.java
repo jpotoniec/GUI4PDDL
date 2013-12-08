@@ -50,34 +50,42 @@ public class PDDLCodeModel implements IPDDLCodeModel, IPDDLFileSet {
 		return fileIndex;
 	}
 	
-	public PDDLDomain getDomain(PDDLProblem problem) {
-		if (problem == null)
-			return null;
-		
-		String name = problem.getDomainName();
+	public PDDLDomain getDomain(IPath dirpath, String domainName) {
 		PDDLDomain result;
 		
-		PDDLFile fileIndex = problem.getFile();
-		if (fileIndex != null) {
-			IPath path = fileIndex.getFullPath();
-			IPath dirpath = path.removeLastSegments(1);
-			result = checkDomainFile(dirpath.append(name + ".pddl"), name);
+		if (dirpath != null ) {
+			result = checkDomainFile(dirpath.append(domainName + ".pddl"), domainName);
 			if (result != null)
 				return result;
-			result = checkDomainFile(dirpath.append("domain.pddl"), name);
+			result = checkDomainFile(dirpath.append("domain.pddl"), domainName);
 			if (result != null)
 				return result;
-			
 		}
-		
+
+
 		for (PDDLFile file : files.values()) {
 			for (PDDLDomain domain : file.getDomains()) {
-				if (domain.getName().equals(name))
+				if (domain.getName().equals(domainName))
 					return domain;
 			}
 		}
 		
 		return null;
+	}
+	
+	public PDDLDomain getDomain(PDDLProblem problem) {
+		if (problem == null)
+			return null;
+		String name = problem.getDomainName();
+		
+		IPath dirpath = null;
+		PDDLFile fileIndex = problem.getFile();
+		if (fileIndex != null) {
+			IPath path = fileIndex.getFullPath();
+			dirpath = path.removeLastSegments(1);
+		}
+		
+		return getDomain(dirpath, name);
 	}
 	
 	/**

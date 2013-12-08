@@ -13,6 +13,10 @@ tokens {
 	PLEFT = '(';
 	PRIGHT = ')';
 	REQUIRE_DEF = ':requirements';
+	PRECONDITION = ':precondition';
+	EFFECT = ':effect';
+	INIT = ':init';
+	GOAL = ':goal';
 }
 
 @header {
