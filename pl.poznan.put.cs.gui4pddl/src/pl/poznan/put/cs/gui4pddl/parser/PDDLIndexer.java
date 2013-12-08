@@ -13,29 +13,21 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 
 import pl.poznan.put.cs.gui4pddl.codemodel.IPDDLCodeModel;
-import pl.poznan.put.cs.gui4pddl.codemodel.PDDLDomain;
 import pl.poznan.put.cs.gui4pddl.codemodel.PDDLFile;
-import pl.poznan.put.cs.gui4pddl.codemodel.PDDLProblem;
 import pl.poznan.put.cs.gui4pddl.log.Log;
 
 public class PDDLIndexer {
 
 	public interface IErrorHandler {
-		void reportError(IFile file, PDDLError error);
+		void reportError(PDDLError error);
 	}
 	
-	public static CommonTree scanPDDLFile(IFile file, IErrorHandler errorHandler)
-			throws CoreException, IOException, RecognitionException {
-		
-		if (file == null || !file.exists())
-			throw new IOException("file does not exist"); 
+	public static CommonTree scanPDDLFile(InputStream stream, IErrorHandler errorHandler)
+			throws RecognitionException, IOException {
 		
 		CommonTree result = null;
-		
-		InputStream stream = null;
-		try {
-			stream = file.getContents();
 
+		try {
 			ANTLRInputStream input = new ANTLRInputStream(stream);
 			PDDLLexer lexer = new PDDLLexer(input);
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -47,7 +39,7 @@ public class PDDLIndexer {
 				result = (CommonTree)ret.getTree();
 			} finally {
 				List<PDDLError> errors = parser.getErrors();
-				reportErrors(file, errors, errorHandler);
+				reportErrors(errors, errorHandler);
 			}	
 		}
 		finally {
@@ -68,7 +60,7 @@ public class PDDLIndexer {
 		builder.pddl_file(index);
 	}
 
-	public static void checkSemanticErrors(IFile file, CommonTree ast,
+	public static void checkSemanticErrors(CommonTree ast,
 			IPDDLCodeModel codeModel, PDDLFile fileIndex, IErrorHandler errorHandler)
 			throws RecognitionException {
 
@@ -78,57 +70,56 @@ public class PDDLIndexer {
 			checker.pddl_file(codeModel, fileIndex);
 		} finally {
 			List<PDDLError> errors = checker.getErrors();
-			reportErrors(file, errors, errorHandler);
+			reportErrors(errors, errorHandler);
 		}
 	}
 	
-	public static void indexPDDLFile(IFile file, IPDDLCodeModel codeModel) {
-		PDDLIndexer.IErrorHandler dummyErrorHandler = new PDDLIndexer.IErrorHandler() {
-			public void reportError(IFile file, PDDLError error) {
-			}
-		};
-		indexPDDLFile(file, codeModel, dummyErrorHandler);
-	}
-	
-	public static void indexPDDLFile(IFile file, IPDDLCodeModel codeModel, IErrorHandler errorHandler) {
+	public static void indexPDDLFile(InputStream fileStream, IPDDLCodeModel codeModel, PDDLFile fileIndex, IErrorHandler errorHandler) {
 		try {
-			CommonTree ast = scanPDDLFile(file, errorHandler);
+			CommonTree ast = scanPDDLFile(fileStream, errorHandler);
 			if (codeModel != null) {
-				PDDLFile index = codeModel.getOrCreateFile(file);
-				index.clear();
+				fileIndex.clear();
 				try {
-					updateIndex(ast, index);
+					updateIndex(ast, fileIndex);
 				} catch (RecognitionException e) {}
 				
-				//Debug code for prining
-				for(PDDLDomain d: codeModel.getDomains(null)) {
-					System.out.println(d.getName());
-				}
-				
-				for(PDDLProblem p: index.getProblems()) {
-					PDDLDomain d = codeModel.getDomain(p);
-					if (d != null)
-						System.out.printf("Domain for %s is %s at %s", p.getName(), d.getName(), d.getFile().getFullPath().toOSString());
-					else
-						System.out.printf("Domain for %s is NULL", p.getName());
-				}
-				
-				checkSemanticErrors(file, ast, codeModel, index, errorHandler);
+				checkSemanticErrors(ast, codeModel, fileIndex, errorHandler);
 			}
-		} catch (CoreException e) {
+		} catch (IOException e) {  
 			Log.log(e);
-		} catch (IOException e) {
-			Log.log(e);
-		} catch (RecognitionException e) {
+		}  catch (RecognitionException e) {
 			Log.log(e);
 		} catch (RuntimeException e) {
 			Log.log(e);
 		}
 	}
+	
+	public static void indexPDDLFile(IFile file, IPDDLCodeModel codeModel, IErrorHandler errorHandler) {
+		try {
+			InputStream fileStream = file.getContents();
+			PDDLFile fileIndex = codeModel.getOrCreateFile(file);
+			indexPDDLFile(fileStream, codeModel, fileIndex, errorHandler);
+		} catch (CoreException e){
+			Log.log(e);
+		}
+	}
+	
+	public static void indexPDDLFile(IFile file, IPDDLCodeModel codeModel) {
+		PDDLIndexer.IErrorHandler dummyErrorHandler = new PDDLIndexer.IErrorHandler() {
+			public void reportError(PDDLError error) {
+			}
+		};
+		indexPDDLFile(file, codeModel, dummyErrorHandler);
+	}
+	
 
-	private static void reportErrors(IFile file, List<PDDLError> errors, IErrorHandler handler) {
+
+	private static void reportErrors(List<PDDLError> errors, IErrorHandler handler) {
+		if (handler == null)
+			return;
+
 		for (PDDLError error: errors) {
-			handler.reportError(file, error);
+			handler.reportError(error);
 		}
 	}
 }

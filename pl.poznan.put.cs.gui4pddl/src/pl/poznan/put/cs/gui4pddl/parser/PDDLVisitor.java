@@ -19,8 +19,14 @@ class PDDLVisitor implements IResourceVisitor, IResourceDeltaVisitor {
 	
 	private class ErrorHandler implements PDDLIndexer.IErrorHandler {
 		
+		IFile file;
+		
+		public ErrorHandler(IFile file) {
+			this.file = file;
+		}
+		
 		@Override
-		public void reportError(IFile file, PDDLError error) {
+		public void reportError(PDDLError error) {
 			try {
 				IMarker marker = file.createMarker(MARKER_ID);
 				marker.setAttribute(IMarker.MESSAGE, error.message);
@@ -49,7 +55,8 @@ class PDDLVisitor implements IResourceVisitor, IResourceDeltaVisitor {
 					if (nature != null)
 						model = nature.getCodeModel();
 				}
-				PDDLIndexer.indexPDDLFile((IFile)resource, model, new ErrorHandler());
+				IFile file = (IFile)resource;
+				PDDLIndexer.indexPDDLFile(file, model, new ErrorHandler(file));
 			}
             return false;
         }
