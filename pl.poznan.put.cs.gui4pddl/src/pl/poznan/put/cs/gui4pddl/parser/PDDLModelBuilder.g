@@ -71,7 +71,7 @@ domain_vars_def
 	;
 
 predicates_def 
-	:	^(':predicates' atomic_formula_skeleton+)
+	:	^(':predicates' (pred=atomic_formula_skeleton {$definition::domain.addPredicate($pred.val);})+)
 	;
 
 timeless_def
@@ -121,7 +121,7 @@ type
 
 atomic_formula_skeleton
 	returns [PDDLPredicate val]
-    :  NAME list=typed_list {$val = new PDDLPredicate($NAME.text, $list.list);}
+    :  ^(NAME list=typed_list) {$val = new PDDLPredicate($NAME.text, $list.list);}
     ;
     
  /* Problems (13)*/  

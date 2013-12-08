@@ -74,6 +74,7 @@ public class PDDLIndexer {
 		}
 	}
 	
+	//TODO: javadoc
 	public static void indexPDDLFile(InputStream fileStream, IPDDLCodeModel codeModel, PDDLFile fileIndex, IErrorHandler errorHandler) {
 		try {
 			CommonTree ast = scanPDDLFile(fileStream, errorHandler);

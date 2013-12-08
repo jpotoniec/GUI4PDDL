@@ -4,6 +4,15 @@ public class PDDLPredicate {
 	private String name;
 	private PDDLTypedList parameters;
 	
+	public String toString(){
+		
+
+		return String
+				.format("( predicat %s parameters %s)",
+						name, parameters);
+		
+	}
+	
 	public PDDLPredicate(String name, PDDLTypedList parameters) {
 		this.name = name;
 		this.parameters = parameters;
