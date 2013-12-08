@@ -153,13 +153,8 @@ Actions (5)
 action_def 
 	:	'(' ':action' NAME
 			':parameters' '(' typed_list_of_variable ')'
-			action_def_body ')'   -> ^(':action' NAME ^(':parameters' typed_list_of_variable) action_def_body) 
+			action_def_body_item* ')'   -> ^(':action' NAME ^(':parameters' typed_list_of_variable) action_def_body_item*) 
 	;
-
-	
-action_def_body
-    :    action_def_body_item*
-    ;
     
 action_def_body_item
     :    ':vars'^ '('! typed_list_of_variable ')'! //:existential-preconditions, :conditional-effects

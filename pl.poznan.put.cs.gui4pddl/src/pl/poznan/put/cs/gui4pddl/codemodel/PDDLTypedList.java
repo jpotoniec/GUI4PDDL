@@ -9,10 +9,17 @@ public class PDDLTypedList implements Iterable<PDDLTypedList.Entry>{
 	static public class Entry {
 		public String name;
 		public PDDLType type;
+	
+		public String toString(){
+			return String.format("(name %s type %s)",
+					name,type);
+			
+		}
 		
 		public Entry(String name, PDDLType type) {
 			this.name = name;
 			this.type = type;
+	
 		}
 
 		@Override
@@ -114,4 +121,11 @@ public class PDDLTypedList implements Iterable<PDDLTypedList.Entry>{
 	public Iterator<Entry> iterator() {
 		return list.iterator();
 	}
+	
+	
+	public String toString(){
+		
+		return list.toString();
+	}
+	
 }

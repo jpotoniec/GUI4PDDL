@@ -138,6 +138,14 @@ public class PDDLDomain {
 		actions.add(action);
 	}
 
+	public PDDLAction getAction(String name) {
+		for (PDDLAction a : actions) {
+			if (a.getFunctor().equals(name))
+				return a;
+		}
+		return null;
+	}
+	
 	public Set<PDDLAction> getActions() {
 		return actions;
 	}
@@ -184,8 +192,12 @@ public class PDDLDomain {
 		if (actions == null) {
 			if (other.actions != null)
 				return false;
-		} else if (!actions.equals(other.actions))
-			return false;
+		} else {
+			//TODO: why not working
+			if (!actions.equals(other.actions))
+				return false;
+		}
+
 		if (constants == null) {
 			if (other.constants != null)
 				return false;

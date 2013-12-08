@@ -4,23 +4,33 @@ public class PDDLAction {
 	String functor = "";
 	PDDLTypedList parameters = new PDDLTypedList();
 	PDDLTypedList variables = new PDDLTypedList();
-	
+
+	public String toString() {
+		return String.format("(functor %s parameters %s variables %s)",
+				functor, parameters, variables);
+
+	}
+
 	public PDDLAction(String functor) {
 		this.functor = functor;
 	}
 	
+	public String getFunctor() {
+		return functor;
+	}
+
 	public void addParameter(String name, PDDLType type) {
 		parameters.add(name, type);
 	}
-	
+
 	public void addParameters(PDDLTypedList list) {
 		parameters.append(list);
 	}
-	
+
 	public void addVariable(String name, PDDLType type) {
 		variables.add(name, type);
 	}
-	
+
 	public void addVariables(PDDLTypedList list) {
 		variables.append(list);
 	}
