@@ -301,7 +301,6 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 	 *            the mode in which the file should be executed
 	 */
 	protected void launch(IProject project, String mode, IFile file) {
-		System.out.println("IM IN");
 		ILaunchConfiguration conf = null;
 		List<ILaunchConfiguration> configurations = findExistingLaunchConfigurations(project);
 		if (configurations.isEmpty())

@@ -8,7 +8,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.internal.ide.misc.FileInfoAttributesMatcher.Argument;
 
 import pl.poznan.put.cs.gui4pddl.Activator;
 import pl.poznan.put.cs.gui4pddl.Constants;
@@ -25,11 +24,11 @@ public class MainTab extends AbstractLaunchConfigurationTab {
 	private final PlannerArgumentsBlock argumentsBlock;
 
 
-	public MainTab(PlannerArgumentsBlock argumentsBlock) {
+	public MainTab() {
 		projectBlock = new ProjectBlock();
 		domainAndProblemFilesBlock = new DomainAndProblemFilesBlock();
 		plannerBlock = new PlannerBlock();
-		this.argumentsBlock = argumentsBlock;	
+		argumentsBlock = new PlannerArgumentsBlock();
 	}
 
 	@Override
@@ -42,6 +41,7 @@ public class MainTab extends AbstractLaunchConfigurationTab {
 		projectBlock.createControl(composite);
 		domainAndProblemFilesBlock.createControl(composite);
 		plannerBlock.createControl(composite);
+		argumentsBlock.createControl(composite);
 	    projectBlock.addModifyListener(domainAndProblemFilesBlock.getProjectModifyListener());
 	    
 	    plannerBlock.addSelectionListenerToArgumentsCombo(argumentsBlock);
@@ -61,6 +61,10 @@ public class MainTab extends AbstractLaunchConfigurationTab {
         
         if (result == null) {
         	result = plannerBlock.getErrorMessage();
+        }
+        
+        if (result == null) {
+        	result = argumentsBlock.getErrorMessage();
         }
 
         return result;
@@ -85,6 +89,11 @@ public class MainTab extends AbstractLaunchConfigurationTab {
         if (result == null) {
         	result = plannerBlock.getMessage();
         }
+        
+        if (result == null) {
+        	result = argumentsBlock.getMessage();
+        }
+
 
         return result;
     }
@@ -109,6 +118,12 @@ public class MainTab extends AbstractLaunchConfigurationTab {
         	result = plannerBlock.isValid(launchConfig);
         }
         
+        if (result) {
+        	result = argumentsBlock.isValid(launchConfig);
+        }
+        
+
+        
         return result;
     }
 
@@ -124,16 +139,25 @@ public class MainTab extends AbstractLaunchConfigurationTab {
 
 	@Override
 	public void initializeFrom(ILaunchConfiguration conf) {
+		
 		projectBlock.initializeFrom(conf);
 		domainAndProblemFilesBlock.initializeFrom(conf);
 		plannerBlock.initializeFrom(conf);
+		int index = plannerBlock.getArgumentsComboIndex();	
+		argumentsBlock.initializeFrom(conf);
+		argumentsBlock.setDisabledDependsOnArgumentsComboIndex(index);
+		
 	}
 
 	@Override
-	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
+	public void performApply(ILaunchConfigurationWorkingCopy configuration) {		
 		projectBlock.performApply(configuration);
 		domainAndProblemFilesBlock.performApply(configuration);
 		plannerBlock.performApply(configuration);
+		int index = plannerBlock.getArgumentsComboIndex();
+		argumentsBlock.setArgumentsComboIndex(index);
+		argumentsBlock.performApply(configuration);
+	
 	}
 
 	@Override
@@ -143,6 +167,7 @@ public class MainTab extends AbstractLaunchConfigurationTab {
 		projectBlock.setLaunchConfigurationDialog(dialog);
 		domainAndProblemFilesBlock.setLaunchConfigurationDialog(dialog);
 		plannerBlock.setLaunchConfigurationDialog(dialog);
+		argumentsBlock.setLaunchConfigurationDialog(dialog);
 	
 	}
 

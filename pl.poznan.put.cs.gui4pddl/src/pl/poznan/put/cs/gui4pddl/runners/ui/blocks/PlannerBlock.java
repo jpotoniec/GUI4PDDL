@@ -17,7 +17,6 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
 
 import pl.poznan.put.cs.gui4pddl.Constants;
 import pl.poznan.put.cs.gui4pddl.preferences.model.PlannerPreferences;
@@ -27,6 +26,7 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 
 	private Combo plannerCombo;
 	private Combo argumentsCombo;
+	private int argumentsComboIndex;
 
 	@Override
 	public void createControl(Composite parent) {
@@ -37,10 +37,16 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 
 		Map<String, PlannerPreferences> preferencesMap = PlannerPreferencesManager
 				.getManager().getPlannerPreferences();
-		for (String key : preferencesMap.keySet()) {
-			PlannerPreferences preferences = preferencesMap.get(key);
-			plannerCombo.add(preferences.getPlannerName());
+		if (preferencesMap.keySet().size() > 0) {
+			plannerCombo.setEnabled(true);
+			for (String key : preferencesMap.keySet()) {
+				PlannerPreferences preferences = preferencesMap.get(key);
+				plannerCombo.add(preferences.getPlannerName());
+			}
+		} else {
+			plannerCombo.setEnabled(false);
 		}
+		argumentsCombo.setEnabled(false);
 
 		plannerCombo.addSelectionListener(new SelectionAdapter() {
 
@@ -52,61 +58,17 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 
 	}
 
-	private void plannerArgumentsComboUpdate() {
-		if (plannerCombo.getSelectionIndex() >= 0) {
-			PlannerPreferences preferences = PlannerPreferencesManager
-					.getManager()
-					.getPlannerPreferences()
-					.get(plannerCombo.getItem(plannerCombo.getSelectionIndex()));
-			updateLaunchConfigurationDialog();
-			argumentsCombo.removeAll();
-			for (String key : preferences.getArgumentsMap().keySet()) {
-				argumentsCombo.add(key);
-			}
-		}
-	}
-
 	private Group createPlannerGroup(Composite parent) {
 		Font font = parent.getFont();
-		Group plannerGroup = initializeGroup(parent, font, 4);
+		Group plannerGroup = initializeGroup(parent, font, 5);
 
 		Label label = new Label(plannerGroup, SWT.NONE);
-		label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
+		GridData gd = new GridData();
+		gd.horizontalSpan = 1;
+		label.setLayoutData(gd);
 		label.setText("Planner:");
 
 		return plannerGroup;
-	}
-
-	private Combo createCombo(Group plannerGroup) {
-		GridData gd = new GridData();
-		gd.grabExcessHorizontalSpace = true;
-		gd.horizontalAlignment = SWT.FILL;
-		Combo combo = new Combo(plannerGroup, SWT.READ_ONLY);
-		combo.setLayoutData(gd);
-		return combo;
-	}
-
-	public void addSelectionListenerToArgumentsCombo(final PlannerArgumentsBlock block) {
-
-		argumentsCombo.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent arg0) {
-				if (argumentsCombo.getSelectionIndex() >= 0) {
-					Map<String, String> preferences = PlannerPreferencesManager
-							.getManager()
-							.getPlannerPreferences()
-							.get(plannerCombo.getItem(plannerCombo
-									.getSelectionIndex())).getArgumentsMap();
-					String argument = preferences.get(argumentsCombo
-							.getItem(argumentsCombo.getSelectionIndex()));
-					/*arguments.setText(argument);
-					arguments.update();*/
-					block.setArgumentText(argument);
-				}
-			}
-
-		});
 	}
 
 	private Group initializeGroup(Composite parent, Font font, int columns) {
@@ -122,6 +84,62 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 		group.setText("Planner");
 
 		return group;
+	}
+
+	private Combo createCombo(Group plannerGroup) {
+		GridData gd = new GridData();
+		gd.grabExcessHorizontalSpace = true;
+		gd.horizontalAlignment = SWT.FILL;
+		gd.horizontalSpan = 2;
+		Combo combo = new Combo(plannerGroup, SWT.READ_ONLY);
+		combo.setLayoutData(gd);
+		return combo;
+	}
+
+	private void plannerArgumentsComboUpdate() {
+		if (plannerCombo.getSelectionIndex() >= 0) {
+			PlannerPreferences preferences = PlannerPreferencesManager
+					.getManager()
+					.getPlannerPreferences()
+					.get(plannerCombo.getItem(plannerCombo.getSelectionIndex()));
+			updateLaunchConfigurationDialog();
+			argumentsCombo.removeAll();
+			argumentsCombo.add("No specified argument");
+			if (preferences.getArgumentsMap().keySet().size() > 0) {
+				argumentsCombo.setEnabled(true);
+				for (String key : preferences.getArgumentsMap().keySet()) {
+					argumentsCombo.add(key);
+				}
+			}
+		}
+	}
+
+	public void addSelectionListenerToArgumentsCombo(
+			final PlannerArgumentsBlock block) {
+
+		argumentsCombo.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				if (argumentsCombo.getSelectionIndex() > 0) {
+					Map<String, String> preferences = PlannerPreferencesManager
+							.getManager()
+							.getPlannerPreferences()
+							.get(plannerCombo.getItem(plannerCombo
+									.getSelectionIndex())).getArgumentsMap();
+					String argument = preferences.get(argumentsCombo
+							.getItem(argumentsCombo.getSelectionIndex()));
+
+					block.getArgumentText().setText(argument);
+					block.getArgumentText().setEnabled(false);
+					argumentsComboIndex = argumentsCombo.getSelectionIndex();
+				} else {
+					block.getArgumentText().setText("");
+					block.getArgumentText().setEnabled(true);
+					argumentsComboIndex = argumentsCombo.getSelectionIndex();
+				}
+			}
+		});
 	}
 
 	@Override
@@ -142,7 +160,8 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 				setErrorMessage("Go to Window->Preferences->PDDL->Planners and configure PDDL Planner.");
 			}
 
-			if (plannerCombo.getItemCount() > 0 && plannerCombo.getSelectionIndex() > -1) {
+			if (plannerCombo.getItemCount() > 0
+					&& plannerCombo.getSelectionIndex() > -1) {
 				PlannerPreferences preferences = PlannerPreferencesManager
 						.getManager()
 						.getPlannerPreferences()
@@ -179,8 +198,7 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 		String plannerArguments = "";
 		try {
 			plannerName = conf.getAttribute(Constants.PLANNER_NAME, "");
-			plannerArguments = conf.getAttribute(
-					Constants.ARGUMENTS_NAME, "");
+			plannerArguments = conf.getAttribute(Constants.ARGUMENTS_NAME, "");
 		} catch (CoreException e) {
 		}
 
@@ -193,13 +211,28 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 
 		plannerArgumentsComboUpdate();
 
+		boolean found = false;
 		if (plannerCombo.getSelectionIndex() >= 0) {
 			String[] items2 = argumentsCombo.getItems();
-			for (int i = 0; i < items2.length; i++) {
+			for (int i = 1; i < items2.length; i++) {
 				if (items2[i].equals(plannerArguments)) {
 					argumentsCombo.select(i);
+					argumentsComboIndex = i;
+					found = true;
 				}
 			}
+		}
+		if (!found) {
+			argumentsCombo.select(0);
+		}
+
+	}
+
+	public int getArgumentsComboIndex() {
+		if (argumentsCombo.isEnabled()) {
+			return argumentsComboIndex;
+		} else {
+			return -1;
 		}
 
 	}
@@ -220,12 +253,13 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 
 			conf.setAttribute(Constants.FILE_NAME_REGEXP,
 					preferences.getPlanViewFilePattern());
+			if (argumentsCombo.getSelectionIndex() > 0) {
+				conf.setAttribute(Constants.ARGUMENTS_NAME, argumentsCombo
+						.getItem(argumentsCombo.getSelectionIndex()));
+			}
 
 		}
-		if (argumentsCombo.getSelectionIndex() >= 0) {
-			conf.setAttribute(Constants.ARGUMENTS_NAME,
-					argumentsCombo.getItem(argumentsCombo.getSelectionIndex()));
-		}
+
 	}
 
 	@Override

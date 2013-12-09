@@ -2,6 +2,9 @@ package pl.poznan.put.cs.gui4pddl.runners;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -77,13 +80,13 @@ public class LaunchConfigurationCreator {
 		 * workingCopy.setAttribute(Constants.PROBLEM_FILE,
 		 * ProjectFilesPathsHelpers.getRelativeFileLocation(file));
 		 */
-		IPath domain = getDomainPath(file);
-	
+		//IPath domain = getDomainPath(file);
+	/*
 		if (domain != null) {		
 			  workingCopy .setAttribute(Constants.DOMAIN_FILE,
 			  ProjectFilesPathsHelpers
 			  .getRelativeFileLocation(domain));
-		}
+		}*/
 		
 
 		workingCopy.setAttribute(Constants.LAUNCH_CONFIG_TYPE,
@@ -92,6 +95,12 @@ public class LaunchConfigurationCreator {
 		workingCopy.setAttribute(Constants.PROJECT, projName);
 
 		workingCopy.setAttribute(Constants.WORKING_DIRECTORY, baseDirectory);
+		
+	/*	IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		   IWorkspaceRoot root = workspace.getRoot();
+		   IResource resource = root.findMember(domain);
+		
+		workingCopy.setMappedResources(new IResource[] {resource ,(IResource) file});*/
 
 		workingCopy.setAttribute(IDebugUIConstants.ATTR_LAUNCH_IN_BACKGROUND,
 				captureOutput);

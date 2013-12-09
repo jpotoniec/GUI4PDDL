@@ -4,16 +4,12 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
-import org.eclipse.debug.ui.StringVariableSelectionDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
@@ -24,7 +20,7 @@ import pl.poznan.put.cs.gui4pddl.log.Log;
 public class PlannerArgumentsBlock extends AbstractLaunchConfigurationTab {
 
 	private Text argumentsText;
-	private String argument = "";
+	private int argumentsComboIndex;
 
 	/*
 	 * (non-Javadoc)
@@ -41,48 +37,41 @@ public class PlannerArgumentsBlock extends AbstractLaunchConfigurationTab {
 		group.setFont(font);
 		GridLayout gridLayout = new GridLayout();
 		group.setLayout(gridLayout);
-		group.setLayoutData(new GridData(GridData.FILL_BOTH));
+		group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 		String controlName = "Planner arguments: ";
 		group.setText(controlName);
 
 		argumentsText = new Text(group, SWT.MULTI | SWT.WRAP | SWT.BORDER
 				| SWT.V_SCROLL);
-		GridData gd = new GridData(GridData.FILL_BOTH);
-		gd.heightHint = 40;
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.heightHint = 80;
 		gd.widthHint = 100;
+		gd.horizontalAlignment = 4;
 		argumentsText.setLayoutData(gd);
 		argumentsText.setFont(font);
+		argumentsText.setEnabled(false);
 		argumentsText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent evt) {
 				updateLaunchConfigurationDialog();
 			}
 		});
 
-		String buttonLabel = "Variables...";
-		Button argumentsVariablesButton = createPushButton(group, buttonLabel,
-				null);
-
-		argumentsVariablesButton.setLayoutData(new GridData(
-				GridData.HORIZONTAL_ALIGN_END));
-		argumentsVariablesButton.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent e) {
-				StringVariableSelectionDialog dialog = new StringVariableSelectionDialog(
-						getShell());
-				dialog.open();
-				String variable = dialog.getVariableExpression();
-				if (variable != null) {
-					argumentsText.insert(variable);
-				}
-			}
-
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-		});
-	}
-
-	public void setArgumentText(String text) {
-		this.argument = text;
+		/*
+		 * String buttonLabel = "Variables..."; Button argumentsVariablesButton
+		 * = createPushButton(group, buttonLabel, null);
+		 * 
+		 * argumentsVariablesButton.setLayoutData(new GridData(
+		 * GridData.HORIZONTAL_ALIGN_END));
+		 * argumentsVariablesButton.addSelectionListener(new SelectionListener()
+		 * { public void widgetSelected(SelectionEvent e) {
+		 * StringVariableSelectionDialog dialog = new
+		 * StringVariableSelectionDialog( getShell()); dialog.open(); String
+		 * variable = dialog.getVariableExpression(); if (variable != null) {
+		 * argumentsText.insert(variable); } }
+		 * 
+		 * public void widgetDefaultSelected(SelectionEvent e) { } });
+		 */
 	}
 
 	public Text getArgumentText() {
@@ -97,6 +86,14 @@ public class PlannerArgumentsBlock extends AbstractLaunchConfigurationTab {
 	public String getName() {
 		return "Planner arguments";
 	}
+	
+	public void setDisabledDependsOnArgumentsComboIndex(int index) {
+		if (index > 0 || index < 0) {
+			argumentsText.setEnabled(false);
+		} else if (index == 0) {
+			argumentsText.setEnabled(true);
+		}
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -108,20 +105,19 @@ public class PlannerArgumentsBlock extends AbstractLaunchConfigurationTab {
 	public void initializeFrom(ILaunchConfiguration configuration) {
 		try {
 
-			if (argument == null || argument.isEmpty()) {
-				String text = configuration.getAttribute(
-						Constants.PLANNER_ARGUMENTS, "");
-				argumentsText.setText(text);
+			String text = configuration.getAttribute(
+					Constants.PLANNER_ARGUMENTS, "");
+			argumentsText.setText(text);
 
-			} else {
-
-				argumentsText.setText(argument);
-			}
 		} catch (CoreException e) {
 			setErrorMessage("Exception occurred reading configuration"
 					+ e.getStatus().getMessage());
 			Log.log(e);
 		}
+	}
+	
+	public void setArgumentsComboIndex(int index) {
+		argumentsComboIndex = index;
 	}
 
 	/*
@@ -134,6 +130,9 @@ public class PlannerArgumentsBlock extends AbstractLaunchConfigurationTab {
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
 		configuration.setAttribute(Constants.PLANNER_ARGUMENTS, argumentsText
 				.getText().trim());
+		if (argumentsComboIndex == 0) {
+			configuration.setAttribute(Constants.ARGUMENTS_NAME, argumentsText.getText().trim());
+		}
 	}
 
 	/*

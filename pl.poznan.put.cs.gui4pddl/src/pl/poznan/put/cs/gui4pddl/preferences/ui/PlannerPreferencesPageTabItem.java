@@ -538,6 +538,8 @@ public class PlannerPreferencesPageTabItem {
 						tabFolder.getSelection()[0].dispose();
 						if (tabFolder.getItemCount() == 0) {
 							tabFolder.setVisible(false);
+							page.setValid(true);
+							page.setErrorMessage(null);
 						}
 
 						MessageDialog.openInformation(fParent.getShell(),
