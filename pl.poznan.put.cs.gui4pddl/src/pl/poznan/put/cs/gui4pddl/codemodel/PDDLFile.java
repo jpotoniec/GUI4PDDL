@@ -16,6 +16,12 @@ public class PDDLFile {
 	private Set<PDDLProblem> problems = new HashSet<PDDLProblem>();
 	private Set<PDDLInitialSituation> initialSituations = new HashSet<PDDLInitialSituation>();
 	
+	public String toString(){
+	
+	
+		return String.format("(file %s (domains %s))", path, domains);
+	}
+	
 	public PDDLFile(String path) {
 		this.path = path;
 	}
@@ -69,6 +75,15 @@ public class PDDLFile {
 		return problems;
 	}
 	
+	public PDDLInitialSituation getInitialSituation(String name) {
+		for (PDDLInitialSituation s : initialSituations) {
+			if (s.getName().equals(name)) {
+				return s;
+			}
+		}
+		return null;
+	}
+	
 	public Collection<PDDLInitialSituation> getInitialSituations() {
 		return initialSituations;
 	}
@@ -96,7 +111,6 @@ public class PDDLFile {
 				* result
 				+ ((initialSituations == null) ? 0 : initialSituations
 						.hashCode());
-		result = prime * result + ((path == null) ? 0 : path.hashCode());
 		result = prime * result
 				+ ((problems == null) ? 0 : problems.hashCode());
 		return result;
@@ -120,11 +134,6 @@ public class PDDLFile {
 			if (other.initialSituations != null)
 				return false;
 		} else if (!initialSituations.equals(other.initialSituations))
-			return false;
-		if (path == null) {
-			if (other.path != null)
-				return false;
-		} else if (!path.equals(other.path))
 			return false;
 		if (problems == null) {
 			if (other.problems != null)

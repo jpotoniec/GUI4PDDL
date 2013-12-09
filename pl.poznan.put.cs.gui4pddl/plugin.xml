@@ -265,6 +265,13 @@
          
          
    </extension>
-   
-  
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="*">
+         <newWizardShortcut
+               id="pl.poznan.put.cs.gui4pddl.ui.wizards.PDDLFileWizard">
+         </newWizardShortcut>
+      </perspectiveExtension>
+   </extension>
 </plugin>

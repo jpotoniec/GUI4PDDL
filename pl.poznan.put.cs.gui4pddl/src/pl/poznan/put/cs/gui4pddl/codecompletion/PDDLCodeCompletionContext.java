@@ -2,6 +2,8 @@ package pl.poznan.put.cs.gui4pddl.codecompletion;
 
 import java.io.InputStream;
 import java.util.EmptyStackException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Stack;
 
 import org.antlr.runtime.ANTLRInputStream;
@@ -11,6 +13,9 @@ import org.antlr.runtime.Token;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 
+import pl.poznan.put.cs.gui4pddl.codemodel.IPDDLCodeModel;
+import pl.poznan.put.cs.gui4pddl.codemodel.PDDLCodeModel;
+import pl.poznan.put.cs.gui4pddl.codemodel.PDDLFile;
 import pl.poznan.put.cs.gui4pddl.parser.PDDLLexer;
 
 public class PDDLCodeCompletionContext {
@@ -24,29 +29,98 @@ public class PDDLCodeCompletionContext {
 	
 	private DefinitionType type = DefinitionType.NONE;
 	private String name = "";
-	private Stack<Token> openingTokenStack = new Stack<Token>();
+	//privateBoolean is whitespace
 	
+	//public int currentTokenNumber
 	
-	public PDDLCodeCompletionContext(IDocument document, int offset) {
-		getContextInfo(document, offset);
+	//Stack of lists of {tokenType, tokenText}
+	
+	//equals
+	
+	private Stack<List<Token>> scopeStack; 
+	private List<Token> currentScope;
+	private char lastChar;
+	private IPDDLCodeModel codeModel;
+	private PDDLFile fileIndex;
+	
+	public PDDLCodeCompletionContext(IPDDLCodeModel model, PDDLFile fileIndex) {
+		scopeStack = new Stack<List<Token>>();
+		currentScope = new LinkedList<Token>();
+		scopeStack.push(currentScope);
+
+		this.codeModel = model;
+		this.fileIndex = fileIndex;
+	}
+	
+	public IPDDLCodeModel getCodeModel() {
+		return codeModel;
+	}
+	
+	public PDDLFile getFileIndex() {
+		return fileIndex;
 	}
 	
 	//pobiera token znajdujący się jako piewszy po tym samym nawiasie co kursor
 	public Token getOpeningToken() {
-		try {
-			return openingTokenStack.peek();
-		} catch (EmptyStackException e) {
-			return null;
-		}
+		if (currentScope != null && currentScope.size() > 0)
+			return currentScope.get(0);
+		return null;
 	}
 	
+	public boolean isOpeningToken(int type, boolean recursive) {
+		int i = scopeStack.size() - 1;
+		do {
+			List<Token> scope = scopeStack.get(i);
+			if (scope.size() > 0 && scope.get(0).getType() == type)
+				return true;
+			i--;
+		} while (recursive && i > 0);
+		
+		return false;
+	}
 	
-	private void getContextInfo(IDocument document, int offset) {
+	public boolean isPrecedingToken(int type, boolean recursive, boolean includeCurrentScope) {
+		int i;
+		if (includeCurrentScope)
+			i = scopeStack.size() - 1;
+		else 
+			i = scopeStack.size() - 2;
+		
+		do {
+			List<Token> scope = scopeStack.get(i);
+			if (scope.size() >= 2 && scope.get(scope.size() - 2).getType() == type)
+				return true;
+			i--;
+		} while (recursive && i > 0);
+		
+		return false;
+	}
+	
+	public boolean isFirstInScope() {
+		if (currentScope.size() == 0)
+			return true;
+		if (currentScope.size() == 1 && !Character.isWhitespace(lastChar))
+			return true;
+
+		return false;
+	}
+	
+	public DefinitionType getDefinitionType() {
+		return type;
+	}
+	
+	public String getDefinitionName() {
+		return name;
+	}
+	
+	public void parse(IDocument document, int offset) {
 		try {
 			if (document.getPartition(offset).getType() == null) {
 				type = DefinitionType.COMMENT;
 				return;
 			}
+			
+			lastChar = document.getChar(offset-1);
 
 			ANTLRStringStream input = new ANTLRStringStream(document.get(0,
 					offset));
@@ -72,7 +146,7 @@ public class PDDLCodeCompletionContext {
 		case INITSIT: typename = "INITSIT"; break;
 		default: typename = "NONE";
 		}
-		return String.format("(%s %s stack:(%s))", typename, name, openingTokenStack);
+		return String.format("(%s %s last: %c stack:(%s))", typename, name, lastChar, scopeStack);
 	}
 	
 	
@@ -84,7 +158,6 @@ public class PDDLCodeCompletionContext {
 	
 	private class TokenParser {
 		private HeaderState headerState = HeaderState.NONE;
-		private boolean openingToken = false;
 		
 		private void catchHeader(Token t) {			
 			switch (headerState) {
@@ -126,25 +199,20 @@ public class PDDLCodeCompletionContext {
 			
 			catchHeader(t);
 			
-			if (openingToken)
-				openingTokenStack.push(t);
 			
-			if (t.getType() == PDDLLexer.PLEFT)
-				openingToken = true;
-			else
-				openingToken = false;
+			currentScope.add(t);
 			
-			if (t.getType() == PDDLLexer.PRIGHT) {
-				try {
-					openingTokenStack.pop();
-				} catch (EmptyStackException e) {}
-				if (openingTokenStack.empty())
-				{
-					type = DefinitionType.NONE;
-					name = "";
-				}
+			if (t.getType() == PDDLLexer.PLEFT) {
+				currentScope = new LinkedList<Token>();
+				scopeStack.push(currentScope);
 			}
 			
+			if (t.getType() == PDDLLexer.PRIGHT) {
+				if (scopeStack.size() > 1) {
+					scopeStack.pop();
+					currentScope = scopeStack.peek();
+				}
+			}
 		}
 	}
 	

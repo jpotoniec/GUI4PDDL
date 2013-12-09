@@ -69,4 +69,34 @@ public class PDDLRequirementSet {
 	public boolean hasRequirement(String name) {
 		return requirements.contains(name);
 	}
+
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((requirements == null) ? 0 : requirements.hashCode());
+		return result;
+	}
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PDDLRequirementSet other = (PDDLRequirementSet) obj;
+		if (requirements == null) {
+			if (other.requirements != null)
+				return false;
+		} else if (!requirements.equals(other.requirements))
+			return false;
+		return true;
+	}
 }

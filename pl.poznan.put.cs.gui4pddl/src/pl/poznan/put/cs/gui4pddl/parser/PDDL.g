@@ -13,6 +13,10 @@ tokens {
 	PLEFT = '(';
 	PRIGHT = ')';
 	REQUIRE_DEF = ':requirements';
+	PRECONDITION = ':precondition';
+	EFFECT = ':effect';
+	INIT = ':init';
+	GOAL = ':goal';
 }
 
 @header {
@@ -151,26 +155,18 @@ structure_def
 Actions (5)
 */
 action_def 
-	:	'('! ':action' action_functor
-			':parameters' '('! typed_list_of_variable ')'!
-			action_def_body ')'!
+	:	'(' ':action' NAME
+			':parameters' '(' typed_list_of_variable ')'
+			action_def_body_item* ')'   -> ^(':action' NAME ^(':parameters' typed_list_of_variable) action_def_body_item*) 
 	;
-	
-action_functor
-	:    NAME
-	;
-	
-action_def_body
-    :    action_def_body_item*
-    ;
     
 action_def_body_item
-    :    ':vars' '('! typed_list_of_variable ')'! //:existential-preconditions, :conditional-effects
-    |    ':precondition' gd
-    |    ':expansion' action_spec       //action expansions
-    |    ':maintain' gd                  //action expansions
-    |    ':effect' effect
-    |    ':only-in-expansions' boolean_type  //action expansions
+    :    ':vars'^ '('! typed_list_of_variable ')'! //:existential-preconditions, :conditional-effects
+    |    ':precondition'^ gd
+    |    ':expansion'^ action_spec       //action expansions
+    |    ':maintain'^ gd                  //action expansions
+    |    ':effect'^ effect
+    |    ':only-in-expansions'^ boolean_type  //action expansions
     ;
 
 /*
@@ -343,9 +339,11 @@ typed_list_of_name_test
 	;
 
 typed_list_of_variable
-	:	
-	|	VARIABLE+ ('-' type typed_list_of_variable)? //:typing
+	:   -> ^(NAMEDEF)
+	|   VARIABLE+ -> ^(NAMEDEF VARIABLE)+
+	|   VARIABLE+ '-' type tail=typed_list_of_variable -> ^(NAMEDEF VARIABLE type)+ $tail
 	;
+
 
 type 	:	NAME -> NAME
 	|	'(' 'either' type+ ')' -> ^('either' type+)
@@ -362,7 +360,7 @@ method_def
 	
 //
 atomic_formula_skeleton 
-	:	'('! predicate typed_list_of_variable ')'!
+	:	'('! predicate^ typed_list_of_variable ')'!
 	;
 	
 

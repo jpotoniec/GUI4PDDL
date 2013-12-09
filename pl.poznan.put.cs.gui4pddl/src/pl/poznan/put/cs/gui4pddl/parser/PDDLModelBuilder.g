@@ -25,7 +25,7 @@ scope {
 	PDDLInitialSituation initsit;
 }
 	:	^( 'define' problem_header {$definition::problem=$problem_header.val; $file.addProblem($definition::problem);} problem_item* )
-	|	^( 'define' domain_header {$definition::domain=$domain_header.val; $file.addDomain($definition::domain);} domain_item* )
+	|	^( 'define' domain_header {$definition::domain=$domain_header.val; $file.addDomain($definition::domain);} domain_item[$definition::domain]* )
 	|   ^( 'define' initsit_header {$definition::initsit=$initsit_header.val;} initsit_body ) {$file.addInitialSituation($definition::initsit);}
 	;
 
@@ -39,6 +39,7 @@ domain_header
 	;
 
 domain_item
+	[PDDLDomain domain]
 	:	extension_def
 	|	require_def[$definition::domain.getRequirementSet()]
 	|	types_def
@@ -47,7 +48,7 @@ domain_item
 	|	predicates_def
 	|	timeless_def
 	|	safety_def
-	|	structure_def
+	|	structure_def[$domain]
 	;
 	
 extension_def 
@@ -71,7 +72,7 @@ domain_vars_def
 	;
 
 predicates_def 
-	:	^(':predicates' atomic_formula_skeleton+)
+	:	^(':predicates' (pred=atomic_formula_skeleton {$definition::domain.addPredicate($pred.val);})+)
 	;
 
 timeless_def
@@ -82,8 +83,9 @@ safety_def
 	:	^(':safety' . )
 	;
 	
-structure_def 
-	:	^(':action' .* )
+structure_def
+[PDDLDomain domain]
+	:	action_def[$domain]
 	|   ^(':axiom' .* )
 	|   ^(':method' .* )
 	;
@@ -121,9 +123,29 @@ type
 
 atomic_formula_skeleton
 	returns [PDDLPredicate val]
-    :  NAME list=typed_list {$val = new PDDLPredicate($NAME.text, $list.list);}
+    :  ^(NAME list=typed_list) {$val = new PDDLPredicate($NAME.text, $list.list);}
     ;
     
+action_def
+	[PDDLDomain domain]
+	@init {
+		PDDLAction action;
+	}
+	: ^(':action' NAME
+		{
+		   action = new PDDLAction($NAME.text);
+		   $domain.addAction(action);
+	    } 
+	    ^(':parameters' typed_list {action.addParameters($typed_list.list);})
+	  action_def_body_item[action]*) 
+	;
+    
+action_def_body_item
+	[PDDLAction action]
+    :    ^(':vars' typed_list {$action.addVariables($typed_list.list);})
+    |    .
+    ;
+
  /* Problems (13)*/  
 problem_header
 	returns [PDDLProblem val]
