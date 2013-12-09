@@ -1,5 +1,9 @@
 package pl.poznan.put.cs.gui4pddl.runners;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -80,14 +84,47 @@ public class LaunchConfigurationCreator {
 		 * workingCopy.setAttribute(Constants.PROBLEM_FILE,
 		 * ProjectFilesPathsHelpers.getRelativeFileLocation(file));
 		 */
-		//IPath domain = getDomainPath(file);
-	/*
-		if (domain != null) {		
-			  workingCopy .setAttribute(Constants.DOMAIN_FILE,
-			  ProjectFilesPathsHelpers
-			  .getRelativeFileLocation(domain));
-		}*/
-		
+
+		IPDDLNature nature = PDDLNature.getPDDLNature(project);
+		PDDLFile pddlFile = getPDDLFile(file);
+		if (isDomainFile(pddlFile)) {
+			IPath problemPath = getProblemPath(pddlFile, nature);
+			if (problemPath != null) {
+				workingCopy.setAttribute(Constants.PROBLEM_FILE,
+						ProjectFilesPathsHelpers
+								.getRelativeFileLocation(problemPath));
+
+				System.out.println("DOMAIN FILE: "
+						+ file.getFullPath().toOSString());
+				System.out.println("PROBLEM FILE: " + problemPath.toOSString());
+				workingCopy.setMappedResources(new IResource[] { file,
+						project.getFile(problemPath) });
+			}
+			workingCopy.setAttribute(Constants.DOMAIN_FILE,
+					ProjectFilesPathsHelpers.getRelativeFileLocation(file
+							.getFullPath()));
+		} else if (isProblemFile(pddlFile)) {
+			IPath domainPath = getDomainPath(pddlFile, nature);
+			if (domainPath != null) {
+
+				workingCopy.setAttribute(Constants.DOMAIN_FILE,
+						ProjectFilesPathsHelpers
+								.getRelativeFileLocation(domainPath));
+				System.out.println("DOMAIN FILE: " + domainPath.toOSString());
+				System.out.println("PROBLEM FILE: "
+						+ file.getFullPath().toOSString());
+				workingCopy.setMappedResources(new IResource[] {
+						project.getFile(domainPath), file });
+			}
+			workingCopy.setAttribute(Constants.PROBLEM_FILE,
+					ProjectFilesPathsHelpers.getRelativeFileLocation(file
+							.getFullPath()));
+		}
+
+		/*
+		 * if (domain != null) { workingCopy.setAttribute(Constants.DOMAIN_FILE,
+		 * ProjectFilesPathsHelpers.getRelativeFileLocation(domain)); }
+		 */
 
 		workingCopy.setAttribute(Constants.LAUNCH_CONFIG_TYPE,
 				"pl.poznan.put.cs.gui4pddl.runners.PDDLApplication");
@@ -95,12 +132,12 @@ public class LaunchConfigurationCreator {
 		workingCopy.setAttribute(Constants.PROJECT, projName);
 
 		workingCopy.setAttribute(Constants.WORKING_DIRECTORY, baseDirectory);
-		
-	/*	IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		   IWorkspaceRoot root = workspace.getRoot();
-		   IResource resource = root.findMember(domain);
-		
-		workingCopy.setMappedResources(new IResource[] {resource ,(IResource) file});*/
+
+		/*
+		 * IWorkspace workspace = ResourcesPlugin.getWorkspace(); IWorkspaceRoot
+		 * root = workspace.getRoot(); IResource resource =
+		 * root.findMember(domain);
+		 */
 
 		workingCopy.setAttribute(IDebugUIConstants.ATTR_LAUNCH_IN_BACKGROUND,
 				captureOutput);
@@ -114,29 +151,83 @@ public class LaunchConfigurationCreator {
 
 	}
 
-	private static IPath getDomainPath(IFile currentlyEditedFile) {
+	private static PDDLFile getPDDLFile(IFile currentlyEditedFile) {
 		if (currentlyEditedFile != null) {
 			IProject project = currentlyEditedFile.getProject();
 			if (project != null) {
 				IPDDLNature nature = PDDLNature.getPDDLNature(project);
 				IPDDLCodeModel codeModel = nature.getCodeModel();
 				PDDLFile file = codeModel.getFile(currentlyEditedFile, true);
-				if (file != null) {
-					for (PDDLProblem problem : file.getProblems()) {
-						// getProblems zwraca kolekcję, nie posiadającą metody
-						// at(1)
-						// lub get
-						// tylko można używać iteratora
-						PDDLDomain domain = codeModel.getDomain(problem);
-						if (domain != null) {
-							IPath domainPath = domain.getFile().getFullPath();
-							return domainPath;
-						}
+				return file;
+			}
+		}
+		return null;
+	}
+
+	private static boolean isDomainFile(PDDLFile file) {
+		if (file != null) {
+			if (file.getDomains().size() > 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private static boolean isProblemFile(PDDLFile file) {
+		if (file != null) {
+			if (file.getProblems().size() > 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private static IPath getDomainPath(PDDLFile file, IPDDLNature nature) {
+		if (file != null) {
+			IPDDLCodeModel codeModel = nature.getCodeModel();
+			for (PDDLProblem problem : file.getProblems()) {
+				PDDLDomain domain = codeModel.getDomain(problem);
+				if (domain != null) {
+					IPath domainPath = domain.getFile().getFullPath();
+					return domainPath;
+				}
+			}
+		}
+		return null;
+	}
+
+	private static IPath getProblemPath(PDDLFile file, IPDDLNature nature) {
+		if (file != null) {
+			IPDDLCodeModel codeModel = nature.getCodeModel();
+			for (PDDLDomain domain : file.getDomains()) {
+				ArrayList<PDDLProblem> problems = (ArrayList<PDDLProblem>) codeModel
+						.getProblems(domain.getName());
+				System.out.println(problems.size());
+				if (problems.size() == 1) {
+					if (problems.get(0) != null) {
+						IPath problemPath = problems.get(0).getFile()
+								.getFullPath();
+						return problemPath;
 					}
 				}
 			}
 		}
 		return null;
 	}
+
+	/*
+	 * private static IPath getDomainPath(IFile currentlyEditedFile) { if
+	 * (currentlyEditedFile != null) { IProject project =
+	 * currentlyEditedFile.getProject(); if (project != null) { IPDDLNature
+	 * nature = PDDLNature.getPDDLNature(project); IPDDLCodeModel codeModel =
+	 * nature.getCodeModel(); PDDLFile file =
+	 * codeModel.getFile(currentlyEditedFile, true); System.out.println(file);
+	 * if (file != null) { for (PDDLProblem problem : file.getProblems()) { //
+	 * getProblems zwraca kolekcję, nie posiadającą metody // at(1) // lub get
+	 * // tylko można używać iteratora PDDLDomain domain =
+	 * codeModel.getDomain(problem); if (domain != null) { IPath domainPath =
+	 * domain.getFile().getFullPath(); return domainPath; } } } } } return null;
+	 * }
+	 */
 
 }

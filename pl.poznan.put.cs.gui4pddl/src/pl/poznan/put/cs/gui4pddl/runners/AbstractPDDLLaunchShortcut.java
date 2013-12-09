@@ -133,7 +133,7 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 	 * configuration for the given file.
 	 */
 	protected List<ILaunchConfiguration> findExistingLaunchConfigurations(
-			IProject project) {
+			IProject project, IFile file) {
 		ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
 		ILaunchConfigurationType type = manager
 				.getLaunchConfigurationType(getLaunchConfigurationType());
@@ -147,7 +147,17 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 					.getLaunchConfigurations(type);
 			
 			// let's see if we can find it with a location relative or not.
-			String location = ProjectFilesPathsHelpers
+			
+			for (ILaunchConfiguration config : configs) {
+				for (IResource resource : config.getMappedResources()) {
+					if (resource.equals(file)) {
+						validConfigs.add(config);
+						break;
+					}
+				}
+			}
+			
+			/*String location = ProjectFilesPathsHelpers
 					.getProjectLocation(project);
 
 			for (int i = 0; i < configs.length; i++) {
@@ -157,7 +167,7 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 				if (location.equals(configPath)) {
 					validConfigs.add(configs[i]);
 				}
-			}
+			}*/
 		} catch (CoreException e) {
 			reportError("Unexpected error", e);
 		}
@@ -248,10 +258,14 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 							ILaunchConfiguration configuration = (ILaunchConfiguration) element;
 							try {
 								return labelProvider.getText(element)
-										+ " - "
+										+ "\nDomain: "
+										+ ProjectFilesPathsHelpers.getPDDLFileNameWithoutExtension(ProjectFilesPathsHelpers.getAbsoluteFilePathFromRelativePath(configuration.getAttribute(Constants.DOMAIN_FILE, "")))
+										+ "\nProblem: "
+										+ ProjectFilesPathsHelpers.getPDDLFileNameWithoutExtension(ProjectFilesPathsHelpers.getAbsoluteFilePathFromRelativePath(configuration.getAttribute(Constants.PROBLEM_FILE, "")))
+										+ "\n"
 										+ configuration.getAttribute(
 												Constants.PLANNER_NAME, "")
-										+ " : "
+										+ "\n"
 										+ configuration.getAttribute(
 												Constants.ARGUMENTS_NAME, "");
 							} catch (CoreException ex) {
@@ -302,7 +316,7 @@ public abstract class AbstractPDDLLaunchShortcut implements ILaunchShortcut {
 	 */
 	protected void launch(IProject project, String mode, IFile file) {
 		ILaunchConfiguration conf = null;
-		List<ILaunchConfiguration> configurations = findExistingLaunchConfigurations(project);
+		List<ILaunchConfiguration> configurations = findExistingLaunchConfigurations(project,file);
 		if (configurations.isEmpty())
 			conf = createDefaultLaunchConfiguration(project,file);
 		else {

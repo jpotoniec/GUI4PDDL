@@ -60,7 +60,7 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 
 	private Group createPlannerGroup(Composite parent) {
 		Font font = parent.getFont();
-		Group plannerGroup = initializeGroup(parent, font, 5);
+		Group plannerGroup = initializeGroup(parent, font, 11);
 
 		Label label = new Label(plannerGroup, SWT.NONE);
 		GridData gd = new GridData();
@@ -76,6 +76,7 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 		setControl(group);
 
 		GridLayout topLayout = new GridLayout();
+		topLayout.makeColumnsEqualWidth = true;
 		topLayout.numColumns = columns;
 		group.setLayout(topLayout);
 		group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -90,7 +91,7 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 		GridData gd = new GridData();
 		gd.grabExcessHorizontalSpace = true;
 		gd.horizontalAlignment = SWT.FILL;
-		gd.horizontalSpan = 2;
+		gd.horizontalSpan = 5;
 		Combo combo = new Combo(plannerGroup, SWT.READ_ONLY);
 		combo.setLayoutData(gd);
 		return combo;
