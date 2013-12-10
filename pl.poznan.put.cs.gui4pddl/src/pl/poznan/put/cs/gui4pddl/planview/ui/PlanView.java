@@ -43,13 +43,18 @@ import org.eclipse.jface.window.ToolTip;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IViewPart;
@@ -118,6 +123,8 @@ public class PlanView extends ViewPart {
 	private IAction refreshAllProjectsAction;
 	private IAction openPlanWorkingDirAction;
 	private IAction openPlanFileInExternalEditor;
+	
+	private PlanViewFilter filter;
 
 	/**
 	 * The constructor.
@@ -132,12 +139,28 @@ public class PlanView extends ViewPart {
 	 */
 	@SuppressWarnings("deprecation")
 	public void createPartControl(Composite parent) {
-
+		Composite textComposite = new Composite(parent, SWT.NONE);
+		GridLayout textCompositeGridLayout = new GridLayout(2, false);
+		textComposite.setLayout(textCompositeGridLayout);
+		Label searchLabel = new Label(textComposite, SWT.NONE);
+		searchLabel.setText("Search:");
+		final Text text = new Text(textComposite, SWT.SINGLE | SWT.BORDER);
+		GridData textGridData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
+		text.setLayoutData(textGridData);
+		
+		Composite tableComposite = new Composite(textComposite, SWT.NONE);
+		
 		TableColumnLayout layout = new TableColumnLayout();
-		parent.setLayout(layout);
-		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL
+		tableComposite.setLayout(layout);
+		GridData tableGridData = new GridData(SWT.FILL, SWT.FILL, true, true);
+		tableGridData.horizontalSpan = 2;
+		tableComposite.setLayoutData(tableGridData);
+		
+		
+		
+		viewer = new TableViewer(tableComposite, SWT.MULTI | SWT.H_SCROLL
 				| SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
-		createColumns(layout, parent, viewer);
+		createColumns(layout, tableComposite, viewer);
 		final Table table = viewer.getTable();
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
@@ -178,6 +201,16 @@ public class PlanView extends ViewPart {
 				clearSelectedPlanAction);
 		bars.setGlobalActionHandler(IWorkbenchActionConstants.REFRESH,
 				refreshAllProjectsAction);
+		
+		filter = new PlanViewFilter();
+	    viewer.addFilter(filter);
+	    
+	    text.addKeyListener(new KeyAdapter() {
+	    	public void keyReleased(final KeyEvent e) {
+	    		filter.setSearchText(text.getText());
+	    		viewer.refresh();
+	    	}	    	
+	    });
 
 		viewer.setInput(PlanViewDataManager.getManager());
 
