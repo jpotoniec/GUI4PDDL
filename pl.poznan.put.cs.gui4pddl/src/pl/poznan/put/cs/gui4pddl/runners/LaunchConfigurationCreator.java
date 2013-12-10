@@ -40,15 +40,15 @@ public class LaunchConfigurationCreator {
 
 	public static ILaunchConfigurationWorkingCopy createDefaultLaunchConfiguration(
 			IProject project, String launchConfigurationType, String location,
-			String projName, IFile file) throws CoreException {
+			String projName, IResource resource) throws CoreException {
 		return createDefaultLaunchConfiguration(project,
-				launchConfigurationType, location, projName, "", true, file);
+				launchConfigurationType, location, projName, "", true, resource);
 	}
 
 	private static ILaunchConfigurationWorkingCopy createDefaultLaunchConfiguration(
 			IProject project, String launchConfigurationType, String location,
 			String projName, String programArguments, boolean captureOutput,
-			IFile file) throws CoreException {
+			IResource resource) throws CoreException {
 
 		ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
 		ILaunchConfigurationType type = manager
@@ -85,40 +85,49 @@ public class LaunchConfigurationCreator {
 		 * ProjectFilesPathsHelpers.getRelativeFileLocation(file));
 		 */
 
-		IPDDLNature nature = PDDLNature.getPDDLNature(project);
-		PDDLFile pddlFile = getPDDLFile(file);
-		if (isDomainFile(pddlFile)) {
-			IPath problemPath = getProblemPath(pddlFile, nature);
-			if (problemPath != null) {
-				workingCopy.setAttribute(Constants.PROBLEM_FILE,
-						ProjectFilesPathsHelpers
-								.getRelativeFileLocation(problemPath));
+		if (resource instanceof IFile) {
 
-				System.out.println("DOMAIN FILE: "
-						+ file.getFullPath().toOSString());
-				System.out.println("PROBLEM FILE: " + problemPath.toOSString());
-				workingCopy.setMappedResources(new IResource[] { file,
-						project.getFile(problemPath) });
-			}
-			workingCopy.setAttribute(Constants.DOMAIN_FILE,
-					ProjectFilesPathsHelpers.getRelativeFileLocation(file
-							.getFullPath()));
-		} else if (isProblemFile(pddlFile)) {
-			IPath domainPath = getDomainPath(pddlFile, nature);
-			if (domainPath != null) {
+			IPDDLNature nature = PDDLNature.getPDDLNature(project);
+			PDDLFile pddlFile = getPDDLFile((IFile) resource);
+			if (isDomainFile(pddlFile)) {
+				IPath problemPath = getProblemPath(pddlFile, nature);
+				if (problemPath != null) {
+					workingCopy.setAttribute(Constants.PROBLEM_FILE,
+							ProjectFilesPathsHelpers
+									.getRelativeFileLocation(problemPath));
 
-				workingCopy.setAttribute(Constants.DOMAIN_FILE,
-						ProjectFilesPathsHelpers
-								.getRelativeFileLocation(domainPath));
-				System.out.println("DOMAIN FILE: " + domainPath.toOSString());
-				System.out.println("PROBLEM FILE: "
-						+ file.getFullPath().toOSString());
-				workingCopy.setMappedResources(new IResource[] {
-						project.getFile(domainPath), file });
+					System.out.println("DOMAIN FILE: "
+							+ resource.getFullPath().toOSString());
+					System.out.println("PROBLEM FILE: "
+							+ problemPath.toOSString());
+					workingCopy.setMappedResources(new IResource[] { resource,
+							project.getFile(problemPath) });
+				}
+				workingCopy
+						.setAttribute(Constants.DOMAIN_FILE,
+								ProjectFilesPathsHelpers
+										.getRelativeFileLocation(resource
+												.getFullPath()));
+			} else if (isProblemFile(pddlFile)) {
+				IPath domainPath = getDomainPath(pddlFile, nature);
+				if (domainPath != null) {
+
+					workingCopy.setAttribute(Constants.DOMAIN_FILE,
+							ProjectFilesPathsHelpers
+									.getRelativeFileLocation(domainPath));
+					System.out.println("DOMAIN FILE: "
+							+ domainPath.toOSString());
+					System.out.println("PROBLEM FILE: "
+							+ resource.getFullPath().toOSString());
+					workingCopy.setMappedResources(new IResource[] {
+							project.getFile(domainPath), resource });
+				}
+				workingCopy
+						.setAttribute(Constants.PROBLEM_FILE,
+								ProjectFilesPathsHelpers
+										.getRelativeFileLocation(resource
+												.getFullPath()));
 			}
-			workingCopy.setAttribute(Constants.PROBLEM_FILE,
-					ProjectFilesPathsHelpers.getRelativeFileLocation(file
-							.getFullPath()));
 		}
 
 		/*
