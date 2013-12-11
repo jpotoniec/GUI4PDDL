@@ -240,19 +240,25 @@ public class DomainAndProblemFilesBlock extends AbstractLaunchConfigurationTab {
 		setAttribute(configuration, Constants.PROBLEM_FILE,
 				problemFilePathString);
 
-	/*	String domain;
-		try {
-			domain = ProjectFilesPathsHelpers.getPDDLFileNameWithoutExtension(ProjectFilesPathsHelpers
-					.getAbsoluteFilePathFromRelativePath(domainFilePathString));
-			String problem = ProjectFilesPathsHelpers.getPDDLFileNameWithoutExtension(ProjectFilesPathsHelpers
-					.getAbsoluteFilePathFromRelativePath(problemFilePathString));
-			setAttribute(configuration, Constants.WORKING_DIRECTORY, configuration.getAttribute(Constants.WORKING_DIRECTORY, "") + File.separator + domain + File.separator + problem);
-			System.out.println("NEW WORKING DIRECTORY " + configuration.getAttribute(Constants.WORKING_DIRECTORY, configuration.getAttribute(Constants.WORKING_DIRECTORY, "") + File.separator + domain + File.separator + problem));
-		} catch (CoreException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}*/
-		
+		/*
+		 * String domain; try { domain =
+		 * ProjectFilesPathsHelpers.getPDDLFileNameWithoutExtension
+		 * (ProjectFilesPathsHelpers
+		 * .getAbsoluteFilePathFromRelativePath(domainFilePathString)); String
+		 * problem = ProjectFilesPathsHelpers.getPDDLFileNameWithoutExtension(
+		 * ProjectFilesPathsHelpers
+		 * .getAbsoluteFilePathFromRelativePath(problemFilePathString));
+		 * setAttribute(configuration, Constants.WORKING_DIRECTORY,
+		 * configuration.getAttribute(Constants.WORKING_DIRECTORY, "") +
+		 * File.separator + domain + File.separator + problem);
+		 * System.out.println("NEW WORKING DIRECTORY " +
+		 * configuration.getAttribute(Constants.WORKING_DIRECTORY,
+		 * configuration.getAttribute(Constants.WORKING_DIRECTORY, "") +
+		 * File.separator + domain + File.separator + problem)); } catch
+		 * (CoreException e1) { // TODO Auto-generated catch block
+		 * e1.printStackTrace(); }
+		 */
+
 		IPath domainPath = null;
 		IPath problemPath = null;
 		if (domainFilePathString != null && problemFilePathString != null
@@ -459,9 +465,11 @@ public class DomainAndProblemFilesBlock extends AbstractLaunchConfigurationTab {
 
 							if (members[i] instanceof IFile) {
 								IFile file = (IFile) members[i];
-								if (file.getFileExtension().equalsIgnoreCase(
-										"pddl")) {
-									children.add(file);
+								if (file.getFileExtension() != null) {
+									if (file.getFileExtension()
+											.equalsIgnoreCase("pddl")) {
+										children.add(file);
+									}
 								}
 							} else if (members[i] instanceof IContainer) {
 								children.add(members[i]);
