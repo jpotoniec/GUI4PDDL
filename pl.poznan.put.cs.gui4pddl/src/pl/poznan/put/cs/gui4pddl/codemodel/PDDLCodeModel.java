@@ -11,7 +11,7 @@ import org.eclipse.core.runtime.IPath;
 import pl.poznan.put.cs.gui4pddl.log.Log;
 import pl.poznan.put.cs.gui4pddl.parser.PDDLIndexer;
 
-public class PDDLCodeModel implements IPDDLCodeModel, IPDDLFileSet {
+public class PDDLCodeModel implements IPDDLCodeModel, IPDDLProjectIndex {
 
 	private TreeMap<String, PDDLFile> files = new TreeMap<String, PDDLFile>();
 	
@@ -41,11 +41,32 @@ public class PDDLCodeModel implements IPDDLCodeModel, IPDDLFileSet {
 		PDDLFile fileIndex = files.get(file.getFullPath().toPortableString());
 		if (fileIndex == null && parse) {
 			try {
-				PDDLIndexer.indexPDDLFile(file, this);
+				PDDLIndexer.indexPDDLFile(file, null);
 			} catch (RuntimeException e) {
 				Log.log(e);
 			}
 			fileIndex = files.get(file.getFullPath().toPortableString());
+		}
+		return fileIndex;
+	}
+	
+	private PDDLFile getFile(IPath path, boolean parse) {
+		String key = path.toPortableString();
+		PDDLFile fileIndex = files.get(key);
+		if (fileIndex == null && parse) {
+			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+			IFile file = root.getFile(path);
+			if (file.exists()) {
+				try {
+					PDDLIndexer.indexPDDLFile(file, null);
+				} catch (RuntimeException e) {
+					Log.log(e);
+				}
+				
+				fileIndex = files.get(key);
+				if (fileIndex == null)
+					return null;
+			}
 		}
 		return fileIndex;
 	}
@@ -95,9 +116,7 @@ public class PDDLCodeModel implements IPDDLCodeModel, IPDDLFileSet {
 	 * @param name
 	 * @return
 	 */
-	private PDDLDomain checkDomainFile(IPath path, String name) {
-		System.out.printf("Checking domain file %s\n", path.toOSString());
-		
+	private PDDLDomain checkDomainFile(IPath path, String name) {	
 		PDDLFile fileIndex = getFile(path, true);
 		if (fileIndex == null)
 			return null;
@@ -111,29 +130,6 @@ public class PDDLCodeModel implements IPDDLCodeModel, IPDDLFileSet {
 		return null;
 	}
 	
-	private PDDLFile getFile(IPath path, boolean parse) {
-		String key = path.toPortableString();
-		PDDLFile fileIndex = files.get(key);
-		if (fileIndex == null && parse) {
-			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-			IFile file = root.getFile(path);
-			if (file.exists()) {
-				try {
-					PDDLIndexer.indexPDDLFile(file, this);
-				} catch (RuntimeException e) {
-					Log.log(e);
-				}
-				
-				fileIndex = files.get(key);
-				if (fileIndex == null)
-					return null;
-			}
-		}
-		return fileIndex;
-	}
-	
-	//TODO: struktura domena -> pliki pod nia
-	
 	@Override
 	public Iterable<PDDLDomain> getDomains(String name) {
 		ArrayList<PDDLDomain> result = new ArrayList<PDDLDomain>();
@@ -141,6 +137,18 @@ public class PDDLCodeModel implements IPDDLCodeModel, IPDDLFileSet {
 			for (PDDLDomain domain: file.getDomains()) {
 				if ((name == null) || (name.equals(domain.getName())))
 					result.add(domain);
+			}
+		}
+		return result;
+	}
+	
+	@Override
+	public Iterable<PDDLProblem> getProblemsByDomain(PDDLDomain domain) {
+		ArrayList<PDDLProblem> result = new ArrayList<PDDLProblem>();
+		for (PDDLFile file : files.values()) {
+			for (PDDLProblem problem: file.getProblems()) {
+				if (problem.getDomainName().equals(domain.getName()))
+					result.add(problem);
 			}
 		}
 		return result;

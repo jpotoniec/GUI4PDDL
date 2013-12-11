@@ -15,7 +15,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 
 import pl.poznan.put.cs.gui4pddl.IPDDLNature;
 import pl.poznan.put.cs.gui4pddl.PDDLNature;
-import pl.poznan.put.cs.gui4pddl.codemodel.IPDDLCodeModel;
+import pl.poznan.put.cs.gui4pddl.codemodel.IPDDLProjectIndex;
 import pl.poznan.put.cs.gui4pddl.log.Log;
 
 public class Builder extends IncrementalProjectBuilder {
@@ -42,10 +42,9 @@ public class Builder extends IncrementalProjectBuilder {
 		} else if (kind == CLEAN_BUILD ) {
 			IPDDLNature nature = PDDLNature.getPDDLNature(project);
 			if (nature != null) {
-				IPDDLCodeModel model = nature.getCodeModel();
-				if (model != null) {
-					model.clear();
-				}
+				IPDDLProjectIndex index = nature.getPDDLProjectIndex();
+				if (index != null)
+					index.clear();
 			}
 		}
 

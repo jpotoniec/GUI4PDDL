@@ -2,16 +2,12 @@ package pl.poznan.put.cs.gui4pddl.parser;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.runtime.CoreException;
 
-import pl.poznan.put.cs.gui4pddl.IPDDLNature;
-import pl.poznan.put.cs.gui4pddl.PDDLNature;
-import pl.poznan.put.cs.gui4pddl.codemodel.IPDDLCodeModel;
 import pl.poznan.put.cs.gui4pddl.log.Log;
 
 class PDDLVisitor implements IResourceVisitor, IResourceDeltaVisitor {
@@ -48,15 +44,8 @@ class PDDLVisitor implements IResourceVisitor, IResourceDeltaVisitor {
 			if ((extension != null) && (extension.equals("pddl"))) {
 				deleteMarkers(resource);
 				
-				IPDDLCodeModel model = null;
-				IProject project = resource.getProject();
-				if (project != null) {
-					IPDDLNature nature = PDDLNature.getPDDLNature(project);
-					if (nature != null)
-						model = nature.getCodeModel();
-				}
 				IFile file = (IFile)resource;
-				PDDLIndexer.indexPDDLFile(file, model, new ErrorHandler(file));
+				PDDLIndexer.indexPDDLFile(file, new ErrorHandler(file));
 			}
             return false;
         }

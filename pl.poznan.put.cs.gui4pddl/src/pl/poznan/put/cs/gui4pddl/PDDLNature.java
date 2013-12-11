@@ -13,6 +13,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import pl.poznan.put.cs.gui4pddl.codecompletion.IPDDLCodeCompletionManager;
 import pl.poznan.put.cs.gui4pddl.codecompletion.PDDLCodeCompletionManager;
 import pl.poznan.put.cs.gui4pddl.codemodel.IPDDLCodeModel;
+import pl.poznan.put.cs.gui4pddl.codemodel.IPDDLProjectIndex;
 import pl.poznan.put.cs.gui4pddl.codemodel.PDDLCodeModel;
 import pl.poznan.put.cs.gui4pddl.log.Log;
 import pl.poznan.put.cs.gui4pddl.parser.Builder;
@@ -106,6 +107,11 @@ public class PDDLNature implements IProjectNature, IPDDLNature {
 
 	@Override
 	public IPDDLCodeModel getCodeModel() {
+		return codeModel;
+	}
+
+	@Override
+	public IPDDLProjectIndex getPDDLProjectIndex() {
 		return codeModel;
 	}
 }

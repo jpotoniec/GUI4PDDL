@@ -10,9 +10,13 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 
+import pl.poznan.put.cs.gui4pddl.IPDDLNature;
+import pl.poznan.put.cs.gui4pddl.PDDLNature;
 import pl.poznan.put.cs.gui4pddl.codemodel.IPDDLCodeModel;
+import pl.poznan.put.cs.gui4pddl.codemodel.IPDDLProjectIndex;
 import pl.poznan.put.cs.gui4pddl.codemodel.PDDLFile;
 import pl.poznan.put.cs.gui4pddl.log.Log;
 
@@ -22,7 +26,7 @@ public class PDDLIndexer {
 		void reportError(PDDLError error);
 	}
 	
-	public static CommonTree scanPDDLFile(InputStream stream, IErrorHandler errorHandler)
+	private static CommonTree scanPDDLFile(InputStream stream, IErrorHandler errorHandler)
 			throws RecognitionException, IOException {
 		
 		CommonTree result = null;
@@ -51,7 +55,7 @@ public class PDDLIndexer {
 		return result;
 	}
 	
-	public static void updateIndex(CommonTree ast, PDDLFile index)
+	private static void updateIndex(CommonTree ast, PDDLFile index)
 			throws RecognitionException {
 		System.out.println(ast.toStringTree());
 
@@ -60,7 +64,7 @@ public class PDDLIndexer {
 		builder.pddl_file(index);
 	}
 
-	public static void checkSemanticErrors(CommonTree ast,
+	private static void checkSemanticErrors(CommonTree ast,
 			IPDDLCodeModel codeModel, PDDLFile fileIndex, IErrorHandler errorHandler)
 			throws RecognitionException {
 
@@ -95,25 +99,34 @@ public class PDDLIndexer {
 		}
 	}
 	
-	public static void indexPDDLFile(IFile file, IPDDLCodeModel codeModel, IErrorHandler errorHandler) {
+	public static void indexPDDLFile(IFile file, IErrorHandler errorHandler) {
+		IProject project = file.getProject();
+		if (project == null) {
+			Log.log(String.format("Project for file %s is not assigned"));
+			return;
+		}
+		IPDDLNature nature = PDDLNature.getPDDLNature(project);
+		if (nature == null) {
+			Log.log(String.format("Project %s has no PDDL nature", project));
+			return;
+		}
+		
+		IPDDLProjectIndex projectIndex = nature.getPDDLProjectIndex();
+		if (projectIndex == null) {
+			Log.log(String.format("Project %s has no IPDDLProjectIndex", project));
+			return;
+		}
+		
+		IPDDLCodeModel codeModel = nature.getCodeModel();
+		
 		try {
 			InputStream fileStream = file.getContents();
-			PDDLFile fileIndex = codeModel.getOrCreateFile(file);
+			PDDLFile fileIndex = projectIndex.getOrCreateFile(file);
 			indexPDDLFile(fileStream, codeModel, fileIndex, errorHandler);
 		} catch (CoreException e){
 			Log.log(e);
 		}
 	}
-	
-	public static void indexPDDLFile(IFile file, IPDDLCodeModel codeModel) {
-		PDDLIndexer.IErrorHandler dummyErrorHandler = new PDDLIndexer.IErrorHandler() {
-			public void reportError(PDDLError error) {
-			}
-		};
-		indexPDDLFile(file, codeModel, dummyErrorHandler);
-	}
-	
-
 
 	private static void reportErrors(List<PDDLError> errors, IErrorHandler handler) {
 		if (handler == null)

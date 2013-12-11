@@ -9,16 +9,13 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.text.IDocument;
 
 import pl.poznan.put.cs.gui4pddl.IPDDLNature;
-import pl.poznan.put.cs.gui4pddl.PDDLNature;
 import pl.poznan.put.cs.gui4pddl.codemodel.IPDDLCodeModel;
-import pl.poznan.put.cs.gui4pddl.codemodel.PDDLCodeModel;
 import pl.poznan.put.cs.gui4pddl.codemodel.PDDLDomain;
 import pl.poznan.put.cs.gui4pddl.codemodel.PDDLFile;
 import pl.poznan.put.cs.gui4pddl.codemodel.PDDLInitialSituation;
 import pl.poznan.put.cs.gui4pddl.codemodel.PDDLPredicate;
 import pl.poznan.put.cs.gui4pddl.codemodel.PDDLProblem;
 import pl.poznan.put.cs.gui4pddl.codemodel.PDDLRequirementSet;
-import pl.poznan.put.cs.gui4pddl.parser.PDDLIndexer;
 import pl.poznan.put.cs.gui4pddl.parser.PDDLLexer;
 
 public class PDDLCodeCompletionManager implements IPDDLCodeCompletionManager {
@@ -105,11 +102,9 @@ public class PDDLCodeCompletionManager implements IPDDLCodeCompletionManager {
 		LinkedList<PDDLCodeCompletionProposal> proposals = new LinkedList<PDDLCodeCompletionProposal>();
 		
 		IPDDLCodeModel codeModel = getCodeModel();
-		PDDLFile fileIndex = getFileIndex(codeModel, file);
-		if (fileIndex == null) {
-			PDDLIndexer.indexPDDLFile(file, codeModel);
-			fileIndex = getFileIndex(codeModel, file);
-		}
+		PDDLFile fileIndex = null;
+		if (codeModel != null)
+			fileIndex = codeModel.getFile(file, true);
 
 		PDDLCodeCompletionContext context = new PDDLCodeCompletionContext(codeModel, fileIndex);
 		context.parse(document, offset);
@@ -129,12 +124,4 @@ public class PDDLCodeCompletionManager implements IPDDLCodeCompletionManager {
 			return nature.getCodeModel();
 		return null;
 	}
-	
-	private PDDLFile getFileIndex(IPDDLCodeModel model, IFile file) {
-		if (model != null)
-			return model.getFile(file, true);
-		return null;
-	}
-	
-
 }
