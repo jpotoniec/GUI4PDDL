@@ -1,6 +1,9 @@
 package pl.poznan.put.cs.gui4pddl.codemodel;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -15,8 +18,8 @@ public class PDDLDomain {
 	private Map<String, PDDLType> types = new TreeMap<String, PDDLType>();
 	private PDDLTypedList constants = new PDDLTypedList();
 	private PDDLTypedList domain_vars = new PDDLTypedList();
-	private Set<PDDLPredicate> predicates = new HashSet<PDDLPredicate>();
-	private Set<PDDLAction> actions = new HashSet<PDDLAction>();
+	private List<PDDLPredicate> predicates = new ArrayList<PDDLPredicate>();
+	private List<PDDLAction> actions = new ArrayList<PDDLAction>();
 
 	public String toString() {
 
@@ -130,7 +133,7 @@ public class PDDLDomain {
 		predicates.add(predicate);
 	}
 
-	public Set<PDDLPredicate> getPredicates() {
+	public Collection<PDDLPredicate> getPredicates() {
 		return predicates;
 	}
 
@@ -146,7 +149,7 @@ public class PDDLDomain {
 		return null;
 	}
 	
-	public Set<PDDLAction> getActions() {
+	public Collection<PDDLAction> getActions() {
 		return actions;
 	}
 
@@ -193,7 +196,6 @@ public class PDDLDomain {
 			if (other.actions != null)
 				return false;
 		} else {
-			//TODO: why not working
 			if (!actions.equals(other.actions))
 				return false;
 		}

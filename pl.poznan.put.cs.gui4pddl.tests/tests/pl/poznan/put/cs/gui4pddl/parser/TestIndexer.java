@@ -80,11 +80,7 @@ public class TestIndexer {
 		list.add("?product-batch-atom-in",PDDLType.simpleType("product"));
 		list.add("?product-first-batch",PDDLType.simpleType("product"));
 		action.addParameters(list);
-		domain.addAction(action);
-		
-		
-
-		
+		domain.addAction(action);		
 	
 /*		action = new PDDLAction("POP-END");
 		list = new PDDLTypedList();
