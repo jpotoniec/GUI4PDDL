@@ -69,17 +69,34 @@ tokens {
     		ttype = input.LA(1);
     	}
     }
+    
+   
+	   protected Object recoverFromMismatchedToken(IntStream input, int ttype, BitSet follow)
+               throws RecognitionException
+       {
+		   if (input.LA(1) == Token.EOF) {
+			   CommonToken t = new CommonToken(PDDLLexer.PLEFT);
+			   return t;
+		   }
+		   
+		   return super.recoverFromMismatchedToken(input, ttype, follow);
+       }
+                
+                
     public void recover(IntStream input,
            RecognitionException re) {
            
            if (re instanceof NoViableAltException ) {
 		       exitSubtree(input);
-		       
-		       //consumeUntil(input, 11)
-		       //input.consume();
-	       } else {
-		       super.recover(input,re);
-	       }
+		       return;
+	       } 
+	       
+	      // if (re instanceof else MismatchedTokenException && re.token.getType() == Token.EOF) {
+	      //     
+	      // 	   return;
+	      //Z }
+	       
+	       super.recover(input,re);
     }
 }
 
