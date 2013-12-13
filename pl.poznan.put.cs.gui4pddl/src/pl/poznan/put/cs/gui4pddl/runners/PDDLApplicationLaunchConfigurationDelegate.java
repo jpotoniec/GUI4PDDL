@@ -2,6 +2,7 @@ package pl.poznan.put.cs.gui4pddl.runners;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -15,6 +16,7 @@ import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.model.ILaunchConfigurationDelegate;
 import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
@@ -22,7 +24,7 @@ import pl.poznan.put.cs.gui4pddl.Activator;
 import pl.poznan.put.cs.gui4pddl.Constants;
 import pl.poznan.put.cs.gui4pddl.log.Log;
 import pl.poznan.put.cs.gui4pddl.planview.ui.PlanView;
-import pl.poznan.put.cs.gui4pddl.runners.helpers.ProjectFilesPathsHelpers;
+import pl.poznan.put.cs.gui4pddl.runners.helpers.LaunchUtil;
 
 public class PDDLApplicationLaunchConfigurationDelegate extends
 		LaunchConfigurationDelegate implements ILaunchConfigurationDelegate {
@@ -36,13 +38,50 @@ public class PDDLApplicationLaunchConfigurationDelegate extends
 	}
 
 	@Override
-	public boolean preLaunchCheck(ILaunchConfiguration configuration,
+	public boolean preLaunchCheck(final ILaunchConfiguration configuration,
 			String mode, IProgressMonitor monitor) throws CoreException {
 
+	/*	IMarker[] markers = LaunchUtil.getDomainFile(configuration).findMarkers(PDDLVisitor.MARKER_ID, true ,IResource.DEPTH_INFINITE);
+		for (IMarker marker : markers) {
+			int result = (int) marker.getAttribute(IMarker.SEVERITY);
+			if (result == IMarker.SEVERITY_ERROR) {
+				System.out.println("MARKER");
+			}
+		}*/
+		
 		fOrderedProjects = null;
 
-		String projName = configuration.getAttribute(Constants.PROJECT,
-				"");
+		String projName = configuration.getAttribute(Constants.PROJECT, "");
+		if (configuration.getAttribute(Constants.PLANNER, "").isEmpty()
+				|| configuration.getAttribute(Constants.WORKING_DIRECTORY, "")
+						.isEmpty()
+				|| configuration.getAttribute(Constants.PROJECT, "").isEmpty()
+				|| (LaunchUtil.getDomainFile(configuration) == null
+						|| LaunchUtil.getDomainFile(configuration)
+								.getFileExtension() == null || LaunchUtil
+						.getDomainFile(configuration).getFileExtension()
+						.isEmpty())
+				|| (LaunchUtil.getProblemFile(configuration) == null)
+				|| LaunchUtil.getProblemFile(configuration).getFileExtension() == null
+				|| LaunchUtil.getProblemFile(configuration).getFileExtension()
+						.isEmpty()) {
+			Display.getDefault().syncExec(new Runnable() {
+
+				@Override
+				public void run() {
+					MessageDialog
+							.openWarning(
+									Display.getDefault().getActiveShell(),
+									"Configuration not correct",
+									"Configuration "
+											+ configuration.getName()
+											+ " is not correct. Go to Run->Run Configurations... and correct it.");
+				}
+			});
+
+			return false;
+		}
+
 		if (projName.length() > 0) {
 
 			IProject project = ResourcesPlugin.getWorkspace().getRoot()
@@ -61,21 +100,18 @@ public class PDDLApplicationLaunchConfigurationDelegate extends
 	public void launch(ILaunchConfiguration configuration, String mode,
 			ILaunch launch, IProgressMonitor monitor) {
 		try {
-			 if (monitor == null) {
-		            monitor = new NullProgressMonitor();
-		        }
+			if (monitor == null) {
+				monitor = new NullProgressMonitor();
+			}
 			monitor.beginTask("Planning", 20);
 			monitor.subTask("Creating working directory");
-			IFolder workingDir = ProjectFilesPathsHelpers.createWorkingDir(
-					configuration.getAttribute(Constants.PROJECT, ""),
-					ProjectFilesPathsHelpers
-							.getAbsoluteFilePathFromRelativePath(configuration
-									.getAttribute(Constants.DOMAIN_FILE,
-											"")), ProjectFilesPathsHelpers
-							.getAbsoluteFilePathFromRelativePath(configuration
-									.getAttribute(Constants.PROBLEM_FILE,
-											"")));
-			
+			IResource domainFile = LaunchUtil.getDomainFile(configuration);
+			IResource problemFile = LaunchUtil.getProblemFile(configuration);
+			IFolder workingDir = LaunchUtil.createWorkingDir(configuration
+					.getAttribute(Constants.PROJECT, ""), domainFile
+					.getRawLocation().toOSString(), problemFile
+					.getRawLocation().toOSString());
+
 			monitor.worked(2);
 			monitor.subTask("Planning");
 			UniversalPlannerRunner.run(configuration, monitor, launch,
@@ -83,7 +119,7 @@ public class PDDLApplicationLaunchConfigurationDelegate extends
 			Activator.refreshProject(configuration.getAttribute(
 					Constants.PROJECT, ""));
 			monitor.worked(18);
-			
+
 			monitor.subTask("Creating Plan Browser row");
 			PlanView.createRowAndActivateView(configuration, workingDir);
 			monitor.worked(20);

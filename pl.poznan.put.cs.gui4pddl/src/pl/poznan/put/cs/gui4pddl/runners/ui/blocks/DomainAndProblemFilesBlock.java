@@ -42,7 +42,7 @@ import org.eclipse.ui.model.WorkbenchLabelProvider;
 import pl.poznan.put.cs.gui4pddl.Activator;
 import pl.poznan.put.cs.gui4pddl.Constants;
 import pl.poznan.put.cs.gui4pddl.PDDLNature;
-import pl.poznan.put.cs.gui4pddl.runners.helpers.ProjectFilesPathsHelpers;
+import pl.poznan.put.cs.gui4pddl.runners.helpers.LaunchUtil;
 
 /**
  * A control for selecting a pddl domain and problem files.
@@ -144,7 +144,7 @@ public class DomainAndProblemFilesBlock extends AbstractLaunchConfigurationTab {
 								if (dialResult[0] instanceof IFile) {
 
 									IFile file = (IFile) dialResult[0];
-									lText.setText(ProjectFilesPathsHelpers
+									lText.setText(LaunchUtil
 											.getRelativeFileLocation(file
 													.getFullPath()));
 								}
@@ -213,11 +213,17 @@ public class DomainAndProblemFilesBlock extends AbstractLaunchConfigurationTab {
 		String domainFileLocation = "";
 		String problemFileLocation = "";
 		try {
-			domainFileLocation = configuration.getAttribute(
-					Constants.DOMAIN_FILE, "");
+			if (LaunchUtil.getDomainFile(configuration) != null) {
+				domainFileLocation = LaunchUtil
+						.getRelativeFileLocation(LaunchUtil.getDomainFile(
+								configuration).getFullPath());
+			}
 
-			problemFileLocation = configuration.getAttribute(
-					Constants.PROBLEM_FILE, "");
+			if (LaunchUtil.getProblemFile(configuration) != null) {
+				problemFileLocation = LaunchUtil
+						.getRelativeFileLocation(LaunchUtil.getProblemFile(
+								configuration).getFullPath());
+			}
 			projectName = configuration.getAttribute(Constants.PROJECT, "");
 		} catch (CoreException e) {
 		}
@@ -236,27 +242,10 @@ public class DomainAndProblemFilesBlock extends AbstractLaunchConfigurationTab {
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
 		String domainFilePathString = domainFileText.getText().trim();
 		String problemFilePathString = problemFileText.getText().trim();
-		setAttribute(configuration, Constants.DOMAIN_FILE, domainFilePathString);
-		setAttribute(configuration, Constants.PROBLEM_FILE,
-				problemFilePathString);
-
 		/*
-		 * String domain; try { domain =
-		 * ProjectFilesPathsHelpers.getPDDLFileNameWithoutExtension
-		 * (ProjectFilesPathsHelpers
-		 * .getAbsoluteFilePathFromRelativePath(domainFilePathString)); String
-		 * problem = ProjectFilesPathsHelpers.getPDDLFileNameWithoutExtension(
-		 * ProjectFilesPathsHelpers
-		 * .getAbsoluteFilePathFromRelativePath(problemFilePathString));
-		 * setAttribute(configuration, Constants.WORKING_DIRECTORY,
-		 * configuration.getAttribute(Constants.WORKING_DIRECTORY, "") +
-		 * File.separator + domain + File.separator + problem);
-		 * System.out.println("NEW WORKING DIRECTORY " +
-		 * configuration.getAttribute(Constants.WORKING_DIRECTORY,
-		 * configuration.getAttribute(Constants.WORKING_DIRECTORY, "") +
-		 * File.separator + domain + File.separator + problem)); } catch
-		 * (CoreException e1) { // TODO Auto-generated catch block
-		 * e1.printStackTrace(); }
+		 * setAttribute(configuration, Constants.DOMAIN_FILE,
+		 * domainFilePathString); setAttribute(configuration,
+		 * Constants.PROBLEM_FILE, problemFilePathString);
 		 */
 
 		IPath domainPath = null;
@@ -264,29 +253,48 @@ public class DomainAndProblemFilesBlock extends AbstractLaunchConfigurationTab {
 		if (domainFilePathString != null && problemFilePathString != null
 				&& !domainFilePathString.isEmpty()
 				&& !problemFilePathString.isEmpty()) {
-			try {
-				domainPath = new Path(
-						ProjectFilesPathsHelpers
-								.getAbsoluteFilePathFromRelativePath(domainFilePathString));
-				problemPath = new Path(
-						ProjectFilesPathsHelpers
-								.getAbsoluteFilePathFromRelativePath(problemFilePathString));
-			} catch (CoreException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+
+			String domainPathString = LaunchUtil
+					.getAbsoluteFilePathFromRelativePath(domainFilePathString);
+
+			String problemPathString = LaunchUtil
+					.getAbsoluteFilePathFromRelativePath(problemFilePathString);
+
+			if (domainPathString != null)
+				domainPath = new Path(domainPathString);
+			if (problemPathString != null)
+				problemPath = new Path(problemPathString);
+			
+
 			IProject project = ResourcesPlugin.getWorkspace().getRoot()
 					.getProject(projectName);
 			if (project != null) {
+				
+				System.out.println(project.getLocation());
+				
 				IPath domainFileRelativePath = domainPath
-						.makeRelativeTo(project.getLocation());
+						 .makeRelativeTo(ResourcesPlugin.getWorkspace().getRoot().getLocation());
 				IPath problemFileRelativePath = problemPath
-						.makeRelativeTo(project.getLocation());
-				IFile domainFile = project.getFile(domainFileRelativePath
-						.toOSString());
-				IFile problemFile = project.getFile(problemFileRelativePath
-						.toOSString());
-				if (domainFile != null || problemFile != null) {
+						 .makeRelativeTo(ResourcesPlugin.getWorkspace().getRoot().getLocation()/*project.getLocation()*/);
+				
+				System.out.println("DOMAIN FILE " + domainFileRelativePath);
+				System.out.println("PROBLEM FILE " + problemFileRelativePath);
+				
+				IResource domainFile = LaunchUtil.findResource(domainFileRelativePath);
+				IResource problemFile = LaunchUtil.findResource(problemFileRelativePath);
+				
+				
+				
+				/*
+				 * IPath domainFileRelativePath = domainPath
+				 * .makeRelativeTo(project.getLocation()); IPath
+				 * problemFileRelativePath = problemPath
+				 * .makeRelativeTo(project.getLocation()); IFile domainFile =
+				 * project.getFile(domainFileRelativePath .toOSString()); IFile
+				 * problemFile = project.getFile(problemFileRelativePath
+				 * .toOSString());
+				 */
+				if (domainFile != null && problemFile != null) {
 					configuration.setMappedResources(new IResource[] {
 							domainFile, problemFile });
 				} else {
@@ -313,20 +321,16 @@ public class DomainAndProblemFilesBlock extends AbstractLaunchConfigurationTab {
 			String domainFullPath = null;
 			String problemFullPath = null;
 
-			try {
-				domainFullPath = ProjectFilesPathsHelpers
-						.getAbsoluteFilePathFromRelativePath(domainPath);
-				problemFullPath = ProjectFilesPathsHelpers
-						.getAbsoluteFilePathFromRelativePath(problemPath);
-			} catch (CoreException e) {
-				result = false;
-			}
+			domainFullPath = LaunchUtil
+					.getAbsoluteFilePathFromRelativePath(domainPath);
+			problemFullPath = LaunchUtil
+					.getAbsoluteFilePathFromRelativePath(problemPath);
 
 			if (domainFullPath == null) {
-				setErrorMessage("The domain file path is incorrect.");
+				setErrorMessage("The domain file path is incorrect or not exists.");
 				result = false;
 			} else if (problemFullPath == null) {
-				setErrorMessage("The problem file path is incorrect.");
+				setErrorMessage("The problem file path is incorrect or not exists.");
 				result = false;
 			} else {
 

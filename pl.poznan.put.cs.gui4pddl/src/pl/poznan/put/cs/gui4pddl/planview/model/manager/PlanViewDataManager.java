@@ -30,10 +30,15 @@ public class PlanViewDataManager implements Serializable {
 	private Vector<PlanViewDataRow> planViewDataRows;
 
 	private static final String PLAN_DATA_DIR = Activator.getDefault()
-			.getStateLocation().append("plan_browser").toOSString();
+			.getStateLocation().toOSString()
+			+ File.separator + "plan_browser";
+	/*
+	 * Activator.getDefault()
+	 * .getStateLocation().append("plan_browser").toOSString();
+	 */
 
 	private static final String PLAN_DATA_FILE_NAME = "planViewData.xml";
-	
+
 	private static final String TAG_PLANVIEWDATA = "PlanViewData";
 	private static final String TAG_PLANVIEWDATAROW = "PlanViewDataRow";
 	private static final String TAG_PROJECTNAME = "ProjectName";
@@ -46,7 +51,6 @@ public class PlanViewDataManager implements Serializable {
 	private static final String TAG_PLAN_FILE_NAMES = "PlanFileNames";
 	private static final String TAG_PLAN_FILE_NAME = "PlanFileName";
 	private static final String TAG_PLAN_ARGUMENTS = "PlanArguments";
-	
 
 	private static volatile PlanViewDataManager instance = null;
 
@@ -64,7 +68,7 @@ public class PlanViewDataManager implements Serializable {
 
 	private PlanViewDataManager() {
 	}
-	
+
 	public void addPlanViewDataRow(PlanViewDataRow row) {
 		if (row == null) {
 			return;
@@ -78,13 +82,14 @@ public class PlanViewDataManager implements Serializable {
 		firePlanViewDataRowsChanged(l.toArray(new PlanViewDataRow[0]),
 				new PlanViewDataRow[0]);
 	}
-	
+
 	public void loadPlanViewData() {
 
 		planViewDataRows = new Vector<PlanViewDataRow>();
 		FileReader reader = null;
 		try {
-			reader = new FileReader(getPlanViewDataDir().getAbsolutePath() + File.separator + PLAN_DATA_FILE_NAME);
+			reader = new FileReader(getPlanViewDataDir().getAbsolutePath()
+					+ File.separator + PLAN_DATA_FILE_NAME);
 			loadPlanViewData(XMLMemento.createReadRoot(reader));
 		} catch (FileNotFoundException e) {
 			// Ignored... no Favorites items exist yet.
@@ -100,13 +105,12 @@ public class PlanViewDataManager implements Serializable {
 			}
 		}
 	}
-	
+
 	private File getPlanViewDataDir() {
 		File planViewDataDir = new File(PLAN_DATA_DIR);
 
 		// if the directory does not exist, create it
-		if (!planViewDataDir.exists()
-				|| !planViewDataDir.isDirectory()) {
+		if (!planViewDataDir.exists() || !planViewDataDir.isDirectory()) {
 			boolean result = planViewDataDir.mkdir();
 
 			if (!result) {
@@ -116,7 +120,7 @@ public class PlanViewDataManager implements Serializable {
 		}
 		return planViewDataDir;
 	}
-	
+
 	private void loadPlanViewData(XMLMemento memento) {
 		IMemento[] children = memento.getChildren(TAG_PLANVIEWDATAROW);
 		for (int i = 0; i < children.length; i++) {
@@ -141,13 +145,13 @@ public class PlanViewDataManager implements Serializable {
 				planViewDataRows.add(item);
 		}
 	}
-	
+
 	private void firePlanViewDataRowsChanged(PlanViewDataRow[] itemsAdded,
 			PlanViewDataRow[] itemsRemoved) {
 		PlanViewDataManagerEvent event = new PlanViewDataManagerEvent(this,
 				itemsAdded, itemsRemoved);
-		for (Iterator<IPlanViewDataManagerChangeListener> iter = listeners.iterator(); iter
-				.hasNext();)
+		for (Iterator<IPlanViewDataManagerChangeListener> iter = listeners
+				.iterator(); iter.hasNext();)
 			iter.next().planViewDataChanged(event);
 	}
 
@@ -164,7 +168,7 @@ public class PlanViewDataManager implements Serializable {
 		firePlanViewDataRowsChanged(new PlanViewDataRow[0], a);
 		return res;
 	}
-	
+
 	public void removePlanViewDataRows(List<PlanViewDataRow> list) {
 		if (list == null) {
 			return;
@@ -201,7 +205,8 @@ public class PlanViewDataManager implements Serializable {
 		savePlanViewData(memento);
 		FileWriter writer = null;
 		try {
-			writer = new FileWriter(getPlanViewDataDir() + File.separator + PLAN_DATA_FILE_NAME);
+			writer = new FileWriter(getPlanViewDataDir() + File.separator
+					+ PLAN_DATA_FILE_NAME);
 			memento.save(writer);
 		} catch (IOException e) {
 			Log.log(e);
@@ -227,9 +232,10 @@ public class PlanViewDataManager implements Serializable {
 			child.putString(TAG_PLANNER_NAME, item.getPlannerName());
 			child.putString(TAG_DOMAIN_FILE_PATH, item.getDomainFilePath());
 			child.putString(TAG_PROBLEM_FILE_PATH, item.getProblemFilePath());
-			
+
 			for (String planFileName : item.getPlanFileNames()) {
-				IMemento planFileNamesChild = child.createChild(TAG_PLAN_FILE_NAMES);
+				IMemento planFileNamesChild = child
+						.createChild(TAG_PLAN_FILE_NAMES);
 				planFileNamesChild.putString(TAG_PLAN_FILE_NAME, planFileName);
 			}
 			child.putString(TAG_PLAN_ARGUMENTS, item.getPlannerArguments());

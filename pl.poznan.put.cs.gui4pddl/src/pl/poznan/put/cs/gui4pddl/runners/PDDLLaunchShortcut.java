@@ -19,8 +19,6 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.ui.CommonTab;
 import org.eclipse.debug.ui.DebugUITools;
-import org.eclipse.debug.ui.IDebugUIConstants;
-import org.eclipse.debug.ui.ILaunchGroup;
 import org.eclipse.debug.ui.ILaunchShortcut;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -32,13 +30,12 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
 import pl.poznan.put.cs.gui4pddl.Activator;
 import pl.poznan.put.cs.gui4pddl.Constants;
 import pl.poznan.put.cs.gui4pddl.log.Log;
-import pl.poznan.put.cs.gui4pddl.runners.helpers.ProjectFilesPathsHelpers;
+import pl.poznan.put.cs.gui4pddl.runners.helpers.LaunchUtil;
 
 public class PDDLLaunchShortcut implements ILaunchShortcut {
 
@@ -158,8 +155,7 @@ public class PDDLLaunchShortcut implements ILaunchShortcut {
 					.getLaunchConfigurations(type);
 
 			if (resource instanceof IProject) {
-				String location = ProjectFilesPathsHelpers
-						.getProjectLocation(project);
+				String location = LaunchUtil.getProjectLocation(project);
 
 				for (ILaunchConfiguration config : configs) {
 					if (location.equals(config.getAttribute(
@@ -169,23 +165,27 @@ public class PDDLLaunchShortcut implements ILaunchShortcut {
 				}
 			} else if (resource instanceof IFile) {
 				for (ILaunchConfiguration config : configs) {
-					for (IResource r : config.getMappedResources()) {
-						if (resource.equals(r)) {
-							validConfigs.add(config);
-							break;
+					if (config.getMappedResources() != null) {
+						for (IResource r : config.getMappedResources()) {
+							if (resource.equals(r)) {
+								validConfigs.add(config);
+								break;
+							}
 						}
 					}
 				}
 			} else if (resource instanceof IFolder) {
 				for (ILaunchConfiguration config : configs) {
-					for (IResource r : config.getMappedResources()) {
-						if (resource
-								.getRawLocation()
-								.toOSString()
-								.equals(r.getParent().getRawLocation()
-										.toOSString())) {
-							validConfigs.add(config);
-							break;
+					if (config.getMappedResources() != null) {
+						for (IResource r : config.getMappedResources()) {
+							if (resource
+									.getRawLocation()
+									.toOSString()
+									.equals(r.getParent().getRawLocation()
+											.toOSString())) {
+								validConfigs.add(config);
+								break;
+							}
 						}
 					}
 				}
@@ -202,7 +202,12 @@ public class PDDLLaunchShortcut implements ILaunchShortcut {
 			ILaunchConfigurationWorkingCopy createdConfiguration = createDefaultLaunchConfigurationWithoutSaving(
 					project, resource);
 
-
+			if (createdConfiguration == null) {
+				return null;
+			}
+			
+			createdConfiguration = showLaunchConfigurationDialogWhenAttributesAreNotCompleted(createdConfiguration);
+			
 			if (createdConfiguration == null) {
 				return null;
 			}
@@ -214,29 +219,28 @@ public class PDDLLaunchShortcut implements ILaunchShortcut {
 		}
 	}
 
-	public ILaunchConfiguration showLaunchConfigurationDialogWhenAttributesAreNotCompleted(
-			ILaunchConfiguration createdConfiguration)
-			throws CoreException {
-		if (createdConfiguration.getAttribute(Constants.PLANNER, "").isEmpty()
-				|| createdConfiguration.getAttribute(
-						Constants.WORKING_DIRECTORY, "").isEmpty()
-				|| createdConfiguration.getAttribute(Constants.PROJECT, "")
-						.isEmpty()
-				|| createdConfiguration.getAttribute(Constants.DOMAIN_FILE, "")
-						.isEmpty()
-				|| createdConfiguration
-						.getAttribute(Constants.PROBLEM_FILE, "").isEmpty()) {
+	public ILaunchConfigurationWorkingCopy showLaunchConfigurationDialogWhenAttributesAreNotCompleted(
+			ILaunchConfigurationWorkingCopy createdConfiguration) {
+		try {
+			if (createdConfiguration.getAttribute(Constants.PLANNER, "")
+					.isEmpty()
+					|| createdConfiguration.getAttribute(
+							Constants.WORKING_DIRECTORY, "").isEmpty()
+					|| createdConfiguration.getAttribute(Constants.PROJECT, "")
+							.isEmpty()
+					|| LaunchUtil.getDomainFile(createdConfiguration) == null
+					|| LaunchUtil.getProblemFile(createdConfiguration) == null) {
 
-			ILaunchGroup group = DebugUITools.getLaunchGroup(
-					createdConfiguration, ILaunchManager.RUN_MODE);
-			String groupID = group.getIdentifier();
-			int result = DebugUITools.openLaunchConfigurationDialog(PlatformUI
-					.getWorkbench().getActiveWorkbenchWindow().getShell(),
-					createdConfiguration, groupID, null);
-			if (result == Window.OK) {
-				return createdConfiguration;
+				int result = LaunchUtil
+						.openLaunchConfigurationDialog(createdConfiguration);
+
+				if (result == Window.OK) {
+					return createdConfiguration;
+				}
+
 			}
-
+		} catch (CoreException e) {
+			Log.log("Cannot read attributes from launch configuration");
 		}
 		return null;
 	}
@@ -247,8 +251,8 @@ public class PDDLLaunchShortcut implements ILaunchShortcut {
 		ILaunchConfigurationWorkingCopy createdConfiguration = LaunchConfigurationCreator
 				.createDefaultLaunchConfiguration(project,
 						getLaunchConfigurationType(),
-						ProjectFilesPathsHelpers.getProjectLocation(project),
-						projName, resource);
+						LaunchUtil.getProjectLocation(project), projName,
+						resource);
 
 		// Common Tab Arguments
 		if (createdConfiguration != null) {
@@ -282,19 +286,11 @@ public class PDDLLaunchShortcut implements ILaunchShortcut {
 							try {
 								return labelProvider.getText(element)
 										+ "\nDomain: "
-										+ ProjectFilesPathsHelpers
-												.getPDDLFileNameWithoutExtension(ProjectFilesPathsHelpers
-														.getAbsoluteFilePathFromRelativePath(configuration
-																.getAttribute(
-																		Constants.DOMAIN_FILE,
-																		"")))
+										+ LaunchUtil.getDomainFile(
+												configuration).getName()
 										+ "\nProblem: "
-										+ ProjectFilesPathsHelpers
-												.getPDDLFileNameWithoutExtension(ProjectFilesPathsHelpers
-														.getAbsoluteFilePathFromRelativePath(configuration
-																.getAttribute(
-																		Constants.PROBLEM_FILE,
-																		"")))
+										+ LaunchUtil.getProblemFile(
+												configuration).getName()
 										+ "\n"
 										+ configuration.getAttribute(
 												Constants.PLANNER_NAME, "")
@@ -348,50 +344,37 @@ public class PDDLLaunchShortcut implements ILaunchShortcut {
 	 *            the mode in which the file should be executed
 	 */
 	protected void launch(IProject project, String mode, IResource resource) {
+		System.out.println("LAUNCH");
 		ILaunchConfiguration conf = null;
-		if (!showDialog) {
-			List<ILaunchConfiguration> configurations = findExistingLaunchConfigurations(
-					project, resource);
-			if (configurations.isEmpty()) {
-				conf = createDefaultLaunchConfiguration(project, resource);
-					try {
-						conf = showLaunchConfigurationDialogWhenAttributesAreNotCompleted(conf);
-					} catch (CoreException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-			}
-			else {
-				if (configurations.size() == 1) {
-					conf = configurations.get(0);
-					if (conf == null) {
-						fileNotFound();
-					}
-				} else {
-					conf = chooseConfig(configurations);
-					if (conf == null) {
-						// User canceled selection
-						return;
-					}
+		List<ILaunchConfiguration> configurations = findExistingLaunchConfigurations(
+				project, resource);
+		if (configurations.isEmpty()) {
+			conf = createDefaultLaunchConfiguration(project, resource);
+		} else {
+			if (configurations.size() == 1) {
+				conf = configurations.get(0);
+				if (conf == null) {
+					fileNotFound();
 				}
-
+			} else {
+				conf = chooseConfig(configurations);
+				if (conf == null) {
+					// User canceled selection
+					return;
+				}
+			}
+			if (!showDialog) {
 				if (conf != null) {
 					DebugUITools.launch(conf, mode);
 					return;
 				}
+			} else {
+				LaunchUtil.openLaunchConfigurationDialog(conf);
 			}
-		} else {
-			conf = createDefaultLaunchConfiguration(project, resource);
 
-			if (conf != null) {
-				String groupId = IDebugUIConstants.ID_RUN_LAUNCH_GROUP;
-				DebugUITools.openLaunchConfigurationDialog(Activator
-						.getDefault().getWorkbench().getActiveWorkbenchWindow()
-						.getShell(), conf, groupId, null);
-			}
 		}
 	}
-	
+
 	public void setShowDialog(boolean showDialog) {
 		this.showDialog = showDialog;
 	}

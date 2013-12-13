@@ -105,9 +105,10 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
-		super.stop(context);
 		PlanViewDataManager.getManager().savePlanViewData();
 		imageCache.dispose();
+		super.stop(context);
+	
 		
 		System.out.println("PDDL PLUGIN STOP");
 	}

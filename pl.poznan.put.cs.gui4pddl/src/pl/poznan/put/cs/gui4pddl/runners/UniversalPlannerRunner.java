@@ -13,7 +13,7 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.model.IProcess;
 
 import pl.poznan.put.cs.gui4pddl.Constants;
-import pl.poznan.put.cs.gui4pddl.runners.helpers.ProjectFilesPathsHelpers;
+import pl.poznan.put.cs.gui4pddl.runners.helpers.LaunchUtil;
 
 public class UniversalPlannerRunner {
 
@@ -63,12 +63,12 @@ public class UniversalPlannerRunner {
 		String script = config.getAttribute(Constants.PLANNER, "");
 		String argument = config.getAttribute(
 				Constants.PLANNER_ARGUMENTS, "");
-		String domain = config.getAttribute(Constants.DOMAIN_FILE, "");
-		String problem = config.getAttribute(Constants.PROBLEM_FILE, "");
-		domain = ProjectFilesPathsHelpers
+		String domain = LaunchUtil.getDomainFile(config).getRawLocation().toOSString();
+		String problem = LaunchUtil.getProblemFile(config).getRawLocation().toOSString();
+		/*domain = LaunchUtil
 				.getAbsoluteFilePathFromRelativePath(domain);
-		problem = ProjectFilesPathsHelpers
-				.getAbsoluteFilePathFromRelativePath(problem);
+		problem = LaunchUtil
+				.getAbsoluteFilePathFromRelativePath(problem);*/
 
 		return "\"" + script + "\" " + "\"" + domain + "\" " + "\"" + problem
 				+ "\" " + argument;

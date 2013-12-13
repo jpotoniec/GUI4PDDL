@@ -11,7 +11,7 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 
 import pl.poznan.put.cs.gui4pddl.Constants;
 import pl.poznan.put.cs.gui4pddl.log.Log;
-import pl.poznan.put.cs.gui4pddl.runners.helpers.ProjectFilesPathsHelpers;
+import pl.poznan.put.cs.gui4pddl.runners.helpers.LaunchUtil;
 
 public class FileNameRegexProcessor {
 
@@ -26,21 +26,15 @@ public class FileNameRegexProcessor {
 					Constants.REGEXP_WORKING_DIRECTORY,
 					Pattern.quote(workingDir.getName()));
 
-			String domainNameWithoutExtension = ProjectFilesPathsHelpers
-					.getPDDLFileNameWithoutExtension(ProjectFilesPathsHelpers
-							.getAbsoluteFilePathFromRelativePath(config
-									.getAttribute(Constants.DOMAIN_FILE,
-											"")));
+			String domainNameWithoutExtension = LaunchUtil
+					.getPDDLFileNameWithoutExtension(LaunchUtil.getDomainFile(config).getRawLocation().toOSString());
 
 			regexp = getRegexWithReplacements(regexp,
 					Constants.REGEXP_DOMAIN_FILE_NAME,
 					Pattern.quote(domainNameWithoutExtension));
 
-			String problemNameWithoutExtension = ProjectFilesPathsHelpers
-					.getPDDLFileNameWithoutExtension(ProjectFilesPathsHelpers
-							.getAbsoluteFilePathFromRelativePath(config
-									.getAttribute(Constants.PROBLEM_FILE,
-											"")));
+			String problemNameWithoutExtension = LaunchUtil
+					.getPDDLFileNameWithoutExtension(LaunchUtil.getProblemFile(config).getRawLocation().toOSString());
 
 			regexp = getRegexWithReplacements(regexp,
 					Constants.REGEXP_PROBLEM_FILE_NAME,

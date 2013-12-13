@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -16,8 +15,14 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.variables.IStringVariableManager;
 import org.eclipse.core.variables.VariablesPlugin;
+import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.ui.DebugUITools;
+import org.eclipse.debug.ui.IDebugUIConstants;
 
-public class ProjectFilesPathsHelpers {
+import pl.poznan.put.cs.gui4pddl.Activator;
+import pl.poznan.put.cs.gui4pddl.log.Log;
+
+public class LaunchUtil {
 
 	public static String getProjectLocation(IProject project) {
 		String loc = null;
@@ -28,6 +33,51 @@ public class ProjectFilesPathsHelpers {
 		}
 
 		return loc;
+	}
+
+	public static IResource findResource(IPath path) {
+		if (path != null) {
+			IWorkspace workspace = ResourcesPlugin.getWorkspace();
+			IWorkspaceRoot root = workspace.getRoot();
+			IResource resource = root.findMember(path);
+			return resource;
+		}
+		return null;
+	}
+
+	public static IResource getDomainFile(ILaunchConfiguration config) {
+		if (config != null) {
+			try {
+				if (config.getMappedResources() != null
+						&& config.getMappedResources().length > 0)
+					return config.getMappedResources()[0];
+			} catch (CoreException e) {
+				Log.log("Cannot read domain file from mapped resources launch configuration",
+						e);
+			}
+		}
+		return null;
+	}
+
+	public static IResource getProblemFile(ILaunchConfiguration config) {
+		if (config != null) {
+			try {
+				if (config.getMappedResources() != null
+						&& config.getMappedResources().length > 1)
+					return config.getMappedResources()[1];
+			} catch (CoreException e) {
+				Log.log("Cannot read problem file from mapped resources launch configuration",
+						e);
+			}
+		}
+		return null;
+	}
+
+	public static int openLaunchConfigurationDialog(ILaunchConfiguration conf) {
+		String groupId = IDebugUIConstants.ID_RUN_LAUNCH_GROUP;
+		return DebugUITools.openLaunchConfigurationDialog(Activator
+				.getDefault().getWorkbench().getActiveWorkbenchWindow()
+				.getShell(), conf, groupId, null);
 	}
 
 	public static String getRelativeFileLocation(IPath file) {
@@ -44,11 +94,15 @@ public class ProjectFilesPathsHelpers {
 	}
 
 	public static String getAbsoluteFilePathFromRelativePath(String relativePath)
-			throws CoreException {
+	{
 		IStringVariableManager varManager = VariablesPlugin.getDefault()
 				.getStringVariableManager();
 		String filePath = null;
-		filePath = varManager.performStringSubstitution(relativePath);
+		try {
+			filePath = varManager.performStringSubstitution(relativePath);
+		} catch (CoreException e) {
+			return null;
+		}
 		return filePath;
 	}
 
@@ -108,7 +162,7 @@ public class ProjectFilesPathsHelpers {
 		try {
 			plans.refreshLocal(IResource.DEPTH_INFINITE, null);
 			if (!plans.exists()) {
-				plans.create( IResource.DERIVED | IResource.HIDDEN, true, null);				
+				plans.create(IResource.DERIVED | IResource.HIDDEN, true, null);
 			}
 			if (!domain.exists()) {
 				domain.create(IResource.DERIVED | IResource.HIDDEN, true, null);
@@ -123,7 +177,6 @@ public class ProjectFilesPathsHelpers {
 				id.create(IResource.DERIVED | IResource.HIDDEN, true, null);
 			}
 
-			
 			plans.refreshLocal(IResource.DEPTH_INFINITE, null);
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
@@ -132,88 +185,4 @@ public class ProjectFilesPathsHelpers {
 
 		return id;
 	}
-
-	/*public static synchronized File getWorkingDir(String basePath,
-			String domainPath, String problemPath) {
-		File baseDirectory = new File(basePath
-				+ System.getProperty("file.separator") + "plans");
-		if (!baseDirectory.exists() || !baseDirectory.isDirectory()) {
-			baseDirectory.mkdir();
-		}
-
-		String domainFileNameWithoutExtension = getPDDLFileNameWithoutExtension(domainPath);
-		String problemFileNameWithoutExtension = getPDDLFileNameWithoutExtension(problemPath);
-
-		File domainDir = new File(baseDirectory.getAbsolutePath()
-				+ System.getProperty("file.separator")
-				+ domainFileNameWithoutExtension);
-
-		if (!domainDir.exists() || !domainDir.isDirectory()) {
-			domainDir.mkdir();
-		}
-
-		File problemDir = new File(domainDir.getAbsolutePath()
-				+ System.getProperty("file.separator")
-				+ problemFileNameWithoutExtension);
-
-		if (!problemDir.exists() || !problemDir.isDirectory()) {
-			problemDir.mkdir();
-		}
-
-		File numberDir = new File(problemDir.getAbsoluteFile()
-				+ System.getProperty("file.separator")
-				+ getFolderMaxNumber(problemDir));
-
-		if (!numberDir.exists() || !numberDir.isDirectory()) {
-			numberDir.mkdir();
-		}
-
-		return numberDir;
-	}*/
-
-	/*public static boolean deleteFile(File file) {
-		if (file.exists() && file.isFile()) {
-			return file.delete();
-		}
-		return false;
-	}*/
-
-	/*public static void deleteIFile(IFile file) {
-		try {
-			file.refreshLocal(IResource.DEPTH_ZERO, null);
-			if (file.exists()) {
-				file.delete(true, true, null);
-			}
-		} catch (CoreException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-	}
-
-	public static void deleteIFolder(IFolder folder) {
-		try {
-			folder.refreshLocal(IResource.DEPTH_ZERO, null);
-			if (folder.exists()) {
-				folder.delete(true, true, null);
-			}
-		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}*/
-
-	/*public static boolean deleteDir(File dir) {
-		if (dir.isDirectory()) {
-			String[] children = dir.list();
-			for (int i = 0; i < children.length; i++) {
-				boolean success = deleteDir(new File(dir, children[i]));
-				if (!success) {
-					return false;
-				}
-			}
-		}
-
-		return dir.delete(); // The directory is empty now and can be deleted.
-	}
-*/
 }

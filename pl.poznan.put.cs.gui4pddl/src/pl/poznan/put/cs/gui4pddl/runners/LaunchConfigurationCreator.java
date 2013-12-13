@@ -1,26 +1,26 @@
 package pl.poznan.put.cs.gui4pddl.runners;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
+import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.debug.ui.IDebugUIConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.window.Window;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
 import pl.poznan.put.cs.gui4pddl.Constants;
 import pl.poznan.put.cs.gui4pddl.IPDDLNature;
@@ -29,7 +29,8 @@ import pl.poznan.put.cs.gui4pddl.codemodel.IPDDLCodeModel;
 import pl.poznan.put.cs.gui4pddl.codemodel.PDDLDomain;
 import pl.poznan.put.cs.gui4pddl.codemodel.PDDLFile;
 import pl.poznan.put.cs.gui4pddl.codemodel.PDDLProblem;
-import pl.poznan.put.cs.gui4pddl.runners.helpers.ProjectFilesPathsHelpers;
+import pl.poznan.put.cs.gui4pddl.log.Log;
+import pl.poznan.put.cs.gui4pddl.runners.helpers.LaunchUtil;
 
 /**
  * A utility class that creates new {@link ILaunchConfiguration}s.
@@ -54,99 +55,110 @@ public class LaunchConfigurationCreator {
 		ILaunchConfigurationType type = manager
 				.getLaunchConfigurationType(launchConfigurationType);
 		if (type == null) {
-			throw new CoreException(new Status(IStatus.ERROR,
-					"PDDL launch configuration not found", null));
+			Log.log("PDDL launch configuration type not found");
 		}
-
-		String name;
-		String baseDirectory = null;
 
 		ILaunchConfiguration[] configs = manager.getLaunchConfigurations(type);
-
-		StringBuffer buffer = new StringBuffer(projName);
-		buffer.append(" (");
-		buffer.append(configs.length + 1);
-		buffer.append(")");
-
-		name = buffer.toString();
-
-		if (project != null) {
-			baseDirectory = project.getLocation().toOSString();
-
-		}
-
+		String name = createLaunchConfigurationName(projName, configs.length);
 		name = manager.generateLaunchConfigurationName(name);
 
 		ILaunchConfigurationWorkingCopy workingCopy = type.newInstance(null,
 				name);
-
-		/*
-		 * workingCopy.setAttribute(Constants.PROBLEM_FILE,
-		 * ProjectFilesPathsHelpers.getRelativeFileLocation(file));
-		 */
 
 		if (resource instanceof IFile) {
 
 			IPDDLNature nature = PDDLNature.getPDDLNature(project);
 			PDDLFile pddlFile = getPDDLFile((IFile) resource);
 			if (isDomainFile(pddlFile)) {
-				IPath problemPath = getProblemPath(pddlFile, nature);
-				if (problemPath != null) {
-					workingCopy.setAttribute(Constants.PROBLEM_FILE,
-							ProjectFilesPathsHelpers
-									.getRelativeFileLocation(problemPath));
+				ArrayList<IPath> problems = getProblemsPaths(pddlFile, nature);
+				if (problems != null && problems.size() > 0) {
+					if (problems.size() == 1) {
+						IResource problemResource = LaunchUtil
+								.findResource(problems.get(0));
+						workingCopy.setMappedResources(new IResource[] {
+								resource, problemResource });
+					} else {
+						Object result = getSelectionDialogResult(
+								problems.toArray(),
+								"Pick a problem file",
+								"There are many problem files associated with this domain file. Choose a problem file to run.");
+						if (result != null) {
+							IPath resultPath = (IPath) result;
+							IResource resultFile = LaunchUtil
+									.findResource(resultPath);
+							workingCopy.setMappedResources(new IResource[] {
+									resource, resultFile });
+						} else {
+							return null;
+						}
+					}
 
-					System.out.println("DOMAIN FILE: "
-							+ resource.getFullPath().toOSString());
-					System.out.println("PROBLEM FILE: "
-							+ problemPath.toOSString());
+				} else {
+					MessageDialog
+							.openWarning(Display.getDefault().getActiveShell(),
+									"No associated problem files",
+									"There is no problem files associated with this domain file.");
+
 					workingCopy.setMappedResources(new IResource[] { resource,
-							project.getFile(problemPath) });
+							LaunchUtil.findResource(project.getFullPath()) });
+
 				}
-				workingCopy
-						.setAttribute(Constants.DOMAIN_FILE,
-								ProjectFilesPathsHelpers
-										.getRelativeFileLocation(resource
-												.getFullPath()));
+
 			} else if (isProblemFile(pddlFile)) {
 				IPath domainPath = getDomainPath(pddlFile, nature);
 				if (domainPath != null) {
 
-					workingCopy.setAttribute(Constants.DOMAIN_FILE,
-							ProjectFilesPathsHelpers
-									.getRelativeFileLocation(domainPath));
-					System.out.println("DOMAIN FILE: "
-							+ domainPath.toOSString());
-					System.out.println("PROBLEM FILE: "
-							+ resource.getFullPath().toOSString());
+					IResource domainResource = LaunchUtil
+							.findResource(domainPath);
 					workingCopy.setMappedResources(new IResource[] {
-							project.getFile(domainPath), resource });
+							domainResource, resource });
+				} else {
+					Iterable<PDDLDomain> domains = getAllDomains(nature);
+					ArrayList<IPath> domainsPaths = new ArrayList<IPath>();
+					for (PDDLDomain domain : domains) {
+						domainsPaths.add(domain.getFile().getFullPath());
+					}
+					if (domainsPaths.size() > 0) {
+						Object result = getSelectionDialogResult(
+								domainsPaths.toArray(),
+								"Pick a domain file",
+								"There is not a domain file associated with this problem. Choose another domain file from project.");
+						if (result != null) {
+							IPath resultPath = (IPath) result;
+							IResource resultFile = LaunchUtil
+									.findResource(resultPath);
+							workingCopy.setMappedResources(new IResource[] {
+									resultFile, resource });
+						} else {
+							return null;
+						}
+					} else {
+
+						MessageDialog.openWarning(Display.getDefault()
+								.getActiveShell(), "No domian files",
+								"There is no domain files in this project.");
+
+						workingCopy.setMappedResources(new IResource[] {
+								LaunchUtil.findResource(project.getFullPath()),
+								resource });
+
+					}
 				}
-				workingCopy
-						.setAttribute(Constants.PROBLEM_FILE,
-								ProjectFilesPathsHelpers
-										.getRelativeFileLocation(resource
-												.getFullPath()));
+
 			}
 		}
-
-		/*
-		 * if (domain != null) { workingCopy.setAttribute(Constants.DOMAIN_FILE,
-		 * ProjectFilesPathsHelpers.getRelativeFileLocation(domain)); }
-		 */
 
 		workingCopy.setAttribute(Constants.LAUNCH_CONFIG_TYPE,
 				"pl.poznan.put.cs.gui4pddl.runners.PDDLApplication");
 
 		workingCopy.setAttribute(Constants.PROJECT, projName);
 
-		workingCopy.setAttribute(Constants.WORKING_DIRECTORY, baseDirectory);
+		String baseDirectory = null;
+		if (project != null) {
+			baseDirectory = project.getLocation().toOSString();
+		}
 
-		/*
-		 * IWorkspace workspace = ResourcesPlugin.getWorkspace(); IWorkspaceRoot
-		 * root = workspace.getRoot(); IResource resource =
-		 * root.findMember(domain);
-		 */
+		workingCopy.setAttribute(Constants.WORKING_DIRECTORY, baseDirectory);
 
 		workingCopy.setAttribute(IDebugUIConstants.ATTR_LAUNCH_IN_BACKGROUND,
 				captureOutput);
@@ -158,6 +170,59 @@ public class LaunchConfigurationCreator {
 
 		return workingCopy;
 
+	}
+
+	private static Object getSelectionDialogResult(Object[] elements,
+			String title, String message) {
+		final ILabelProvider labelProvider = DebugUITools
+				.newDebugModelPresentation();
+		ElementListSelectionDialog dialog = new ElementListSelectionDialog(
+				Display.getDefault().getActiveShell(), new ILabelProvider() {
+					public Image getImage(Object element) {
+						return labelProvider.getImage(element);
+					}
+
+					public String getText(Object element) {
+						IPath path = (IPath) element;
+						return path.lastSegment();
+					}
+
+					public boolean isLabelProperty(Object element,
+							String property) {
+						return labelProvider.isLabelProperty(element, property);
+					}
+
+					public void addListener(ILabelProviderListener listener) {
+						labelProvider.addListener(listener);
+					}
+
+					public void removeListener(ILabelProviderListener listener) {
+						labelProvider.removeListener(listener);
+					}
+
+					public void dispose() {
+						labelProvider.dispose();
+					}
+				});
+		dialog.setElements(elements);
+		dialog.setTitle(title);
+		dialog.setMessage(message);
+		dialog.setMultipleSelection(true);
+		int result = dialog.open();
+		labelProvider.dispose();
+		if (result == Window.OK) {
+			return dialog.getFirstResult();
+		}
+		return null;
+	}
+
+	private static String createLaunchConfigurationName(String projName,
+			int size) {
+		StringBuffer buffer = new StringBuffer(projName);
+		buffer.append(" (");
+		buffer.append(size + 1);
+		buffer.append(")");
+		return buffer.toString();
 	}
 
 	private static PDDLFile getPDDLFile(IFile currentlyEditedFile) {
@@ -191,6 +256,11 @@ public class LaunchConfigurationCreator {
 		return false;
 	}
 
+	private static Iterable<PDDLDomain> getAllDomains(IPDDLNature nature) {
+		IPDDLCodeModel codeModel = nature.getCodeModel();
+		return codeModel.getDomains(null);
+	}
+
 	private static IPath getDomainPath(PDDLFile file, IPDDLNature nature) {
 		if (file != null) {
 			IPDDLCodeModel codeModel = nature.getCodeModel();
@@ -205,38 +275,22 @@ public class LaunchConfigurationCreator {
 		return null;
 	}
 
-	private static IPath getProblemPath(PDDLFile file, IPDDLNature nature) {
+	private static ArrayList<IPath> getProblemsPaths(PDDLFile file,
+			IPDDLNature nature) {
 		if (file != null) {
+			ArrayList<IPath> result = new ArrayList<IPath>();
 			IPDDLCodeModel codeModel = nature.getCodeModel();
 			for (PDDLDomain domain : file.getDomains()) {
 				ArrayList<PDDLProblem> problems = (ArrayList<PDDLProblem>) codeModel
-						.getProblems(domain.getName());
-				System.out.println(problems.size());
-				if (problems.size() == 1) {
-					if (problems.get(0) != null) {
-						IPath problemPath = problems.get(0).getFile()
-								.getFullPath();
-						return problemPath;
-					}
+						.getProblemsByDomain(domain);
+				for (PDDLProblem problem : problems) {
+					result.add(problem.getFile().getFullPath());
 				}
+				if (result != null && result.size() > 0)
+					return result;
 			}
 		}
 		return null;
 	}
-
-	/*
-	 * private static IPath getDomainPath(IFile currentlyEditedFile) { if
-	 * (currentlyEditedFile != null) { IProject project =
-	 * currentlyEditedFile.getProject(); if (project != null) { IPDDLNature
-	 * nature = PDDLNature.getPDDLNature(project); IPDDLCodeModel codeModel =
-	 * nature.getCodeModel(); PDDLFile file =
-	 * codeModel.getFile(currentlyEditedFile, true); System.out.println(file);
-	 * if (file != null) { for (PDDLProblem problem : file.getProblems()) { //
-	 * getProblems zwraca kolekcję, nie posiadającą metody // at(1) // lub get
-	 * // tylko można używać iteratora PDDLDomain domain =
-	 * codeModel.getDomain(problem); if (domain != null) { IPath domainPath =
-	 * domain.getFile().getFullPath(); return domainPath; } } } } } return null;
-	 * }
-	 */
 
 }

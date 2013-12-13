@@ -23,7 +23,6 @@ public class MainTab extends AbstractLaunchConfigurationTab {
 	public final PlannerBlock plannerBlock;
 	private final PlannerArgumentsBlock argumentsBlock;
 
-
 	public MainTab() {
 		projectBlock = new ProjectBlock();
 		domainAndProblemFilesBlock = new DomainAndProblemFilesBlock();
@@ -42,96 +41,98 @@ public class MainTab extends AbstractLaunchConfigurationTab {
 		domainAndProblemFilesBlock.createControl(composite);
 		plannerBlock.createControl(composite);
 		argumentsBlock.createControl(composite);
-	    projectBlock.addModifyListener(domainAndProblemFilesBlock.getProjectModifyListener());
-	    
-	    plannerBlock.addSelectionListenerToArgumentsCombo(argumentsBlock);
+		projectBlock.addModifyListener(domainAndProblemFilesBlock
+				.getProjectModifyListener());
+
+		plannerBlock.addSelectionListenerToArgumentsCombo(argumentsBlock);
 	}
-	
-    @Override
-    public String getErrorMessage() {
-        String result = super.getErrorMessage();
 
-        if (result == null) {
-            result = projectBlock.getErrorMessage();
-        }
+	@Override
+	public String getErrorMessage() {
+		String result = super.getErrorMessage();
 
-        if (result == null) {
-            result = domainAndProblemFilesBlock.getErrorMessage();
-        }
-        
-        if (result == null) {
-        	result = plannerBlock.getErrorMessage();
-        }
-        
-        if (result == null) {
-        	result = argumentsBlock.getErrorMessage();
-        }
+		if (result == null) {
+			result = projectBlock.getErrorMessage();
+		}
 
-        return result;
-    }
+		if (result == null) {
+			result = domainAndProblemFilesBlock.getErrorMessage();
+		}
 
-    /*
-     * (non-Javadoc)
-     * @see org.eclipse.debug.ui.AbstractLaunchConfigurationTab#getMessage()
-     */
-    @Override
-    public String getMessage() {
-        String result = super.getMessage();
+		if (result == null) {
+			result = plannerBlock.getErrorMessage();
+		}
 
-        if (result == null) {
-            result = projectBlock.getMessage();
-        }
+		if (result == null) {
+			result = argumentsBlock.getErrorMessage();
+		}
 
-        if (result == null) {
-            result = domainAndProblemFilesBlock.getMessage();
-        }
-        
-        if (result == null) {
-        	result = plannerBlock.getMessage();
-        }
-        
-        if (result == null) {
-        	result = argumentsBlock.getMessage();
-        }
+		return result;
+	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.debug.ui.AbstractLaunchConfigurationTab#getMessage()
+	 */
+	@Override
+	public String getMessage() {
+		String result = super.getMessage();
 
-        return result;
-    }
+		if (result == null) {
+			result = projectBlock.getMessage();
+		}
 
-    /*
-     * (non-Javadoc)
-     * @see org.eclipse.debug.ui.AbstractLaunchConfigurationTab#isValid(org.eclipse.debug.core.ILaunchConfiguration)
-     */
-    @Override
-    public boolean isValid(ILaunchConfiguration launchConfig) {
-        boolean result = super.isValid(launchConfig);
+		if (result == null) {
+			result = domainAndProblemFilesBlock.getMessage();
+		}
 
-        if (result) {
-            result = projectBlock.isValid(launchConfig);
-        }
+		if (result == null) {
+			result = plannerBlock.getMessage();
+		}
 
-        if (result) {
-            result = domainAndProblemFilesBlock.isValid(launchConfig);
-        }
-        
-        if (result) {
-        	result = plannerBlock.isValid(launchConfig);
-        }
-        
-        if (result) {
-        	result = argumentsBlock.isValid(launchConfig);
-        }
-        
+		if (result == null) {
+			result = argumentsBlock.getMessage();
+		}
 
-        
-        return result;
-    }
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.debug.ui.AbstractLaunchConfigurationTab#isValid(org.eclipse
+	 * .debug.core.ILaunchConfiguration)
+	 */
+	@Override
+	public boolean isValid(ILaunchConfiguration launchConfig) {
+		boolean result = super.isValid(launchConfig);
+
+		if (result) {
+			result = projectBlock.isValid(launchConfig);
+		}
+
+		if (result) {
+			result = domainAndProblemFilesBlock.isValid(launchConfig);
+		}
+
+		if (result) {
+			result = plannerBlock.isValid(launchConfig);
+		}
+
+		if (result) {
+			result = argumentsBlock.isValid(launchConfig);
+		}
+
+		return result;
+	}
 
 	@Override
 	public String getName() {
 		return "Main";
 	}
-	
+
 	@Override
 	public Image getImage() {
 		return Activator.getImageCache().get(Constants.MAIN_ICON);
@@ -139,25 +140,26 @@ public class MainTab extends AbstractLaunchConfigurationTab {
 
 	@Override
 	public void initializeFrom(ILaunchConfiguration conf) {
-		
+
 		projectBlock.initializeFrom(conf);
 		domainAndProblemFilesBlock.initializeFrom(conf);
 		plannerBlock.initializeFrom(conf);
-		int index = plannerBlock.getArgumentsComboIndex();	
+		int index = plannerBlock.getArgumentsComboIndex();
 		argumentsBlock.initializeFrom(conf);
 		argumentsBlock.setDisabledDependsOnArgumentsComboIndex(index);
-		
+
 	}
 
 	@Override
-	public void performApply(ILaunchConfigurationWorkingCopy configuration) {		
-		projectBlock.performApply(configuration);
-		domainAndProblemFilesBlock.performApply(configuration);
-		plannerBlock.performApply(configuration);
-		int index = plannerBlock.getArgumentsComboIndex();
-		argumentsBlock.setArgumentsComboIndex(index);
-		argumentsBlock.performApply(configuration);
-	
+	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
+		if (isValid(configuration)) {
+			projectBlock.performApply(configuration);
+			domainAndProblemFilesBlock.performApply(configuration);
+			plannerBlock.performApply(configuration);
+			int index = plannerBlock.getArgumentsComboIndex();
+			argumentsBlock.setArgumentsComboIndex(index);
+			argumentsBlock.performApply(configuration);
+		}
 	}
 
 	@Override
@@ -168,7 +170,7 @@ public class MainTab extends AbstractLaunchConfigurationTab {
 		domainAndProblemFilesBlock.setLaunchConfigurationDialog(dialog);
 		plannerBlock.setLaunchConfigurationDialog(dialog);
 		argumentsBlock.setLaunchConfigurationDialog(dialog);
-	
+
 	}
 
 	@Override

@@ -75,7 +75,7 @@ import pl.poznan.put.cs.gui4pddl.planview.helpers.DesktopApi;
 import pl.poznan.put.cs.gui4pddl.planview.helpers.FileNameRegexProcessor;
 import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewDataRow;
 import pl.poznan.put.cs.gui4pddl.planview.model.manager.PlanViewDataManager;
-import pl.poznan.put.cs.gui4pddl.runners.helpers.ProjectFilesPathsHelpers;
+import pl.poznan.put.cs.gui4pddl.runners.helpers.LaunchUtil;
 
 public class PlanView extends ViewPart {
 
@@ -821,13 +821,13 @@ public class PlanView extends ViewPart {
 
 		try {
 			PlanViewDataRow planViewRowData = null;
-			String domainAbsolutePath = ProjectFilesPathsHelpers
+			String domainAbsolutePath = LaunchUtil.getDomainFile(config).getRawLocation().toOSString(); /* LaunchUtil
 					.getAbsoluteFilePathFromRelativePath(config.getAttribute(
-							Constants.DOMAIN_FILE, ""));
+							Constants.DOMAIN_FILE, ""));*/
 
-			String problemAbsolutePath = ProjectFilesPathsHelpers
+			String problemAbsolutePath = LaunchUtil.getProblemFile(config).getRawLocation().toOSString(); /*LaunchUtil
 					.getAbsoluteFilePathFromRelativePath(config.getAttribute(
-							Constants.PROBLEM_FILE, ""));
+							Constants.PROBLEM_FILE, ""));*/
 
 			String regexp = config.getAttribute(Constants.FILE_NAME_REGEXP, "");
 
@@ -837,9 +837,9 @@ public class PlanView extends ViewPart {
 
 			planViewRowData = new PlanViewDataRow(
 					config.getAttribute(Constants.PROJECT, ""),
-					ProjectFilesPathsHelpers
+					LaunchUtil
 							.getPDDLFileNameWithoutExtension(domainAbsolutePath),
-					ProjectFilesPathsHelpers
+					LaunchUtil
 							.getPDDLFileNameWithoutExtension(problemAbsolutePath),
 					workingDir.getName(), config.getAttribute(
 							Constants.PLANNER_NAME, ""), domainAbsolutePath,
