@@ -25,6 +25,9 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.TableColumnLayout;
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.ColumnWeightData;
@@ -57,7 +60,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.MultiPartInitException;
@@ -123,7 +125,7 @@ public class PlanView extends ViewPart {
 	private IAction refreshAllProjectsAction;
 	private IAction openPlanWorkingDirAction;
 	private IAction openPlanFileInExternalEditor;
-	
+
 	private PlanViewFilter filter;
 
 	/**
@@ -145,19 +147,18 @@ public class PlanView extends ViewPart {
 		Label searchLabel = new Label(textComposite, SWT.NONE);
 		searchLabel.setText("Search:");
 		final Text text = new Text(textComposite, SWT.SINGLE | SWT.BORDER);
-		GridData textGridData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
+		GridData textGridData = new GridData(SWT.FILL, SWT.BEGINNING, true,
+				false);
 		text.setLayoutData(textGridData);
-		
+
 		Composite tableComposite = new Composite(textComposite, SWT.NONE);
-		
+
 		TableColumnLayout layout = new TableColumnLayout();
 		tableComposite.setLayout(layout);
 		GridData tableGridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		tableGridData.horizontalSpan = 2;
 		tableComposite.setLayoutData(tableGridData);
-		
-		
-		
+
 		viewer = new TableViewer(tableComposite, SWT.MULTI | SWT.H_SCROLL
 				| SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
 		createColumns(layout, tableComposite, viewer);
@@ -201,18 +202,37 @@ public class PlanView extends ViewPart {
 				clearSelectedPlanAction);
 		bars.setGlobalActionHandler(IWorkbenchActionConstants.REFRESH,
 				refreshAllProjectsAction);
-		
+
 		filter = new PlanViewFilter();
-	    viewer.addFilter(filter);
-	    
-	    text.addKeyListener(new KeyAdapter() {
-	    	public void keyReleased(final KeyEvent e) {
-	    		filter.setSearchText(text.getText());
-	    		viewer.refresh();
-	    	}	    	
-	    });
+		viewer.addFilter(filter);
+
+		text.addKeyListener(new KeyAdapter() {
+			public void keyReleased(final KeyEvent e) {
+				filter.setSearchText(text.getText());
+				viewer.refresh();
+			}
+		});
 
 		viewer.setInput(PlanViewDataManager.getManager());
+
+		IPreferenceStore preferenceStore = Activator.getDefault()
+				.getPreferenceStore();
+		boolean activateMode = preferenceStore
+				.getBoolean(Activator.PREF_SHOW_PLAN_BROWSER);
+		setActivateMode(activateMode == true ? ACTIVATE_VIEW_AFTER_DATA_UPDATE : NOT_ACTIVATE_VIEW_AFTER_DATA_UPDATE);
+		
+		Activator.getDefault().getPreferenceStore()
+        .addPropertyChangeListener(
+        		new IPropertyChangeListener() {
+
+		@Override
+		public void propertyChange(
+				PropertyChangeEvent event) {
+			if (event.getProperty() == Activator.PREF_SHOW_PLAN_BROWSER) {
+				setActivateMode( Boolean.valueOf(event.getNewValue().toString()) ? ACTIVATE_VIEW_AFTER_DATA_UPDATE : NOT_ACTIVATE_VIEW_AFTER_DATA_UPDATE);
+			}
+		}
+        });
 
 	}
 
@@ -821,13 +841,23 @@ public class PlanView extends ViewPart {
 
 		try {
 			PlanViewDataRow planViewRowData = null;
-			String domainAbsolutePath = LaunchUtil.getDomainFile(config).getRawLocation().toOSString(); /* LaunchUtil
-					.getAbsoluteFilePathFromRelativePath(config.getAttribute(
-							Constants.DOMAIN_FILE, ""));*/
+			String domainAbsolutePath = LaunchUtil.getDomainFile(config)
+					.getRawLocation().toOSString(); /*
+													 * LaunchUtil .
+													 * getAbsoluteFilePathFromRelativePath
+													 * (config.getAttribute(
+													 * Constants.DOMAIN_FILE,
+													 * ""));
+													 */
 
-			String problemAbsolutePath = LaunchUtil.getProblemFile(config).getRawLocation().toOSString(); /*LaunchUtil
-					.getAbsoluteFilePathFromRelativePath(config.getAttribute(
-							Constants.PROBLEM_FILE, ""));*/
+			String problemAbsolutePath = LaunchUtil.getProblemFile(config)
+					.getRawLocation().toOSString(); /*
+													 * LaunchUtil .
+													 * getAbsoluteFilePathFromRelativePath
+													 * (config.getAttribute(
+													 * Constants.PROBLEM_FILE,
+													 * ""));
+													 */
 
 			String regexp = config.getAttribute(Constants.FILE_NAME_REGEXP, "");
 

@@ -104,8 +104,8 @@ public class Activator extends AbstractUIPlugin {
 	 * )
 	 */
 	public void stop(BundleContext context) throws Exception {
-		plugin = null;
 		PlanViewDataManager.getManager().savePlanViewData();
+		plugin = null;	
 		imageCache.dispose();
 		super.stop(context);
 	
@@ -142,6 +142,8 @@ public class Activator extends AbstractUIPlugin {
 	public static final String PREF_BRACKET_COLOR = "pddl_bracket_color";
 	// etc...
 	public static final String PREF_PORT = "pddl_view_port";
+	
+	public static final String PREF_SHOW_PLAN_BROWSER = "show_plan_browser";
 
 	protected void initializeDefaultPreferences(IPreferenceStore store) {
 		super.initializeDefaultPreferences(store);
@@ -159,6 +161,8 @@ public class Activator extends AbstractUIPlugin {
 				StringConverter.asString(new RGB(143, 143, 143)));
 		// etc...
 		store.setDefault(Activator.PREF_PORT, 4445);
+		
+		store.setDefault(Activator.PREF_SHOW_PLAN_BROWSER, true);
 	}
 
 	/*
