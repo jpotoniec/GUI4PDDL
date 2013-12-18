@@ -80,16 +80,19 @@ public class TestIndexer {
 		list.add("?product-batch-atom-in",PDDLType.simpleType("product"));
 		list.add("?product-first-batch",PDDLType.simpleType("product"));
 		action.addParameters(list);
-		domain.addAction(action);		
-	
-/*		action = new PDDLAction("POP-END");
+		domain.addAction(action);	
+
+
+	    	    		
+		action = new PDDLAction("POP-END");
 		list = new PDDLTypedList();
 		action.addParameter("?pipe",PDDLType.simpleType("pipe"));
 		action.addParameter("?from-area",PDDLType.simpleType("area"));
+		action.addParameter("?to-area",PDDLType.simpleType("area"));
 		action.addParameter("?first-batch-atom",PDDLType.simpleType("batch-atom"));
 		action.addParameter("?next-first-batch-atom",PDDLType.simpleType("batch-atom"));
 		action.addParameters(list);
-		domain.addAction(action);*/
+		domain.addAction(action);
 		
 		
 		
@@ -98,6 +101,17 @@ public class TestIndexer {
 		System.out.println(expected);
 		
 		assertEquals(expected, file);
+		
+		
+	}
+	
+	@Test
+	public void test2() throws FileNotFoundException {
+
+		
+		PDDLFile file = loadFile("sample/AIRPORT/DOMAIN.PDDL");
+			
+
 		
 		
 	}
