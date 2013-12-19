@@ -16,8 +16,10 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.variables.IStringVariableManager;
 import org.eclipse.core.variables.VariablesPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.debug.ui.IDebugUIConstants;
+import org.eclipse.jface.window.Window;
 
 import pl.poznan.put.cs.gui4pddl.Activator;
 import pl.poznan.put.cs.gui4pddl.log.Log;
@@ -72,12 +74,37 @@ public class LaunchUtil {
 		}
 		return null;
 	}
+	
+	public static void launchAndSave(ILaunchConfiguration conf, String mode) {
+		if (conf instanceof ILaunchConfigurationWorkingCopy) {
+			ILaunchConfigurationWorkingCopy wc = (ILaunchConfigurationWorkingCopy) conf;
+			try {
+				conf = wc.doSave();
+			} catch (CoreException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		DebugUITools.launch(conf, mode);
+	}
 
-	public static int openLaunchConfigurationDialog(ILaunchConfiguration conf) {
+	public static int openLaunchConfigurationDialogAndSave(ILaunchConfiguration conf) {
 		String groupId = IDebugUIConstants.ID_RUN_LAUNCH_GROUP;
-		return DebugUITools.openLaunchConfigurationDialog(Activator
+		int result = DebugUITools.openLaunchConfigurationDialog(Activator
 				.getDefault().getWorkbench().getActiveWorkbenchWindow()
 				.getShell(), conf, groupId, null);
+		if (result == Window.OK) {
+			if (conf instanceof ILaunchConfigurationWorkingCopy) {
+				ILaunchConfigurationWorkingCopy wc = (ILaunchConfigurationWorkingCopy) conf;
+				try {
+					conf = wc.doSave();
+				} catch (CoreException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return result;
 	}
 
 	public static String getRelativeFileLocation(IPath file) {
@@ -93,8 +120,7 @@ public class LaunchUtil {
 		return rel;
 	}
 
-	public static String getAbsoluteFilePathFromRelativePath(String relativePath)
-	{
+	public static String getAbsoluteFilePathFromRelativePath(String relativePath) {
 		IStringVariableManager varManager = VariablesPlugin.getDefault()
 				.getStringVariableManager();
 		String filePath = null;

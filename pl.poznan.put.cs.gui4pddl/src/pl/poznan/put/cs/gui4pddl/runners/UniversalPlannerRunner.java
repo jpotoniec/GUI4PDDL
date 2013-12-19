@@ -70,6 +70,8 @@ public class UniversalPlannerRunner {
 		problem = LaunchUtil
 				.getAbsoluteFilePathFromRelativePath(problem);*/
 
+		System.out.println("\"" + script + "\" " + "\"" + domain + "\" " + "\"" + problem
+				+ "\" " + argument);
 		return "\"" + script + "\" " + "\"" + domain + "\" " + "\"" + problem
 				+ "\" " + argument;
 

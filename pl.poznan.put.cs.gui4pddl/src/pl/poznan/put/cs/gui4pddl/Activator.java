@@ -144,6 +144,9 @@ public class Activator extends AbstractUIPlugin {
 	public static final String PREF_PORT = "pddl_view_port";
 	
 	public static final String PREF_SHOW_PLAN_BROWSER = "show_plan_browser";
+	public static final String PREF_DEFAULT_PLANNER = "use_default_planner";
+	public static final String PREF_DEFAULT_PLANNER_NAME = "default_planner_name";
+	public static final String PREF_DEFAULT_PLANNER_ARGUMENT_NAME = "default_planner_argument_name";
 
 	protected void initializeDefaultPreferences(IPreferenceStore store) {
 		super.initializeDefaultPreferences(store);
@@ -163,6 +166,7 @@ public class Activator extends AbstractUIPlugin {
 		store.setDefault(Activator.PREF_PORT, 4445);
 		
 		store.setDefault(Activator.PREF_SHOW_PLAN_BROWSER, true);
+		store.setDefault(Activator.PREF_DEFAULT_PLANNER, false);
 	}
 
 	/*

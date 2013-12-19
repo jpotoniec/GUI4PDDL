@@ -2,16 +2,20 @@ package pl.poznan.put.cs.gui4pddl.preferences;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.TabFolder;
@@ -19,6 +23,8 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
+import pl.poznan.put.cs.gui4pddl.Activator;
+import pl.poznan.put.cs.gui4pddl.Constants;
 import pl.poznan.put.cs.gui4pddl.preferences.model.PlannerPreferences;
 import pl.poznan.put.cs.gui4pddl.preferences.model.manager.PlannerPreferencesManager;
 import pl.poznan.put.cs.gui4pddl.preferences.ui.PlannerPreferencesPageTabItem;
@@ -30,6 +36,11 @@ public class PlannerPreferencePage extends PreferencePage implements
 	private static final String SAVE_DIALOG_TEXT = "Do you want to save this configuration?";
 
 	private Button newPlannerButton;
+
+	private Button defaultPlannerCheckBox;
+
+	private Combo defaultPlannerCombo;
+	private Combo defaultArgumentCombo;
 
 	private List<PlannerPreferencesPageTabItem> tabsList;
 
@@ -50,11 +61,46 @@ public class PlannerPreferencePage extends PreferencePage implements
 			preferencesChanged = (preferencesChanged || item
 					.preferencesChanged());
 		}
-		if (preferencesChanged) {
+		IPreferenceStore preferenceStore = Activator.getDefault()
+				.getPreferenceStore();
+		if (preferencesChanged
+				|| preferenceStore.getBoolean(Activator.PREF_DEFAULT_PLANNER) != defaultPlannerCheckBox
+						.getSelection()
+				|| (defaultPlannerCombo.getSelectionIndex() >= 0 && !preferenceStore
+						.getString(Activator.PREF_DEFAULT_PLANNER_NAME).equals(
+								defaultPlannerCombo.getItem(defaultPlannerCombo
+										.getSelectionIndex())))
+				|| (defaultArgumentCombo.getSelectionIndex() > 0 && !preferenceStore
+						.getString(Activator.PREF_DEFAULT_PLANNER_ARGUMENT_NAME)
+						.equals(defaultArgumentCombo
+								.getItem(defaultArgumentCombo
+										.getSelectionIndex())))
+				|| (defaultArgumentCombo.getSelectionIndex() == 0 && !preferenceStore
+						.getString(Activator.PREF_DEFAULT_PLANNER_ARGUMENT_NAME)
+						.equals(""))) {
 			if (MessageDialog.openQuestion(getShell(), SAVE_DIALOG_TITLE,
 					SAVE_DIALOG_TEXT)) {
 				for (PlannerPreferencesPageTabItem item : tabsList) {
 					boolean saveOk = item.savePlannerPreferences();
+					preferenceStore.setValue(Activator.PREF_DEFAULT_PLANNER,
+							defaultPlannerCheckBox.getSelection());
+
+					preferenceStore.setValue(
+							Activator.PREF_DEFAULT_PLANNER_NAME,
+							defaultPlannerCombo.getItem(defaultPlannerCombo
+									.getSelectionIndex()));
+
+					if (defaultArgumentCombo.getSelectionIndex() > 0) {
+						preferenceStore.setValue(
+								Activator.PREF_DEFAULT_PLANNER_ARGUMENT_NAME,
+								defaultArgumentCombo
+										.getItem(defaultArgumentCombo
+												.getSelectionIndex()));
+					} else {
+						preferenceStore.setValue(
+								Activator.PREF_DEFAULT_PLANNER_ARGUMENT_NAME,
+								"");
+					}
 					if (!saveOk) {
 						MessageDialog
 								.openError(getShell(), "Error while saving",
@@ -65,14 +111,45 @@ public class PlannerPreferencePage extends PreferencePage implements
 				}
 			}
 		}
+
 		return super.performOk();
 	}
 
 	@Override
 	protected Control createContents(Composite parent) {
 
+		defaultPlannerCheckBox = new Button(parent, SWT.CHECK);
+		defaultPlannerCheckBox.setText("&Default planner");
+
+		Composite defaultPlannerComboComposite = createComboComposite(parent);
+
+		defaultPlannerCombo = createDefaultPlannerCombo(defaultPlannerComboComposite);
+		defaultArgumentCombo = createDefaultPlannerCombo(defaultPlannerComboComposite);
+
+		defaultPlannerCheckBox.setSelection(Activator.getDefault()
+				.getPreferenceStore()
+				.getBoolean(Activator.PREF_DEFAULT_PLANNER));
+		
+		setCombosDisabledOrEnabled();
+
+		defaultPlannerCheckBox.addSelectionListener(new SelectionAdapter() {
+
+			public void widgetSelected(SelectionEvent event) {
+				setCombosDisabledOrEnabled();
+			}
+		});
+
+		defaultPlannerCombo.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				addPlannerArgumentsToCombo();
+			}
+		});
+		
+		
+
 		Composite pageComposite = createPageComposite(parent);
 		newPlannerButton = createNewPlannerButton(pageComposite);
+
 		final TabFolder plannerTabFolder = createPlannerTabFolder(pageComposite);
 
 		addPlannersToTabFolder(plannerTabFolder);
@@ -82,6 +159,7 @@ public class PlannerPreferencePage extends PreferencePage implements
 			public void widgetSelected(SelectionEvent arg0) {
 				addPlannerTab(plannerTabFolder);
 				plannerTabFolder.setSelection(plannerTabFolder.getItemCount() - 1);
+				updateDefaultPlannerCombos();
 			}
 
 		});
@@ -91,8 +169,10 @@ public class PlannerPreferencePage extends PreferencePage implements
 			public void widgetSelected(SelectionEvent e) {
 				if (tabsList.size() > plannerTabFolder.getSelectionIndex()) {
 					checkIfAllPageTabItemsAreValid();
-					/*tabsList.get(plannerTabFolder.getSelectionIndex())
-							.setSavePlannerButtonEnabledIfConfigurationValid();*/
+					/*
+					 * tabsList.get(plannerTabFolder.getSelectionIndex())
+					 * .setSavePlannerButtonEnabledIfConfigurationValid();
+					 */
 				}
 
 			}
@@ -102,8 +182,105 @@ public class PlannerPreferencePage extends PreferencePage implements
 			}
 		});
 
+
+		updateDefaultPlannerCombos();
+
 		return pageComposite;
 	}
+	
+	private Composite createComboComposite(Composite parent) {
+		Composite comp = new Composite(parent, SWT.NONE);
+		GridLayout grid = new GridLayout();
+		grid.numColumns = 2;
+		grid.makeColumnsEqualWidth = true;
+		comp.setLayout(grid);
+		comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		return comp;
+	}
+	
+	private Combo createDefaultPlannerCombo(Composite comp) {
+		final Combo combo = new Combo(comp, SWT.READ_ONLY);
+		GridData data = new GridData();
+		data.horizontalSpan = 1;
+		data.grabExcessHorizontalSpace = true;
+		data.horizontalAlignment = SWT.FILL;
+		data.widthHint = 300;
+		combo.setLayoutData(data);
+		return combo;
+	}
+
+	private void setCombosDisabledOrEnabled() {
+		if (defaultPlannerCheckBox.getSelection()) {
+			defaultPlannerCombo.setEnabled(true);
+			defaultArgumentCombo.setEnabled(true);
+
+		} else {
+			defaultPlannerCombo.setEnabled(false);
+			defaultArgumentCombo.setEnabled(false);
+		}
+	}
+
+	public void updateDefaultPlannerCombos() {
+		addPlannersToCombo();
+		selectPlannerFromPreferenceStore();
+		addPlannerArgumentsToCombo();
+		selectArgumentFromPreferenceStore();
+	}
+	
+	private void addPlannersToCombo() {
+
+		defaultPlannerCombo.removeAll();
+		if (tabsList.size() > 0) {
+			for (PlannerPreferencesPageTabItem tabItem : tabsList) {
+				defaultPlannerCombo.add(tabItem.getPlannerName());
+			}
+		} else {
+			defaultPlannerCombo.setEnabled(false);
+			defaultArgumentCombo.removeAll();
+		}
+	}
+	
+	private void selectPlannerFromPreferenceStore() {
+		for (int i = 0; i < defaultPlannerCombo.getItems().length; i++) {
+			if (defaultPlannerCombo.getItems()[i].equals(Activator.getDefault()
+					.getPreferenceStore()
+					.getString(Activator.PREF_DEFAULT_PLANNER_NAME))) {
+				defaultPlannerCombo.select(i);
+				break;
+			}
+		}
+	}
+	
+	private void addPlannerArgumentsToCombo() {
+		if (defaultPlannerCombo.getSelectionIndex() >= 0) {
+			defaultArgumentCombo.removeAll();
+			if (tabsList.size() > 0) {
+				defaultArgumentCombo.add("No specified argument");
+				if (tabsList.get(defaultPlannerCombo.getSelectionIndex())
+						.getArguments().keySet().size() > 0) {
+					for (String key : tabsList
+							.get(defaultPlannerCombo.getSelectionIndex())
+							.getArguments().keySet()) {
+						defaultArgumentCombo.add(key);
+					}
+				}
+			}
+			defaultArgumentCombo.select(0);
+		}
+	}
+
+
+	private void selectArgumentFromPreferenceStore() {
+		for (int i = 0; i < defaultArgumentCombo.getItems().length; i++) {
+			if (defaultArgumentCombo.getItems()[i].equals(Activator.getDefault()
+					.getPreferenceStore()
+					.getString(Activator.PREF_DEFAULT_PLANNER_ARGUMENT_NAME))) {
+				defaultArgumentCombo.select(i);
+				break;
+			}
+		}
+	}
+
 
 	private Composite createPageComposite(Composite parent) {
 		Composite pageComposite = new Composite(parent, SWT.NONE);
@@ -142,35 +319,34 @@ public class PlannerPreferencePage extends PreferencePage implements
 		PlannerPreferencesPageTabItem plannerPreferencesPageTab = new PlannerPreferencesPageTabItem(
 				preferences, this, tabFolder);
 
-		//plannerPreferencesPageTab
-		//		.setSavePlannerButtonEnabledIfConfigurationValid();
+		// plannerPreferencesPageTab
+		// .setSavePlannerButtonEnabledIfConfigurationValid();
 		checkIfAllPageTabItemsAreValid();
 
 		tabsList.add(plannerPreferencesPageTab);
 	}
 
 	private void addPlannersToTabFolder(final TabFolder tabFolder) {
-		for (String key : PlannerPreferencesManager.getManager().getPlannerPreferences()
-				.keySet()) {
-			PlannerPreferences preferences = PlannerPreferencesManager.getManager()
-					.getPlannerPreferences().get(key);
+		for (String key : PlannerPreferencesManager.getManager()
+				.getPlannerPreferences().keySet()) {
+			PlannerPreferences preferences = PlannerPreferencesManager
+					.getManager().getPlannerPreferences().get(key);
 
 			PlannerPreferencesPageTabItem plannerPreferencesPageTab = new PlannerPreferencesPageTabItem(
 					preferences, this, tabFolder);
 
-			//plannerPreferencesPageTab
-			//		.setSavePlannerButtonEnabledIfConfigurationValid();
-			
+			// plannerPreferencesPageTab
+			// .setSavePlannerButtonEnabledIfConfigurationValid();
 
 			tabsList.add(plannerPreferencesPageTab);
 
 		}
 		checkIfAllPageTabItemsAreValid();
-		tabFolder.setVisible(PlannerPreferencesManager.getManager().getPlannerPreferences()
-				.size() > 0);
+		tabFolder.setVisible(PlannerPreferencesManager.getManager()
+				.getPlannerPreferences().size() > 0);
 
 	}
-	
+
 	public void checkIfAllPageTabItemsAreValid() {
 		for (PlannerPreferencesPageTabItem item : tabsList) {
 			if (!item.checkIfTabItemIsValidAndSetErrorMessages()) {
@@ -178,6 +354,10 @@ public class PlannerPreferencePage extends PreferencePage implements
 				break;
 			}
 		}
+	}
+
+	public List<PlannerPreferencesPageTabItem> getTabsList() {
+		return tabsList;
 	}
 
 	@Override

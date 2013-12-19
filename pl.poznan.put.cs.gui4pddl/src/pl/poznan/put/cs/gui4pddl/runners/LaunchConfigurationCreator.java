@@ -22,6 +22,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
+import pl.poznan.put.cs.gui4pddl.Activator;
 import pl.poznan.put.cs.gui4pddl.Constants;
 import pl.poznan.put.cs.gui4pddl.IPDDLNature;
 import pl.poznan.put.cs.gui4pddl.PDDLNature;
@@ -30,6 +31,7 @@ import pl.poznan.put.cs.gui4pddl.codemodel.PDDLDomain;
 import pl.poznan.put.cs.gui4pddl.codemodel.PDDLFile;
 import pl.poznan.put.cs.gui4pddl.codemodel.PDDLProblem;
 import pl.poznan.put.cs.gui4pddl.log.Log;
+import pl.poznan.put.cs.gui4pddl.preferences.model.manager.PlannerPreferencesManager;
 import pl.poznan.put.cs.gui4pddl.runners.helpers.LaunchUtil;
 
 /**
@@ -141,10 +143,8 @@ public class LaunchConfigurationCreator {
 						workingCopy.setMappedResources(new IResource[] {
 								LaunchUtil.findResource(project.getFullPath()),
 								resource });
-
 					}
 				}
-
 			}
 		}
 
@@ -167,6 +167,45 @@ public class LaunchConfigurationCreator {
 
 		workingCopy.setAttribute(DebugPlugin.ATTR_PROCESS_FACTORY_ID,
 				PDDLProcessFactory.ID);
+
+		boolean defaultPlanner = Activator.getDefault().getPreferenceStore()
+				.getBoolean(Activator.PREF_DEFAULT_PLANNER);
+		if (defaultPlanner) {
+			String plannerName = Activator.getDefault().getPreferenceStore()
+					.getString(Activator.PREF_DEFAULT_PLANNER_NAME);
+			String plannerArgument = Activator.getDefault()
+					.getPreferenceStore()
+					.getString(Activator.PREF_DEFAULT_PLANNER_ARGUMENT_NAME);
+			if (plannerName != null
+					&& !plannerName.isEmpty()
+					&& PlannerPreferencesManager.getManager()
+							.getPlannerPreferences().containsKey(plannerName)) {
+				workingCopy.setAttribute(Constants.PLANNER_NAME, plannerName);
+				workingCopy.setAttribute(Constants.PLANNER,
+						PlannerPreferencesManager.getManager()
+								.getPlannerPreferences().get(plannerName)
+								.getPlannerFilePath());
+
+				if (plannerArgument != null && !plannerArgument.isEmpty()) {
+					workingCopy.setAttribute(Constants.ARGUMENTS_NAME,
+							plannerArgument);
+					if (PlannerPreferencesManager.getManager()
+							.getPlannerPreferences().get(plannerName)
+							.getArgumentsMap().containsKey(plannerArgument)) {
+						workingCopy.setAttribute(
+								Constants.PLANNER_ARGUMENTS,
+								PlannerPreferencesManager.getManager()
+										.getPlannerPreferences()
+										.get(plannerName).getArgumentsMap()
+										.get(plannerArgument));
+					}
+				}
+				workingCopy.setAttribute(Constants.FILE_NAME_REGEXP,
+						PlannerPreferencesManager.getManager()
+								.getPlannerPreferences().get(plannerName)
+								.getPlanViewFilePattern());
+			}
+		}
 
 		return workingCopy;
 

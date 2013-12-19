@@ -205,44 +205,31 @@ public class PDDLLaunchShortcut implements ILaunchShortcut {
 			if (createdConfiguration == null) {
 				return null;
 			}
-			
-			createdConfiguration = showLaunchConfigurationDialogWhenAttributesAreNotCompleted(createdConfiguration);
-			
-			if (createdConfiguration == null) {
-				return null;
-			}
 
-			return createdConfiguration.doSave();
+			return createdConfiguration;
 		} catch (CoreException e) {
 			reportError(null, e);
 			return null;
 		}
 	}
 
-	public ILaunchConfigurationWorkingCopy showLaunchConfigurationDialogWhenAttributesAreNotCompleted(
-			ILaunchConfigurationWorkingCopy createdConfiguration) {
+
+	private boolean shouldLaunchConfigurationDialogBeShown(
+			ILaunchConfiguration conf) {
 		try {
-			if (createdConfiguration.getAttribute(Constants.PLANNER, "")
-					.isEmpty()
-					|| createdConfiguration.getAttribute(
-							Constants.WORKING_DIRECTORY, "").isEmpty()
-					|| createdConfiguration.getAttribute(Constants.PROJECT, "")
+			//TODO cos mocniejszego - sprawdzanie czy pliki domeny i problemu istnieja?
+			return (conf.getAttribute(Constants.PLANNER, "").isEmpty()
+					|| conf.getAttribute(Constants.WORKING_DIRECTORY, "")
 							.isEmpty()
-					|| LaunchUtil.getDomainFile(createdConfiguration) == null
-					|| LaunchUtil.getProblemFile(createdConfiguration) == null) {
-
-				int result = LaunchUtil
-						.openLaunchConfigurationDialog(createdConfiguration);
-
-				if (result == Window.OK) {
-					return createdConfiguration;
-				}
-
-			}
+					|| conf.getAttribute(Constants.PROJECT, "").isEmpty()
+					|| conf.getAttribute(Constants.ARGUMENTS_NAME, "").isEmpty()
+					|| LaunchUtil.getDomainFile(conf) == null || LaunchUtil
+						.getProblemFile(conf) == null);
 		} catch (CoreException e) {
-			Log.log("Cannot read attributes from launch configuration");
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return null;
+		return false;
 	}
 
 	public ILaunchConfigurationWorkingCopy createDefaultLaunchConfigurationWithoutSaving(
@@ -363,15 +350,17 @@ public class PDDLLaunchShortcut implements ILaunchShortcut {
 					return;
 				}
 			}
-			if (!showDialog) {
-				if (conf != null) {
-					DebugUITools.launch(conf, mode);
-					return;
-				}
+		}
+		
+		if (conf != null) {
+			if (shouldLaunchConfigurationDialogBeShown(conf)) {
+				LaunchUtil.openLaunchConfigurationDialogAndSave(conf);
 			} else {
-				LaunchUtil.openLaunchConfigurationDialog(conf);
+				if (!showDialog)
+					LaunchUtil.launchAndSave(conf, mode);
+				else
+					LaunchUtil.openLaunchConfigurationDialogAndSave(conf);
 			}
-
 		}
 	}
 
