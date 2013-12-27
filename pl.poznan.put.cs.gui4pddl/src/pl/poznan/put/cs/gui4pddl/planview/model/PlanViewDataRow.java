@@ -27,14 +27,6 @@ public class PlanViewDataRow implements Serializable {
 	public PlanViewDataRow() {
 
 	}
-	
-	public static PlanViewDataRow loadPlanViewDataRowFromFolder(IFolder folder) {
-		String splitRegex = Pattern.quote(System.getProperty("file.separator"));
-		String[] el = folder.getFullPath().toOSString().split(splitRegex);
-		if (el.length == 6) {
-			return new PlanViewDataRow(el[1], el[3], el[4], el[5], null, null, null, null, null);
-		} else return null;
-	}
 
 	public PlanViewDataRow(String projectName, String domain, String problem,
 			String id, String plannerName, String domainFilePath,

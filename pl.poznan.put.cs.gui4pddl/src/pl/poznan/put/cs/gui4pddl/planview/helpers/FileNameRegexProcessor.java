@@ -63,7 +63,7 @@ public class FileNameRegexProcessor {
 		return matchedFiles;
 	}
 
-	private static String getRegexWithReplacements(String regexp,
+	public static String getRegexWithReplacements(String regexp,
 			String keyword, String replacement) {
 
 		int index = regexp.indexOf(keyword);

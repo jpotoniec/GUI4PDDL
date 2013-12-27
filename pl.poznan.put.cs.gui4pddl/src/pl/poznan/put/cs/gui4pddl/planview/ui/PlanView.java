@@ -842,22 +842,10 @@ public class PlanView extends ViewPart {
 		try {
 			PlanViewDataRow planViewRowData = null;
 			String domainAbsolutePath = LaunchUtil.getDomainFile(config)
-					.getRawLocation().toOSString(); /*
-													 * LaunchUtil .
-													 * getAbsoluteFilePathFromRelativePath
-													 * (config.getAttribute(
-													 * Constants.DOMAIN_FILE,
-													 * ""));
-													 */
+					.getRawLocation().toOSString();
 
 			String problemAbsolutePath = LaunchUtil.getProblemFile(config)
-					.getRawLocation().toOSString(); /*
-													 * LaunchUtil .
-													 * getAbsoluteFilePathFromRelativePath
-													 * (config.getAttribute(
-													 * Constants.PROBLEM_FILE,
-													 * ""));
-													 */
+					.getRawLocation().toOSString(); 
 
 			String regexp = config.getAttribute(Constants.FILE_NAME_REGEXP, "");
 

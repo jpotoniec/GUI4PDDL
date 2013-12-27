@@ -32,10 +32,6 @@ public class PlanViewDataManager implements Serializable {
 	private static final String PLAN_DATA_DIR = Activator.getDefault()
 			.getStateLocation().toOSString()
 			+ File.separator + "plan_browser";
-	/*
-	 * Activator.getDefault()
-	 * .getStateLocation().append("plan_browser").toOSString();
-	 */
 
 	private static final String PLAN_DATA_FILE_NAME = "planViewData.xml";
 
@@ -233,10 +229,13 @@ public class PlanViewDataManager implements Serializable {
 			child.putString(TAG_DOMAIN_FILE_PATH, item.getDomainFilePath());
 			child.putString(TAG_PROBLEM_FILE_PATH, item.getProblemFilePath());
 
-			for (String planFileName : item.getPlanFileNames()) {
-				IMemento planFileNamesChild = child
-						.createChild(TAG_PLAN_FILE_NAMES);
-				planFileNamesChild.putString(TAG_PLAN_FILE_NAME, planFileName);
+			if (item.getPlanFileNames() != null) {
+				for (String planFileName : item.getPlanFileNames()) {
+					IMemento planFileNamesChild = child
+							.createChild(TAG_PLAN_FILE_NAMES);
+					planFileNamesChild.putString(TAG_PLAN_FILE_NAME,
+							planFileName);
+				}
 			}
 			child.putString(TAG_PLAN_ARGUMENTS, item.getPlannerArguments());
 		}

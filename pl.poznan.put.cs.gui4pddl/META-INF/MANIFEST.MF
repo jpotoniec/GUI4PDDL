@@ -22,6 +22,8 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: pl.poznan.put.cs.gui4pddl,
+ pl.poznan.put.cs.gui4pddl.planview.model,
+ pl.poznan.put.cs.gui4pddl.planview.model.manager,
  pl.poznan.put.cs.gui4pddl.ui.wizards
 Bundle-ClassPath: lib/jna-4.0.0.jar,
  lib/jna-platform-4.0.0.jar,
