@@ -4,8 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.resources.*;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.junit.Before;
@@ -50,7 +49,8 @@ public class PDDLNatureTest {
 	@Test
 	public void testAddNatureWhenProjectHasNature() throws Exception {
 		SWTBotHelpers.createPDDLProjectByCreator(bot, "testAddNatureWhenProjectHasNature");
-		IProject project =  ResourcesPlugin.getWorkspace().getRoot().getProject("testAddNatureWhenProjectHasNature");
+		IProject project 
+		=  ResourcesPlugin.getWorkspace().getRoot().getProject("testAddNatureWhenProjectHasNature");
 		assertEquals(PDDLNature.addNature(project, null),PDDLNature.getPDDLNature(project));
 	}
 	
