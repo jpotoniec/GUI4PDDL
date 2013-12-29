@@ -18,4 +18,6 @@ Import-Package: org.eclipse.core.resources,
  pl.poznan.put.cs.gui4pddl,
  pl.poznan.put.cs.gui4pddl.planview.model,
  pl.poznan.put.cs.gui4pddl.planview.model.manager,
+ pl.poznan.put.cs.gui4pddl.preferences.model,
+ pl.poznan.put.cs.gui4pddl.preferences.model.manager,
  pl.poznan.put.cs.gui4pddl.ui.wizards

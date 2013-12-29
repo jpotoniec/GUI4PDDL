@@ -1,29 +1,17 @@
 package pl.poznan.put.cs.gui4pddl.tests.planview.model.manager;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
-import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewDataRow;
 import pl.poznan.put.cs.gui4pddl.planview.model.manager.PlanViewDataManager;
-import pl.poznan.put.cs.gui4pddl.tests.SWTBotHelpers;
 
-@RunWith(SWTBotJunit4ClassRunner.class)
 public class PlanViewDataManagerTest {
-
-	public static SWTWorkbenchBot bot = null;
-	
-	@BeforeClass
-	public static void setupBeforeClass() throws Exception {
-		bot = SWTBotHelpers.eclipseBot();
-	}
 	
 	@Test
 	public void testAddPlanViewDataRow() {
