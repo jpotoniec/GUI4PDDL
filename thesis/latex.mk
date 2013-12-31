@@ -39,7 +39,7 @@
 ifneq ($(wildcard Makefile),Makefile)
   MAKE=make -f $(HOME)/share/LaTeX/latex.mk
 endif
-MAINFILE?=${firstword ${wildcard *.lyx} ${wildcard *.tex}}
+MAINFILE=thesis.tex
 ifeq (${MAINFILE},)
 $(error Value of MAINFILE unknown.  Missing .lyx or .tex file.)
 endif
