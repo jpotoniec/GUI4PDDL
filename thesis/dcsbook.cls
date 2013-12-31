@@ -199,7 +199,7 @@
   \renewcommand{\maketitle}{%
     \begin{titlepage}
     \begin{center}
-    \includegraphics[scale=0.2]{logopp/logopp-sygnet-en}
+    \includegraphics[scale=0.2]{logopp/logopp-sygnet-pl}
     \end{center}
 
     \vfill
