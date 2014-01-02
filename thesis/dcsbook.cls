@@ -94,7 +94,7 @@
   {\textcolor{red}{\texttt{\small Unknown. Use \textbackslash{}supervisor command.}}}
 \newcommand{\supervisor}[1]{\renewcommand{\@supervisorname}{#1}}
 % subtitle
-\newcommand{\@subtitle}{\translate{Master's Thesis}}
+\newcommand{\@subtitle}{\translate{Praca dyplomowa inżynierska}}
 \newcommand{\subtitle}[1]{\renewcommand{\@subtitle}{#1}}
 % university
 \newcommand{\@university}{\translate{Poznań University of Technology}}
@@ -199,7 +199,9 @@
   \renewcommand{\maketitle}{%
     \begin{titlepage}
     \begin{center}
-    \includegraphics[scale=0.2]{logopp/logopp-sygnet-pl}
+    \includegraphics[scale=0.2]{logopp/logopp-sygnet-pl}\par
+    Wydział Informatyki\par
+    Instytut Informatyki
     \end{center}
 
     \vfill
