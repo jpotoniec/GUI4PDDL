@@ -1,0 +1,7 @@
+\ProvidesDictionary{translator-msc-dictionary}{Polish}
+
+\providetranslation{Master's Thesis}{Praca magisterska}
+\providetranslation{Supervisor}{Promotor}
+\providetranslation{Poznań University of Technology}{Politechnika Poznańska}
+\providetranslation{Institute of Computing Science}{Instytut Informatyki}
+
