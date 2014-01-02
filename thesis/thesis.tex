@@ -1,6 +1,5 @@
 \documentclass[11pt,a4paper,polish,thesis]{dcsbook}
 
-\usepackage[utf8]{inputenc}
 \usepackage{babel}
 \setcounter{secnumdepth}{4}
 \setcounter{tocdepth}{3}
@@ -14,6 +13,7 @@
 \maketitle
 \frontmatter
 \tableofcontents{}
+
 \mainmatter
 
 \input{./tex/intro.tex}
@@ -26,14 +26,9 @@
 \input{./tex/summary.tex}
 
 \appendix
-
-\chapter{Zawartość płyty CD}
+\input{./tex/cd_content.tex}
 
 \backmatter
-
-\begin{thebibliography}{1}
-\bibitem{sop}A.~Tanenbaum. \emph{Operating Systems Design and Implementation}.
-Prentice Hall, 2006.
-\end{thebibliography}
+\input{./tex/bibliography.tex}
 
 \end{document}
