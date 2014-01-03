@@ -1,5 +1,108 @@
 \chapter{Wykorzystane oprogramowanie}
 \section{Eclipse}
-\section{Generator parserów ANTLR}
 
+\section{ANTLR}
+ANTLR (ang. \emph{ANother Tool for Language Recognition}) jest generatorem
+analizatorów leksykalnych i składniowych.
+
+Narzędzie przetwarza opisy gramatyk języków formalnych w postaci 
+zbliżonej do notacji
+ Backusa-Naura. Na podstawie specyfikacji generowany jest kod analizatora.
+Językami programowania wspieranymi przez ANTLR są między innymi C, C\#, Java
+i Python.
+
+Istotną zaletą oprogramowania jest jego prostota użycia. Wygenerowany kod 
+jest czytelny i łatwo można go dołączyć do własnej aplikacji. Postać plików
+wejściowych jest podobna dla wszystkich rodzajów analizatorów. Dodatkowo
+istnieją narzędzia wspierające projektowanie i implementację gramatyk
+formalnych z wykorzystaniem ANTLR. Należy do nich ANTLRWorks, będące
+zintegrowanym środowiskiem programistycznym. Zawiera ono edytor strukturalny,
+zintegrowany program do usuwania błędów i moduł do wizualizacji struktur 
+danych powstających podczas translacji.
+
+ANTLR został opublikowany wraz z kodem źródłowym na licencji BSD. Projekt jest
+aktywnie rozwijany. Wiele programów zawiera analizatory wygenerowane za pomocą
+ANTLR. Należą do nich Hibernate, Jython i Netbeans.
+
+\subsection{Analiza LL(*)}
+Narzędzie ANTLR generuje analizatory LL(*). Służą one do przetwarzania 
+języków opisanych gramatykami bezkontekstowymi LL(*).
+
+Analizatory LL, będące poprzednikiem analizatorów LL(*) wykorzystują
+analizę zstępującą i metodę zejść 
+rekurencyjnych. Każdemu nieterminalowi zdefiniowanemu w specyfikacji gramatyki
+odpowiada procedura lub metoda. 
+
+Analiza, polegająca na konstrukcji drzewa
+wyprowadzenia, rozpoczyna się od korzenia. Związany z nim jest symbol 
+startowy gramatyki. W każdym kroku analizy wykonywane są następujące czynności:
+\begin{enumerate}
+\item wybierany jest pierwszy w porządku zdefiniowanym przez
+  przeszukiwanie wgłąb węzeł V zawierający symbol nieterminalny A.
+\item wybierana jest produkcja mająca po lewej stronie symbol A.
+\item dodawane są węzły związane z symbolami znajdującymi się po prawej
+  stronie produkcji z punktu 2. Stają się one dziećmi węzła V.
+\end{enumerate}
+
+Klasy analizatorów LL różnią się sposobem wyboru produkcji w punkcie 2. 
+Analizatory LL(*) są analizatorami przewidującymi. Podejmują one decyzję na
+podstawie nieprzetworzonych symboli leksykalnych w strumieniu wejściowym. Liczba
+tych symboli nie jest ograniczona. W celu przeglądania strumienia wejściowego 
+,,w przód'' tworzone są automaty skończone mogące zawierać cykle.
+
+W odróżnieniu od tradycyjnych gramatyk LL, W gramatykach LL(*) prawe strony
+produkcji dla jednego nieterminala mogą mieć ten sam prefiks. Nie ma więc 
+konieczności lewostronnej faktoryzacji, co znacznie ułatwia tworzenie
+gramatyk.
+
+\subsection{Abstrakcyjne drzewa składniowe}
+Przetwarzanie kodu źródłowego jest skomplikowanym procesem. W celu uproszczenia 
+zadania, rozbija się je na logicznie wyodrębnione fazy. Uruchamiane są one 
+sekwencyjnie. Każda z faz oblicza część informacji. 
+
+Zwykle więcej niż jedna faza dokonuje przejrzenia wszystkich danych wejściowych,
+zwanego przebiegiem. Aby uniknąć ponownej analizy leksykalnej i składniowej przy
+kolejnym przebiegu, potrzebna jest pośrednia struktura danych.
+
+Abstrakcyjne drzewo składniowe (AST) jest jedną z form reprezentacji
+konstrukcji  języka. Jest to skondensowana postać drzewa
+wyprowadzania, skłądająca się
+wyłącznie z węzłów reprezentujących symbole wejściowe. Węzły
+wewnętrzne reprezentują słowa kluczowe i operatory, liście -- argumenty.
+
+Wszystkie fazy występujące po fazie tworzącej abstrakcyjne drzewo składniowe,
+przekazują tę strukturę. Jej przetwarzanie, a tym samym działanie kolejnych
+faz sprowadza się do przechodzenia drzewa.
+
+Możliwe jest ręczne tworzenie drzewa składniowego za pomocą odpowiednich
+reguł semantycznych. Takie podejście proceduralne jest opisane w [Aho].
+
+Narzędzie ANTLR wspiera tworzenie drzew składniowych. Dodanie
+odpowiedniej opcji w specyfikacji analizatora składniowego powoduje automatyczne
+wygenerowanie struktury. Poza tym, specyfikacja analizatora składniowego
+ może zawierać elementy deklaratywne wpływające na kształt AST.
+
+Jednym ze sposobów przechodzenia abstrakcyjnego drzewa składniowego jest
+wykorzystanie analizatora drzewowego. Jest to podprogram generowany przez
+ANTLR na podstawie specyfikacji, tak jak analizator składniowy lub leksykalny.
+Wprowadzenie analizatorów drzewowych wyróżnia ANTLR na tle innych generatorów
+ parserów. 
+
+\subsection{Pliki wejściowe}
+
+Pliki wejściowe ANTLR posiadają rozszerzenie .g. Zawierają one specyfikację
+analizatora leksykalnego, składniowego, drzewowego lub połączoną specyfikację
+analizatorów leksykalnego i składniowego. 
+
+Specyfikacja analizatorów składa się z listy reguł, definiujących symbole
+leksykalne, sekcji opcji konfiguracyjnych oraz kodu dodawanego do generowanego
+pliku źródłowego.
+
+W przypadku plików zawierających połączoną specyfikację analizatorów, występuje
+podział symboli ze względu na pierwszą literę ich nazwy.
+ Symbole, których nazwa rozpoczyna się wielką literą uznawane są
+za symbole terminalne. W ich definicjach mogą występować literały i inne
+symbole terminalne. Na podstawie reguł definiujących symbole terminalne
+tworzony jest analizator leksykalny. Pozostałe reguły tworzą analizator
+składniowy.
 
