@@ -34,7 +34,7 @@ public class TestPDDLDomain {
 		assertEquals(expected,list);
 		//assert czy .isSubtype(PDDLType.simpleType("ala"), PDDLType.simpleType("type1"));
 		
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 }

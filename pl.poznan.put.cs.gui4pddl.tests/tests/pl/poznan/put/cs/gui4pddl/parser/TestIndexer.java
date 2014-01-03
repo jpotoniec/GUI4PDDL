@@ -110,8 +110,9 @@ public class TestIndexer {
 
 		
 		PDDLFile file = loadFile("sample/AIRPORT/DOMAIN.PDDL");
-			
-
+		//PDDLFile expected = new PDDLFile(new Path("sample/AIRPORT/DOMAIN.PDDL").toPortableString());
+		//PDDLDomain domain = new PDDLDomain("pipesworld_strips");
+		
 		
 		
 	}
