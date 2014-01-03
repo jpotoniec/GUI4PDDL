@@ -47,3 +47,854 @@ action_def:
             (cargo-in ?x ?c))
     )
 >> OK
+
+
+<<
+(((()
+>> FAIL
+
+<<
+()
+>> FAIL
+
+<<
+(:action load
+        :parameters (?e - engine ?c - car ?t - town ?x - cargo)
+        :precondition (and
+            (cargo-at ?x ?t)
+            (car-at ?c ?t)
+            (not (exists (?y - cargo) (cargo-in ?y ?c)))
+            )
+       
+    )
+>> OK
+
+<<
+(:action load
+        :parameters (?e - engine ?c - car ?t - town ?x - cargo)
+
+       
+    )
+>> OK
+<<
+(:action PUSH-START
+  :parameters(
+    ?pipe - pipe
+    ?batch-atom-in - batch-atom
+    ?from-area - area
+    ?to-area - area
+    ?first-batch-atom - batch-atom
+    ?product-batch-atom-in - product
+    ?product-first-batch - product
+  )
+  :precondition
+   (and
+   (normal ?pipe)
+   (first ?first-batch-atom ?pipe)
+   (connect ?from-area ?to-area ?pipe)
+   (on ?batch-atom-in ?from-area)
+   (not-unitary ?pipe)
+   (is-product ?batch-atom-in ?product-batch-atom-in)
+   (is-product ?first-batch-atom ?product-first-batch)
+   (may-interface ?product-batch-atom-in ?product-first-batch)
+
+ )
+  :effect
+   (and 
+     (push-updating ?pipe)
+     (not (normal ?pipe))
+     (first ?batch-atom-in ?pipe)
+     (not (first ?first-batch-atom ?pipe))
+     (follow ?first-batch-atom ?batch-atom-in)
+     (not (on ?batch-atom-in ?from-area))
+
+)
+))
+
+>> OK
+
+<<
+(:action load
+        :parameters (?e - engine ?c - car ?t - town ?x - cargo)
+		()
+       
+    )
+>> FAIL
+
+<<
+(:action load
+        :parameters (?e - engine ?c - car ?t - town ?x - cargo)
+		?
+       
+    )
+>> FAIL
+
+<<
+(:action load
+        :parameters (?e - engine ?c - car ?t - town ?x - cargo)
+		 :precondition (and
+            (cargo-at ?x ?t)
+            )
+       
+    )
+>> OK
+
+<<
+(:action load
+        :parameters (?e - engine ?c - car ?t - town ?x - cargo)
+        :precondition 
+            (cargo-at ?x ?t)
+            (car-at ?c ?t)
+            (not (exists (?y - cargo) (cargo-in ?y ?c)))
+            
+       
+    )
+>> FAIL
+
+<<
+(:action move
+	:parameters(?e - engine)
+	:effect(?e)
+    )
+>> FAIL
+
+<<
+(:action move)
+        :parameters (?e - engine ?a ?b - town)
+        :precondition (and
+            (at ?e ?a)
+            (or (is-connected ?a ?b) (is-connected ?b ?a))
+            )
+        :effect (and
+            (not (at ?e ?a))
+            (at ?e ?b)
+            (forall 
+                (?c - car) 
+                (when 
+                    (coupled ?e ?c) 
+                    (and
+                        (not (car-at ?c ?a)) 
+                        (car-at ?c ?b))
+                )
+            )
+        )
+    )
+>> FAIL
+
+<<
+(:action move
+	:parameters (?e - engine)
+    )
+>> OK
+
+<<
+(:action move
+	:parameters()
+	
+    )
+>> OK
+
+<<
+(:action move
+	:parameters(?e - engine ?a - abc)
+	
+    )
+>> OK
+
+<<
+(:action move
+      
+        :effect (and
+            (not (at ?e ?a))
+            (at ?e ?b)
+            (forall 
+                (?c - car) 
+                (when 
+                    (coupled ?e ?c) 
+                    (and
+                        (not (car-at ?c ?a)) 
+                        (car-at ?c ?b))
+                )
+            )
+        )
+    )
+>> FAIL
+
+<<
+(:action move
+	:parameters(?e - engine ?e - engine)
+	
+    )
+>> OK
+<<
+(:action move
+	:parameters(?e - engine)))))))))))))))))))))
+	
+    )
+>> FAIL
+<<
+(:action move
+	:parameters(?e - engine,?a - abc)
+	
+    )
+>> FAIL
+
+
+
+
+
+
+axiom_def:
+<<
+(:axiom
+:vars (?x ?y - physob)
+:context (on ?x ?y)
+:implies (above ?x ?y)))
+
+(:axiom
+:vars (?x ?y - physob)
+:context (exists (?z - physob)
+(and (on ?x ?z) (above ?z ?y)))
+:implies (above ?x ?y))
+
+(:axiom
+	:vars (?x - physob)
+	:context (or (= ?x Table)
+		(not (exists (?b - block)
+			(on ?b ?x))))
+	:implies (clear ?x))
+>> OK
+
+
+<<
+(:axiom
+	:vars (?x - physob)
+	:context (or (= ?x Table)
+		(not (exists (?b - block)
+			(on ?b ?x))))
+	:implies (clear ?x))
+>> FAIL
+
+
+
+
+
+domain_header:
+<<
+(domain nowa)
+>>OK
+
+<<
+(domain) nowa)
+>>FAIL
+
+<<
+(domain ?nowa)
+>>FAIL
+
+<<
+(((domain nowa)))
+>>FAIL
+
+<<
+(((domain nowa))))
+>>FAIL
+
+<<
+(domain nowa afd)
+>>FAIL
+
+<<
+(:domain afd)
+>>FAIL
+
+
+
+
+
+problem_item:
+<<
+(:domain airport_fixed_structure)
+
+(:objects
+)
+
+(:init
+
+      (at-segment airplane_DAEWH seg_pp_0_60)
+
+      (blocked seg_pp_0_60 airplane_DAEWH)
+
+      (facing airplane_DAEWH south)
+
+      (has-type airplane_DAEWH medium)
+
+
+      (is-pushing airplane_DAEWH)
+
+
+      (not_blocked seg_ppdoor_0_40 airplane_DAEWH)
+      (not_blocked seg_tww1_0_200 airplane_DAEWH)
+      (not_blocked seg_twe1_0_200 airplane_DAEWH)
+      (not_blocked seg_tww2_0_50 airplane_DAEWH)
+      (not_blocked seg_tww3_0_50 airplane_DAEWH)
+      (not_blocked seg_tww4_0_50 airplane_DAEWH)
+      (not_blocked seg_rww_0_50 airplane_DAEWH)
+      (not_blocked seg_rwtw1_0_10 airplane_DAEWH)
+      (not_blocked seg_rw_0_400 airplane_DAEWH)
+      (not_blocked seg_rwe_0_50 airplane_DAEWH)
+      (not_blocked seg_twe4_0_50 airplane_DAEWH)
+      (not_blocked seg_rwte1_0_10 airplane_DAEWH)
+      (not_blocked seg_twe3_0_50 airplane_DAEWH)
+      (not_blocked seg_twe2_0_50 airplane_DAEWH)
+      (not_blocked seg_rwte2_0_10 airplane_DAEWH)
+      (not_blocked seg_rwtw2_0_10 airplane_DAEWH)
+
+      (not_occupied seg_ppdoor_0_40)
+      (not_occupied seg_tww1_0_200)
+      (not_occupied seg_twe1_0_200)
+      (not_occupied seg_tww2_0_50)
+      (not_occupied seg_tww3_0_50)
+      (not_occupied seg_tww4_0_50)
+      (not_occupied seg_rww_0_50)
+      (not_occupied seg_rwtw1_0_10)
+      (not_occupied seg_rw_0_400)
+      (not_occupied seg_rwe_0_50)
+      (not_occupied seg_twe4_0_50)
+      (not_occupied seg_rwte1_0_10)
+      (not_occupied seg_twe3_0_50)
+      (not_occupied seg_twe2_0_50)
+      (not_occupied seg_rwte2_0_10)
+      (not_occupied seg_rwtw2_0_10)
+
+      (occupied seg_pp_0_60)
+      (= (length seg_pp_0_60) 60)
+      (= (length seg_ppdoor_0_40) 40)
+      (= (length seg_tww1_0_200) 200)
+      (= (length seg_twe1_0_200) 200)
+      (= (length seg_tww2_0_50) 50)
+      (= (length seg_tww3_0_50) 50)
+      (= (length seg_tww4_0_50) 50)
+      (= (length seg_rww_0_50) 50)
+      (= (length seg_rwtw1_0_10) 10)
+      (= (length seg_rw_0_400) 400)
+      (= (length seg_rwe_0_50) 50)
+      (= (length seg_twe4_0_50) 50)
+      (= (length seg_rwte1_0_10) 10)
+      (= (length seg_twe3_0_50) 50)
+      (= (length seg_twe2_0_50) 50)
+      (= (length seg_rwte2_0_10) 10)
+      (= (length seg_rwtw2_0_10) 10)
+      (= (engines airplane_DAEWH) 2)
+)
+
+(:goal
+      (and
+
+
+
+            (airborne airplane_DAEWH seg_rwe_0_50)
+      )
+)
+
+(:metric minimize (total-time))
+
+)
+>>OK
+
+<<
+(:domain satellite)
+(:objects
+	satellite0 - satellite
+	instrument0 - instrument
+	image1 - mode
+	spectrograph2 - mode
+	thermograph0 - mode
+	Star0 - direction
+	GroundStation1 - direction
+	GroundStation2 - direction
+	Phenomenon3 - direction
+	Phenomenon4 - direction
+	Star5 - direction
+	Phenomenon6 - direction
+        window0 - sendwindow
+)
+(:init
+        (= (image-utility star5 thermograph0 window0) 29.63)
+        (= (image-utility phenomenon6 thermograph0 window0) 35.12)
+        (= (image-utility phenomenon4 thermograph0 window0) 39.40)
+	(supports instrument0 thermograph0)
+	(calibration_target instrument0 GroundStation2)
+	(= (calibration_time instrument0 GroundStation2) 5.9)
+	(on_board instrument0 satellite0)
+	(power_avail satellite0)
+	(pointing satellite0 Phenomenon6)
+	(= (data_capacity satellite0) 1000)
+	(= (data Phenomenon3 image1) 22)
+	(= (data Phenomenon4 image1) 120)
+	(= (data Star5 image1) 203)
+	(= (data Phenomenon6 image1) 144)
+	(= (data Phenomenon3 spectrograph2) 125)
+	(= (data Phenomenon4 spectrograph2) 196)
+	(= (data Star5 spectrograph2) 68)
+	(= (data Phenomenon6 spectrograph2) 174)
+	(= (data Phenomenon3 thermograph0) 136)
+	(= (data Phenomenon4 thermograph0) 134)
+	(= (data Star5 thermograph0) 273)
+	(= (data Phenomenon6 thermograph0) 219)
+	(= (slew_time GroundStation1 Star0) 18.17)
+	(= (slew_time Star0 GroundStation1) 18.17)
+	(= (slew_time GroundStation2 Star0) 38.61)
+	(= (slew_time Star0 GroundStation2) 38.61)
+	(= (slew_time GroundStation2 GroundStation1) 68.04)
+	(= (slew_time GroundStation1 GroundStation2) 68.04)
+	(= (slew_time Phenomenon3 Star0) 14.29)
+	(= (slew_time Star0 Phenomenon3) 14.29)
+	(= (slew_time Phenomenon3 GroundStation1) 89.48)
+	(= (slew_time GroundStation1 Phenomenon3) 89.48)
+	(= (slew_time Phenomenon3 GroundStation2) 33.94)
+	(= (slew_time GroundStation2 Phenomenon3) 33.94)
+	(= (slew_time Phenomenon4 Star0) 35.01)
+	(= (slew_time Star0 Phenomenon4) 35.01)
+	(= (slew_time Phenomenon4 GroundStation1) 31.79)
+	(= (slew_time GroundStation1 Phenomenon4) 31.79)
+	(= (slew_time Phenomenon4 GroundStation2) 39.73)
+	(= (slew_time GroundStation2 Phenomenon4) 39.73)
+	(= (slew_time Phenomenon4 Phenomenon3) 25.72)
+	(= (slew_time Phenomenon3 Phenomenon4) 25.72)
+	(= (slew_time Star5 Star0) 36.56)
+	(= (slew_time Star0 Star5) 36.56)
+	(= (slew_time Star5 GroundStation1) 8.59)
+	(= (slew_time GroundStation1 Star5) 8.59)
+	(= (slew_time Star5 GroundStation2) 62.86)
+	(= (slew_time GroundStation2 Star5) 62.86)
+	(= (slew_time Star5 Phenomenon3) 10.18)
+	(= (slew_time Phenomenon3 Star5) 10.18)
+	(= (slew_time Star5 Phenomenon4) 64.5)
+	(= (slew_time Phenomenon4 Star5) 64.5)
+	(= (slew_time Phenomenon6 Star0) 77.07)
+	(= (slew_time Star0 Phenomenon6) 77.07)
+	(= (slew_time Phenomenon6 GroundStation1) 17.63)
+	(= (slew_time GroundStation1 Phenomenon6) 17.63)
+	(= (slew_time Phenomenon6 GroundStation2) 50.73)
+	(= (slew_time GroundStation2 Phenomenon6) 50.73)
+	(= (slew_time Phenomenon6 Phenomenon3) 14.75)
+	(= (slew_time Phenomenon3 Phenomenon6) 14.75)
+	(= (slew_time Phenomenon6 Phenomenon4) 2.098)
+	(= (slew_time Phenomenon4 Phenomenon6) 2.098)
+	(= (slew_time Phenomenon6 Star5) 29.32)
+	(= (slew_time Star5 Phenomenon6) 29.32)
+	(= (data-stored) 0)
+
+        (= (send_time star5 thermograph0) 19.52)
+        (= (send_time phenomenon6 thermograph0) 6.00)
+        (= (send_time phenomenon4 thermograph0) 12.17)
+
+        (at 143.00 (active window0 satellite0))
+        (at 223.04 (not (active window0 satellite0)))
+
+        (available window0)
+
+        (= (overall-image-utility) 0)
+)
+(:goal (and
+	(sent_image Phenomenon4 thermograph0)
+	(sent_image Star5 thermograph0)
+	(sent_image Phenomenon6 thermograph0)
+))
+(:metric minimize (- (* 10 (total-time)) (* 4 (overall-image-utility))))
+
+)
+>> OK
+
+<<
+(:domain satellite)
+
+>> OK
+
+<<
+(:domain briefcase-world)
+(:init (place home) (place office)
+(object p) (object d) (object b)
+(at B home) (at P home) (at D home) (in P))
+(:goal (and (at B office) (at D office) (at P home)))
+>>OK
+
+
+
+
+predicate:
+
+<<
+fff
+>>OK
+
+<<
+1223f
+>>FAIL
+
+<<
+fff2
+>>OK
+
+<<
+(ff)
+>>FAIL
+
+
+
+
+
+
+pddl_file:
+
+<<
+(define (problem aaa)
+(:domain satellite)
+
+)
+>>OK
+
+<<
+(define (problem aaa)
+(:domain satellite)
+>>FAIL
+
+<<
+(define (problem strips-sat-x-1)
+(:domain satellite)
+(:objects
+	satellite0 - satellite
+	instrument0 - instrument
+	image1 - mode
+	spectrograph2 - mode
+	thermograph0 - mode
+	Star0 - direction
+	GroundStation1 - direction
+	GroundStation2 - direction
+	Phenomenon3 - direction
+	Phenomenon4 - direction
+	Star5 - direction
+	Phenomenon6 - direction
+        window0 - sendwindow
+)
+(:init
+        (= (image-utility star5 thermograph0 window0) 29.63)
+        (= (image-utility phenomenon6 thermograph0 window0) 35.12)
+        (= (image-utility phenomenon4 thermograph0 window0) 39.40)
+	(supports instrument0 thermograph0)
+	(calibration_target instrument0 GroundStation2)
+	(= (calibration_time instrument0 GroundStation2) 5.9)
+	(on_board instrument0 satellite0)
+	(power_avail satellite0)
+	(pointing satellite0 Phenomenon6)
+	(= (data_capacity satellite0) 1000)
+	(= (data Phenomenon3 image1) 22)
+	(= (data Phenomenon4 image1) 120)
+	(= (data Star5 image1) 203)
+	(= (data Phenomenon6 image1) 144)
+	(= (data Phenomenon3 spectrograph2) 125)
+	(= (data Phenomenon4 spectrograph2) 196)
+	(= (data Star5 spectrograph2) 68)
+	(= (data Phenomenon6 spectrograph2) 174)
+	(= (data Phenomenon3 thermograph0) 136)
+	(= (data Phenomenon4 thermograph0) 134)
+	(= (data Star5 thermograph0) 273)
+	(= (data Phenomenon6 thermograph0) 219)
+	(= (slew_time GroundStation1 Star0) 18.17)
+	(= (slew_time Star0 GroundStation1) 18.17)
+	(= (slew_time GroundStation2 Star0) 38.61)
+	(= (slew_time Star0 GroundStation2) 38.61)
+	(= (slew_time GroundStation2 GroundStation1) 68.04)
+	(= (slew_time GroundStation1 GroundStation2) 68.04)
+	(= (slew_time Phenomenon3 Star0) 14.29)
+	(= (slew_time Star0 Phenomenon3) 14.29)
+	(= (slew_time Phenomenon3 GroundStation1) 89.48)
+	(= (slew_time GroundStation1 Phenomenon3) 89.48)
+	(= (slew_time Phenomenon3 GroundStation2) 33.94)
+	(= (slew_time GroundStation2 Phenomenon3) 33.94)
+	(= (slew_time Phenomenon4 Star0) 35.01)
+	(= (slew_time Star0 Phenomenon4) 35.01)
+	(= (slew_time Phenomenon4 GroundStation1) 31.79)
+	(= (slew_time GroundStation1 Phenomenon4) 31.79)
+	(= (slew_time Phenomenon4 GroundStation2) 39.73)
+	(= (slew_time GroundStation2 Phenomenon4) 39.73)
+	(= (slew_time Phenomenon4 Phenomenon3) 25.72)
+	(= (slew_time Phenomenon3 Phenomenon4) 25.72)
+	(= (slew_time Star5 Star0) 36.56)
+	(= (slew_time Star0 Star5) 36.56)
+	(= (slew_time Star5 GroundStation1) 8.59)
+	(= (slew_time GroundStation1 Star5) 8.59)
+	(= (slew_time Star5 GroundStation2) 62.86)
+	(= (slew_time GroundStation2 Star5) 62.86)
+	(= (slew_time Star5 Phenomenon3) 10.18)
+	(= (slew_time Phenomenon3 Star5) 10.18)
+	(= (slew_time Star5 Phenomenon4) 64.5)
+	(= (slew_time Phenomenon4 Star5) 64.5)
+	(= (slew_time Phenomenon6 Star0) 77.07)
+	(= (slew_time Star0 Phenomenon6) 77.07)
+	(= (slew_time Phenomenon6 GroundStation1) 17.63)
+	(= (slew_time GroundStation1 Phenomenon6) 17.63)
+	(= (slew_time Phenomenon6 GroundStation2) 50.73)
+	(= (slew_time GroundStation2 Phenomenon6) 50.73)
+	(= (slew_time Phenomenon6 Phenomenon3) 14.75)
+	(= (slew_time Phenomenon3 Phenomenon6) 14.75)
+	(= (slew_time Phenomenon6 Phenomenon4) 2.098)
+	(= (slew_time Phenomenon4 Phenomenon6) 2.098)
+	(= (slew_time Phenomenon6 Star5) 29.32)
+	(= (slew_time Star5 Phenomenon6) 29.32)
+	(= (data-stored) 0)
+
+        (= (send_time star5 thermograph0) 19.52)
+        (= (send_time phenomenon6 thermograph0) 6.00)
+        (= (send_time phenomenon4 thermograph0) 12.17)
+
+        (at 143.00 (active window0 satellite0))
+        (at 223.04 (not (active window0 satellite0)))
+
+        (available window0)
+
+        (= (overall-image-utility) 0)
+)
+(:goal (and
+	(sent_image Phenomenon4 thermograph0)
+	(sent_image Star5 thermograph0)
+	(sent_image Phenomenon6 thermograph0)
+))
+(:metric minimize (- (* 10 (total-time)) (* 4 (overall-image-utility))))
+
+)
+>>OK
+
+
+
+
+problem_header:
+<<
+(problem strips-sat-x-1)
+>>OK
+
+<<
+problem strips-sat-x-1)
+>>FAIL
+
+
+
+
+domain_reference:
+<<
+(:domain satellite)
+>>OK
+
+<<
+(domain satellite)
+>>FAIL
+
+<<
+:domain satellite)
+>>FAIL
+
+
+require_def:
+<<
+(:requirements aaa)
+>>FAIL
+
+<<
+(:requirements :strips :equality :typing :conditional-effects)
+>>OK
+
+
+
+
+situation:
+<<
+(:situation briefcase-init)
+>>OK
+
+<<
+:situation briefcase-init)
+>>FAIL
+
+
+
+
+object_declaration:
+<<
+(:objects briefcase init)
+>>OK
+
+<<
+:situation briefcase-init)
+>>FAIL
+
+<<
+(:objects
+	satellite0 - satellite
+	instrument0 - instrument
+	image1 - mode
+	spectrograph2 - mode
+	thermograph0 - mode
+	Star0 - direction
+	GroundStation1 - direction
+	GroundStation2 - direction
+	Phenomenon3 - direction
+	Phenomenon4 - direction
+	Star5 - direction
+	Phenomenon6 - direction
+        window0 - sendwindow
+)
+>>OK
+
+
+
+
+init:
+<<
+(:init (place home) (place office))
+>>OK
+
+<<
+(:init place )
+>>FAIL
+
+<<
+(:init (place home))
+>>OK
+
+<<
+(:init place home)
+>>FAIL
+
+<<
+(:init
+        (= (image-utility star5 thermograph0 window0) 29.63)
+        (= (image-utility phenomenon6 thermograph0 window0) 35.12)
+        (= (image-utility phenomenon4 thermograph0 window0) 39.40)
+	(supports instrument0 thermograph0)
+	(calibration_target instrument0 GroundStation2)
+	(= (calibration_time instrument0 GroundStation2) 5.9)
+	(on_board instrument0 satellite0)
+	(power_avail satellite0)
+	(pointing satellite0 Phenomenon6)
+	(= (data_capacity satellite0) 1000)
+	(= (data Phenomenon3 image1) 22)
+	(= (data Phenomenon4 image1) 120)
+	(= (data Star5 image1) 203)
+	(= (data Phenomenon6 image1) 144)
+	(= (data Phenomenon3 spectrograph2) 125)
+	(= (data Phenomenon4 spectrograph2) 196)
+	(= (data Star5 spectrograph2) 68)
+	(= (data Phenomenon6 spectrograph2) 174)
+	(= (data Phenomenon3 thermograph0) 136)
+	(= (data Phenomenon4 thermograph0) 134)
+	(= (data Star5 thermograph0) 273)
+	(= (data Phenomenon6 thermograph0) 219)
+	(= (slew_time GroundStation1 Star0) 18.17)
+	(= (slew_time Star0 GroundStation1) 18.17)
+	(= (slew_time GroundStation2 Star0) 38.61)
+	(= (slew_time Star0 GroundStation2) 38.61)
+	(= (slew_time GroundStation2 GroundStation1) 68.04)
+	(= (slew_time GroundStation1 GroundStation2) 68.04)
+	(= (slew_time Phenomenon3 Star0) 14.29)
+	(= (slew_time Star0 Phenomenon3) 14.29)
+	(= (slew_time Phenomenon3 GroundStation1) 89.48)
+	(= (slew_time GroundStation1 Phenomenon3) 89.48)
+	(= (slew_time Phenomenon3 GroundStation2) 33.94)
+	(= (slew_time GroundStation2 Phenomenon3) 33.94)
+	(= (slew_time Phenomenon4 Star0) 35.01)
+	(= (slew_time Star0 Phenomenon4) 35.01)
+	(= (slew_time Phenomenon4 GroundStation1) 31.79)
+	(= (slew_time GroundStation1 Phenomenon4) 31.79)
+	(= (slew_time Phenomenon4 GroundStation2) 39.73)
+	(= (slew_time GroundStation2 Phenomenon4) 39.73)
+	(= (slew_time Phenomenon4 Phenomenon3) 25.72)
+	(= (slew_time Phenomenon3 Phenomenon4) 25.72)
+	(= (slew_time Star5 Star0) 36.56)
+	(= (slew_time Star0 Star5) 36.56)
+	(= (slew_time Star5 GroundStation1) 8.59)
+	(= (slew_time GroundStation1 Star5) 8.59)
+	(= (slew_time Star5 GroundStation2) 62.86)
+	(= (slew_time GroundStation2 Star5) 62.86)
+	(= (slew_time Star5 Phenomenon3) 10.18)
+	(= (slew_time Phenomenon3 Star5) 10.18)
+	(= (slew_time Star5 Phenomenon4) 64.5)
+	(= (slew_time Phenomenon4 Star5) 64.5)
+	(= (slew_time Phenomenon6 Star0) 77.07)
+	(= (slew_time Star0 Phenomenon6) 77.07)
+	(= (slew_time Phenomenon6 GroundStation1) 17.63)
+	(= (slew_time GroundStation1 Phenomenon6) 17.63)
+	(= (slew_time Phenomenon6 GroundStation2) 50.73)
+	(= (slew_time GroundStation2 Phenomenon6) 50.73)
+	(= (slew_time Phenomenon6 Phenomenon3) 14.75)
+	(= (slew_time Phenomenon3 Phenomenon6) 14.75)
+	(= (slew_time Phenomenon6 Phenomenon4) 2.098)
+	(= (slew_time Phenomenon4 Phenomenon6) 2.098)
+	(= (slew_time Phenomenon6 Star5) 29.32)
+	(= (slew_time Star5 Phenomenon6) 29.32)
+	(= (data-stored) 0)
+
+        (= (send_time star5 thermograph0) 19.52)
+        (= (send_time phenomenon6 thermograph0) 6.00)
+        (= (send_time phenomenon4 thermograph0) 12.17)
+
+        (at 143.00 (active window0 satellite0))
+        (at 223.04 (not (active window0 satellite0)))
+
+        (available window0)
+
+        (= (overall-image-utility) 0)
+)
+
+
+>>OK
+
+
+
+
+goal:
+<<
+(:goal (and (at B office) (at D office) (at P home)))
+>>OK
+
+<<
+(:goal  (at B office) (at D office) (at P home))
+>>FAIL
+
+<<
+(:goal  at B office)
+>>FAIL
+
+
+
+
+length_spec :
+<<
+(:length (:serial 12) (:parallel 32))
+>>OK
+
+<<
+(:length (:parallel 32))
+>>OK
+
+<<
+(:length )
+>>OK
+
+<<
+(:length (:parallelff 32))
+>>FAIL
+
+
+
+
+
+initsit_header:
+<<
+(:situation briefcase-init)
+>>OK
+
+
+
+
+

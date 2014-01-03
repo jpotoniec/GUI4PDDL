@@ -12,6 +12,54 @@
 \subsection{Automatyczne wcięcia}
 \subsection{Dopasowanie nawiasów}
 \section{Współpraca z oprogramowaniem wyznaczającym plan}
+
+Zadaniem oprogramowania wyznaczającego plan (tzw. plannera) jest przetwarzanie problemów automatycznego planowania, uzyskując na wyjściu plan, czyli sekwencję akcji, umożliwiającą osiągnięcie stanu końcowego ze stanu początkowego problemu. Opis problemu wyrażony jest za pomocą języka automatycznego planowania (np. \textit{STRIPS}, \textit{PDDL}). W przypadku języka \textit{PDDL}, wykorzystywanego w niniejszej pracy, zadanie automatycznego planowania składa się z dwóch plików: pliku domeny, w którym opisana jest dziedzina zadania oraz pliku problemu, opisującego stan początkowy oraz docelowy. Współpraca narzędzia GUI4PDDL z plannerami wymaga więc sposobności uzyskania planu na podstawie aktualnej zawartości dwóch, wyżej wymienionych plików. Ponadto należy zagwarantować możliwość zmiany algorytmu planowania lub innych opcji przetwarzania, a także uzyskanie wyniku planowania (planu) w celu bezpośredniego przedstawienia go użytkownikowi (np. w postaci pliku).
+
+Obecnie dostępnych jest wiele plannerów, korzystających z języka \textit{PDDL}, różniących się dostępnymi algorytmami, sposobem uruchamiania, ilością oraz rodzajem przyjmowanych na wejściu argumentów, a także strukturą strumienia wyjściowego. Ze względu na to, że programy wyznaczające plan tworzone są często z przeznaczeniem na konkurs \textit{IPC} (\textit{International Planning Competition} \textbf{ODNOŚNIK DO PUNKTU O IPC}), dotychczas nie zefiniowano standardu uruchamiania tego typu narzędzi, pomocnego zwłaszcza w integracji ze środowiskami programistycznymi. Biorąc pod uwagę wymaganie projektu GUI4PDDL dotyczące możliwości integracji z wieloma plannerami, ze szczególnym uwzględnieniem \textit{FastDownward}, zdecydowano o stworzeniu wewnętrznego standardu uruchamiania, do którego poszczególne programy winny być dostosowane za pomocą skryptów powłoki systemu operacyjnego. Analiza przykładowych narzędzi (\textit{FastDownward}, \textit{SATPLAN}, \textit{FastForward})(\textbf{MOŻE ZNALEŹĆ WIĘCEJ PLANNERÓW I SPRAWDZIĆ?}) pod kątem inicjalizacji procesu planowania wykazała następujące cechy wspólne oraz różnice pomiędzy plannerami:
+\begin{table}[h]
+\centering
+\caption{Cechy wspólne oraz różnice w uruchamianiu pomiędzy przykładowymi plannerami.}
+\label{plannersTable}
+\begin{tabular}{|p{6cm}|p{6cm}|}
+\hline
+\multicolumn{1}{|>{\centering\arraybackslash}m{6cm}|}{\textbf{Cechy wspólne}} 
+    & \multicolumn{1}{>{\centering\arraybackslash}m{6cm}|}{\textbf{Różnice}} 
+   \\
+   \hline
+\begin{itemize}
+\item Narzędzia konsolowe.
+\item Wymaganie wskazania ścieżek do plików domeny oraz problemu.
+\item Możliwość wyboru algorytmu za pomocą argumentu wejściowego programu.
+\item Tworzenie pliku wyjściowego z wynikowym planem.
+\end{itemize}
+&
+\begin{itemize}
+\item Różna liczba faz przetwarzania.
+\item Różna liczba podprogramów plannera.
+\item Różnice w nazewnictwie poszczególnych opcji i algorytmów.
+\item Różnice w nazwie pliku wyjściowego oraz jego formatowaniu.
+\end{itemize} \\
+\hline
+\end{tabular}
+\end{table}
+
+Cechy wspólne wszystkich plannerów, dotyczące wymagań odnośnie ścieżek do plików domeny i problemu oraz możliwości wyboru algorytmu za pomocą argumentu wejściowego programu w całości pokrywają się z wymaganiami skryptu uruchomieniowego narzędzia \textit{FastDownward}. W związku z założeniem o wykorzystaniu tego plannera jako standardowego w projekcie GUI4PDDL, powzięto decyzję o przyjęciu formatu skryptu uruchomieniowego, analogicznego do formatu skryptu \texttt{plan}, znajdującego się w katalogu \texttt{src} \textit{FastDownward}. Skrypt (bądź bezpośrednio plik wykonywalny plannera) przeznaczony do integracji z wtyczką GUI4PDDL musi więc przyjmować następujące argumenty wejściowe w odpowiedniej kolejności:
+
+\noindent
+\centerline{\texttt{<ścieżka\_do\_domeny>}\textvisiblespace\texttt{<ścieżka\_do\_problemu>}\textvisiblespace\texttt{<argumenty\_planowania>}}
+
+
+\noindent
+gdzie:
+\begin{itemize}
+\item \textbf{\texttt{<ścieżka\_do\_domeny>}} --- ścieżka do pliku domeny danego zadania automatycznego planowania.
+\item \textbf{\texttt{<ścieżka\_do\_problemu>}} --- ścieżka do pliku problemu, zdefiniowanego na dziedzinie wskazanej w podanym jako pierwszy argument pliku domeny.
+\item \textbf{\texttt{<argumenty\_planowania>}} --- dowolne argumenty plannera, na przykład dotyczące wyboru algorytmu planowania.
+\end{itemize}
+Narzędzia uruchamiane według innego schematu nie będą prawidłowo zintegrowane z GUI4PDDL. W takim przypadku należy przygotować skrypt powłoki systemu operacyjnego, który dostosuje sposób inicjalizacji procesu planowania do przedstawionego powyżej. Ponadto każdy planner musi zapewnić możliwość zapisu uzyskanego planu do pliku, co jest wykorzystywane w przeglądarce planów, opisanej w rozdziale \ref{zew_oprogr}.
+
+
 \subsection{Konfiguracja zewnętrznego oprogramowania}
 \subsection{Uruchamianie zewnętrznego oprogramowania}
+\label{zew_oprogr}
 \subsection{Przerywanie procesu planowania}
