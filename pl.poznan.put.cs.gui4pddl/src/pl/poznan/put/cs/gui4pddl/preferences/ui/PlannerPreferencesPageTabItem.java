@@ -105,7 +105,7 @@ public class PlannerPreferencesPageTabItem {
 		createTableButtonsSeparator(tableButtonsComposite);
 
 		planViewDialogButton = createTableButton(tableButtonsComposite,
-				"Plan View");
+				"Plan File Pattern");
 
 		addPropertyChangeListenerToPlannerNameFieldEditor(tabFolder);
 		addPropertyChangeListenerToPlannerFileFieldEditor();
