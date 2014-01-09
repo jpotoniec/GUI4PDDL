@@ -62,58 +62,9 @@ gdzie:
 \end{itemize}
 Narzędzia uruchamiane według innego schematu nie będą prawidłowo zintegrowane z GUI4PDDL. W takim przypadku należy przygotować skrypt powłoki systemu operacyjnego, który dostosuje sposób inicjalizacji procesu planowania do przedstawionego powyżej. Dzięki zastosowaniu funkcji systemowych (roz.~\ref{subsec:przerywanie}) istnieje możliwość kontroli nad tego typu skryptami z poziomu \textit{Eclipse}, włączając uruchamiane przez nie podprocesy.
 
-Jak wspomniano, planner \textit{FastDownward} w wersji dla systemów z rodziny \textit{Linux} posiada odpowiedni plik uruchomieniowy w katalogu \path{src} instalacji. W przypadku systemu \textit{Windows} należy stworzyć osobny program wsadowy (ang \textit{batch file}).
+Jak wspomniano, planner \textit{FastDownward} w wersji dla systemów z rodziny \textit{Linux} posiada odpowiedni plik uruchomieniowy w katalogu \path{src} instalacji. W przypadku systemu \textit{Windows} należy stworzyć osobny program wsadowy (ang \textit{batch file}). Przykładowa forma takiego pliku znajduje się w katalogu \path{resources} projektu \texttt{pl.poznan.put.cs.gui4pddl}.
 
-\begin{lstlisting}[frame=single,caption={Przykładowy skrypt uruchomieniowy (dla systemu Windows) FastDownward z obsługą prostych błędów (skrypt ten znajduje się w katalogu resources projektu pl.poznan.put.cs.gui4pddl).}]  % Start your code-block
-@ECHO off
-SET basedir=%~dp0
-call :getargc argc %*
-IF %argc% LSS 2 goto usage
-
-SET translate=%basedir%translate\translate.exe
-SET preprocess=%basedir%bin\preprocess.exe
-SET search=%basedir%search\downward-seq-sat-fdss-1
-SET dosunix=%basedir%bin\dos2unix
-
-echo 1. Running translator
-%translate%  %1 %2
-echo.
-IF %ERRORLEVEL% == 0 (
-echo 2. Running preprocessor
-%preprocess% <output.sas
-%dosunix% output
-echo.
-) ELSE (
-echo Error!
-GOTO:EOF
-)
-IF %ERRORLEVEL% == 0 (
-echo 3. Running search
-%search% unit downward-1
-echo.
-) ELSE (
-echo Error!
-)
-echo.&goto:eof
-
-:usage
-echo usage: %~fp0 DOMAIN_FILE PROBLEM_FILE
-GOTO:EOF
-
-:getargc
-    set getargc_v0=%1
-    set /a "%getargc_v0% = 0"
-:getargc_l0
-    if not x%2x==xx (
-        shift
-        set /a "%getargc_v0% = %getargc_v0% + 1"
-        goto :getargc_l0
-    )
-    set getargc_v0=
-    goto :eof
-\end{lstlisting}
-
-Analogiczny skrypt uruchomieniowy można wykonać dla innego oprogramowania wyznaczającego plan, np. \textit{SATPLAN}.
+Analogiczny skrypt uruchomieniowy można wykonać również dla innego oprogramowania wyznaczającego plan, np. \textit{SATPLAN}.
 
 \textbf{TUTAJ KOD TEGO SKRYPTU}
 
