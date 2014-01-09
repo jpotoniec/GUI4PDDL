@@ -3,7 +3,7 @@
 
 \section{ANTLR}
 ANTLR (ang. \emph{ANother Tool for Language Recognition}) jest generatorem
-analizatorów leksykalnych i składniowych.
+analizatorów leksykalnych i składniowych \cite{antlr}.
 
 Narzędzie przetwarza opisy gramatyk języków formalnych w postaci 
 zbliżonej do notacji
@@ -25,17 +25,17 @@ aktywnie rozwijany. Wiele programów zawiera analizatory wygenerowane za pomocą
 ANTLR. Należą do nich Hibernate, Jython i Netbeans.
 
 \subsection{Przetwarzanie języków formalnych}
-Języki formalne, w tym języki programowania są opisane zbiorem zasad określającym
+Języki formalne, w tym języki programowania, są opisane zbiorem zasad określającym
 ich składnię i semantykę. Analiza języka formalnego polega na sprawdzeniu zgodności
 danych wejściowych ze specyfikacją języka oraz na wyodrębnieniu części składniowych.
 Ponadto podczas analizy mogą zostać wykonane operacje działające na danych zgodnie
-z ich znaczeniem określonym przez reguły semantyczne.
+z ich znaczeniem określonym przez reguły semantyczne \cite{compilers}.
 
 Wyodrębnia się trzy fazy analizy:
 \begin{enumerate}
-\item Analizę leksykalną.
-\item Analizę składniową.
-\item Analizę semantyczną.
+\item \emph{Analizę leksykalną}.
+\item \emph{Analizę składniową}.
+\item \emph{Analizę semantyczną}.
 \end{enumerate}
 
 \begin{figure}[h]
@@ -48,37 +48,35 @@ Wyodrębnia się trzy fazy analizy:
 Zależności pomiędzy fazami przedstawia rysunek \ref{antlr_phases}. 
 
 Podczas analizy leksykalnej dane wejściowe są traktowane jako strumień znaków, który
-jest odczytywany od prawej do lewej. Znaki są grupowane w symbole leksykalne, czyli
-ciągi posiadające określone znaczenie.
-
-Analiza składniowa ma na celu zgrupowanie symboli leksykalnych w hierarchiczne struktury,
-mające pewne znaczenie.
-
-Analiza semantyczna przetwarza dane zgodnie z ich znaczeniem opisanym przez reguły
-semantyczne. W tej fazie zbierane są informacje zawarte w danych.
+jest odczytywany od strony prawej do lewej. Znaki są grupowane w \emph{symbole leksykalne}, czyli
+ciągi posiadające określone znaczenie. Analiza składniowa ma na celu zgrupowanie 
+symboli leksykalnych w hierarchiczne struktury,
+mające pewne znaczenie. Analiza semantyczna przetwarza dane zgodnie z ich znaczeniem
+opisanym przez reguły semantyczne. W tej fazie zbierane są informacje zawarte w danych.
 
 Reguły języka mogą być opisane językiem naturalnym lub w sposób sformalizowany.
 Jednym z formalizmów, odzwierciedlającym hierarchiczną strukturę konstrukcji językowych,
-jest gramatyka bezkontekstowa. 
+jest \emph{gramatyka bezkontekstowa}. Składa się ona z czterech elementów:
 
 %Pytanie nieuniknięto powtórzenia skłów w definicji
 \begin{itemize}
-\item Zbioru symboli leksykalnych zwanych symbolami terminalnymi lub terminalami
-\item Zbioru symboli nieterminalnych.
-\item Zbioru produkcji %TODO
-\item Wyznaczonego symbolu startowego.
+\item Zbioru symboli leksykalnych zwanych \emph{symbolami terminalnymi} lub \emph{terminalami}.
+\item Zbioru symboli \emph{nieterminalnych}.
+\item Zbioru \emph{produkcji}. Każda produkcja składa się z symbolu nieterminalnego,
+  zwanego lewą stroną produkcji, strzałki i ciągu symboli zwanego prawą stroną produkcji.
+\item Wyznaczonego \emph{symbolu startowego}.
 \end{itemize}
 
 Mówi się, że gramatyka wyprowadza ciąg symboli leksykalnych, jeżeli wychodząc 
 od symbolu startowego i zamieniając symbole nieterminalne na ciągi znajdujące 
 się po prawych stronach produkcju, można otrzymać dany ciąg. Sposób, w jaki
-można wyprowadzić dany napis obrazuje drzewo wyprowadzania. W korzeniu drzewa wyprowadzania
+można wyprowadzić dany napis obrazuje \emph{drzewo wyprowadzania}. W korzeniu drzewa wyprowadzania
 znajduje się symbol startowy. Dzieci wierzchołka reprezentującego symbol nieterminalny
 zawierają symbole z prawej strony produkcji użytej do jego zastąpienia.
 
 \paragraph{Przykład 1}
 Rozpatrzmy przykład konstrukcji języka PDDL reprezentującej listę wymagań domeny lub problemu.
-Składa się ona z otoczonych nawiasami okrągłymi symbolu :requirements oraz
+Składa się ona z otoczonych nawiasami okrągłymi symbolu \texttt{:requirements} oraz
 ciągu symboli oznaczających nazwy wymagań. Symbolami terminalnymi są 
 \textbf{(}, \textbf{)}, słowo kluczowe \textbf{:requirements} i 
 \textbf{requirementName} reprezentujący nazwę wymagania. Poniższa gramatyka opisuje
@@ -91,14 +89,14 @@ składnię takiego wyrażenia:
 \end{itemize}
 
 Dla napisu postaci \texttt{(:requirements :strips)} zostanie
-wygenerowany podczas strumień symboli leksykalnych \textbf{( :requirements requirementName )}.
+wygenerowany strumień symboli leksykalnych \textbf{( :requirements requirementName )}.
 Drzewo wyprowadzania tworzone podczas analizy składniowej jest przedstawione 
 na rysunku \ref{antlr_example}
 
 \begin{figure}[h!]
   \centering
     \includegraphics[width=0.7\textwidth]{img/antlr_example.pdf}
-    \caption{Drzewo wyprowadzania dla przykładu 1}
+    \caption{Drzewo wyprowadzania dla przykładu 12}
     \label{antlr_example}
 \end{figure}
 
@@ -144,12 +142,12 @@ gramatyk.
 % wówczas reguły określające wartości atybutów. Takie podejście 
 
 Formą pośrednia przekazywaną pomiędzy analizatorem składniowym a semantycznym
-może być abstrakcyjne drzewo składniowe (AST). Jest to skondensowana postać drzewa
+może być \emph{abstrakcyjne drzewo składniowe}. Jest to skondensowana postać drzewa
 wyprowadzania, skłądająca się
 wyłącznie z węzłów reprezentujących symbole wejściowe. Węzły
 wewnętrzne reprezentują słowa kluczowe i operatory, liście -- argumenty.
 Abstrakcyjne drzewo składniowe dla przykładu 1 jest przedstawione na rysunku 
-\ref{anrlr_ast}.
+\ref{antlr_ast}.
 
 \begin{figure}[h!]
   \centering
@@ -161,12 +159,12 @@ Abstrakcyjne drzewo składniowe dla przykładu 1 jest przedstawione na rysunku
 %Przykład drzewa
 
 Możliwe jest ręczne tworzenie drzewa składniowego za pomocą odpowiednich
-reguł semantycznych. Takie podejście proceduralne jest opisane w [Aho].
+reguł semantycznych. Takie podejście proceduralne jest opisane w \cite{compilers}.
 
 Narzędzie ANTLR wspiera tworzenie drzew składniowych. Dodanie
 odpowiedniej opcji w specyfikacji analizatora składniowego powoduje automatyczne
 wygenerowanie struktury. Poza tym, specyfikacja analizatora składniowego
- może zawierać elementy deklaratywne wpływające na kształt AST.
+ może zawierać elementy deklaratywne wpływające na kształt drzewa.
 
 
 Przetwarzanie abstrakcyjnego drzewa składniowego podczas analizy semantycznej
