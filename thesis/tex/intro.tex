@@ -1,6 +1,63 @@
 \chapter{Wstęp}
 \section{Wprowadzenie}
+	Automatyczne planowanie jest dziedziną sztuczej inteligencji, która zajmuje się realizacją sekwencji akcji oraz strategii. Istnieje kilka powszechnie znanych języków formalnych, umożliwiających wyrażanie problemu automatycznego planowania. Najbardziej znane języki to STRIPS (Stanford Research Institute Problem Solver) oraz PDDL(Planning Domain Definition Language), który jest jednym z ważniejszych elementów tej pracy.
+	
+	Pierwsza, oficjalna wersja PDDL została wydana w roku 1998.  Język został rozwinięty specjalnie na potrzeby pierwszego międzynarodowego konkursu planowania – IPC. Pomimo stworzenia przez autora następcy PDDL, OPT (Ontology with Polymorphic Types), język ten nadal był rozwijany. Na dzień dzisiejszy, aktualna wersja to 3.1. Została użyta między innymi na konkursach w roku 2008 oraz 2011.
+
+	Oprócz głównej wersji PDDL, istnieją  inne, wyspecjalizowane warianty języka. Przykładowo  NDDL (New Domain Definition Language), stworzony przez NASA, różni się między innymi reprezentowaniem zmiennych, czy ideą wykorzystywania aktywności i ograniczeń między nimi a koncepcją stanu i akcji. Kolejna wersja to PPDDL (Probabilistic PDDL) używany podczas konkursu IPC w roku 2004 i 2006.
+
+
 \section{Motywacja}
+Pomimo stworzenia PDDL, autor nie zapewnił odpowiedniego środowiska programistycznego. Problemem jest również znalezienie odpowiedniego narzędzia. Obecnie dostępne rozwiązania posiadają istotne wady. Są to między innymi brak możliwośći pracy z innym systemem  niż Windows, brakiem odpowiedniego formatowania kodu czy nieodpowiednim kolorowaniem składni. Założeniem projektu GUI4PDDL jest rozwiązanie większości niedogodności związanych z pisaniem w języku PDDL.
 \section{Cel i zakres pracy}
+Celem pracy jest stworzenie stworzenie graficznego środowiska programistycznego umożliwiającego pisanie programów w języku PDDL. Program powinien zawierać cechy typowe dla nowoczesnych środowisk. Ważniejsze założenia projektu GUI4PDDL to tworzenie automatycznych wcięć i kolorowanie składni, przez co zwiększa się przejrzystość kodu źródłowego. Kolejnymi znaczącymi założeniami są podpowiadanie składni oraz wykrywanie błędów w kodzie źródłowym, co powinno ułatwiać programiście tworzenie programu. Następnym ważnym elementem jest zarządzanie projektami oraz plikami. Dodatkowo, w związku z wykorzystaniem dużej ilości nawiasów w PDDL, wymagane jest ich dopasowywanie. 
+
+W pierwszej części drugiego rozdziału, przedstawiona została problematyka automatycznego planowania. W drugim fragmencie opisany jest PDDL, a następnie opisano najważniejsze narzędzia służoce do planowania.
+
+Kolejny rozdział to opis wymagań funkcjonalnych oraz wymagań pozafunkcjonalnych.
+
+Rozdział czwarty podzielony jest na dwie części. W pierwszej z nich opisane jest środowisko programistyczne Eclipse, w którym stworzona została wtyczka GUI4PDDL. Jest to również środowisko, na którym docelowo ma działać stworzony projekt. W drugiej części opisany został generator parserów ANTLR.
+
+W rozdziale piątym przedstawiono podział całego projektu na mniejsze projekty Eclipse. Zawarte jest tu również szczegółowa zawartość każdej osobnej wtyczki.
+
+Następny rozdział zawiera szczegółowe przedstawienie implementacji najważniejszych funkcjonalności. Opisane są tu problemy tworzenia nowego projektu PDDL oraz nowych plików PDDL. Dalej przedstawione są kolorowanie kodu, automatyczne wcięcia, dopasowanie nawiasów oraz kwestie związane obsługą podpowiedzi. W kolejnej części ukazano zagadnienia związane z przetwarzaniem kodu PDDL: wykrywanie błędów składniowych i semantycznych, tworzenie indeksu, podpowiadanie kodu. Na końcu podjęto kwestię współpracy z oprogramowaniem wyznaczającym plan, czyli konfiguracje i uruchamianie zewnętrznego oprogramowania oraz przerywanie procesu planowania.
+
+W rozdziale siódmym opisane są testy jednostkowe kodu oraz gramatyk formalnych. Dodatkowo przedstawiono testy akceptacyjne.
+
+W ostatnim rozdziale zawarte jest podsumowanie pracy.
+
+W dodatku A opisana jest zawartość płyty CD dołączonej do pracy.
+
+Na końcu zawarta została bibliografia.
 \section{Podział zadań}
+W niniejszym podrozdziale zawarty jest zadań, wykonanych przez poszczególne osoby z grupy.\\\\
+\begin{description}
+  \item[Tomasz Boczkowski] \hfill 
+  \begin{itemize}
+\item Pierwsze zadanie
+\item Drugie zadanie
+\item Trzecie zadanie
+\end{itemize}
+  \item[Mateusz Michalak] \hfill 
+    \begin{itemize}
+\item Pierwsze zadanie
+\item Drugie zadanie
+\item Trzecie zadanie
+\end{itemize}
+  \item[Wojciech Rybicki] \hfill 
+    \begin{itemize}
+\item Pierwsze zadanie
+\item Drugie zadanie
+\item Trzecie zadanie
+\end{itemize}
+  \item[Andrzej Płuszka] \hfill 
+    \begin{itemize}
+\item Pierwsze zadanie
+\item Drugie zadanie
+\item Trzecie zadanie
+\end{itemize}
+\end{description}
+
+
+
 

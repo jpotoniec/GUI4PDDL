@@ -1,5 +1,80 @@
-\chapter{Specyfikacja wymagaÅ„}
+\chapter{Specyfikacja wymagañ}
 \section{Wymagania funkcjonalne}
-Dobrze zrobione w pracy eDruczek z listy dyskusyjnej
+\subsection{Kolorowanie sk³adni}
+\begin{enumerate}
+\item U¿ytkownik wpisuje ci¹g znaków do edytora tekstu.
+\item Edytor rozpoznaje typ ci¹gu znaków.
+\item Tekst zostaje pokolorowany na odpowiedni kolor.
+\end{enumerate}
+Rozszerzenia
+\begin{enumerate}
+\item[2.a] Ci¹g znaków to komentarz.
+\item[2.b] Ci¹g znaków nie jest komentarzem.
+\item[2.b.1] Nastêpuje g³êbsza analiza znaków.
+\end{enumerate}
+\subsection{Wykrywanie b³êdów}
+\begin{enumerate}
+\item U¿ytkownik wpisuje kod.
+\item Edytor pobiera aktualny stan dokumentu.
+\item System sprawdza kod pod k¹tem gramatycznym i semantycznym.
+\end{enumerate}
+Rozszerzenia
+\begin{enumerate}
+\item[3.a] System wykrywa b³¹d. 
+\item[3.a.1] W domyœlnym oknie b³êdów pojawia siê informacja o b³êdzie i miejscu.
+\item[3.a.2] W oknie edytora b³¹d zostaje podkreœlony.
+\item[3.b] System nie wykrywa b³êdu.
+\end{enumerate}
+\subsection{Podpowiadanie sk³adni}
+\begin{enumerate}
+\item U¿ytkownik podaje ci¹g znaków lub korzysta z okna podpowiedzi.
+\item Edytor pobiera ostatni¹ sekwencjê znaków przed kursorem.
+\item Ci¹g znaków poddany jest analizie.
+\item Edytor wyœwietla listê w oknie podpowiedzi.
+\item U¿ytkownik zaznacza wybran¹ podpowiedŸ.
+\item Edytor wpisuje tekst za kursorem.
+\end{enumerate}
+Rozszerzenia
+\begin{enumerate}
+\item[3.a] System zwraca listê propozycji zaczynaj¹cych siê na podany ci¹g znaków.
+\item[3.b] System nie znajduje podpowiedzi i zwraca pust¹ listê.
+\end{enumerate}
+\subsection{Tworzenie nowego projektu}
+\begin{enumerate}
+\item U¿ytkownik otwiera menu kontekstowe.
+\item U¿ytkownik wybiera opcjê nowy.
+\item U¿ytkownik uruchamia kreatora projektu PDDL.
+\item U¿ytkownik proszony jest o podanie nazwy projektu
+\item Kreator tworzy nowy, pusty projekt.
+\end{enumerate}
+Rozszerzenia
+\begin{enumerate}
+\item[3.a] U¿ytkownik uruchamia kreatora tworzenia nowego projektu. 
+\item[3.a.1] U¿ytkownik wybiera projekt PDDL z listy propozycji.
+\end{enumerate}
+\subsection{Tworzenie nowego pliku PDDL}
+\begin{enumerate}
+\item U¿ytkownik otwiera menu kontekstowe.
+\item U¿ytkownik wybiera opcjê nowy.
+\item U¿ytkownik uruchamia kreatora tworzenia pliku PDDL.
+\item U¿ytkownik proszony jest o podanie nazwy pliku.
+\item U¿ytkownik wybiera przeznaczenie pliku.
+\item Kreator tworzy nowy plik PDDL z szablonem zgodnym z przeznaczeniem pliku.
+\end{enumerate}
+Rozszerzenia
+\begin{enumerate}
+\item[3.a] U¿ytkownik uruchamia kreatora tworzenia niestandardowego pliku.
+\item[3.a.1] U¿ytkownik wybiera typ pliku PDDL z listy propozycji.
+\end{enumerate}
+\subsection{Repozytorium kodu}
+\begin{enumerate}
+\item U¿ytkownik otwiera okno instalacji dodatkowego oprogramowania Eclipse.
+\item U¿ytkownik wpisuje adres repozytorium.
+\item System pokazuje listê dostêpnych dodatków z podanego Ÿród³a.
+\item U¿ytkownik zaznacza wtyczkê GUI4PDDL do instalacji.
+\item System rozpoczyna pobieranie oraz instalacjê.
+\item U¿ytkownik uruchamia ponownie program Eclipse by ukoñczyæ instalacjê.
+\item Po otwarciu programu ponownie wtyczka widoczna jest na liœcie aktywnych dodatków Eclipse.
+\end{enumerate}
 \section{Wymagania pozafunkcjonalne}
 
