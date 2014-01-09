@@ -12,7 +12,7 @@
 \subsection{Automatyczne wcięcia}
 \subsection{Dopasowanie nawiasów}
 \section{Współpraca z oprogramowaniem wyznaczającym plan}
-\label{chap:wspolpraca}
+\label{sec:wspolpraca}
 Zadaniem oprogramowania wyznaczającego plan (tzw. plannera) jest przetwarzanie problemów automatycznego planowania, uzyskując na wyjściu plan, czyli sekwencję akcji, umożliwiającą osiągnięcie stanu końcowego ze stanu początkowego problemu. Opis problemu wyrażony jest za pomocą języka automatycznego planowania (np. \textit{STRIPS}, \textit{PDDL}). W przypadku języka \textit{PDDL}, wykorzystywanego w niniejszej pracy, zadanie automatycznego planowania składa się z dwóch plików: pliku domeny, w którym opisana jest dziedzina zadania oraz pliku problemu, opisującego stan początkowy oraz docelowy. Współpraca narzędzia GUI4PDDL z plannerami wymaga więc sposobności uzyskania planu na podstawie aktualnej zawartości dwóch, wyżej wymienionych plików. Ponadto należy zagwarantować możliwość zmiany algorytmu planowania lub innych opcji, które są dostępne dla poszczególnych narzędzi. Gotowy plan powinien być również przedstawiony użytkownikowi w postaci czytelnej.
 
 Obecnie dostępnych jest wiele plannerów, korzystających z języka \textit{PDDL}, różniących się dostępnymi algorytmami, sposobem uruchamiania, ilością oraz rodzajem przyjmowanych na wejściu argumentów, a także strukturą strumienia wyjściowego. Ze względu na to, że programy wyznaczające plan tworzone są często z przeznaczeniem na konkurs \textit{IPC} (\textit{International Planning Competition} \textbf{ODNOŚNIK DO PUNKTU O IPC}), dotychczas nie zdefiniowano standardu uruchamiania tego typu narzędzi, który obejmowałby m.in. ujednolicenie argumentów linii poleceń, wykorzystywanych, dodatkowych narzędzi, specyficznych dla systemu operacyjnego oraz formatu plików wyjściowych.
@@ -60,12 +60,20 @@ gdzie:
 \item \textbf{\texttt{<ścieżka\_do\_problemu>}} -- ścieżka do pliku problemu, zdefiniowanego na dziedzinie wskazanej w podanym jako pierwszy argument pliku domeny.
 \item \textbf{\texttt{<argumenty\_planowania>}} -- dowolne argumenty plannera, na przykład dotyczące wyboru algorytmu planowania.
 \end{itemize}
-Narzędzia uruchamiane według innego schematu nie będą prawidłowo zintegrowane z GUI4PDDL. W takim przypadku należy przygotować skrypt powłoki systemu operacyjnego, który dostosuje sposób inicjalizacji procesu planowania do przedstawionego powyżej. Dzięki zastosowaniu funkcji systemowych (roz.~\ref{chap:przerywanie}) istnieje możliwość kontroli nad tego typu skryptami z poziomu Eclipse, włączając uruchamiane przez nie podprocesy. 
+Narzędzia uruchamiane według innego schematu nie będą prawidłowo zintegrowane z GUI4PDDL. W takim przypadku należy przygotować skrypt powłoki systemu operacyjnego, który dostosuje sposób inicjalizacji procesu planowania do przedstawionego powyżej. Dzięki zastosowaniu funkcji systemowych (roz.~\ref{subsec:przerywanie}) istnieje możliwość kontroli nad tego typu skryptami z poziomu Eclipse, włączając uruchamiane przez nie podprocesy.
 
-Poza określonym formatem argumentów linii poleceń, każdy planner musi zapewnić możliwość zapisu uzyskanego planu do pliku w postaci czytelnej, co jest wykorzystywane w przeglądarce planów, opisanej w rozdziale~\ref{chap:zew_oprogr}.
+Jak wspomniano, planner FastDownward w wersji dla Linux'a posiada odpowiedni plik uruchomieniowy w katalogu \path{src} instalacji. W przypadku systemu Windows należy stworzyć osobny program wsadowy (ang \textit{batch file}).
+
+\textbf{TUTAJ KOD TEGO SKRYPTU}
+
+Analogiczny skrypt uruchomieniowy można wykonać dla innego oprogramowania wyznaczającego plan, np. SATPLAN.
+
+\textbf{TUTAJ KOD TEGO SKRYPTU}
+
+Poza określonym formatem argumentów linii poleceń, każdy planner musi zapewnić możliwość zapisu uzyskanego planu do pliku w postaci czytelnej, co jest wykorzystywane w przeglądarce planów, opisanej w rozdziale~\ref{subsec:uruchamianie}.
 
 \subsection{Konfiguracja zewnętrznego oprogramowania}
-
+\label{subsec:konfiguracja}
 Istnienie zróżnicowanego oprogramowania, pozwalającego wyznaczyć plan wymaga możliwości integracji ze środowiskiem programistycznym. Platforma Eclipse zapewnia standardową opcję uruchamiania zewnętrznych narzędzi z poziomu menu ,,Run'' aplikacji, bądź skrótów znajdujących się na pasku narzędziowym lub menu kontekstowym edytowanego pliku. W wielu wtyczkach, rozszerzających Eclipse o obsługę języków programowania ogólnego przeznaczenia (Java, C++), opcja ta odpowiada za rozpoczęcie procesu kompilacji. Biorąc pod uwagę podobieństwo procesu planowania do kompilacji oraz przyzwyczajenia użytkowników, zdecydowano o wprowadzeniu w projekcie GUI4PDDL analogicznego sposobu uruchamiania plannera i jego konfiguracji.
 
 Zanim możliwa będzie aktywacja planowania z poziomu Eclipse, należy skonfigurować planner, wybierając z menu ,,Window'', opcję ,,Preferences'', a następnie w otwartym oknie, rozwijając listę ,,PDDL'' wybrać element ,,Planners''.
@@ -80,15 +88,15 @@ Zanim możliwa będzie aktywacja planowania z poziomu Eclipse, należy skonfigur
 Standardowo, dostępny jest wstępnie skonfigurowany planner \textit{FastDownward}. Okno preferencji udostępnia następujące opcje:
 \begin{enumerate}
 \item Wybór plannera domyślnego. Włączenie tej opcji, powoduje, że przy każdym uruchomieniu procesu planowania na plikach domeny i problemu, wykorzystany będzie wskazany w tym polu planner wraz z odpowiednim algorytmem planowania.
-\item Nowa konfiguracja. Przycisk ten umożliwia stworzenie nowej konfiguracji, dla innego niż bieżący plannera. Może istnieć wiele takich konfiguracji, które w trakcie uruchamiania planowania można dowolnie zmieniać.
+\item Nowa konfiguracja. Przycisk ten umożliwia stworzenie nowej konfiguracji, dla innego niż bieżący plannera. Może istnieć wiele takich konfiguracji, które w trakcie uruchamiania procesu planowania można dowolnie zmieniać.
 \item Nazwa konfiguracji. Pozwala na rozróżnienie poszczególnych konfiguracji. Nazwa powinna być unikalna i może składać się z liter, cyfr, spacji oraz znaków ,,.'', ,,\_'', ,,-''.
-\item Ścieżka do pliku plannera. Za pomocą przycisku ,,Browse...'' należy wskazać ścieżkę do pliku wykonywalnego lub skryptu powłoki systemu operacyjnego (Linux lub Windows), zgodnego z formatem przedstawionym w rozdziale~\ref{chap:wspolpraca}.
+\item Ścieżka do pliku plannera. Za pomocą przycisku ,,Browse...'' należy wskazać ścieżkę do pliku wykonywalnego lub skryptu powłoki systemu operacyjnego (Linux lub Windows), zgodnego z formatem przedstawionym w rozdziale~\ref{sec:wspolpraca}.
 \item Argumenty plannera. W pierwszej kolumnie znajduje się czytelna dla użytkownika nazwa argumentu, w szczególności nazwa wykorzystywanego algorytmu planowania, która będzie używana jako prosty odpowiednik argumentu linii poleceń, znajdującego się w drugiej kolumnie. Parametry wiersza poleceń danego plannera wpisane muszą być w sposób identyczny, jak przy wpisywaniu ich podczas uruchamiania w konsoli.
 \item Nowy argument. Przycisk ten umożliwia dodanie nowego argumentu linii poleceń plannera wraz z jego nazwą.
 \item Edycja argumentu. Pozwala na edycję aktualnie zaznaczonego argumentu plannera.
 \item Usunięcie argumentu. Pozwala na usunięcie aktualnie zaznaczonego argumentu plannera.
 \item Usunięcie konfiguracji plannera. Przycisk ten usuwa bieżącą konfigurację. Nie ma możliwości cofnięcia tej operacji, dlatego przed jej wykonaniem wyświetlone zostaje pytanie, potwierdzające chęć usunięcia konfiguracji.
-\item Wzorzec pliku planu. Okno to umożliwia zdefiniowanie wyrażenia regularnego, dotyczącego nazwy pliku wynikowego planu, powstałego w rezultacie działania bieżącego plannera. Prawidłowy wzorzec pozwala na wykrycie plików planów i bezpośrednie ich wyświetlenie przy pomocy przeglądarki planów (roz.~\ref{chap:zew_oprogr}).
+\item Wzorzec pliku planu. Okno to umożliwia zdefiniowanie wyrażenia regularnego, dotyczącego nazwy pliku wynikowego planu, powstałego w rezultacie działania bieżącego plannera. Prawidłowy wzorzec pozwala na wykrycie plików planów i bezpośrednie ich wyświetlenie przy pomocy przeglądarki planów (roz.~\ref{subsec:uruchamianie}).
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.8\textwidth]{img/plan_view_dialog}
@@ -97,7 +105,7 @@ Standardowo, dostępny jest wstępnie skonfigurowany planner \textit{FastDownwar
 \end{figure}
 \begin{enumerate}
 \item Wyrażenie regularne. Wzorzec opisujący nazwę pliku wynikowego planu. Planner \textit{FastDownward} standardowo generuje pliki planów o nazwie ,,sas\_plan.'', a w przypadku większej ilości planów kolejno ,,sas\_plan.1'', ,,sas\_plan.2''..., dlatego wyrażenie obejmujące te nazwy ma postać ,,sas\_plan.*''.
-\item Wzorzec katalogu roboczego. Przycisk ten powoduje wstawienie w bieżącym miejscu kursora, ciągu ,,-working\_directory-'', który w czasie procesu planowania zamieniany jest na aktualną nazwę katalogu roboczego plannera (roz.~\ref{chap:zew_oprogr}). Opcja ta pozwala na wykrycie plików wynikowych, które jako swoją nazwę przyjmują nazwę bieżącego katalogu.
+\item Wzorzec katalogu roboczego. Przycisk ten powoduje wstawienie w bieżącym miejscu kursora, ciągu ,,-working\_directory-'', który w czasie procesu planowania zamieniany jest na aktualną nazwę katalogu roboczego plannera (roz.~\ref{subsec:uruchamianie}). Opcja ta pozwala na wykrycie plików wynikowych, które jako swoją nazwę przyjmują nazwę bieżącego katalogu.
 \item Wzorzec nazwy projektu. Przycisk ten powoduje wstawienie w bieżącym miejscu kursora, ciągu ,,-project\_name-'', który w czasie planowania zamieniany jest na nazwę projektu Eclipse, w którym znajdują się przetwarzane pliki domeny oraz problemu.
 \item Wzorzec nazwy pliku domeny. Przycisk ten powoduje wstawienie w bieżącym miejscu kursora, ciągu ,,-domain\_file\_name-'', który w czasie planowania zamieniany jest na nazwę pliku domeny, wykorzystywanej w tym przetwarzaniu, bez rozszerzenia ,,.pddl''.
 \item Wzorzec nazwy pliku problemu. Przycisk ten powoduje wstawienie w bieżącym miejscu kursora, ciągu ,,-problem\_file\_name-'', który w czasie planowania zamieniany jest na nazwę pliku problemu, wykorzystywanego w tym przetwarzaniu, bez rozszerzenia ,,.pddl''.
@@ -138,9 +146,127 @@ Każda konfiguracja ustawień plannera zapisywana jest w osobnym pliku o nazwie 
 </PlannerPreferences>
 \end{lstlisting}
 
-
-
 \subsection{Uruchamianie zewnętrznego oprogramowania}
-\label{chap:zew_oprogr}
+\label{subsec:uruchamianie}
+
+Inicjalizacja oprogramowania wyznaczającego plan odbywa się poprzez wbudowany w Eclipse mechanizm skrótów uruchamiania (ang \textit{Launch Shortcuts}). Rozszerzenie wtyczki o tego typu element pozwala na wywołanie zewnętrznych narzędzi przy pomocy menu ,,Run'' lub ,,Debug'', a także przycisku znajdującego się na pasku narzędziowym lub menu kontekstowego edytowanego pliku.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{img/running_options_menu_toolbar}
+    \caption{Możliwość uruchomienia zewnętrznego oprogramowania z poziomu menu ,,Run'' oraz przycisku na pasku narzędziowym.}
+    \label{fig:running_options_menu_toolbar}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{img/running_options_context_menu}
+    \caption{Możliwość uruchomienia zewnętrznego oprogramowania z poziomu menu kontekstowego edytowanego pliku.}
+    \label{fig:running_options_context_menu}
+\end{figure}
+
+Podczas pierwszego uruchomienia zewnętrznego programu na aktualnie edytowanych plikach, tworzona jest nowa konfiguracja uruchamiania (ang. \textit{Run Configuration}). W przypadku, gdy opcja zastosowania domyślnego plannera (konfiguracja plannera, roz. \ref{subsec:konfiguracja}) nie jest ustawiona, należy w wyświetlonym oknie (rys. \ref{fig:run_configuration_window}) uzupełnić tę konfigurację o nazwę i argument plannera, który będzie wykorzystany w procesie planowania. 
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{img/run_configuration_window}
+    \caption{Okno konfiguracji uruchamiania.}
+    \label{fig:run_configuration_window}
+\end{figure}
+
+Jeżeli uruchomienie nastąpiło na pliku problemu (za pomocą globalnego menu ,,Run'' lub przycisku na pasku narzędziowym, gdy plik problemu był otwarty w edytorze, bądź poprzez wybranie z menu kontekstowego pliku problemu opcji ,,Run as'', ,,PDDL Application'') ścieżka do odpowiadającego pliku domeny w projekcie zostanie automatycznie wykryta za pomocą \textbf{INDEKSU KODU?} opisanego w rozdziale \textbf{ROZDZIAL}. Analogicznie w przypadku uruchomienia narzędzia na pliku domeny. W sytuacjach wyjątkowych (brak odpowiadającej domeny, więcej niż jeden pasujący problem) wyświetlane są listy wyboru:
+\begin{itemize}
+\item W przypadku gdy do danej domeny pasuje wiele plików problemów, wyświetla się okno wyboru ze wszystkimi pasującymi problemami.
+\item W przypadku gdy do danej domeny nie pasuje żaden plik problemu, wyświetli się informująca o tym wiadomość.
+\item W przypadku gdy do danego pliku problemu nie pasuje żaden plik domeny, ale w projekcie istnieją inne pliki domen, wyświetli się okno wyboru z wszystkimi plikami domen w projekcie.
+\item W przypadku gdy do danego pliku problemu nie pasuje żaden plik domeny, ponieważ w projekcie nie istnieje żaden plik domeny, wyświetli się informująca o tym wiadomość.
+\end{itemize}
+
+Proces planowania rozpoczyna się po wybraniu przycisku ,,Run'' w oknie konfiguracji uruchamiania (lub z pominięciem tego okna w przypadku włączenia opcji domyślnego plannera w konfiguracji plannera). Działanie plannera objawia się widocznym paskiem postępu w prawym dolnym rogu aplikacji oraz na zakładce ,,Progress''. Również strumień wyjściowy działającego narzędzia kierowany jest w całości do widoku ,,Console''.
+
+\newpage
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/run_progress}
+    \caption{Pasek postępu procesu planowania.}
+    \label{fig:run_progress}
+\end{figure}
+
+Efektem przetwarzania jest powstanie planu, który w Eclipse jest dostępny z poziomu przeglądarki planów (ang. \textit{Plan Browser}). Jest ona widoczna standardowo w pespektywie PDDL, jako zakładka w dolnej części aplikacji. Każdy wiersz przeglądarki wskazuje na zakończony (powodzeniem lub niepowodzeniem) proces planowania. 
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{img/plan_browser_row}
+    \caption{Wiersz przeglądarki planów.}
+    \label{fig:plan_browser_row}
+\end{figure}
+
+\noindent
+Poszczególne kolumny oznaczają:
+\begin{enumerate}
+\item Nazwa projektu, który zawiera rozważany problem automatycznego planowania.
+\item Nazwa domeny wykorzystywanej w rozważanym problemie automatycznego planowania. Standardowo jest to nazwa pliku domeny bez rozszerzenia ,,.pddl''.
+\item Nazwa problemu wykorzystywanego w rozważanym problemie automatycznego planowania. Standardowo jest to nazwa pliku problemu bez rozszerzenie ,,.pddl''.
+\item Numer ID przetwarzanego zadania o danej nazwie domeny i problemu, znajdującego się w danym projekcie. W celu możliwości zachowania poprzednich wyników planowania, każde przetwarzanie wykonywane jest w innym folderze roboczym, do którego ścieżka ma postać:
+
+\noindent
+\centerline{\path{<l_p_rob>/<project_name>/plans/<domain_name>/<problem_name>/<id>}}
+
+\noindent
+gdzie:
+
+\begin{itemize}
+\item \textbf{\path{<l_p_rob>}} -- lokalizacja przestrzeni roboczej.
+\item \textbf{\path{<project_name>}} -- nazwa projektu.
+\item \textbf{\path{<domain_name>}} -- nazwa domeny.
+\item \textbf{\path{<problem_name>}} -- nazwa problemu.
+\item \textbf{\path{<id>}} -- numer ID kolejnego przetwarzania.
+\end{itemize}
+Dzięki takiej strukturze katalogu roboczego użytkownik nie nadpisze omyłkowo poprzednio utworzonych wyników planowania. W przeglądarce planów powstaje zaś chronologiczna lista kolejnych uruchomień plannera, którą można swobodnie zarządzać, w tym usuwać.
+\item Nazwy plików wynikowych, zawierających plan, które dopasowane są do wyrażenia regularnego ustalanego podczas konfiguracji plannera (roz.~\ref{subsec:konfiguracja}). W przypadku, gdy przetwarzanie nie zwróci pasujących plików lub zostanie przerwane przed zakończeniem, wyświetlany jest w tym miejscu komunikat o braku danych wynikowych.
+\item Nazwa plannera, wykorzystywanego podczas znajdowania planu. Nazwa ta jest definiowana przy jego konfiguracji (roz.~\ref{subsec:konfiguracja}).
+\item Nazwa argumentu plannera, wykorzystywanego podczas znajdowania planu, ustalana przy jego konfiguracji (roz.~\ref{subsec:konfiguracja}).
+\end{enumerate}
+
+Przeglądarka planów poza możliwością utrzymywania historii przetwarzania, daje również możliwość otwierania plików wynikowych oraz katalogu roboczego, a także wyszukiwania istniejących rekordów i ich usuwania:
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{img/plan_browser_options}
+    \caption{Dodatkowe opcje przeglądarki planów.}
+    \label{fig:plan_browser_options}
+\end{figure}
+
+\begin{enumerate}
+\item Wyszukiwarka rekordów, posiadająca możliwość prostego filtrowania wierszy, pasujących do zadanego wzorca.
+\item Otwieranie pliku planu w wewnętrznym edytorze Eclipse. W przypadku, gdy jest więcej niż jeden plik wynikowy, wyświetlona zostaje lista wyboru.
+\item Otwieranie katalogu roboczego w systemowej przeglądarce plików, umożliwiające zarządzanie planami z poziomu plików, a także kontrolę błędów w przypadku nieprawidłowego przetwarzania.
+\item Usunięcie zaznaczonego wiersza przeglądarki wraz z folderem roboczym, zawierającym wyniki przetwarzania, którego dotyczy ten rekord.
+\item Usunięcie wszystkich rekordów przeglądarki wraz z odpowiadającymi im folderami roboczymi.
+\item Wyłączenie/włączenie widoczności poszczególnych kolumn w tabeli przeglądarki.
+\item Otwieranie pliku planu w standardowym edytorze tekstowym systemu operacyjnego. W przypadku, gdy jest więcej niż jeden plik wynikowy, wyświetlona zostaje lista wyboru.
+\item Odświeżenie zawartości przeglądarki planów, pozwalające na usunięcie rekordów, dla których nie istnieją odpowiadające im pliki planów lub foldery robocze (ponieważ zostały wcześniej usunięte przez użytkownika z poziomu plików).
+\end{enumerate}
+
+Standardowym zachowaniem Eclipse podczas inicjalizacji narzędzia zewnętrznego jest korzystanie z ostatnio utworzonej konfiguracji uruchamiania. Przy rozpoczęciu kolejnego procesu znajdowania planu na tych samych plikach, aplikacja nie wyświetla już okna edycji ustawień, lecz od razu przechodzi do fazy przetwarzania. Takie działanie daje użytkownikowi możliwość szybkiego sprawdzenia wyników planowania w trakcie edycji plików, lecz jednocześnie powoduje, że zmiana parametrów uruchamiania takich jak planner i jego argumenty jest utrudniona.
+
+Z tego powodu utworzono dodatkową opcję edycji istniejących konfiguracji. Chcąc zmienić planner, bądź jego argumenty należy wybrać z menu kontekstowego edytowanego pliku element ,,Run as'' a następnie ,,PDDL Application...'' lub zastosować skrót klawiaturowy \texttt{Shift~+~Alt~+~X~+~U}. Gdy istnieje więcej niż jedna konfiguracja uruchamiania powiązana z danym plikiem, pojawi się okno wyboru istniejących profili (rys.~\ref{fig:run_configuration_choice}). Wybierając jeden z nich, użytkownik ma możliwość zmiany aktualnych parametrów.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/run_configuration_choice}
+    \caption{Okno wyboru istniejących konfiguracji uruchamiania.}
+    \label{fig:run_configuration_choice}
+\end{figure}
+
 \subsection{Przerywanie procesu planowania}
-\label{chap:przerywanie}
+\label{subsec:przerywanie}
+
+Mnogość dostępnych narzędzi do wyznaczania planu, brak wśród nich jednoznacznego, powszechnie wykorzystywanego lidera oraz prawdopodobieństwo udoskonalania i powstawania nowych programów spowodowały, iż w projekcie GUI4PDDL powzięto założenie o wsparciu dla uruchamiania jak największego zakresu istniejących rozwiązań (z plannerem \textit{FastDownward} jako priorytetem). Wymaganie to zostało zrealizowane poprzez unifikację formatu pliku uruchomieniowego, obsługiwanego w Eclipse (roz.~\ref{sec:wspolpraca}) oraz dostosowywanie do niego plannerów poprzez skrypty powłoki systemu operacyjnego.
+
+Testy wykazały jednak, że środowisko programistyczne posiada kontrolę tylko nad procesami samych skryptów, natomiast wszystkie uruchamiane przez nie podprocesy (w tym proces programu plannera) pozostają bez nadzoru. W przypadku, gdy użytkownik zainicjalizuje kilka zadań znajdowania planu jednocześnie, które z uwagi na swój charakter i wykorzystywany algorytm znacznie obciążają procesor, może dojść do obniżenia responsywności systemu operacyjnego. Wówczas, mimo zatrzymania działania głównego skryptu za pomocą przycisku ,,Terminate'' w widoku ,,Console'', procesy plannera nie zostaną zakończone, co może powodować dalszy spadek wydajności.
+
+Rozwiązaniem tego problemu jest implementacja własnej fabryki procesów (ang. \textit{process factory}). Rozszerzenie to, wspierane przez platformę Eclipse, pozwala na przejęcie kontroli nad tworzeniem nowego, natywnego procesu. W odpowiedzialnej za to metodzie \textit{newProcess} klasy \textit{PDDLProcessFactory} zwracany jest obiekt podklasy (\textit{RuntimeProcessWithChildProcessesTermination}) standardowego procesu, w której zmieniono część zajmującą się przerywaniem działania.
+
+Nowy sposób zakończenia procesu opiera się na wykorzystaniu natywnych metod wspieranych systemów operacyjnych (Windows oraz Linux) poprzez bibliotekę JNA (\textit{Java Native Access}). Biblioteka ta pozwala na wykonywanie operacji specyficznych dla danej platformy bez konieczności dodatkowej konfiguracji. Za jej pomocą pobierany jest numer PID skryptu, który następnie podawany jest jako argument specyficznych dla systemu poleceń powłoki, odpowiedzialnych za przerywanie procesów. W przypadku systemu Windows jest to polecenie \textit{taskkill}, w przypadku Linux'a \textit{kill}, z odpowiednio sparsowanym drzewem podprocesów otrzymanym z komendy \textit{pstree}.
+
+Dzięki tak przygotowanemu wsparciu dla obsługi zakończenia skryptów, użytkownik jest w stanie kontrolować ich wykonywanie z poziomu Eclipse, zarówno dla programów wsadowych (pliki .bat -- w systemie Windows), jak i dla poleceń powłoki \textit{bash} (w systemach z rodziny Linux).
