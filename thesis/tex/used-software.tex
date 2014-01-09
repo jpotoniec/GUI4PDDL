@@ -24,11 +24,93 @@ ANTLR został opublikowany wraz z kodem źródłowym na licencji BSD. Projekt je
 aktywnie rozwijany. Wiele programów zawiera analizatory wygenerowane za pomocą
 ANTLR. Należą do nich Hibernate, Jython i Netbeans.
 
-\subsection{Analiza LL(*)}
-Narzędzie ANTLR generuje analizatory LL(*). Służą one do przetwarzania 
-języków opisanych gramatykami bezkontekstowymi LL(*).
+\subsection{Przetwarzanie języków formalnych}
+Języki formalne, w tym języki programowania są opisane zbiorem zasad określającym
+ich składnię i semantykę. Analiza języka formalnego polega na sprawdzeniu zgodności
+danych wejściowych ze specyfikacją języka oraz na wyodrębnieniu części składniowych.
+Ponadto podczas analizy mogą zostać wykonane operacje działające na danych zgodnie
+z ich znaczeniem określonym przez reguły semantyczne.
 
-Analizatory LL, będące poprzednikiem analizatorów LL(*) wykorzystują
+Wyodrębnia się trzy fazy analizy:
+\begin{enumerate}
+\item Analizę leksykalną.
+\item Analizę składniową.
+\item Analizę semantyczną.
+\end{enumerate}
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=\textwidth]{img/antlr_phases.pdf}
+    \caption{Fazy analizy języka formalnego}
+    \label{antlr_phases}
+\end{figure}
+
+Zależności pomiędzy fazami przedstawia rysunek \ref{antlr_phases}. 
+
+Podczas analizy leksykalnej dane wejściowe są traktowane jako strumień znaków, który
+jest odczytywany od prawej do lewej. Znaki są grupowane w symbole leksykalne, czyli
+ciągi posiadające określone znaczenie.
+
+Analiza składniowa ma na celu zgrupowanie symboli leksykalnych w hierarchiczne struktury,
+mające pewne znaczenie.
+
+Analiza semantyczna przetwarza dane zgodnie z ich znaczeniem opisanym przez reguły
+semantyczne. W tej fazie zbierane są informacje zawarte w danych.
+
+Reguły języka mogą być opisane językiem naturalnym lub w sposób sformalizowany.
+Jednym z formalizmów, odzwierciedlającym hierarchiczną strukturę konstrukcji językowych,
+jest gramatyka bezkontekstowa. 
+
+%Pytanie nieuniknięto powtórzenia skłów w definicji
+\begin{itemize}
+\item Zbioru symboli leksykalnych zwanych symbolami terminalnymi lub terminalami
+\item Zbioru symboli nieterminalnych.
+\item Zbioru produkcji %TODO
+\item Wyznaczonego symbolu startowego.
+\end{itemize}
+
+Mówi się, że gramatyka wyprowadza ciąg symboli leksykalnych, jeżeli wychodząc 
+od symbolu startowego i zamieniając symbole nieterminalne na ciągi znajdujące 
+się po prawych stronach produkcju, można otrzymać dany ciąg. Sposób, w jaki
+można wyprowadzić dany napis obrazuje drzewo wyprowadzania. W korzeniu drzewa wyprowadzania
+znajduje się symbol startowy. Dzieci wierzchołka reprezentującego symbol nieterminalny
+zawierają symbole z prawej strony produkcji użytej do jego zastąpienia.
+
+\paragraph{Przykład 1}
+Rozpatrzmy przykład konstrukcji języka PDDL reprezentującej listę wymagań domeny lub problemu.
+Składa się ona z otoczonych nawiasami okrągłymi symbolu :requirements oraz
+ciągu symboli oznaczających nazwy wymagań. Symbolami terminalnymi są 
+\textbf{(}, \textbf{)}, słowo kluczowe \textbf{:requirements} i 
+\textbf{requirementName} reprezentujący nazwę wymagania. Poniższa gramatyka opisuje
+składnię takiego wyrażenia:
+
+\begin{itemize}
+\item requirementsList $\rightarrow$ \textbf{(} \textbf{:requirements} R
+\item R $\rightarrow$ \textbf{requirementName} \textbf{)}
+\item R $\rightarrow$ \textbf{requirementName} \textbf{R}
+\end{itemize}
+
+Dla napisu postaci \texttt{(:requirements :strips)} zostanie
+wygenerowany podczas strumień symboli leksykalnych \textbf{( :requirements requirementName )}.
+Drzewo wyprowadzania tworzone podczas analizy składniowej jest przedstawione 
+na rysunku \ref{antlr_example}
+
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=0.7\textwidth]{img/antlr_example.pdf}
+    \caption{Drzewo wyprowadzania dla przykładu 1}
+    \label{antlr_example}
+\end{figure}
+
+\subsection{Metoda LL(*)}
+Główną zaletą gramatyk bezkontekstowych jest możliwość automatycznego generowania programów
+wykonujących analizę leksykalną i składniową na podstawie gramatyki.
+
+Narzędzie ANTLR generuje analizatory leksykalne i składniowe dla pewnego podzbioru
+gramatyk formalnych. Elementy tego podzbioru nazwane są gramatykami LL(*). Metoda 
+analizy stosowana w generowanych analizatorach nazwana jest analizą LL(*). 
+
+Analizatory LL(*) należą do klasy analizatorów LL. Wykorzystują one
 analizę zstępującą i metodę zejść 
 rekurencyjnych. Każdemu nieterminalowi zdefiniowanemu w specyfikacji gramatyki
 odpowiada procedura lub metoda. 
@@ -44,7 +126,7 @@ startowy gramatyki. W każdym kroku analizy wykonywane są następujące czynno�
   stronie produkcji z punktu 2. Stają się one dziećmi węzła V.
 \end{enumerate}
 
-Klasy analizatorów LL różnią się sposobem wyboru produkcji w punkcie 2. 
+Typy analizatorów należących do klasy LL różnią się sposobem wyboru produkcji w punkcie 2. 
 Analizatory LL(*) są analizatorami przewidującymi. Podejmują one decyzję na
 podstawie nieprzetworzonych symboli leksykalnych w strumieniu wejściowym. Liczba
 tych symboli nie jest ograniczona. W celu przeglądania strumienia wejściowego 
@@ -56,23 +138,27 @@ konieczności lewostronnej faktoryzacji, co znacznie ułatwia tworzenie
 gramatyk.
 
 \subsection{Abstrakcyjne drzewa składniowe}
-Przetwarzanie kodu źródłowego jest skomplikowanym procesem. W celu uproszczenia 
-zadania, rozbija się je na logicznie wyodrębnione fazy. Uruchamiane są one 
-sekwencyjnie. Każda z faz oblicza część informacji. 
+% Analizę semantyczną języka opisanego gramatyką bezkontekstową można 
+% sprowadzić do obliczania wartości atrybutów przyporządkowanych symbolom
+% znajdującym się w drzewie wyprowadzanie. Produkcjom przypisywane są 
+% wówczas reguły określające wartości atybutów. Takie podejście 
 
-Zwykle więcej niż jedna faza dokonuje przejrzenia wszystkich danych wejściowych,
-zwanego przebiegiem. Aby uniknąć ponownej analizy leksykalnej i składniowej przy
-kolejnym przebiegu, potrzebna jest pośrednia struktura danych.
-
-Abstrakcyjne drzewo składniowe (AST) jest jedną z form reprezentacji
-konstrukcji  języka. Jest to skondensowana postać drzewa
+Formą pośrednia przekazywaną pomiędzy analizatorem składniowym a semantycznym
+może być abstrakcyjne drzewo składniowe (AST). Jest to skondensowana postać drzewa
 wyprowadzania, skłądająca się
 wyłącznie z węzłów reprezentujących symbole wejściowe. Węzły
 wewnętrzne reprezentują słowa kluczowe i operatory, liście -- argumenty.
+Abstrakcyjne drzewo składniowe dla przykładu 1 jest przedstawione na rysunku 
+\ref{anrlr_ast}.
 
-Wszystkie fazy występujące po fazie tworzącej abstrakcyjne drzewo składniowe,
-przekazują tę strukturę. Jej przetwarzanie, a tym samym działanie kolejnych
-faz sprowadza się do przechodzenia drzewa.
+\begin{figure}[h!]
+  \centering
+    \includegraphics[scale=0.8]{img/antlr_ast.pdf}
+    \caption{Abstrakcyjne drzewo składniowe dla przykładu 1}
+    \label{antlr_ast}
+\end{figure}
+
+%Przykład drzewa
 
 Możliwe jest ręczne tworzenie drzewa składniowego za pomocą odpowiednich
 reguł semantycznych. Takie podejście proceduralne jest opisane w [Aho].
@@ -82,8 +168,10 @@ odpowiedniej opcji w specyfikacji analizatora składniowego powoduje automatyczn
 wygenerowanie struktury. Poza tym, specyfikacja analizatora składniowego
  może zawierać elementy deklaratywne wpływające na kształt AST.
 
-Jednym ze sposobów przechodzenia abstrakcyjnego drzewa składniowego jest
-wykorzystanie analizatora drzewowego. Jest to podprogram generowany przez
+
+Przetwarzanie abstrakcyjnego drzewa składniowego podczas analizy semantycznej
+sprowadza się do jego przechodzenia. Można do tego wykorzystać analizator drzewowy. 
+Jest to podprogram generowany przez
 ANTLR na podstawie specyfikacji, tak jak analizator składniowy lub leksykalny.
 Wprowadzenie analizatorów drzewowych wyróżnia ANTLR na tle innych generatorów
  parserów. 
@@ -94,8 +182,8 @@ Pliki wejściowe ANTLR posiadają rozszerzenie .g. Zawierają one specyfikację
 analizatora leksykalnego, składniowego, drzewowego lub połączoną specyfikację
 analizatorów leksykalnego i składniowego. 
 
-Specyfikacja analizatorów składa się z listy reguł, definiujących symbole
-leksykalne, sekcji opcji konfiguracyjnych oraz kodu dodawanego do generowanego
+Specyfikacja analizatorów składa się z listy produkcji, definiujących symbole,
+ sekcji opcji konfiguracyjnych oraz kodu dodawanego do generowanego
 pliku źródłowego.
 
 W przypadku plików zawierających połączoną specyfikację analizatorów, występuje

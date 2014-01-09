@@ -1,0 +1,12 @@
+digraph antlr_example {
+	node [shape = none];
+	requirementsList -> parL;
+	requirementsList -> requirements;
+	requirementsList -> R;
+	requirements [label = <<B>:requirements</B>>];
+        parL [label = <<B >(</B >>]; 
+	R -> requirementName;
+	R -> parR;
+	requirementName [label = <<B >requirementName</B >>];
+	parR [label = <<B>)</B>>];	
+}
