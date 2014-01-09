@@ -1,3 +1,28 @@
 \chapter{Architektura systemu}
 \section{Podział na projekty Eclipse}
+Ze względu na złożoność oraz zakres wymagań projekt GUI4PDDL podzielono na 6 głównych podprojektów związanych z rozwojem wtyczki (\textit{Plugin Project} lub \textit{Feature Project}) oraz 4 dodatkowe, standardowe projekty Eclipse, służące do testowania istniejących rozwiązań i przechowywania zasobów. Taka struktura pozwala na logiczne oddzielenie najważniejszej części -- implementacji wtyczki od kodu, odpowiedzialnego za możliwość jej integracji oraz związanego z testami. Pozwala to zmniejszyć rozmiar plików pobieranych przy instalacji przez użytkownika, zwłaszcza dodatkowych bibliotek.
+
+Zgodnie z konwencją nazewniczą pakietów języka Java, wszystkie główne projekty mają przedrostek \texttt{pl.poznan.put.cs.gui4pddl}, natomiast w pozostałych obowiązują dowolne nazwy. Dokładna struktura i opis poszczególnych projektów przedstawione są poniżej.
+
+Projekty główne:
+\begin{itemize}
+\item \textbf{\texttt{pl.poznan.put.cs.gui4pddl}} -- projekt zawierający pełną implementację wtyczki (wersję instalacyjną). Składa się z pakietów odpowiedzialnych za logikę biznesową oraz wszystkie istniejące widoki. Szerszy opis tego projektu znajduje się w rozdziale~\ref{sec:struktura}.
+\item \textbf{\texttt{pl.poznan.put.cs.gui4pddl.antlr}} -- projekt zawierający skompilowaną bibliotekę ANTLR, wykorzystywaną w przetwarzaniu gramatyki formalnej języka PDDL.
+\item \textbf{\texttt{pl.poznan.put.cs.gui4pddl.feature}} -- projekt \textit{Feature}, umożliwiający połączenie różnych wtyczek w taki sposób, by z zewnątrz były traktowane jako logiczna całość, co ułatwia zarządzanie nimi. Dodatkowo pozwala na uzupełnienie informacji dotyczących wersji, licencji, obsługiwanych systemów operacyjnych itp. Projekt tego typu wymagany jest także w procesie budowania i aktualizacji.
+
+We wtyczce GUI4PDDL grupuje podprojekty \texttt{pl.poznan.put.cs.gui4pddl}\linebreak oraz \texttt{pl.poznan.put.cs.gui4pddl.antlr}, a także udostępnia podstawowe informacje o niej.
+\item \textbf{\texttt{pl.poznan.put.cs.gui4pddl.tests}} -- projekt zawierający testy jednostkowe kodu niezwiązanego z interfejsem graficznym (z wykorzystaniem biblioteki \textit{jUnit}) oraz gramatyki formalnej, generowanej przez narzędzie ANTLR, używanej w parserze (z wykorzystaniem biblioteki \textit{gUnit}). Oddzielenie testów od kodu głównego projektu pozwoliło na zmniejszenie wielkości wersji instalacyjnej oraz zredukowanie zależności od dodatkowych bibliotek.
+\item \textbf{\texttt{pl.poznan.put.cs.gui4pddl.uitests}} -- projekt zawierający testy jednostkowe interfejsu graficznego, z wykorzystaniem biblioteki \textit{SWTBot}. Biblioteka ta umożliwia przeprowadzenie automatycznych testów akceptacyjnych GUI, stworzonego przy pomocy biblioteki \textit{SWT}.
+\item \textbf{\texttt{pl.poznan.put.cs.gui4pddl.update}} -- projekt typu \textit{Update site}, zawierający statyczne pliki, które mogą być umieszczone w określonym miejscu na serwerze. Użytkownicy, korzystając z adresu do tego miejsca mogą pobrać i zainstalować wtyczkę poprzez menedżer aktualizacji. Projekt ten korzysta z wcześniej zdefiniowanego projektu \textit{Feature} oraz zawiera opis wtyczki i kategorię wyświetlone następnie przy instalacji.
+\end{itemize}
+
+Pozostałe projekty:
+\begin{itemize}
+\item \textbf{\texttt{checker}} -- ?
+\item \textbf{\texttt{grammar}} -- ?
+\item \textbf{\texttt{RubikCube}} -- przykładowy projekt PDDL wykorzystywany podczas rozwijania wtyczki. Zawiera zadanie automatycznego planowania, które z racji swojego charakteru oraz używanego plannera wykonywało się przez znaczny czas, co było pomocne podczas testowania przerywania procesu planowania (roz. \ref{subsec:przerywanie}).
+\item \textbf{\texttt{WorldOfBlocks}} -- przykładowy projekt PDDL wykorzystywany podczas rozwijania wtyczki. Zawiera zadanie automatycznego planowania, które z racji swojego charakteru oraz używanego plannera wykonywało się przez krótki czas.
+\end{itemize}
+
 \section{Struktura wtyczki}
+\label{sec:struktura}
