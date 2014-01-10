@@ -20,7 +20,7 @@
       </category>
       <wizard
             category="pl.poznan.put.cs.gui4pddl"
-            class="pl.poznan.put.cs.gui4pddl.ui.wizards.PDDLFileWizard"
+            class="pl.poznan.put.cs.gui4pddl.wizards.ui.PDDLFileWizard"
             finalPerspective="pl.poznan.put.cs.gui4pddl.perspective.PDDLPerspective"
             icon="icons/pddl_file.gif"
             id="pl.poznan.put.cs.gui4pddl.ui.wizards.PDDLFileWizard"
@@ -30,7 +30,7 @@
       <wizard
             canFinishEarly="false"
             category="pl.poznan.put.cs.gui4pddl"
-            class="pl.poznan.put.cs.gui4pddl.ui.wizards.PDDLProjectWizard"
+            class="pl.poznan.put.cs.gui4pddl.wizards.ui.PDDLProjectWizard"
             finalPerspective="pl.poznan.put.cs.gui4pddl.perspective.PDDLPerspective"
             hasPages="true"
             icon="icons/pddl_file.gif"
