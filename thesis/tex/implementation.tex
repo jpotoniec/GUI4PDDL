@@ -117,7 +117,8 @@ Metoda \texttt{recoverFromMismatchedToken} wstawia symbole \textbf{)} tak długo
 Druga poprawka dotyczy sytuacji, kiedy w miejscu wystąpieniu błędu nie możebyć użyta żadna
 z produkcji. Metoda \texttt{recover} próbuje opuścić bieżący poziom zagnieżdżenia.
 
-\begin{lstlisting}[label=ana_code, caption=Kod PDDL zawierający błąd składniowy]
+\begin{Code}
+\begin{lstlisting}[language=LISP,frame=single,label=ana_code, caption=Kod PDDL zawierający błąd składniowy]
 (define (problem p1)
 	(:domain world-of-blocks)
 	(:objects a b)
@@ -135,6 +136,7 @@ z produkcji. Metoda \texttt{recover} próbuje opuścić bieżący poziom zagnie�
 	)
 )
 \end{lstlisting}
+\end{Code}
 
 W kodzie z przykładu \ref{ana_code} znajduje się błąd składniowy. Zamiast słowa kluczowego \textbf{and}
 wystąpił w 10 linii ciąg znaków ann. W tym miejscu zostanie zgłoszony błąd. Metoda odzyskiwania kontroli
