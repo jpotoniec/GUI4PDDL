@@ -9,7 +9,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 
 import pl.poznan.put.cs.gui4pddl.log.Log;
-import pl.poznan.put.cs.gui4pddl.parser.PDDLIndexer;
+import pl.poznan.put.cs.gui4pddl.parser.PDDLAnalyzer;
 
 public class PDDLCodeModel implements IPDDLCodeModel, IPDDLProjectIndex {
 
@@ -41,7 +41,7 @@ public class PDDLCodeModel implements IPDDLCodeModel, IPDDLProjectIndex {
 		PDDLFile fileIndex = files.get(file.getFullPath().toPortableString());
 		if (fileIndex == null && parse) {
 			try {
-				PDDLIndexer.indexPDDLFile(file, null);
+				PDDLAnalyzer.indexPDDLFile(file, null);
 			} catch (RuntimeException e) {
 				Log.log(e);
 			}
@@ -58,7 +58,7 @@ public class PDDLCodeModel implements IPDDLCodeModel, IPDDLProjectIndex {
 			IFile file = root.getFile(path);
 			if (file.exists()) {
 				try {
-					PDDLIndexer.indexPDDLFile(file, null);
+					PDDLAnalyzer.indexPDDLFile(file, null);
 				} catch (RuntimeException e) {
 					Log.log(e);
 				}

@@ -11,7 +11,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.junit.Test;
 
-import pl.poznan.put.cs.gui4pddl.parser.PDDLIndexer;
+import pl.poznan.put.cs.gui4pddl.parser.PDDLAnalyzer;
 
 public class TestPDDLCodeModel {
 	

@@ -30,7 +30,7 @@ public class TestIndexer {
 			PDDLCodeModel model = new PDDLCodeModel();
 			IPath filepath = new Path(path);
 			PDDLFile file = model.getOrCreateFile(filepath);
-			PDDLIndexer.indexPDDLFile(stream, model, file, null);
+			PDDLAnalyzer.indexPDDLFile(stream, model, file, null);
 			return file;
 		} catch (FileNotFoundException e) {
 			

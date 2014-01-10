@@ -20,7 +20,7 @@ import pl.poznan.put.cs.gui4pddl.codemodel.IPDDLProjectIndex;
 import pl.poznan.put.cs.gui4pddl.codemodel.PDDLFile;
 import pl.poznan.put.cs.gui4pddl.log.Log;
 
-public class PDDLIndexer {
+public class PDDLAnalyzer {
 
 	public interface IErrorHandler {
 		void reportError(PDDLError error);

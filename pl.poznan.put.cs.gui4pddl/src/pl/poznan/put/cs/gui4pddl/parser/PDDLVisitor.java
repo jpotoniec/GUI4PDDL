@@ -13,7 +13,7 @@ import pl.poznan.put.cs.gui4pddl.log.Log;
 class PDDLVisitor implements IResourceVisitor, IResourceDeltaVisitor {
 	public static final String MARKER_ID = "org.eclipse.core.resources.problemmarker";
 	
-	private class ErrorHandler implements PDDLIndexer.IErrorHandler {
+	private class ErrorHandler implements PDDLAnalyzer.IErrorHandler {
 		
 		IFile file;
 		
@@ -45,7 +45,7 @@ class PDDLVisitor implements IResourceVisitor, IResourceDeltaVisitor {
 				deleteMarkers(resource);
 				
 				IFile file = (IFile)resource;
-				PDDLIndexer.indexPDDLFile(file, new ErrorHandler(file));
+				PDDLAnalyzer.indexPDDLFile(file, new ErrorHandler(file));
 			}
             return false;
         }
