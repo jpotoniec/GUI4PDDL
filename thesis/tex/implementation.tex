@@ -38,7 +38,7 @@ Jego struktura została przedstawiona na rysunku \ref{ana_structure}.
 Przetwarzany plik PDDL jest poddawany najpierw analizie leksykalnej i zamieniany
 na strumień symboli leksykalnych. Następnie, analizator składniowy tworzy abstrakcyjne
 drzewo składniowe. Drzewo to poddawane jest analizie semantycznej przez dwa moduły.
-Moduł indeksowania kodu tworzy indeks, czyli model struktur zdefiniowanych w kodzie.
+Moduł indeksowania kodu tworzy indeks kodu.
 Moduł sprawdzania poprawności semantycznej wykrywa błędy na podstawie indeksu oraz
 drzewa składniowego. Podprogram obsługi błędów zbiera informacje o błędach występujących
 na poszczególnych etapach analizy oraz wyświetla je użytkownikowi.
@@ -51,13 +51,110 @@ na poszczególnych etapach analizy oraz wyświetla je użytkownikowi.
 \end{figure}
 
 
-\subsection{Analiza leksykalna i składniowa}
-gnUżyto ANTLR
+\subsection{Analizator leksykaly i składniowy}
+Analizator leksykalny i składniowy są automatycznie generowane przez narzędzie ANTLR
+na podstawie gramatyki. 
+
+Wykorzystanie generatora analizatorów ma wiele zalet. Nakład pracy poniesiony na
+opracowanie gramatyki jest znacznie mniejszy niż przy ręcznej implementacji analizora.
+W związku z tym zmniejsza się ryzyko popełnienia błędu. Ponadto, wygenerowane analizatory są 
+wydajne. Gramatykę można także przeanalizować pod kątem występowania niejednoznaczności
+składniowych
+oraz konstrukcji trudnych do analizy. Istotną kwestią jest także to, że
+języki zmieniają się w czasie. Dodawane są nowe konstrukcje i zadania. Implementację
+bazującą na gramatyce można w łatwy sposób zmienić.
+
+Generator analizatorów ANTLR posiada szereg zalet, które zadecydowały o jego wyborze.
+Największe znaczenie miała rozbudowana obsługa błędów w wygenerowanych analizatorach.
+Domyślne komunikaty o błędach składniowych są czytelne dla użytkowników końcowych.
+Można je też zastąpić własnymi komunikatami. Do ich generacji można wykorzystać tę samą 
+informację kontekstową, która służy do utworzenia treści domyślnych komunikatów.
+Oprócz tego wykorzystane zostało wbudowane w ANTLR narzędzie do implementacji
+terstów jednostkowych gUnit.
+
+Kolejną zaletą narzędzia ANTLR jest dostępność środowiska ANTLRWorks, w którym
+rozwijano gramatykę języka PDDL. Udostępnia 
+ono edytor kolorujący składnię oraz automatycznie formatujący kod. Możliwe jest
+testowe uruchamianie analizatora lub wybranej reguły dla fragmentu kodu PDDL.
+Wyświetlana jest wówczas wizualizacja drzewa wyprowadzania. Jest to bardzo przydatne
+podczas wyszukiwania błędów gramatyki.
+
+Do implementacji analizatorów wykorzystano specyfikację języka PDDL w wersji 1.2 \cite{pddl}.
+Dokument zawiera opis składni za pomocą notacji Backusa-Naura. Na jego podstawie opracowano
+gramatykę przetwarzaną przez ANTLR.
+
+\begin{sloppypar}
+Pliki związane z analizą programu źródłowego znajdują się w pakiecie 
+\texttt{pl.poznan.put.cs.gui4pdddl.parser}.
+Plik \texttt{PDDL.g} zawiera połączony opis analizatora
+składniowego i leksykalnego.  %Można napisać że duże litery to terminale
+Na jego podstawie generowane są klasy \texttt{PDDLLexer} i \texttt{PDDLParser}.
+Analizator składniowy tworzy abstrakcyjne drzewo składniowe, używając mechanizmów
+wbudowanych w ANTLR.
+\end{sloppypar}
+
+
+Analizatory LL, generowane przez ANTLR, mają własność \emph{prefiksu żywotnego}.
+Oznacza to, że błąd jest wykrywany w miejscu, w którym prefiks wejścia nie może
+być prefiksem żadnego napisu w danym języku. Miejsce to znajduje się blisko miejsca
+wystąpienia błędu.
+
+Kiedy zostanie wykryty błąd, zostaje wywołana procedura obsługi. W klasach 
+PDDLLexer i PDDLParser tworzony jest obiekt klasy \emph{PDDLError}. Zawiera
+ona informacje o miejscu wystąpienia błędu oraz komunikat diagnostyczny. Użyto
+domyślnej treści komunikatów. Obiekt dodawany jest do listy błędów. 
+
+Analiza kodu nie powinna być przerywana przy napotkaniu pierwszego błędu. Takie
+działanie byłoby uciążliwe. Dlatego też, po wystąpieniu błędu analizator podejmuje
+próbę odzyskania kontroli. Analizator leksykalny przechodzi w tryb paniki. Po napotkaniu 
+błędu pomija znaki na wejściu aż do napotkania znaku, który pownien wystąpić.
+
+Domyślna strategia odzyskiwania kontroli przez analizatory składniowe wygenerowane 
+za pomocą ANTLR jest opisana w \cite{antlr}. Ze względu na specyfikę języka PDDL
+należało wprowadzić pewne poprawki. Pierwsza z nich dotyczy błędów zgłoszonych na końcu pliku.
+Zwykle są to błędy wynikające z niedopasowania liczby nawiasów.
+Metoda \texttt{recoverFromMismatchedToken} wstawia symbole \textbf{)} tak długo, jak to jest konieczne.
+Druga poprawka dotyczy sytuacji, kiedy w miejscu wystąpieniu błędu nie możebyć użyta żadna
+z produkcji. Metoda \texttt{recover} próbuje opuścić bieżący poziom zagnieżdżenia.
+
+\begin{lstlisting}[label=ana_code, caption=Kod PDDL zawierający błąd składniowy]
+(define (problem p1)
+	(:domain world-of-blocks)
+	(:objects a b)
+	(:init
+		(clear b)
+		(on-top c b)
+		(on-top b a)
+	)
+	(:goal
+		(ann
+			(clear a)
+			(on-top a b)
+      (on-floor b)
+		)
+	)
+)
+\end{lstlisting}
+
+W kodzie z przykładu \ref{ana_code} znajduje się błąd składniowy. Zamiast słowa kluczowego \textbf{and}
+wystąpił w 10 linii ciąg znaków ann. W tym miejscu zostanie zgłoszony błąd. Metoda odzyskiwania kontroli
+pominie zagnieżdżone konstrukcje i spowoduje przejście do linii 14.
 
 \subsection{Tworzenie indeksu}
-\subsection{Wykrywanie błędów semantycznych}
-\subsection{Podpowiadanie kodu}
+UML
 
+\subsection{Wykrywanie błędów semantycznych}
+Krótkie
+
+\subsection{Obsługa błędów}
+Krótko o markerach
++Będzie, będzie screenshot.
+
+
+\subsection{Podpowiadanie kodu}
+Automat skończony (para)
+Kontekst
+I te klasy co zapodają podpowiedz
 
 \section{Edytor}
 \subsection{Kolorowanie kodu}
