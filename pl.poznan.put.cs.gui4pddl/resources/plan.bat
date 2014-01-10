@@ -2,10 +2,12 @@
 SET basedir=%~dp0
 call :getargc argc %*
 
+IF %argc% LSS 2 goto usage
 
 SET translate=%basedir%translate\translate.exe
 SET preprocess=%basedir%bin\preprocess.exe
 SET search=%basedir%search\downward-seq-sat-fdss-1
+SET dosunix=%basedir%bin\dos2unix
 
 
 echo 1. Running translator
@@ -15,26 +17,12 @@ echo.
 IF %ERRORLEVEL% == 0 (
 echo 2. Running preprocessor
 %preprocess% <output.sas
+%dosunix% output
 echo.
 ) ELSE (
 echo Error!
 GOTO:EOF
 )
-
-
-
-rem throw the first parameter away
-shift
-shift
-set params=%1
-:loop
-shift
-if [%1]==[] goto afterloop
-set params=%params% %1
-goto loop
-:afterloop
-
-
 
 IF %ERRORLEVEL% == 0 (
 echo 3. Running search
@@ -45,11 +33,10 @@ echo Error!
 )
 
 
-
 echo.&goto:eof
 
 :usage
-echo usage: %~fp0 [DOMAIN_FILE] PROBLEM_FILE SEARCH_OPTION ...
+echo usage: %~fp0 DOMAIN_FILE PROBLEM_FILE
 GOTO:EOF
 
 :getargc

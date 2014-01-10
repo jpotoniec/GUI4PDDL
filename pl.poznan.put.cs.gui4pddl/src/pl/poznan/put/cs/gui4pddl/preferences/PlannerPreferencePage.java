@@ -85,10 +85,12 @@ public class PlannerPreferencePage extends PreferencePage implements
 					preferenceStore.setValue(Activator.PREF_DEFAULT_PLANNER,
 							defaultPlannerCheckBox.getSelection());
 
-					preferenceStore.setValue(
-							Activator.PREF_DEFAULT_PLANNER_NAME,
-							defaultPlannerCombo.getItem(defaultPlannerCombo
-									.getSelectionIndex()));
+					if (defaultPlannerCombo.getSelectionIndex() >= 0) {
+						preferenceStore.setValue(
+								Activator.PREF_DEFAULT_PLANNER_NAME,
+								defaultPlannerCombo.getItem(defaultPlannerCombo
+										.getSelectionIndex()));
+					}
 
 					if (defaultArgumentCombo.getSelectionIndex() > 0) {
 						preferenceStore.setValue(
@@ -129,7 +131,7 @@ public class PlannerPreferencePage extends PreferencePage implements
 		defaultPlannerCheckBox.setSelection(Activator.getDefault()
 				.getPreferenceStore()
 				.getBoolean(Activator.PREF_DEFAULT_PLANNER));
-		
+
 		setCombosDisabledOrEnabled();
 
 		defaultPlannerCheckBox.addSelectionListener(new SelectionAdapter() {
@@ -144,8 +146,6 @@ public class PlannerPreferencePage extends PreferencePage implements
 				addPlannerArgumentsToCombo();
 			}
 		});
-		
-		
 
 		Composite pageComposite = createPageComposite(parent);
 		newPlannerButton = createNewPlannerButton(pageComposite);
@@ -182,12 +182,11 @@ public class PlannerPreferencePage extends PreferencePage implements
 			}
 		});
 
-
 		updateDefaultPlannerCombos();
 
 		return pageComposite;
 	}
-	
+
 	private Composite createComboComposite(Composite parent) {
 		Composite comp = new Composite(parent, SWT.NONE);
 		GridLayout grid = new GridLayout();
@@ -197,7 +196,7 @@ public class PlannerPreferencePage extends PreferencePage implements
 		comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		return comp;
 	}
-	
+
 	private Combo createDefaultPlannerCombo(Composite comp) {
 		final Combo combo = new Combo(comp, SWT.READ_ONLY);
 		GridData data = new GridData();
@@ -226,7 +225,7 @@ public class PlannerPreferencePage extends PreferencePage implements
 		addPlannerArgumentsToCombo();
 		selectArgumentFromPreferenceStore();
 	}
-	
+
 	private void addPlannersToCombo() {
 
 		defaultPlannerCombo.removeAll();
@@ -239,7 +238,7 @@ public class PlannerPreferencePage extends PreferencePage implements
 			defaultArgumentCombo.removeAll();
 		}
 	}
-	
+
 	private void selectPlannerFromPreferenceStore() {
 		for (int i = 0; i < defaultPlannerCombo.getItems().length; i++) {
 			if (defaultPlannerCombo.getItems()[i].equals(Activator.getDefault()
@@ -250,7 +249,7 @@ public class PlannerPreferencePage extends PreferencePage implements
 			}
 		}
 	}
-	
+
 	private void addPlannerArgumentsToCombo() {
 		if (defaultPlannerCombo.getSelectionIndex() >= 0) {
 			defaultArgumentCombo.removeAll();
@@ -269,18 +268,16 @@ public class PlannerPreferencePage extends PreferencePage implements
 		}
 	}
 
-
 	private void selectArgumentFromPreferenceStore() {
 		for (int i = 0; i < defaultArgumentCombo.getItems().length; i++) {
-			if (defaultArgumentCombo.getItems()[i].equals(Activator.getDefault()
-					.getPreferenceStore()
+			if (defaultArgumentCombo.getItems()[i].equals(Activator
+					.getDefault().getPreferenceStore()
 					.getString(Activator.PREF_DEFAULT_PLANNER_ARGUMENT_NAME))) {
 				defaultArgumentCombo.select(i);
 				break;
 			}
 		}
 	}
-
 
 	private Composite createPageComposite(Composite parent) {
 		Composite pageComposite = new Composite(parent, SWT.NONE);

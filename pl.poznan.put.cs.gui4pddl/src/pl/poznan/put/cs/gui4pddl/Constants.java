@@ -22,7 +22,7 @@ public interface Constants {
 	
 	public final static String FILE_NAME_REGEXP = "file_name_regexp";
 	
-	public final static String LAUNCH_CONFIG_TYPE = "pl.poznan.put.cs.gui4pddl.runners.PDDLApplication";
+	public final static String LAUNCH_CONFIG_TYPE = "pl.poznan.put.cs.gui4pddl.runners.PDDLProjectLaunchType";
 	
 	
 	//FILE NAME REGEXP SPECIAL EXPRESSIONS

@@ -26,7 +26,7 @@ import pl.poznan.put.cs.gui4pddl.log.Log;
 import pl.poznan.put.cs.gui4pddl.planview.ui.PlanView;
 import pl.poznan.put.cs.gui4pddl.runners.helpers.LaunchUtil;
 
-public class PDDLApplicationLaunchConfigurationDelegate extends
+public class PDDLProjectLaunchConfigurationDelegate extends
 		LaunchConfigurationDelegate implements ILaunchConfigurationDelegate {
 
 	private IProject[] fOrderedProjects;

@@ -149,7 +149,7 @@ public class LaunchConfigurationCreator {
 		}
 
 		workingCopy.setAttribute(Constants.LAUNCH_CONFIG_TYPE,
-				"pl.poznan.put.cs.gui4pddl.runners.PDDLApplication");
+				"pl.poznan.put.cs.gui4pddl.runners.PDDLProjectLaunchType");
 
 		workingCopy.setAttribute(Constants.PROJECT, projName);
 
