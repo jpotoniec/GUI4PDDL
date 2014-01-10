@@ -40,14 +40,6 @@ public class PDDLProjectLaunchConfigurationDelegate extends
 	@Override
 	public boolean preLaunchCheck(final ILaunchConfiguration configuration,
 			String mode, IProgressMonitor monitor) throws CoreException {
-
-	/*	IMarker[] markers = LaunchUtil.getDomainFile(configuration).findMarkers(PDDLVisitor.MARKER_ID, true ,IResource.DEPTH_INFINITE);
-		for (IMarker marker : markers) {
-			int result = (int) marker.getAttribute(IMarker.SEVERITY);
-			if (result == IMarker.SEVERITY_ERROR) {
-				System.out.println("MARKER");
-			}
-		}*/
 		
 		fOrderedProjects = null;
 

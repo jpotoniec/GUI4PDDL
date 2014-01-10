@@ -42,14 +42,6 @@ public class UniversalPlannerRunner {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		/*//bash and bat scripts
-		while (!process.isTerminated() && process != null) {
-			if (monitor.isCanceled()) {
-				if (process.canTerminate())
-					process.terminate();
-			}
-		}*/
 
 
 		subMonitor.done();
@@ -65,10 +57,6 @@ public class UniversalPlannerRunner {
 				Constants.PLANNER_ARGUMENTS, "");
 		String domain = LaunchUtil.getDomainFile(config).getRawLocation().toOSString();
 		String problem = LaunchUtil.getProblemFile(config).getRawLocation().toOSString();
-		/*domain = LaunchUtil
-				.getAbsoluteFilePathFromRelativePath(domain);
-		problem = LaunchUtil
-				.getAbsoluteFilePathFromRelativePath(problem);*/
 
 		System.out.println("\"" + script + "\" " + "\"" + domain + "\" " + "\"" + problem
 				+ "\" " + argument);

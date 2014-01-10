@@ -49,29 +49,17 @@ public class PDDLPerspectiveFactory implements IPerspectiveFactory {
 	 */
 	public void defineActions(IPageLayout layout) {
 		
-		//TODO remove unnecesary lines later
-		
 		layout.addNewWizardShortcut(PDDLProjectWizard.WIZARD_ID); //$NON-NLS-1$        
-		//layout.addNewWizardShortcut(PythonSourceFolderWizard.WIZARD_ID); //$NON-NLS-1$        
-		//layout.addNewWizardShortcut(PythonPackageWizard.WIZARD_ID); //$NON-NLS-1$        
-		//layout.addNewWizardShortcut(PythonModuleWizard.WIZARD_ID); //$NON-NLS-1$      
 		layout.addNewWizardShortcut(PDDLFileWizard.WIZARD_ID);
 		layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.folder");//$NON-NLS-1$
 		layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.file");//$NON-NLS-1$
 		layout.addNewWizardShortcut("org.eclipse.ui.editors.wizards.UntitledTextFileWizard");//$NON-NLS-1$
 
 		
-		
-//		layout.addShowViewShortcut("org.python.pydev.views.PyCodeCoverageView");
-//		layout.addShowViewShortcut("org.python.pydev.navigator.view");
-//		layout.addShowViewShortcut("org.python.pydev.debug.pyunit.pyUnitView");
-//		layout.addShowViewShortcut(NewSearchUI.SEARCH_VIEW_ID);
 		layout.addShowViewShortcut(IConsoleConstants.ID_CONSOLE_VIEW);
 //		layout.addShowViewShortcut(IPageLayout.ID_OUTLINE);
 		layout.addShowViewShortcut(IPageLayout.ID_PROBLEM_VIEW);
 		layout.addShowViewShortcut(PlanView.ID);
-		// layout.addShowViewShortcut(IPageLayout.ID_RES_NAV);-- Navigator no
-		// longer supported
 		layout.addShowViewShortcut("org.eclipse.pde.runtime.LogView");
 //		layout.addShowViewShortcut(IPageLayout.ID_TASK_LIST);
 

@@ -31,7 +31,4 @@ public interface Constants {
 	public final static String REGEXP_DOMAIN_FILE_NAME = "-domain_file_name-";
 	public final static String REGEXP_PROBLEM_FILE_NAME = "-problem_file_name-";
 	
-	//TODO sprawdzic to!
-	public final static String REGEXP_DOMAIN_NAME = "-domain_name-";
-	
 }

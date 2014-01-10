@@ -88,7 +88,7 @@ public class PlanViewDataManager implements Serializable {
 					+ File.separator + PLAN_DATA_FILE_NAME);
 			loadPlanViewData(XMLMemento.createReadRoot(reader));
 		} catch (FileNotFoundException e) {
-			// Ignored... no Favorites items exist yet.
+			// Ignored... no plan view items exist yet.
 		} catch (Exception e) {
 			// Log the exception and move on.
 			Log.log(e);

@@ -48,7 +48,6 @@ public class PlannerPreferencesPageTabItem {
 	private Button newArgumentButton;
 	private Button editArgumentButton;
 	private Button removeArgumentButton;
-	// private Button savePlannerButton;
 	private Button removePlannerButton;
 	private Button planViewDialogButton;
 	private PlannerArgumentsDialog addEditArgumentsDialog;
@@ -97,10 +96,6 @@ public class PlannerPreferencesPageTabItem {
 
 		removePlannerButton = createTableButton(tableButtonsComposite,
 				"Remove Planner");
-		/*
-		 * savePlannerButton = createTableButton(tableButtonsComposite,
-		 * "Save Planner");
-		 */
 
 		createTableButtonsSeparator(tableButtonsComposite);
 
@@ -116,18 +111,12 @@ public class PlannerPreferencesPageTabItem {
 		addSelectionListenerToEditArgumentButton(tabItemComposite);
 		addSelectionListenerToRemoveArgumentButton(tabItemComposite);
 
-		// addSelectionListenerToSavePlannerButton(tabItemComposite);
 		addSelectionListenerToRemovePlannerButton(tabItemComposite, tabFolder, this);
 
 		addSelectionListenerToPlanViewDialogButton();
 
 		if (this.preferences.getArgumentsMap() != null)
 			setArguments(this.preferences.getArgumentsMap());
-
-		/*
-		 * if (plannerFile.getStringValue().isEmpty()) {
-		 * savePlannerButton.setEnabled(false); }
-		 */
 
 		item.setControl(tabItemComposite);
 
@@ -245,7 +234,6 @@ public class PlannerPreferencesPageTabItem {
 			@Override
 			public void propertyChange(PropertyChangeEvent ev) {
 
-				// setSavePlannerButtonEnabledIfConfigurationValid();
 				page.checkIfAllPageTabItemsAreValid();
 				tabFolder.getSelection()[0].setText(plannerName
 						.getStringValue());
@@ -258,9 +246,7 @@ public class PlannerPreferencesPageTabItem {
 
 			@Override
 			public void propertyChange(PropertyChangeEvent arg0) {
-
 				page.checkIfAllPageTabItemsAreValid();
-				// setSavePlannerButtonEnabledIfConfigurationValid();
 			}
 		});
 	}
@@ -278,12 +264,10 @@ public class PlannerPreferencesPageTabItem {
 							preferences.getPlannerName())) {
 				page.setErrorMessage("Planner name of "
 						+ plannerName.getStringValue() + " already exists");
-				// savePlannerButton.setEnabled(false);
 				page.setValid(false);
 				valid = false;
 			} else {
 				page.setErrorMessage(null);
-				// savePlannerButton.setEnabled(true);
 				page.setValid(true);
 				valid = true;
 			}
@@ -291,7 +275,6 @@ public class PlannerPreferencesPageTabItem {
 			page.setErrorMessage("Planner file/name of "
 					+ plannerName.getStringValue() + " is not correct");
 			page.setValid(false);
-			// savePlannerButton.setEnabled(false);
 			valid = false;
 		}
 
@@ -310,12 +293,10 @@ public class PlannerPreferencesPageTabItem {
 		}
 		if (validString && valid) {
 			page.setErrorMessage(null);
-			// savePlannerButton.setEnabled(true);
 			page.setValid(true);
 		} else if (!validString) {
 			page.setErrorMessage("Planner name of "
 					+ plannerName.getStringValue() + " is not correct");
-			// savePlannerButton.setEnabled(false);
 			page.setValid(false);
 		}
 

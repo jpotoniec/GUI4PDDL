@@ -242,11 +242,6 @@ public class DomainAndProblemFilesBlock extends AbstractLaunchConfigurationTab {
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
 		String domainFilePathString = domainFileText.getText().trim();
 		String problemFilePathString = problemFileText.getText().trim();
-		/*
-		 * setAttribute(configuration, Constants.DOMAIN_FILE,
-		 * domainFilePathString); setAttribute(configuration,
-		 * Constants.PROBLEM_FILE, problemFilePathString);
-		 */
 
 		IPath domainPath = null;
 		IPath problemPath = null;
@@ -275,25 +270,13 @@ public class DomainAndProblemFilesBlock extends AbstractLaunchConfigurationTab {
 				IPath domainFileRelativePath = domainPath
 						 .makeRelativeTo(ResourcesPlugin.getWorkspace().getRoot().getLocation());
 				IPath problemFileRelativePath = problemPath
-						 .makeRelativeTo(ResourcesPlugin.getWorkspace().getRoot().getLocation()/*project.getLocation()*/);
+						 .makeRelativeTo(ResourcesPlugin.getWorkspace().getRoot().getLocation());
 				
 				System.out.println("DOMAIN FILE " + domainFileRelativePath);
 				System.out.println("PROBLEM FILE " + problemFileRelativePath);
 				
 				IResource domainFile = LaunchUtil.findResource(domainFileRelativePath);
 				IResource problemFile = LaunchUtil.findResource(problemFileRelativePath);
-				
-				
-				
-				/*
-				 * IPath domainFileRelativePath = domainPath
-				 * .makeRelativeTo(project.getLocation()); IPath
-				 * problemFileRelativePath = problemPath
-				 * .makeRelativeTo(project.getLocation()); IFile domainFile =
-				 * project.getFile(domainFileRelativePath .toOSString()); IFile
-				 * problemFile = project.getFile(problemFileRelativePath
-				 * .toOSString());
-				 */
 				if (domainFile != null && problemFile != null) {
 					configuration.setMappedResources(new IResource[] {
 							domainFile, problemFile });

@@ -63,20 +63,6 @@ public class Activator extends AbstractUIPlugin {
 		
 		PlanView.setActivateMode(PlanView.ACTIVATE_VIEW_AFTER_DATA_UPDATE);
 
-
-		
-
-		// TODO dowiedziec sie czy ukrywac widok konsoli od poczatku czy nie
-		/*
-		 * IPreferenceStore debugUIPreferences =
-		 * DebugUIPlugin.getDefault().getPreferenceStore();
-		 * 
-		 * debugUIPreferences.setValue(IDebugPreferenceConstants.CONSOLE_OPEN_ON_ERR
-		 * , false);
-		 * 
-		 * debugUIPreferences.setValue(IDebugPreferenceConstants.CONSOLE_OPEN_ON_OUT
-		 * , false);
-		 */
 	}
 	
 	

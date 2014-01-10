@@ -30,8 +30,6 @@ public class Log {
 		Status s = new Status(errorLevel, id, errorLevel, message, e);
 		CoreException coreException = new CoreException(s);
 
-		// TODO find out if we should log repetitive exceptions
-
 		try {
 			if (plugin != null) {
 				plugin.getLog().log(s);
@@ -73,7 +71,5 @@ public class Log {
 	public static CoreException logInfo(String msg, Throwable e) {
 		return log(IStatus.INFO, msg, e);
 	}
-	
-	//TODO find out if we need log to file
 
 }

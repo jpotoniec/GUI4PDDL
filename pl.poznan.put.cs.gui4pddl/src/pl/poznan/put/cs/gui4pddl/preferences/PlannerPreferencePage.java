@@ -169,10 +169,6 @@ public class PlannerPreferencePage extends PreferencePage implements
 			public void widgetSelected(SelectionEvent e) {
 				if (tabsList.size() > plannerTabFolder.getSelectionIndex()) {
 					checkIfAllPageTabItemsAreValid();
-					/*
-					 * tabsList.get(plannerTabFolder.getSelectionIndex())
-					 * .setSavePlannerButtonEnabledIfConfigurationValid();
-					 */
 				}
 
 			}
@@ -303,7 +299,6 @@ public class PlannerPreferencePage extends PreferencePage implements
 		tabFolderGrid.horizontalSpan = 3;
 		tabFolder.setLayoutData(tabFolderGrid);
 
-		// tabFolder.setVisible(false);
 		return tabFolder;
 	}
 
@@ -316,8 +311,6 @@ public class PlannerPreferencePage extends PreferencePage implements
 		PlannerPreferencesPageTabItem plannerPreferencesPageTab = new PlannerPreferencesPageTabItem(
 				preferences, this, tabFolder);
 
-		// plannerPreferencesPageTab
-		// .setSavePlannerButtonEnabledIfConfigurationValid();
 		checkIfAllPageTabItemsAreValid();
 
 		tabsList.add(plannerPreferencesPageTab);
@@ -331,9 +324,6 @@ public class PlannerPreferencePage extends PreferencePage implements
 
 			PlannerPreferencesPageTabItem plannerPreferencesPageTab = new PlannerPreferencesPageTabItem(
 					preferences, this, tabFolder);
-
-			// plannerPreferencesPageTab
-			// .setSavePlannerButtonEnabledIfConfigurationValid();
 
 			tabsList.add(plannerPreferencesPageTab);
 

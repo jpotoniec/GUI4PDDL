@@ -56,22 +56,6 @@ public class PlannerArgumentsBlock extends AbstractLaunchConfigurationTab {
 				updateLaunchConfigurationDialog();
 			}
 		});
-
-		/*
-		 * String buttonLabel = "Variables..."; Button argumentsVariablesButton
-		 * = createPushButton(group, buttonLabel, null);
-		 * 
-		 * argumentsVariablesButton.setLayoutData(new GridData(
-		 * GridData.HORIZONTAL_ALIGN_END));
-		 * argumentsVariablesButton.addSelectionListener(new SelectionListener()
-		 * { public void widgetSelected(SelectionEvent e) {
-		 * StringVariableSelectionDialog dialog = new
-		 * StringVariableSelectionDialog( getShell()); dialog.open(); String
-		 * variable = dialog.getVariableExpression(); if (variable != null) {
-		 * argumentsText.insert(variable); } }
-		 * 
-		 * public void widgetDefaultSelected(SelectionEvent e) { } });
-		 */
 	}
 
 	public Text getArgumentText() {

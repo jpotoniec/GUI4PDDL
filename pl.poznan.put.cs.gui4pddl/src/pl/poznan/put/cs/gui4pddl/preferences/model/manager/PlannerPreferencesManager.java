@@ -114,7 +114,6 @@ public class PlannerPreferencesManager {
 		return plannerPreferencesDir;
 	}
 	
-	//TODO do sprawdzenia
 	private void loadDefaultPlannerPreferences(File dest) {
 		Bundle bundle = Platform.getBundle("pl.poznan.put.cs.gui4pddl");
 		URL fileURL = bundle.getEntry("resources/FastDownward.xml");
