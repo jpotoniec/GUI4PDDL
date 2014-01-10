@@ -2,11 +2,63 @@
 \section{Zarządzanie projektem PDDL}
 \subsection{Tworzenie projektu PDDL}
 \subsection{Tworzenie nowych plików PDDL}
+
+
 \section{Przetwarzanie kodu PDDL}
-\subsection{Wykrywanie błędów składniowych}
+W specyfikacji wymagań zostały zawarte punkty dotyczące wyświetlania błędów znajdujących 
+się w pliku PDDL (\ref{reqErrorDetection}) oraz prezentowania listy automatycznych\
+podpowiedzi wyrazów (\ref{reqAutocompletion}).
+Obie te fukcje oparte są na informacjach zawartych w kodzie źródłowym i związane
+z jego analizą.
+
+Modelem informacji umiesczonych w plikach PDDL projektu jest indeks kodu. Jest to
+zbiór klas reprezentujących struktury języka PDDL takie jak domeny, problemy, akcje, czy predykaty.
+Przy każdej zmianie pliku z kodem źródłowym dokonywana jest jego analiza oraz
+aktualizacja indeksu. Ponadto raportowane są błędy występujące w pliku.
+
+Pomiędzy plikami PDDL występują zależności. Aby poprawnie zinterpretować zawartość z plikiem
+problemu potrzeba znać zawartość pliku domeny. Powiązanie to jest znacznie prostrze od 
+powiązań pomiędzy plikami zawierającymi kod popularnych imperatywnych językach programowania.
+Tymniemniej analiza plików PDDL powinna odbywać się w ramach projektu.
+
+W środowisku Eclipse przyjęty jest standardowy sposób rozwiązywania zadania przetwarzania
+kodu. Polega on na definicji klasy budowniczego (ang. \emph{builder}). Klasa ta
+zawiera kod, który będzie wykonywany przy każdej zmianie zasobu. Zasobem
+może być plik lub folder. Budowniczowie
+są przypisani do projektu i zawsze działają w jego kontekście.
+
+Budowniczemu przekazywany jest obiekt typu \texttt{IResourceDelta}. Jest to drzewowa
+struktura zawierająca zmiany dotyczące zasobów. Na jej podstawie można określić, 
+które zasoby zostały dodane, zmodyfikowane lub usunięte. Budowniczy PDDL wywołuje analizator
+kodu PDDL dla każdego nowego lub zmienionego pliku. Usunięcie pliku powoduje wykreślenie
+odpowiednich informacji z indeksu.
+
+Analizator kodu PDDL został zaimplementowany w klasie PDDLAnalyzer.
+Jego struktura została przedstawiona na rysunku \ref{ana_structure}.
+Przetwarzany plik PDDL jest poddawany najpierw analizie leksykalnej i zamieniany
+na strumień symboli leksykalnych. Następnie, analizator składniowy tworzy abstrakcyjne
+drzewo składniowe. Drzewo to poddawane jest analizie semantycznej przez dwa moduły.
+Moduł indeksowania kodu tworzy indeks, czyli model struktur zdefiniowanych w kodzie.
+Moduł sprawdzania poprawności semantycznej wykrywa błędy na podstawie indeksu oraz
+drzewa składniowego. Podprogram obsługi błędów zbiera informacje o błędach występujących
+na poszczególnych etapach analizy oraz wyświetla je użytkownikowi.
+
+\begin{figure}[h]
+  \centering
+    \includegraphics{img/ana_structure.pdf}
+    \caption{Struktura analizatora kodu PDDL}
+    \label{ana_structure}
+\end{figure}
+
+
+\subsection{Analiza leksykalna i składniowa}
+gnUżyto ANTLR
+
 \subsection{Tworzenie indeksu}
 \subsection{Wykrywanie błędów semantycznych}
 \subsection{Podpowiadanie kodu}
+
+
 \section{Edytor}
 \subsection{Kolorowanie kodu}
 \subsection{Automatyczne wcięcia}
