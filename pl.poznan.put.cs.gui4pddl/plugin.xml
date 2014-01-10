@@ -103,9 +103,9 @@
    <extension
          point="org.eclipse.debug.core.launchConfigurationTypes">
      <launchConfigurationType
-   	   id="pl.poznan.put.cs.gui4pddl.runners.PDDLApplication"
-	   name="PDDL Application"
-	   delegate="pl.poznan.put.cs.gui4pddl.runners.PDDLApplicationLaunchConfigurationDelegate"
+   	   id="pl.poznan.put.cs.gui4pddl.runners.PDDLProjectLaunchType"
+	   name="PDDL Project"
+	   delegate="pl.poznan.put.cs.gui4pddl.runners.PDDLProjectLaunchConfigurationDelegate"
 	   modes= "run"
 	   public= "true"
 	   sourceLocatorId="org.eclipse.jdt.launching.sourceLocator.JavaSourceLookupDirector"
@@ -117,17 +117,17 @@
          point="org.eclipse.debug.ui.launchConfigurationTypeImages">
     <launchConfigurationTypeImage
 			icon="icons/pddl_file.gif"
-			configTypeID="pl.poznan.put.cs.gui4pddl.runners.PDDLApplication"
-			id="pl.poznan.put.cs.gui4pddl.runners.launchConfigurationTypeImages.PDDLApplication">
+			configTypeID="pl.poznan.put.cs.gui4pddl.runners.PDDLProjectLaunchType"
+			id="pl.poznan.put.cs.gui4pddl.runners.launchConfigurationTypeImages.PDDLProjectLaunchType">
 	</launchConfigurationTypeImage>     
    </extension>
    
    <extension
          point="org.eclipse.debug.ui.launchConfigurationTabGroups">
     <launchConfigurationTabGroup
-            type="pl.poznan.put.cs.gui4pddl.runners.PDDLApplication"
-            class="pl.poznan.put.cs.gui4pddl.runners.ui.PDDLApplicationTabGroup"
-            id="pl.poznan.put.cs.gui4pddl.runners.PDDLApplication.ui.launchConfigurationTabGroup.PDDLApplication"
+            type="pl.poznan.put.cs.gui4pddl.runners.PDDLProjectLaunchType"
+            class="pl.poznan.put.cs.gui4pddl.runners.ui.PDDLProjectTabGroup"
+            id="pl.poznan.put.cs.gui4pddl.runners.ui.PDDLLaunchConfigurationTabGroup"
             bannerImage="icons/pddl_file.gif">
             <launchMode
                   mode="run"
@@ -139,7 +139,7 @@
    <extension
          point="org.eclipse.debug.ui.launchShortcuts">       
             <shortcut
-            label="PDDL Application..."
+            label="PDDL Project..."
             icon="icons/pddl_file.gif"
             modes="run"
             class="pl.poznan.put.cs.gui4pddl.runners.PDDLLaunchShortcutWithDialog"
@@ -158,13 +158,13 @@
            </enablement>
   		 </contextualLaunch>     
   		    <configurationType
-              id="pl.poznan.put.cs.gui4pddl.runners.PDDLApplication">
+              id="pl.poznan.put.cs.gui4pddl.runners.PDDLProjectLaunchType">
        </configurationType>
       </shortcut>
          
          
     <shortcut
-            label="PDDL Application"
+            label="PDDL Project"
             icon="icons/pddl_file.gif"
             modes="run"
             class="pl.poznan.put.cs.gui4pddl.runners.PDDLLaunchShortcut"
@@ -183,7 +183,7 @@
            </enablement>
   		 </contextualLaunch>     
   		    <configurationType
-              id="pl.poznan.put.cs.gui4pddl.runners.PDDLApplication">
+              id="pl.poznan.put.cs.gui4pddl.runners.PDDLProjectLaunchType">
        </configurationType>
       </shortcut>
     

@@ -258,7 +258,6 @@ Istnienie zróżnicowanego oprogramowania, pozwalającego wyznaczyć plan wymaga
 
 Zanim możliwa będzie aktywacja planowania z poziomu \textit{Eclipse}, należy skonfigurować planner, wybierając z menu \textit{Window}, opcję \textit{Preferences}, a następnie w otwartym oknie, rozwijając listę \textit{PDDL} wybrać element \textit{Planners}.
 
-\newpage
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{img/planner_preferences_window}
@@ -353,7 +352,7 @@ Podczas pierwszego uruchomienia zewnętrznego programu na aktualnie edytowanych 
     \label{fig:run_configuration_window}
 \end{figure}
 
-Jeżeli uruchomienie nastąpiło na pliku problemu (za pomocą globalnego menu \textit{Run} lub przycisku na pasku narzędziowym, gdy plik problemu był otwarty w edytorze, bądź poprzez wybranie z menu kontekstowego pliku problemu opcji \textit{Run as}, \textit{PDDL Application}) ścieżka do odpowiadającego pliku domeny w projekcie zostanie automatycznie wykryta za pomocą \textbf{INDEKSU KODU?} opisanego w rozdziale \textbf{ROZDZIAL}. Analogicznie w przypadku uruchomienia narzędzia na pliku domeny. W sytuacjach wyjątkowych (brak odpowiadającej domeny, więcej niż jeden pasujący problem) wyświetlane są listy wyboru:
+Jeżeli uruchomienie nastąpiło na pliku problemu (za pomocą globalnego menu \textit{Run} lub przycisku na pasku narzędziowym, gdy plik problemu był otwarty w edytorze, bądź poprzez wybranie z menu kontekstowego pliku problemu opcji \textit{Run as}, \textit{PDDL Project}) ścieżka do odpowiadającego pliku domeny w projekcie zostanie automatycznie wykryta za pomocą \textbf{INDEKSU KODU?} opisanego w rozdziale \textbf{ROZDZIAL}. Analogicznie w przypadku uruchomienia narzędzia na pliku domeny. W sytuacjach wyjątkowych (brak odpowiadającej domeny, więcej niż jeden pasujący problem) wyświetlane są listy wyboru:
 \begin{itemize}
 \item W przypadku gdy do danej domeny pasuje wiele plików problemów, wyświetla się okno wyboru ze wszystkimi pasującymi problemami.
 \item W przypadku gdy do danej domeny nie pasuje żaden plik problemu, wyświetli się informująca o tym wiadomość.
@@ -363,7 +362,6 @@ Jeżeli uruchomienie nastąpiło na pliku problemu (za pomocą globalnego menu \
 
 Proces planowania rozpoczyna się po wybraniu przycisku \textit{Run} w oknie konfiguracji uruchamiania (lub z pominięciem tego okna w przypadku włączenia opcji domyślnego plannera w konfiguracji plannera). Działanie plannera objawia się widocznym paskiem postępu w prawym dolnym rogu aplikacji oraz na zakładce \textit{Progress} (rys.~\ref{fig:run_progress}). Również strumień wyjściowy działającego narzędzia kierowany jest w całości do widoku \textit{Console}.
 
-\newpage
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.8\textwidth]{img/run_progress}
@@ -433,7 +431,7 @@ Przeglądarka planów poza możliwością utrzymywania historii przetwarzania, d
 
 Standardowym zachowaniem \textit{Eclipse} podczas inicjalizacji narzędzia zewnętrznego jest korzystanie z ostatnio utworzonej konfiguracji uruchamiania. Przy rozpoczęciu kolejnego procesu znajdowania planu na tych samych plikach, aplikacja nie wyświetla już okna edycji ustawień, lecz od razu przechodzi do fazy przetwarzania. Takie działanie daje użytkownikowi możliwość szybkiego sprawdzenia wyników planowania w trakcie edycji plików, lecz jednocześnie powoduje, że zmiana parametrów uruchamiania takich jak planner i jego argumenty jest utrudniona.
 
-Z tego powodu utworzono dodatkową opcję edycji istniejących konfiguracji. Chcąc zmienić planner, bądź jego argumenty należy wybrać z menu kontekstowego edytowanego pliku element \textit{Run as} a następnie \textit{PDDL Application...} lub zastosować skrót klawiaturowy \texttt{Shift~+~Alt~+~X~+~U}. Gdy istnieje więcej niż jedna konfiguracja uruchamiania powiązana z danym plikiem, pojawi się okno wyboru istniejących profili (rys.~\ref{fig:run_configuration_choice}). Wybierając jeden z nich, użytkownik ma możliwość zmiany aktualnych parametrów.
+Z tego powodu utworzono dodatkową opcję edycji istniejących konfiguracji. Chcąc zmienić planner, bądź jego argumenty należy wybrać z menu kontekstowego edytowanego pliku element \textit{Run as} a następnie \textit{PDDL Project...} lub zastosować skrót klawiaturowy \texttt{Shift~+~Alt~+~X~+~U}. Gdy istnieje więcej niż jedna konfiguracja uruchamiania powiązana z danym plikiem, pojawi się okno wyboru istniejących profili (rys.~\ref{fig:run_configuration_choice}). Wybierając jeden z nich, użytkownik ma możliwość zmiany aktualnych parametrów.
 
 \begin{figure}[h!]
     \centering

@@ -7,7 +7,7 @@ import org.eclipse.debug.ui.ILaunchConfigurationDialog;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
 import org.eclipse.debug.ui.RefreshTab;
 
-public class PDDLApplicationTabGroup extends AbstractLaunchConfigurationTabGroup {
+public class PDDLProjectTabGroup extends AbstractLaunchConfigurationTabGroup {
 
 	private MainTab mainModuleTab;
 	/*private PlannerTab plannerTab;*/
