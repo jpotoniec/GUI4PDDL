@@ -54,7 +54,7 @@ public class PlannerPreferencesPageTabItem {
 	private Table argumentsTable;
 	private PlannerPreferences preferences;
 	private PlannerPreferencePage page;
-	private PlanViewDialog planViewDialog;
+	private PlanFilenamePatternConfigurationDialog planViewDialog;
 
 	private static final int PLANNER_NAME_TEXT_LIMIT = 30;
 
@@ -75,7 +75,7 @@ public class PlannerPreferencesPageTabItem {
 
 		argumentsTable = createArgumentsTable(tabItemComposite);
 
-		planViewDialog = new PlanViewDialog(tabItemComposite.getShell());
+		planViewDialog = new PlanFilenamePatternConfigurationDialog(tabItemComposite.getShell());
 		planViewDialog
 				.setRegexp((preferences.getPlanViewFilePattern() != null) ? preferences
 						.getPlanViewFilePattern() : "");

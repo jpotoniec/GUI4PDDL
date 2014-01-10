@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Text;
 import pl.poznan.put.cs.gui4pddl.Constants;
 import pl.poznan.put.cs.gui4pddl.preferences.model.PlannerPreferences;
 
-public class PlanViewDialog extends TitleAreaDialog {
+public class PlanFilenamePatternConfigurationDialog extends TitleAreaDialog {
 
 	private Text regexpText;
 	private String regexp;
@@ -36,14 +36,14 @@ public class PlanViewDialog extends TitleAreaDialog {
 
 	private final static String INFO_TEXT = "Enter regular expression of file which will be opened at the end of the planning process";
 
-	public PlanViewDialog(Shell parentShell) {
+	public PlanFilenamePatternConfigurationDialog(Shell parentShell) {
 		super(parentShell);
 	}
 
 	@Override
 	public void create() {
 		super.create();
-		setTitle("Plan View Configuration");
+		setTitle("Plan file name pattern configuration");
 		setMessage(INFO_TEXT, IMessageProvider.INFORMATION);
 	}
 

@@ -189,7 +189,6 @@ public class PlannerBlock extends AbstractLaunchConfigurationTab {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

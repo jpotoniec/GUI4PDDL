@@ -141,17 +141,17 @@ public class PlanView extends ViewPart {
 	 */
 	@SuppressWarnings("deprecation")
 	public void createPartControl(Composite parent) {
-		Composite textComposite = new Composite(parent, SWT.NONE);
-		GridLayout textCompositeGridLayout = new GridLayout(2, false);
-		textComposite.setLayout(textCompositeGridLayout);
-		Label searchLabel = new Label(textComposite, SWT.NONE);
+		Composite searchComposite = new Composite(parent, SWT.NONE);
+		GridLayout searchCompositeGridLayout = new GridLayout(2, false);
+		searchComposite.setLayout(searchCompositeGridLayout);
+		Label searchLabel = new Label(searchComposite, SWT.NONE);
 		searchLabel.setText("Search:");
-		final Text text = new Text(textComposite, SWT.SINGLE | SWT.BORDER);
+		final Text text = new Text(searchComposite, SWT.SINGLE | SWT.BORDER);
 		GridData textGridData = new GridData(SWT.FILL, SWT.BEGINNING, true,
 				false);
 		text.setLayoutData(textGridData);
 
-		Composite tableComposite = new Composite(textComposite, SWT.NONE);
+		Composite tableComposite = new Composite(searchComposite, SWT.NONE);
 
 		TableColumnLayout layout = new TableColumnLayout();
 		tableComposite.setLayout(layout);
@@ -181,12 +181,6 @@ public class PlanView extends ViewPart {
 		gridData.horizontalAlignment = GridData.FILL;
 		viewer.getControl().setLayoutData(gridData);
 
-		// Create the help context id for the viewer's control
-		PlatformUI
-				.getWorkbench()
-				.getHelpSystem()
-				.setHelp(viewer.getControl(),
-						"pl.poznan.put.cs.gui4pddl.viewer");
 		makeActions();
 		hookContextMenu();
 		hookDoubleClickAction();
@@ -219,20 +213,21 @@ public class PlanView extends ViewPart {
 				.getPreferenceStore();
 		boolean activateMode = preferenceStore
 				.getBoolean(Activator.PREF_SHOW_PLAN_BROWSER);
-		setActivateMode(activateMode == true ? ACTIVATE_VIEW_AFTER_DATA_UPDATE : NOT_ACTIVATE_VIEW_AFTER_DATA_UPDATE);
-		
-		Activator.getDefault().getPreferenceStore()
-        .addPropertyChangeListener(
-        		new IPropertyChangeListener() {
+		setActivateMode(activateMode == true ? ACTIVATE_VIEW_AFTER_DATA_UPDATE
+				: NOT_ACTIVATE_VIEW_AFTER_DATA_UPDATE);
 
-		@Override
-		public void propertyChange(
-				PropertyChangeEvent event) {
-			if (event.getProperty() == Activator.PREF_SHOW_PLAN_BROWSER) {
-				setActivateMode( Boolean.valueOf(event.getNewValue().toString()) ? ACTIVATE_VIEW_AFTER_DATA_UPDATE : NOT_ACTIVATE_VIEW_AFTER_DATA_UPDATE);
-			}
-		}
-        });
+		Activator.getDefault().getPreferenceStore()
+				.addPropertyChangeListener(new IPropertyChangeListener() {
+
+					@Override
+					public void propertyChange(PropertyChangeEvent event) {
+						if (event.getProperty() == Activator.PREF_SHOW_PLAN_BROWSER) {
+							setActivateMode(Boolean.valueOf(event.getNewValue()
+									.toString()) ? ACTIVATE_VIEW_AFTER_DATA_UPDATE
+									: NOT_ACTIVATE_VIEW_AFTER_DATA_UPDATE);
+						}
+					}
+				});
 
 	}
 
@@ -347,7 +342,11 @@ public class PlanView extends ViewPart {
 				}
 				cell.setText(sb.toString());
 				if (files == null || files.size() == 0) {
-					cell.setText("No plan files");
+					String text = "No plan files";
+					cell.setText(text);
+					StyleRange range = new StyleRange(0, text.length(), null, Display
+							.getCurrent().getSystemColor(SWT.COLOR_RED));
+					styles.add(range);
 				}
 				StyleRange[] range = styles.toArray(new StyleRange[0]);
 				cell.setStyleRanges(range);
@@ -514,7 +513,7 @@ public class PlanView extends ViewPart {
 								row);
 
 					} catch (CoreException e) {
-						// TODO Auto-generated catch block
+						Log.log(e);
 						e.printStackTrace();
 					}
 
@@ -623,7 +622,7 @@ public class PlanView extends ViewPart {
 										+ ") does not exist.");
 					}
 				} else if (files.size() > 1) {
-					selectFilesAndOpenInEditor(files, pvdr.getProjectName(),
+					chooseFilesAndOpenInEditor(files, pvdr.getProjectName(),
 							pvdr.getDomain(), pvdr.getProblem(), pvdr.getId(),
 							pvdr.getWorkingFolder(), externalEditor);
 
@@ -655,12 +654,12 @@ public class PlanView extends ViewPart {
 		try {
 			IDE.openEditor(page, file);
 		} catch (PartInitException e) {
-			// TODO Auto-generated catch block
+			Log.log(e);
 			e.printStackTrace();
 		}
 	}
 
-	private void selectFilesAndOpenInEditor(List<String> files, String project,
+	private void chooseFilesAndOpenInEditor(List<String> files, String project,
 			String domain, String problem, String id, IFolder workingDir,
 			boolean externalEditor) {
 		List<IFile> ifileList = new ArrayList<IFile>();
@@ -746,7 +745,7 @@ public class PlanView extends ViewPart {
 		try {
 			IDE.openEditors(page, files);
 		} catch (MultiPartInitException e) {
-			// TODO Auto-generated catch block
+			Log.log(e);
 			e.printStackTrace();
 		}
 	}
@@ -845,7 +844,7 @@ public class PlanView extends ViewPart {
 					.getRawLocation().toOSString();
 
 			String problemAbsolutePath = LaunchUtil.getProblemFile(config)
-					.getRawLocation().toOSString(); 
+					.getRawLocation().toOSString();
 
 			String regexp = config.getAttribute(Constants.FILE_NAME_REGEXP, "");
 
@@ -867,7 +866,7 @@ public class PlanView extends ViewPart {
 					.addPlanViewDataRow(planViewRowData);
 			activateView();
 		} catch (CoreException e) {
-			// TODO Auto-generated catch block
+			Log.log(e);
 			e.printStackTrace();
 		}
 	}
@@ -896,8 +895,8 @@ public class PlanView extends ViewPart {
 						PlatformUI.getWorkbench().getActiveWorkbenchWindow()
 								.getActivePage().showView(ID, null, focusMode);
 					}
-				} catch (PartInitException e) { // TODO Auto-generated catch
-												// block
+				} catch (PartInitException e) { 
+					Log.log(e);
 					e.printStackTrace();
 				}
 			}

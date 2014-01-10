@@ -67,11 +67,11 @@ public class ProcessTreeTerminator {
 			try {
 				pr.waitFor();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				Log.log(e);
 				e.printStackTrace();
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			Log.log(e);
 			e.printStackTrace();
 		}
 

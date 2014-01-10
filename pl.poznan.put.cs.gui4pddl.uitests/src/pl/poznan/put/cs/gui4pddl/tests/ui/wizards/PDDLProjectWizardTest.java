@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import pl.poznan.put.cs.gui4pddl.tests.SWTBotHelpers;
-import pl.poznan.put.cs.gui4pddl.ui.wizards.PDDLProjectWizard;
+import pl.poznan.put.cs.gui4pddl.wizards.ui.PDDLProjectWizard;
 
 @RunWith(SWTBotJunit4ClassRunner.class)
 public class PDDLProjectWizardTest {

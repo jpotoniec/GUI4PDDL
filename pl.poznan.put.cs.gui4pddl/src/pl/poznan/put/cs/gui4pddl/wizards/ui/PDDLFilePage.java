@@ -1,4 +1,4 @@
-package pl.poznan.put.cs.gui4pddl.ui.wizards;
+package pl.poznan.put.cs.gui4pddl.wizards.ui;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;

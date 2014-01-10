@@ -13,6 +13,7 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.model.IProcess;
 
 import pl.poznan.put.cs.gui4pddl.Constants;
+import pl.poznan.put.cs.gui4pddl.log.Log;
 import pl.poznan.put.cs.gui4pddl.runners.helpers.LaunchUtil;
 
 public class UniversalPlannerRunner {
@@ -39,7 +40,7 @@ public class UniversalPlannerRunner {
 		try {
 			p.waitFor();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			Log.log(e);
 			e.printStackTrace();
 		}
 

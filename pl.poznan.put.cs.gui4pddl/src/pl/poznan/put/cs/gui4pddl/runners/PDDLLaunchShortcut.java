@@ -226,7 +226,7 @@ public class PDDLLaunchShortcut implements ILaunchShortcut {
 					|| LaunchUtil.getDomainFile(conf) == null || LaunchUtil
 						.getProblemFile(conf) == null);
 		} catch (CoreException e) {
-			// TODO Auto-generated catch block
+			Log.log(e);
 			e.printStackTrace();
 		}
 		return false;

@@ -81,7 +81,7 @@ public class LaunchUtil {
 			try {
 				conf = wc.doSave();
 			} catch (CoreException e) {
-				// TODO Auto-generated catch block
+				Log.log(e);
 				e.printStackTrace();
 			}
 		}
@@ -99,7 +99,7 @@ public class LaunchUtil {
 				try {
 					conf = wc.doSave();
 				} catch (CoreException e) {
-					// TODO Auto-generated catch block
+					Log.log(e);
 					e.printStackTrace();
 				}
 			}
@@ -182,7 +182,7 @@ public class LaunchUtil {
 			try {
 				project.open(null);
 			} catch (CoreException e) {
-				// TODO Auto-generated catch block
+				Log.log(e);
 				e.printStackTrace();
 			}
 		try {
@@ -205,7 +205,7 @@ public class LaunchUtil {
 
 			plans.refreshLocal(IResource.DEPTH_INFINITE, null);
 		} catch (CoreException e) {
-			// TODO Auto-generated catch block
+			Log.log(e);
 			e.printStackTrace();
 		}
 

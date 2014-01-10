@@ -41,7 +41,6 @@ public class FileNameRegexProcessor {
 					Pattern.quote(problemNameWithoutExtension));
 
 		} catch (CoreException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

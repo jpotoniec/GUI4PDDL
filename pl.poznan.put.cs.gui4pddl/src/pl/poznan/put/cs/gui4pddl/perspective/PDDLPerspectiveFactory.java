@@ -7,8 +7,8 @@ import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.console.IConsoleConstants;
 
 import pl.poznan.put.cs.gui4pddl.planview.ui.PlanView;
-import pl.poznan.put.cs.gui4pddl.ui.wizards.PDDLFileWizard;
-import pl.poznan.put.cs.gui4pddl.ui.wizards.PDDLProjectWizard;
+import pl.poznan.put.cs.gui4pddl.wizards.ui.PDDLFileWizard;
+import pl.poznan.put.cs.gui4pddl.wizards.ui.PDDLProjectWizard;
 
 /**
  * PDDL perspective constructor

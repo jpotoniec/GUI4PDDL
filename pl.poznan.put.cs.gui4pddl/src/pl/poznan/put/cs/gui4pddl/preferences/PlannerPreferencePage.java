@@ -2,7 +2,6 @@ package pl.poznan.put.cs.gui4pddl.preferences;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -11,7 +10,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -21,10 +19,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-import org.eclipse.ui.PlatformUI;
 
 import pl.poznan.put.cs.gui4pddl.Activator;
-import pl.poznan.put.cs.gui4pddl.Constants;
 import pl.poznan.put.cs.gui4pddl.preferences.model.PlannerPreferences;
 import pl.poznan.put.cs.gui4pddl.preferences.model.manager.PlannerPreferencesManager;
 import pl.poznan.put.cs.gui4pddl.preferences.ui.PlannerPreferencesPageTabItem;
@@ -349,7 +345,6 @@ public class PlannerPreferencePage extends PreferencePage implements
 
 	@Override
 	public void init(IWorkbench arg0) {
-		// TODO Auto-generated method stub
 
 	}
 

@@ -175,7 +175,6 @@ public class MainTab extends AbstractLaunchConfigurationTab {
 
 	@Override
 	public void setDefaults(ILaunchConfigurationWorkingCopy arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
