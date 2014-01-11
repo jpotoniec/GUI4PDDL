@@ -50,6 +50,12 @@ na poszczególnych etapach analizy oraz wyświetla je użytkownikowi.
     \label{ana_structure}
 \end{figure}
 
+\begin{sloppypar}
+Analizator przetwarza pliki w języku PDDL w wersji 1.2 \cite{pddl}. Wspieranymi wymaganiami
+są \textbf{:strips}, \textbf{:typing}, \textbf{:disjunctive-preconditions}, \textbf{:equality},
+\textbf{:existential-preconditions}, \textbf{:universal-preconditions}, \textbf{:quantified-preconditions},
+\textbf{:conditional-effects}, \textbf{:fluents}, \textbf{:adl}.
+\end{sloppypar}
 
 \subsection{Analizator leksykaly i składniowy}
 Analizator leksykalny i składniowy są automatycznie generowane przez narzędzie ANTLR
@@ -143,10 +149,60 @@ wystąpił w 10 linii ciąg znaków ann. W tym miejscu zostanie zgłoszony błą
 pominie zagnieżdżone konstrukcje i spowoduje przejście do linii 14.
 
 \subsection{Tworzenie indeksu}
-UML
+Na podstawie abstrakcyjnego drzewa składniowego tworzony jest indeks kodu. 
+Gramatyka opisująca analizator drzewowy znajduje się w pliku \texttt{PDDLModelBuilder.g}.
+
+Klasy będące modelami struktur PDDL i wchodzące w skład indeksu znajdują się w pakiecie
+\texttt{pl.poznan.put.cs.gui4pddl.codemodel}. Schemat zależności pomiędzy tymi klasami
+przedstawiony jest na rysunku \ref{ana_model}. Wszystkie klasy zawierają metody dostępu
+do pól.
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=\textwidth]{img/ana_model.pdf}
+    \caption{Klasy współtworzące indeks kodu}
+    \label{ana_model}
+\end{figure}
+
+Indeks kodu przyporządkowany jest projektowi. Znajdują się w nim informacje strukturalne dotyczące każdego
+z plików PDDL w projekcie. Istnieją dwa interfejsy związane z indeksem. \texttt{IPDDLCodeModel}
+zawiera metody służące do zadawania zapytań i wyszukiwania informacji. W \texttt{IPDDLProjectIndex}
+znajdują się metody umożliwiające tworzenie i modyfikacje indeksu.
+
+Klasa \texttt{PDDLCodeModel} implementuje oba interfejsy. Jest ona kolekcją obiektów klasy
+\texttt{PDDLFile} reprezentujących pliki PDDL. Każdy z plików może zawierać dowolną liczbę
+definicji domen, problemów lub sytuacji początkowych. 
+
+Klasy reprezentujące definicje przechowują część informacji zawartych w pliku. Niektóre
+składowe definicji zostały pominięte ze względu na fakt, że są one istotne jedynie 
+dla oprogramowania wyznaczającego plan.
+
+Klasa \texttt{PDDLType} reprezentuje typ w języku PDDL. Wspierane są typy proste, typy 
+zmienne w czasie \emph{fluent}, oraz typy złożone \emph{either}.
+Typ \texttt{PDDLTypedList} odpowiada liście z określeniami typów opisanej w specyfikacji PDDL.
+\texttt{PDDLTypedList} stanowi listę wielkości charakterystwanych przez nazwę, będącą 
+łańcuchem znaków, oraz typ.
 
 \subsection{Wykrywanie błędów semantycznych}
-Krótkie
+Do wykrywania błędów semantycznych służy analizator drzewowy, którego gramatyka znajduje się
+w pliku \texttt{PDDLSyntaxChecker.g}. Przy przechodzeniu przez abstrakcyjne drzewo składniowe
+wykonywane są pewne testy mające na celu sprawdzenie, czy definicje są zgodne z opisem języka.
+Wykrywane są następujące błędy semantyczne:
+\begin{itemize}
+\item nieznana nazwa wymagania.
+\item odwołanie do nieistniejącej domeny.
+\item odwołanie do nieistniejącego obiektu.
+\item odwołanie do nieistniejącego typu.
+\item odwołanie do obiektu niezgodne z jego typem.
+\item odwołanie do nieistniejącego predykatu.
+\item odwołanie do nieistniejącej zmienej.
+\item niewykorzystanie zmiennej użytej w definicji akcji.
+\end{itemize}
+
+Na pliki w projekcie PDDL nałożone jest dodatkowe ograniczenie. Nazwa pliku zawierającego 
+domenę powinna odpowiadać nazwie domeny lub być równa \texttt{domain.pddl}. Dzięki temu 
+możliwe jest jednoznaczne znalezienie powiązania pomiędzy domenami a problemami. W przypadku
+niespełnienia tego ograniczenia, generowane jest ostrzeżenie.
 
 \subsection{Obsługa błędów}
 Krótko o markerach
