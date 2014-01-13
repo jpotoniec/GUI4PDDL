@@ -205,8 +205,24 @@ możliwe jest jednoznaczne znalezienie powiązania pomiędzy domenami a problema
 niespełnienia tego ograniczenia, generowane jest ostrzeżenie.
 
 \subsection{Obsługa błędów}
-Krótko o markerach
-+Będzie, będzie screenshot.
+W programie Eclipse można oznaczać położenie w plikach za pomocą znaczników (ang. \emph{marker}). W ten sposób
+środowiska programistyczne dla Javy i C++ wyświetlają informacje o błędach.
+
+Znaczniki są widoczne na lewym marginesie edytora oraz w widoku problemów. Dodanie znaczników
+nie modyfikuje plików, ponieważ są one przechowywane jako metadane projektu. Podczas edycji,
+znaczniki są uaktualniane. Oznacza to, że mogą zostać usunięte lub przemieszczone wraz z linią
+kodu, której dotyczą.
+
+Narzędzie GUI4PDDL również używa znaczników do prezentacji informacji o błędach. Po zakończeniu 
+analizy, przeglądane są listy błędów przechowywane w analizatorach. Na ich podstawie tworzone
+są znaczniki. Sposób wyświetlania informacji o błędach przedstawiony jest na rysunku \ref{ana_markers}.
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[scale=0.5]{img/ana_markers.png}
+    \caption{Wyświetlanie błędów w kodzie PDDL}
+    \label{ana_markers}
+\end{figure}
 
 
 \subsection{Podpowiadanie kodu}
