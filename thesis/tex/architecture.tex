@@ -30,13 +30,13 @@ Kod głównego projektu wtyczki GUI4PDDL (\texttt{pl.poznan.put.cs.gui4pddl}) po
 \begin{itemize}
 \item \texttt{pl.poznan.put.cs.gui4pddl} -- podstawowy pakiet projektu, zawierający implementację (klasa \textit{Activator}) klasy \textit{Plugin}, którą musi implementować każda wtyczka platformy \textit{Eclipse}. Klasa ta odpowiada za cykl życia (inicjalizacja, zakończenie) projektu. W pakiecie tym znajdują się również stałe, współdzielone pomiędzy pakietami, definicja natury \textit{PDDL} (roz. \textbf{ROZDZIAŁ}), klasa magazynu obrazów (\textit{ImageCache}) oraz metod pomocnych przy tworzeniu nowego projektu.
 \item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{codecompletion}} -- zawiera klasy odpowiedzialne za zarządzanie podpowiadaniem składni, w tym za tworzenie prawidłowych propozycji uzupełniania kodu.
-\item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{codemodel}} -- ?
+\item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{codemodel}} -- zawiera klasy wchodzące w skład indeksu kodu, czyli modelu struktur \textit{PDDL}. Znajdują się tam klasy reprezentujące m.in. akcje, predykaty, problemy i domeny.
 \item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{editor}} -- zawiera implementację edytora tekstowego oraz wszystkich jego funkcjonalności -- kolorowania i podpowiadania składni, dopasowywania nawiasów, automatycznych wcięć.
 \begin{itemize}
 \item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{editor.scanners}} -- zawiera detektory słów kluczowych oraz elementów składniowych języka, które są wykorzystywane na etapie kolorowania i podpowiadania składni.
 \end{itemize}
 \item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{log}} -- zawiera klasę \textit{Log}, wykorzystywaną jako mechanizm prostego zgłaszania wyjątków w czasie działania wtyczki. Wyjątki te są widoczne w widoku \textit{Error Log} platformy Eclipse.
-\item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{parser}} -- zawiera klasy odpowiedzialne za tworzenie i obsługę analizatora składniowego (parsera) plików \textit{PDDL}.
+\item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{parser}} -- zawiera pliki z opisami gramatyk, wykorzystanych do budowy analizatora kodu \textit{PDDL} oraz klasy pomocnicze.
 \item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{perspective}} -- zawiera definicję perspektywy \textit{PDDL}, czyli widocznego układu widoków podczas edycji plików \textit{PDDL}. Charakterystycznymi elementami tej perspektywy są: przeglądarka projektów (ang. \textit{Project Explorer}), edytor plików oraz standardowo widoczna przeglądarka planów (ang. \textit{Plan Browser}).
 \item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{planview}} -- pakiet związany z implementacją przeglądarki planów (\textit{Plan Browser}).
 \begin{itemize}
