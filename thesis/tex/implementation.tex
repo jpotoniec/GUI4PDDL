@@ -149,6 +149,7 @@ wystąpił w 10 linii ciąg znaków ann. W tym miejscu zostanie zgłoszony błą
 pominie zagnieżdżone konstrukcje i spowoduje przejście do linii 14.
 
 \subsection{Tworzenie indeksu}
+\label{subsec:indeks}
 Na podstawie abstrakcyjnego drzewa składniowego tworzony jest indeks kodu. 
 Gramatyka opisująca analizator drzewowy znajduje się w pliku \texttt{PDDLModelBuilder.g}.
 
@@ -303,7 +304,7 @@ Zadaniem oprogramowania wyznaczającego plan (tzw. plannera) jest przetwarzanie 
 
 W przypadku języka \textit{PDDL}, wykorzystywanego w niniejszej pracy, zadanie automatycznego planowania składa się z dwóch plików: pliku domeny, w którym opisana jest dziedzina zadania oraz pliku problemu, opisującego stan początkowy oraz docelowy. Współpraca narzędzia GUI4PDDL z plannerami wymaga więc sposobności uzyskania planu na podstawie aktualnej zawartości dwóch, wyżej wymienionych plików. Ponadto należy zagwarantować możliwość zmiany algorytmu planowania lub innych opcji, które są dostępne dla poszczególnych narzędzi. Gotowy plan powinien być również przedstawiony użytkownikowi w postaci czytelnej.
 
-Obecnie dostępnych jest wiele plannerów, korzystających z języka \textit{PDDL}, różniących się dostępnymi algorytmami, sposobem uruchamiania, ilością oraz rodzajem przyjmowanych na wejściu argumentów, a także strukturą strumienia wyjściowego. Ze względu na to, że programy wyznaczające plan tworzone są często z przeznaczeniem na konkurs \textit{IPC} (\textit{International Planning Competition} \textbf{ODNOŚNIK DO PUNKTU O IPC}), dotychczas nie zdefiniowano standardu uruchamiania tego typu narzędzi, który obejmowałby m.in. ujednolicenie argumentów linii poleceń, dodatkowo wykorzystywanych narzędzi, specyficznych dla systemu operacyjnego oraz formatu plików wyjściowych.
+Obecnie dostępnych jest wiele plannerów, korzystających z języka \textit{PDDL}, różniących się dostępnymi algorytmami, sposobem uruchamiania, ilością oraz rodzajem przyjmowanych na wejściu argumentów, a także strukturą strumienia wyjściowego. Ze względu na to, że programy wyznaczające plan tworzone są często z przeznaczeniem na konkurs \textit{IPC} (\textit{International Planning Competition}), dotychczas nie zdefiniowano standardu uruchamiania tego typu narzędzi, który obejmowałby m.in. ujednolicenie argumentów linii poleceń, dodatkowo wykorzystywanych narzędzi, specyficznych dla systemu operacyjnego oraz formatu plików wyjściowych.
 
 Analiza przykładowych narzędzi (\textit{FastDownward}, \textit{SATPLAN}, \textit{FastForward}) pod kątem inicjalizacji procesu planowania wykazała następujące cechy wspólne oraz różnice pomiędzy plannerami:
 \begin{table}[h]
@@ -353,9 +354,9 @@ Narzędzia uruchamiane według innego schematu nie będą prawidłowo zintegrowa
 Jak wspomniano, planner \textit{FastDownward} w wersji dla systemów z rodziny \textit{Linux} posiada odpowiedni plik uruchomieniowy w katalogu \path{src} instalacji. W przypadku systemu \textit{Windows} należy stworzyć osobny program wsadowy (ang \textit{batch file}). Przykładowa forma takiego pliku znajduje się w katalogu \path{resources} projektu \texttt{pl.poznan.put.cs.gui4pddl}.
 
 Analogiczny skrypt uruchomieniowy można wykonać również dla innego oprogramowania wyznaczającego plan, np. \textit{SATPLAN}.
-
-\lstset{language=bash}          % Set your language (you can change the language for each code-block optionally)
-\begin{lstlisting}[frame=single,caption={Przykładowy skrypt uruchomieniowy (skrypt \textit{bash} dla systemu \textit{Linux}) dla plannera \textit{SATPLAN}}.]
+  
+\begin{Code}
+\begin{lstlisting}[language=bash,frame=single,caption={Przykładowy skrypt uruchomieniowy (skrypt \textit{bash} dla systemu \textit{Linux}) dla plannera \textit{SATPLAN}}.]
 #!/bin/bash
 set -e
 BASEDIR="$(dirname "$0")"
@@ -384,6 +385,7 @@ echo "Running SATPLAN"
 "$SATPLAN" -domain "$DOMAIN" -problem "$PROBLEM" "$@"
 echo
 \end{lstlisting}
+\end{Code}
 
 Poza określonym formatem argumentów linii poleceń, każdy planner musi zapewnić możliwość zapisu uzyskanego planu do pliku w postaci czytelnej, co jest wykorzystywane w przeglądarce planów, opisanej w rozdziale~\ref{subsec:uruchamianie}.
 
@@ -442,8 +444,8 @@ gdzie:
 
 Każda konfiguracja ustawień plannera zapisywana jest w osobnym pliku o nazwie analogicznej do wpisanej w oknie preferencji. Ze względu na łatwość modyfikacji, elastyczność w przechowywaniu listy argumentów oraz odporność na zmiany, jako format zapisu danych wybrano \textit{XML}. Do tego typu serializacji, wykorzystane zostało \textit{API} dołączone do platformy \textit{Eclipse} -- \textit{Memento}. W tej formie zapisywane są wszystkie informacje o konfiguracji, z wyjątkiem ustawień domyślnego plannera, które zachowywane są przy pomocy standardowego \textit{API} \textit{Eclipse} do zapisu preferencji -- \textit{Preferences}.
 
-\lstset{language=XML}          % Set your language (you can change the language for each code-block optionally)
-\begin{lstlisting}[frame=single,label={lst:preferencje_plannera},caption={Przykładowa konfiguracja plannera FastDownward w postaci XML}]  % Start your code-block
+\begin{Code}
+\begin{lstlisting}[language=XML,frame=single,label={lst:preferencje_plannera},caption={Przykładowa konfiguracja plannera FastDownward w postaci XML}]  % Start your code-block
 <?xml version="1.0" encoding="UTF-8"?>
 <PlannerPreferences 
 	PlanViewFilePattern="sas_plan.*" 
@@ -459,6 +461,7 @@ Każda konfiguracja ustawień plannera zapisywana jest w osobnym pliku o nazwie 
 	</PlannerArguments>
 </PlannerPreferences>
 \end{lstlisting}
+\end{Code}
 
 \subsection{Uruchamianie zewnętrznego oprogramowania}
 \label{subsec:uruchamianie}
@@ -487,7 +490,7 @@ Podczas pierwszego uruchomienia zewnętrznego programu na aktualnie edytowanych 
     \label{fig:run_configuration_window}
 \end{figure}
 
-Jeżeli uruchomienie nastąpiło na pliku problemu (za pomocą globalnego menu \textit{Run} lub przycisku na pasku narzędziowym, gdy plik problemu był otwarty w edytorze, bądź poprzez wybranie z menu kontekstowego pliku problemu opcji \textit{Run as}, \textit{PDDL Project}) ścieżka do odpowiadającego pliku domeny w projekcie zostanie automatycznie wykryta za pomocą \textbf{INDEKSU KODU?} opisanego w rozdziale \textbf{ROZDZIAL}. Analogicznie w przypadku uruchomienia narzędzia na pliku domeny. W sytuacjach wyjątkowych (brak odpowiadającej domeny, więcej niż jeden pasujący problem) wyświetlane są listy wyboru:
+Jeżeli uruchomienie nastąpiło na pliku problemu (za pomocą globalnego menu \textit{Run} lub przycisku na pasku narzędziowym, gdy plik problemu był otwarty w edytorze, bądź poprzez wybranie z menu kontekstowego pliku problemu opcji \textit{Run as}, \textit{PDDL Project}) ścieżka do odpowiadającego pliku domeny w projekcie zostanie automatycznie wykryta za pomocą funkcji indeksu kodu opisanego w rozdziale \ref{subsec:indeks}. Analogicznie w przypadku uruchomienia narzędzia na pliku domeny. W sytuacjach wyjątkowych (brak odpowiadającej domeny, więcej niż jeden pasujący problem) wyświetlane są listy wyboru:
 \begin{itemize}
 \item W przypadku gdy do danej domeny pasuje wiele plików problemów, wyświetla się okno wyboru ze wszystkimi pasującymi problemami.
 \item W przypadku gdy do danej domeny nie pasuje żaden plik problemu, wyświetli się informująca o tym wiadomość.
@@ -580,7 +583,14 @@ Z tego powodu utworzono dodatkową opcję edycji istniejących konfiguracji. Chc
 
 Mnogość dostępnych narzędzi do wyznaczania planu, brak wśród nich jednoznacznego, powszechnie wykorzystywanego lidera oraz prawdopodobieństwo udoskonalania i powstawania nowych programów spowodowały, iż w projekcie GUI4PDDL powzięto założenie o wsparciu dla uruchamiania jak największego zakresu istniejących rozwiązań (z plannerem \textit{FastDownward} jako priorytetem). Wymaganie to zostało zrealizowane poprzez unifikację formatu pliku uruchomieniowego, obsługiwanego w \textit{Eclipse} (roz.~\ref{sec:wspolpraca}) oraz dostosowywanie do niego plannerów poprzez skrypty powłoki systemu operacyjnego.
 
-Testy wykazały jednak, że środowisko programistyczne posiada kontrolę tylko nad procesami samych skryptów, natomiast wszystkie uruchamiane przez nie podprocesy (w tym proces programu plannera) pozostają bez nadzoru. W przypadku, gdy użytkownik zainicjalizuje kilka zadań znajdowania planu jednocześnie, które z uwagi na swój charakter i wykorzystywany algorytm znacznie obciążają procesor, może dojść do obniżenia responsywności systemu operacyjnego. Wówczas, mimo zatrzymania działania głównego skryptu za pomocą przycisku \textit{Terminate} w widoku \textit{Console}, procesy plannera nie zostaną zakończone, co może powodować dalszy spadek wydajności.
+Testy wykazały jednak, że środowisko programistyczne posiada kontrolę tylko nad procesami samych skryptów, natomiast wszystkie uruchamiane przez nie podprocesy (w tym proces programu plannera) pozostają bez nadzoru. W przypadku, gdy użytkownik zainicjalizuje kilka zadań znajdowania planu jednocześnie, które z uwagi na swój charakter i wykorzystywany algorytm znacznie obciążają procesor, może dojść do obniżenia responsywności systemu operacyjnego. Wówczas, mimo zatrzymania działania głównego skryptu za pomocą przycisku \textit{Terminate} w widoku \textit{Console} (rys.~\ref{fig:terminate_button}), procesy plannera nie zostaną zakończone, co może powodować dalszy spadek wydajności.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{img/terminate_button}
+    \caption{Przycisk \textit{Terminate} widoku \textit{Console}, przerywający bieżące przetwarzanie.}
+    \label{fig:terminate_button}
+\end{figure}
 
 Rozwiązaniem tego problemu jest implementacja własnej fabryki procesów (ang. \textit{process factory}). Rozszerzenie to, wspierane przez platformę \textit{Eclipse}, pozwala na przejęcie kontroli nad tworzeniem nowego, natywnego procesu. W odpowiedzialnej za to metodzie \textit{newProcess} klasy \textit{PDDLProcessFactory} zwracany jest obiekt podklasy (\textit{RuntimeProcessWithChildProcessesTermination}) standardowego procesu, w której zmieniono część zajmującą się przerywaniem działania.
 
