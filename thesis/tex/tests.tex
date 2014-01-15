@@ -1,4 +1,142 @@
 \chapter{Testy}
 \section{Testy jednostkowe kodu}
+Aby wykryć i naprawić błędy, które znalazły się w kodzie projektu, wykonano testy jednostkowe. Do wykonania testów użyto narzędzie \textit{JUnit }dostępne w środowisku programistycznym \textit{Eclipse}. Dodatkowo, aby sprawdzić pokrycie kodu testami, wykorzystano oprogramowanie \textit{Emma}. Narzędzie to służyło tylko i wyłącznie do w celach pomocniczych i nie stanowiło podstaw do zbierania informacji badawczych.
+
+Podczas prac nad projektem GUI4PDDL przetestowane zostały widoki oraz parser. Testy pierwszego z dwóch wymienionych elementów polegały na prostym porównywaniu oczekiwanego stanu z stanem obecnym, za pomocą funkcji \textit{assertEquals}, która to należy do pakietu narzędzi \textit{JUnit}. Przykładowy, pojedynczy test przedstawiono poniżej:\\\\
+\begin{Code}
+\begin{lstlisting}[language=JAVA,frame=single,label=ana_code, caption=Przykładowy test jedostkowy]
+	@Test
+	public void testGetRegexWithReplacementsAtBegin() {
+		
+		assertEquals(FileNameRegexProcessor.getRegexWithReplacements(
+			"-project_name-blablalbalksadfj", "-project_name-", 
+			"project-name"), "project-nameblablalbalksadfj");
+	}
+\end{lstlisting}
+\end{Code}
+
+Testowanie parsera polegało przede wszystkim na sprawdzeniu poprawności działania indeksowania poszczególnych elementów języka PDDL. Pierwszą czynnością jaką należało wykonać było wczytanie przykładowego pliku zawierajace go przykładową domenę. Następnie indeksowano plik za pomocą napisanej funkcji, dzięki czemu otrzymywano obiekt zawierający domenę wraz z jej zawartością. Dalej, tworzono pusty obiekt domeny, do którego kolejnymi instrukcjami oraz funkcjami dostarczonymi przez klasę, dołączano elementy znajdujące się w pliku. Porównanie tych dwóch obiektów zapewniało kompletną informację o działaniu indeksera.
+
+Oprócz wyżej wymienionych testów, stworzono również badania pojedynczych funkcji znajdujących się w różnych miejscach kodu.
+
+Testy jednostkowe wykryły kilka pomniejszych błędów, które należało usunąć. Spowodowane były one niepoprawnym indeksowaniem niektórych elementów języka PDDL. Przykładowo, testów nie przechodził kod, w którym zdefiniowano akcję zawierającą dyrektywę \textit{forall}.
 \section{Testy jednostkowe gramatyk formalnych}
+Oprócz standardowych testów jednostkowych, wymagane było przetestowanie gramatyki formalnej zawartej w projekcie GUI4PDDL. Jednym z sposobów przeprowadzenia testów jest wykorzystanie narzędzia \textit{GUnit}. Jest to specjalna platforma, wyspecjalizowana w tworzeniu testów gramatyk. Dzięki wbudowanym funkcjom \textit{GUnit} zmienia każdy z testów w instancje testu \textit{JUnit}, który następnie wykonywany jest standardowo przez odpowiedzialne narzędzie.
+
+Aby testy gramatyki były kompletne, należało przetestować wszystkie zdefiniowane elementy języka PDDL. Opisano wypisano je w podrozdziale 2, rozdziału 2. Są to między innymi akcje, wymagania, czy cele. W projekcie GUI4PDDL definicja gramatyki formalnej jest jednym z ważniejszych elementów, więc to dla niej przeznaczoną większą część testów.
+
+Przykład 6.2 przedstawia fagment gramatyki formalnej.
+
+
+\begin{Code}
+\begin{lstlisting}[language=LISP,frame=single,label=ana_code, caption=Fragment gramatyki formalnej]
+action_def 
+	:	'(' ':action' NAME
+			':parameters' '(' typed_list_of_variable ')'
+			action_def_body_item* ')'   -> ^(':action' NAME ^(':parameters' 
+				typed_list_of_variable)	action_def_body_item*) 
+	;
+\end{lstlisting}
+\end{Code}
+
+\begin{Code}
+\begin{lstlisting}[language=LISP,frame=single,label=ana_code, caption=Przykładowe testy dla przykładu 6.2]
+<<
+(:action load
+        :parameters (?e - engine ?c - car ?t - town ?x - cargo)
+        :precondition (and
+            (cargo-at ?x ?t)
+            (car-at ?c ?t)
+            (not (exists (?y - cargo) (cargo-in ?y ?c)))
+            )
+        :effect (and
+            (not (cargo-at ?x ?t))
+            (cargo-in ?x ?c))
+    )
+>> OK
+
+
+<<
+(((()
+>> FAIL
+\end{lstlisting}
+\end{Code}
+
+Przykład 6.3 przedstawia fragment testu, dotyczącego elementu akcji. Każdy z testów otoczony jest znakami \textit{<<} \textit{>>}, po których następuje słowo \textit{FAIL} bądź \textit{OK}. To, które z tych dwóch słów znajduje się na końcu, określa czy testowany kod jest poprawny (\textit{OK}) lub nie (\textit{FAIL)}.
+
+
+
+
 \section{Testy akceptacyjne}
+W końcowym etapie tworzenia projektu GUI4PDDL podjęto testy akceptacyjne, mające na celu sprawdzenie spełnienia wymagań funkcjonalnych. Kolejne testy przedstawiono jako scenariusze i oczekiwane wyniki przeprowadzonych akcji.
+Dodatkowo każde opisane zadanie zostało postawione przed potencjalnymi użtykownikami wtyczki GUI4PDDl, w celu sprawdzenia, czy projekt spełnia założenia dotyczące użytkowania praktycznego. Na końcu każdego scenariusza przedstawione zostały wnioski z obserwacji. 
+\subsection{Utworzenie nowego projektu PDDL}
+\textbf{Scenariusz testowy:}
+  \begin{enumerate}
+  
+\item W środowisku \textit{Eclipse} należy kliknąć prawym przyciskiem myszy na polu \textit{Package Explorer} i wybrać \textit{New}, \textit{Other...} .
+\item Wybrać z listy \textit{GUI4PDDL}, \textit{PDDL Project} i kliknąć \textit{Next}.
+\item Wpisać nazwę projektu i kilknąć \textit{Finish}.
+\end{enumerate}
+
+\textbf{Oczekiwany wynik:} Na polu \textit{Package Explorer} powinien pojawić się nowy projekt o wybranej wcześniej nazwie.
+
+\textbf{Obserwacja użytkowników:} Utworzenie nowego projektu PDDL nie powodowało problemów, nawet dla użytkowników nie znających środowiska \textit{Eclipse}.
+\subsection{Dodanie nowego pliku do projektu PDDL}
+\textbf{Scenariusz testowy:}
+  \begin{enumerate}
+  
+\item Z pola \textit{Package Explorer} kliknąć prawym przyciskiem myszy na projekt PDDL. Wybrać \textit{New}, \textit{Other...} .
+\item Wybrać z listy \textit{GUI4PDDL}, \textit{PDDL File} i kliknąć \textit{Next}.
+\item W polu oznaczonym \textit{File name} wpisać nazwę i kliknąć \textit{Finish}.
+\end{enumerate}
+
+\textbf{Oczekiwany wynik:} W oknie głównym powinien pojawić się nowy plik. Po rozwinięciu zawartości projektu na polu \textit{Package Explorer}, również powinien być widoczny utworzony plik.
+
+\textbf{Obserwacja użytkowników:} Dodawanie nowych plików nie stwarzało problemów osobom znającym środowisko \textit{Eclipse}. Pozostałe osoby potrzebowały chwilę czasu, aby zaznajomić się ze środowiskiem.  
+
+\subsection{Dodawanie nowego planisty \textit{Fast Downward}}
+\textbf{Scenariusz testowy:}
+  \begin{enumerate}
+  
+\item W środowisku \textit{Eclipse}, wybrać listę rozwijaną \textit{Window} i wybrać \textit{Preferences}.
+\item Z listy znajdującej się w oknie wybrać PDDL, a następnie \textit{Planners}.
+\item W polu o etykiecie \textit{Planner File} podać lokalizację pliku planisty.
+\item Zatwierdzić przyciskiem \textit{OK}.
+\end{enumerate}
+
+\textbf{Oczekiwany wynik:} Przy opcjach wyboru planisty powinna pojawić się możliwość wyboru \textit{Fast Downward}.
+
+\textbf{Obserwacja użytkowników:} Osoby testujące nie potrafiły dodać nowego planisty bez wyraźnych instrukcji. Nawet w sytuacji, gdzie komunikat o błędzie wyraźnie wskazywał to miejsce. Wymagana jest dokładna dokumentacja opisująca poszczególne kroki dodawania nowego planisty. 
+\subsection{Zmiana kolorów edytowanego kodu}
+\textbf{Scenariusz testowy:}
+  \begin{enumerate}
+  
+\item W środowisku \textit{Eclipse}, wybrać listę rozwijaną \textit{Window} i wybrać \textit{Preferences}.
+\item Z listy znajdującej się w oknie wybrać PDDL, a następnie \textit{PDDL Editor}.
+\item Przy odpowiednim elemencie kodu, kliknąć na pole z kolorem.
+\item Wybrać odpowiedni kolor i zatwierdzić przyciskiem \textit{OK}.
+\item Powtórzyć dla kolejnych elementów.
+\item Zatwierdzić wszystkie zmiany przyciskiem \textit{Apply} bądź \textit{OK}.
+
+\end{enumerate}
+
+\textbf{Oczekiwany wynik:} W polu edycji kodu powinny uwidocznić się zmiany koloru elementów, których barwa została zmodyfikowana.
+
+\textbf{Obserwacja użytkowników:} Sytuacja podobna do dodawania nowego planisty. Żadna z testowanych osób nie odnalazła w satysfakcjonującym czasie, opcji zmiany kolorów tworzonego kodu. Wynikało to z braku doświadczenia w tworzeniu oprogramowania w środowisku \textit{Eclipse}. Po odnalezieniu danych ustawień, użytkownicy wykonywali czynności płynnie i szybko. 
+\subsection{Pierwsze uruchomienie planisty}
+\textbf{Scenariusz testowy:}
+  \begin{enumerate}
+  
+\item Należy wykonać czynności opisane w podrozdziałach 6.3.1, 6.3.2 oraz 6.3.3.
+\item Wybrać domyślny przycisk służący w środowisku \textit{Eclipse} do uruchamiania tworzonego kodu.
+\item W oknie, wybrać plik domeny, problemu oraz planistę wraz z algorytmem.
+\item Zatwierdzić przyciskiem \textit{OK}. 
+\end{enumerate}
+
+\textbf{Oczekiwany wynik:} Wybrany planista powinien rozwiązać danych problem i wyświetlić dostępny wynik zakładce \textit{Plan Browser}. Otwarcie wyniku spowoduje wyświetlenie ułożonego planu na głównym polu. W przypadku gdy pliki są niepoprawne, informacje o błędach zostaną wyświetlone w zakładce \textit{Console}. 
+
+\textbf{Obserwacja użytkowników:} Pierwsze uruchomienie planisty zajmowało więcej czasu niż jest to potrzebne doświadczonemu programiście. Powodem jest brak wyraźnego komunikatu, dotyczącego braku poszczególnych ustawień (np. brak pliku domeny czy problemu).
+
+
+
