@@ -77,7 +77,7 @@ TEX_DOC_FILES=${wildcard *.tex}
 TXT_DOC_FILES=${wildcard *.txt}
 HTML_DOC_FILES=${TXT_DOC_FILES:.txt=.html}
 XFIG_PICTURES?=${wildcard *.fig */*.fig}
-SVG_PICTURES?=${wildcard *.svg */*.svg}
+SVG_PICTURES?=
 DIA_PICTURES?=${wildcard *.dia */*.dia}
 PNG_PICTURES?=${wildcard *.png */*.png}
 GIF_PICTURES?=${wildcard *.gif */*.gif}
