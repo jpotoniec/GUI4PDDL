@@ -79,5 +79,15 @@ Rozszerzenia
 \item Po otwarciu programu ponownie wtyczka widoczna jest na liście aktywnych dodatków Eclipse.
 \end{enumerate}
 \section{Wymagania pozafunkcjonalne}
+\subsection{Funkcjonalność}
+Wtyczka \emph{GUI4PDDL} umożliwia użytkownikowi efektywne zarządzanie kodem pisanym w języku \emph{PDDL}. Pomaga w kontrolowaniu zawartości kodu. Wtyczka zbudowana jest jako jeden produkt, zgodnie ze specyfikacją wymaganą przez wtyczki programu \emph{Eclipse}. Zgodnie z polityką twórców Eclipse, \emph{GUI4PDDL} jest zbudowana w pełni modułowo, co umożliwia pełną integrację ze środowiskiem oraz jest łatwa w rozwoju. Żadne dane nie są wysyłane poza środowisko, dzięki czemu spełnia warunki bezpieczeństwa.
+\subsection{Niezawodność}
+Wymagania funkcjonalne są w pełni zrealizowane, więc można mówić o oprogramowaniu dojrzałym. Aplikacja pozbawiona jest błędów, które mogłyby wpłynąć pośrednio lub bezpośrednio na pracę zarówno środowiska programistycznego \emph{Eclipse}, jak i kodu napisanego przez użytkownika. Zdolność do odtworzenia oraz niezawodność zapewnia samo środowisko \emph{Eclipse}, pozwalając na automatyczne odtworzenie kodu z kopii zapasowych w przypadku nieprawidłowego zamknięcia programu.
+\subsection{Użyteczność}
+Plugin \emph{GUI4PDDL} wykorzystuje wszelkie formy pomocy dla użytkownika dostępne w środowisku \emph{Eclipse}. Użytkownik jest zawsze w prosty i czytelny sposób poinformowany o stanie swojego kodu oraz o błędach w kodzie. Kolorowanie składni pozwala z łatwością wykryć podstawowe błędy gramatyczne, a automatyczne wcięcia i kolorowe nawiasy umożliwiają szybkie znalezienie braków. Dodatkowo umożliwia intuicyjne korzystanie z wcześniej zdefiniowanych plannerów, wykorzystując np. domyślny przycisk uruchamiania kodu \emph{Eclipse}, co pozwala na szybkie i proste użytkowanie kodu przez użytkownika.
+\subsection{Wydajność}
+Aplikacja jest bardzo lekka i pracuje w czasie rzeczywistym. Dzięki multiplatformowości użytkownik może korzystać ze wszystkich funkcji programu w systemach operacyjnych \emph{windows 7} i wyżej oraz we wszystkich dystrybucjach linuksa nowszych od \emph{ubuntu 12.04} lub porównywalnych.
+\subsection{Łatwość konserwacji}
+Kod jest utrzymywany w postaci modułowej. Modułowość wzorowana na innych wtyczkach programu Eclipse pozwala na łatwą i nieograniczoną rozbudowę aplikacji \emph{GUI4PDDL}. Dzięki architekturze modułowej, w przypadku wystąpienia błędów podczas rozszerzania wtyczki, aplikacja nie narusza ważnych elementów środowiska w którym pracuje. Wykorzystując schematy stosowane przez deweloperów \emph{Eclipse} kod jest stabilny i czytelny, zachowując odpowiednie standardy.
 
 
