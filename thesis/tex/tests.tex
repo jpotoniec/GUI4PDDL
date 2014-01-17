@@ -1,8 +1,9 @@
 \chapter{Testy}
 \section{Testy jednostkowe kodu}
-Aby wykryć i naprawić błędy, które znalazły się w kodzie projektu, wykonano testy jednostkowe. Do wykonania testów użyto narzędzie \textit{JUnit }dostępne w środowisku programistycznym \textit{Eclipse}. Dodatkowo, aby sprawdzić pokrycie kodu testami, wykorzystano oprogramowanie \textit{Emma}. Narzędzie to służyło tylko i wyłącznie do w celach pomocniczych i nie stanowiło podstaw do zbierania informacji badawczych.
+Aby wykryć i naprawić błędy, które znalazły się w kodzie projektu, wykonano\JP{przygotowano?} testy jednostkowe. Do wykonania testów użyto narzędzie \textit{JUnit }dostępne w środowisku programistycznym \textit{Eclipse}. Dodatkowo, aby sprawdzić pokrycie kodu testami, wykorzystano oprogramowanie \textit{Emma}. Narzędzie to służyło tylko i wyłącznie do w celach pomocniczych i nie stanowiło podstaw do zbierania informacji badawczych.\JP{ee?}
 
-Podczas prac nad projektem GUI4PDDL przetestowane zostały widoki oraz parser. Testy pierwszego z dwóch wymienionych elementów polegały na prostym porównywaniu oczekiwanego stanu z stanem obecnym, za pomocą funkcji \textit{assertEquals}, która to należy do pakietu narzędzi \textit{JUnit}. Przykładowy, pojedynczy test przedstawiono poniżej:\\\\
+Podczas prac nad projektem GUI4PDDL przetestowane zostały widoki oraz parser\JP{mam zastrzeżenia do tego słowa, proszę poszukać polskiego odpowiednika}. Testy pierwszego z dwóch wymienionych elementów polegały na prostym porównywaniu oczekiwanego stanu z stanem obecnym, za pomocą funkcji \textit{assertEquals}, która to należy do pakietu narzędzi \textit{JUnit}. Przykładowy, pojedynczy test przedstawiono \JP{w przykładzie \ldots} poniżej:\\\\
+\JP{Może by to blablalbalksadfj czymś zastąpić?}
 \begin{Code}
 \begin{lstlisting}[language=JAVA,frame=single,label=ana_code, caption=Przykładowy test jedostkowy]
 	@Test
@@ -21,11 +22,11 @@ Oprócz wyżej wymienionych testów, stworzono również badania pojedynczych fu
 
 Testy jednostkowe wykryły kilka pomniejszych błędów, które należało usunąć. Spowodowane były one niepoprawnym indeksowaniem niektórych elementów języka PDDL. Przykładowo, testów nie przechodził kod, w którym zdefiniowano akcję zawierającą dyrektywę \textit{forall}.
 \section{Testy jednostkowe gramatyk formalnych}
-Oprócz standardowych testów jednostkowych, wymagane było przetestowanie gramatyki formalnej zawartej w projekcie GUI4PDDL. Jednym z sposobów przeprowadzenia testów jest wykorzystanie narzędzia \textit{GUnit}. Jest to specjalna platforma, wyspecjalizowana w tworzeniu testów gramatyk. Dzięki wbudowanym funkcjom \textit{GUnit} zmienia każdy z testów w instancje testu \textit{JUnit}, który następnie wykonywany jest standardowo przez odpowiedzialne narzędzie.
+Oprócz standardowych testów jednostkowych, wymagane było przetestowanie gramatyki formalnej zawartej w projekcie GUI4PDDL. Jednym z sposobów przeprowadzenia testów jest wykorzystanie narzędzia \textit{GUnit}\JP{W którymś rozdziale wcześniej widziałem zapis gUnit, proszę uspójnić}. Jest to specjalna platforma, wyspecjalizowana w tworzeniu testów gramatyk. Dzięki wbudowanym funkcjom \textit{GUnit} zmienia każdy z testów w instancje testu \textit{JUnit}, który następnie wykonywany jest standardowo przez odpowiedzialne narzędzie.
 
-Aby testy gramatyki były kompletne, należało przetestować wszystkie zdefiniowane elementy języka PDDL. Opisano wypisano je w podrozdziale 2, rozdziału 2. Są to między innymi akcje, wymagania, czy cele. W projekcie GUI4PDDL definicja gramatyki formalnej jest jednym z ważniejszych elementów, więc to dla niej przeznaczoną większą część testów.
+Aby testy gramatyki były kompletne, należało przetestować wszystkie zdefiniowane elementy języka PDDL. Opisano wypisano je w podrozdziale 2, rozdziału 2\JP{proszę pisać: rozdziale 2.2 i korzystać przy tym z polecenia $\backslash$ref}. Są to między innymi akcje, wymagania, czy cele. W projekcie GUI4PDDL definicja gramatyki formalnej jest jednym z ważniejszych elementów, więc to dla niej przeznaczoną większą część testów.
 
-Przykład 6.2 przedstawia fagment gramatyki formalnej.
+Przykład 6.2\JP{$\backslash$ref} przedstawia fagment gramatyki formalnej.
 
 
 \begin{Code}
@@ -62,14 +63,14 @@ action_def
 \end{lstlisting}
 \end{Code}
 
-Przykład 6.3 przedstawia fragment testu, dotyczącego elementu akcji. Każdy z testów otoczony jest znakami \textit{<<} \textit{>>}, po których następuje słowo \textit{FAIL} bądź \textit{OK}. To, które z tych dwóch słów znajduje się na końcu, określa czy testowany kod jest poprawny (\textit{OK}) lub nie (\textit{FAIL)}.
+Przykład 6.3 przedstawia fragment testu, dotyczącego elementu akcji. Każdy z testów otoczony jest znakami \texttt{<<} \texttt{>>}, po których następuje słowo \texttt{FAIL} bądź \texttt{OK}. To, które z tych dwóch słów znajduje się na końcu, określa czy testowany kod jest poprawny (\texttt{OK}) lub nie (\texttt{FAIL)}.
 
 
 
 
 \section{Testy akceptacyjne}
 W końcowym etapie tworzenia projektu GUI4PDDL podjęto testy akceptacyjne, mające na celu sprawdzenie spełnienia wymagań funkcjonalnych. Kolejne testy przedstawiono jako scenariusze i oczekiwane wyniki przeprowadzonych akcji.
-Dodatkowo każde opisane zadanie zostało postawione przed potencjalnymi użtykownikami wtyczki GUI4PDDl, w celu sprawdzenia, czy projekt spełnia założenia dotyczące użytkowania praktycznego. Na końcu każdego scenariusza przedstawione zostały wnioski z obserwacji. 
+Dodatkowo każde opisane zadanie zostało postawione przed potencjalnymi użytkownikami wtyczki GUI4PDDL, w celu sprawdzenia, czy projekt spełnia założenia dotyczące użytkowania praktycznego. Na końcu każdego scenariusza przedstawione zostały wnioski z obserwacji. 
 \subsection{Utworzenie nowego projektu PDDL}
 \textbf{Scenariusz testowy:}
   \begin{enumerate}
@@ -107,7 +108,7 @@ Dodatkowo każde opisane zadanie zostało postawione przed potencjalnymi użtyko
 
 \textbf{Oczekiwany wynik:} Przy opcjach wyboru planisty powinna pojawić się możliwość wyboru \textit{Fast Downward}.
 
-\textbf{Obserwacja użytkowników:} Osoby testujące nie potrafiły dodać nowego planisty bez wyraźnych instrukcji. Nawet w sytuacji, gdzie komunikat o błędzie wyraźnie wskazywał to miejsce. Wymagana jest dokładna dokumentacja opisująca poszczególne kroki dodawania nowego planisty. 
+\textbf{Obserwacja użytkowników:} Osoby testujące nie potrafiły dodać nowego planisty bez wyraźnych instrukcji, nawet w sytuacji, gdy komunikat o błędzie wyraźnie wskazywał to miejsce. Wymagana jest dokładna dokumentacja opisująca poszczególne kroki dodawania nowego planisty. 
 \subsection{Zmiana kolorów edytowanego kodu}
 \textbf{Scenariusz testowy:}
   \begin{enumerate}
