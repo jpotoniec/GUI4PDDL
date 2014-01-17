@@ -1,17 +1,17 @@
 \hyphenation{wnio-sko-wa-nie}
 \chapter{Problematyka automatycznego planowania}
  \section{Opis dziedziny}
-Automatyczne planowanie to poddziedzina sztucznej inteligencji. Dotyczy wykonywania sekwencji akcji, realizacji strategii lub generowania planów, prowadzących do określonego wyniku.
+Automatyczne planowanie to poddziedzina sztucznej inteligencji, która dotyczy wykonywania sekwencji akcji, realizacji strategii lub generowania planów, prowadzących do określonego wyniku \JP{tu cytowanie}.
 
-Każdy problem automatycznego planowania zawiera stan początkowy oraz stan końcowy. W stanie początkowym określone są wszystkie wartości zmiennych (stany poszczególnych obiektów) jakie aktualnie zawarte są w problemie, a które mają zostać zmienione podczas wykonania planu. W stanie końcowym sformułowane są wartości zmiennych, których osiągniecie jest głównym zadaniem planu. Ponad to problemy automatycznego planowania zawierają zdefiniowane akcje, umożliwiające zmianę stanów. Tylko przez podejmowanie akcji plan może zostać wykonany. Wyjątkiem jest sytuacja, w której stan końcowy jest równy stanu początkowemu.
+Każdy problem automatycznego planowania zawiera stan początkowy oraz stan końcowy. W stanie początkowym określone są wszystkie wartości zmiennych (stany poszczególnych obiektów) jakie aktualnie zawarte są w problemie, a które mają zostać zmienione podczas wykonania planu. W stanie końcowym sformułowane są wartości zmiennych, których osiągniecie jest głównym zadaniem planu. Ponad to problemy automatycznego planowania zawierają zdefiniowane akcje\JP{operatory}, umożliwiające zmianę stanów\JP{chyba: "zmianę stanu" albo "przechodzenie pomiędzy stanami", ponieważ operator albo zmienia stan systemu albo przechodzi z jednego stanu do innego (zależy jak na to patrzeć). W każdym razie operator nie modyfikuje wielu stanów jednocześnie.}.  \JP{Ja na zajęciach tłumaczę w ten sposób: operator to ta abstrakcyjna rzecz, którą definiujemy w problemie, a którą można porównać do funkcji w języku imperatywnym, natomiast instancja operatora (czyli operator z przypisanymi wartościami do wszystkich zmiennych) to działanie, ewentualnie akcja i można je porównać do wywołania funkcji w języku imperatywnym. Fajnie by było, gdyby takie rozróżnienie się gdzieś tutaj pojawiło.} Tylko przez podejmowanie akcji plan może zostać wykonany. Wyjątkiem jest sytuacja, w której stan końcowy jest równy stanu początkowemu.
 
-Plany, otrzymywane w wyniku rozwiązywania problemów, można otrzymać dzięki zastosowaniem różnego rodzaju schematów działania. Spośród klasycznych algorytmów, wymienić można między innymi całkowity przegląd stanów, wnioskowanie w tył czy wnioskowanie w przód. Mimo, iż całkowity przegląd stanów zapewni rozwiązanie najlepsze, jest to rzadko stosowane rozwiązanie. Liczba stanów możliwych do osiągnięcia rośnie wykładniczo, co powoduje, że zaplanowanie nawet niezbyt skomplikowanych problemów, może zająć czas, w którym rozwiązanie znacznie przekracza zdatność do użycia. W takim wypadku stosuje się algorytmy mogące zwrócić plany, których wykonanie zajmie więcej czasu, jednak szybkość ich uzyskania znacznie wzrasta.
+Plany, otrzymywane w wyniku rozwiązywania problemów, można otrzymać dzięki zastosowaniem różnego rodzaju schematów działania. Spośród klasycznych algorytmów, wymienić można między innymi całkowity przegląd stanów, wnioskowanie w tył czy wnioskowanie w przód. Mimo, iż całkowity przegląd stanów zapewni rozwiązanie najlepsze, jest to rzadko stosowane rozwiązanie. Liczba stanów możliwych do osiągnięcia rośnie wykładniczo, co powoduje, że zaplanowanie nawet niezbyt skomplikowanych problemów, może zająć czas, w którym rozwiązanie znacznie przekracza zdatność do użycia. W takim wypadku stosuje się algorytmy mogące zwrócić plany, których wykonanie zajmie więcej czasu, jednak szybkość ich uzyskania znacznie wzrasta. \JP{tu cytowanie, chyba, że byłoby takie samo jak dwa akapity wcześniej}
 
-Pomimo zwracania satysfakcjonujących wyników przez algorytmy klasyczne, wykorzystywane jest również kilka bardziej złożonych rozwiązań.Jednym z nich jest przekształcenie danego problemu automatycznego planowania w inny,a następnie  rozwiązanie go najlepszą znaną metodą. Kolejnym wyjściem są algorytmy probabilistyczne. Polegają one na polepszaniu wyników podczas kolejnych iteracji. Algorytmy te wykonują akcje z określonym prawdopodobieństwem, przez co, może się okazać, że optymalny plan zostanie uzyskany później niż w przypadku pełnego przeglądu stanów, lub nawet nie zostanie uzyskany nigdy. Na ogół jednak, algorytmy probabilistyczne dostarczają wyniki porównywalne z algorytmami klasycznymi, w nie gorszym czasie.
+Pomimo zwracania satysfakcjonujących wyników przez algorytmy klasyczne, wykorzystywane jest również kilka bardziej złożonych rozwiązań. Jednym z nich jest przekształcenie danego problemu automatycznego planowania w inny, a następnie  rozwiązanie go najlepszą znaną metodą.\JP{W inny problem automatycznego planowania czy w inny problem w ogóle? Jaki?} Kolejnym wyjściem są algorytmy probabilistyczne. Polegają one na polepszaniu wyników podczas kolejnych iteracji. Algorytmy te wykonują akcje z określonym prawdopodobieństwem, przez co, może się okazać, że optymalny plan zostanie uzyskany później niż w przypadku pełnego przeglądu stanów, lub nawet nie zostanie uzyskany nigdy. Na ogół jednak, algorytmy probabilistyczne dostarczają wyniki porównywalne z algorytmami klasycznymi, w nie gorszym czasie.
 
-Bardzo często, w celu zademonstrowania czym jest automatyczne planowanie, stosuje się układ złożony z klocków, umiejscowionych w określonej pozycji. Zadaniem algorytmów planowania jest takie ułożenie akcji, aby stan końcowy położenia klocków zgadzał się ze stanem aktualnym. 
+Bardzo często, w celu zademonstrowania czym jest automatyczne planowanie, stosuje się układ złożony z klocków, umiejscowionych w określonej pozycji. Zadaniem algorytmów planowania jest takie ułożenie akcji, aby stan końcowy położenia klocków zgadzał się ze stanem aktualnym. \JP{Co to jest stan aktualny?}
 
-Przykładowo, istnieją 3 klocki, nazwane odpowiednio x,y,z. Każdy z nich może być podniesiony lub umiejscowionym na jednym z dwóch dostępnych pól, czy na innym klocku, pod warunkiem, że ten nie jest akurat podniesiony i nic się na nim nie znajduje. Dla danego problemu zdefiniowane zostały akcje podnieś, która podnosi dany klocek, oraz połóż, dzięki której można umiejscowić obiekt na wolnym miejscu lub obiekcie.Stan początkowy zdefiniowany jest następująco: klocek z położony jest na pierwszym miejscu,klocek y położony jest na klocku z, a klocek x na klocku y. Stan końcowy wygląda tak, że klocek x znajduje się na miejscu drugim, na nim umiejscowiony jest klocek y, a z kolei na nim klocek z. Inaczej można przedstawić to w języku predykatów:
+Przykładowo, istnieją 3 klocki, nazwane odpowiednio $x$, $y$, $z$. Każdy z nich może być podniesiony lub umiejscowionym na jednym z dwóch dostępnych miejsc ($M1$, $M2$) lub na innym klocku, pod warunkami, że ten nie jest akurat podniesiony i nic się na nim nie znajduje. Dla danego problemu zdefiniowane zostały akcje \emph{podnieś}, która podnosi dany klocek, oraz \emph{połóż}, dzięki której można umiejscowić klocek na wolnym miejscu lub innym klocku. Stan początkowy zdefiniowany jest następująco: klocek $z$ położony jest na pierwszym miejscu, klocek $y$ położony jest na klocku $z$, a klocek $x$ na klocku $y$. Stan końcowy wygląda tak, że klocek $x$ znajduje się na miejscu drugim, na nim umiejscowiony jest klocek $y$, a z kolei na nim klocek $z$. Inaczej można przedstawić to w języku predykatów:
 \\\\
 Stan początkowy:
 \\\\
@@ -21,7 +21,7 @@ Stan końcowy:
 \\\\
 \textit{K=\{wolny(z),na(z,y),na(y,x),na(x,M2)\}}
 
-Na rysunku (rys.~\ref{fig:automatyczne-planowanie}) przedstawiono graficzne odwzorowanie stanu początkowego i końcowego.
+Na rysunku \ref{fig:automatyczne-planowanie} przedstawiono graficzne odwzorowanie stanu początkowego i końcowego.\JP{Ten wielki znak zapytania jest całkiem oryginalny ;)}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.5\textwidth]{img/rys2,1}
@@ -31,37 +31,37 @@ Na rysunku (rys.~\ref{fig:automatyczne-planowanie}) przedstawiono graficzne odwz
 
 
 \section{Język PDDL}
-W celu polepszenia wydajności automatycznego planowania, stworzone zostało kilka formalnych języków. Najpopularniejsze z nich to STRIPS (\textit{\textbf{St}anford \textbf{R}esearch \textbf{I}nstitute \textbf{P}roblem \textbf{S}olver}), ADL (\textit{Action description language}) oraz PDDL (\textit{Planning Domain Definition Language}). PDDL, który stworzony został najpóźniej, jest wzorowany na dwóch pozostałych językach. Został utworzony przez Drew McDermott'a w roku 1998. Celem jego stworzenia był Międzynarodowy konkurs planistyczny (\textit{International Planning Competition}),który bez odpowiedniego narzędzia nie mógłby się odbyć.
+W celu polepszenia wydajności automatycznego planowania, stworzone zostało kilka formalnych języków. Najpopularniejsze z nich to STRIPS (ang. \textit{\textbf{St}anford \textbf{R}esearch \textbf{I}nstitute \textbf{P}roblem \textbf{S}olver}) \JP{tu cytowanie}, ADL (ang. \textit{Action description language}) \JP{tu cytowanie} oraz PDDL (ang. \textit{Planning Domain Definition Language}) \JP{tu cytowanie}. PDDL, który stworzony został najpóźniej, jest wzorowany na dwóch pozostałych językach. Został utworzony przez Drew McDermott'a w roku 1998. Celem jego stworzenia był Międzynarodowy konkurs planistyczny (ang. \textit{International Planning Competition}),który bez odpowiedniego narzędzia nie mógłby się odbyć.
 
-Od pojawienia się pierwszej wersji języka w roku 1998, jest on systematycznie rozwijany. Kolejne wersje 2.1, 2.2, 3.0, oraz najnowsza 3.1 zostały użyte na międzynarodowych konkursach w latach 2002, 2004, 2006, 2008. Oprócz standardowych wersji języka, rozwijane są inne, niezależne warianty. Pośród nich znajdują się między innymi PDDL+, w którym zawarto procesy i zdarzenia, Web-PDDL umożliwiający wyrażenie przestrzeni nazw za pomocą URI (\textit{Uniform Resource Identifier}), czy NDDL (\textit{New Domain Definition Language}), różniący się używaniem zmiennych oraz interwałów zamiast akcji.
+Od pojawienia się pierwszej wersji języka w roku 1998, jest on systematycznie rozwijany. Kolejne wersje 2.1, 2.2, 3.0, oraz najnowsza 3.1 zostały użyte na międzynarodowych konkursach w latach 2002, 2004, 2006, 2008. Oprócz standardowych wersji języka, rozwijane są inne, niezależne warianty. Pośród nich znajdują się między innymi PDDL+, w którym zawarto procesy i zdarzenia \JP{tu cytowanie}, Web-PDDL umożliwiający wyrażenie przestrzeni nazw za pomocą URI (ang. \textit{Uniform Resource Identifier}) \JP{tu cytowanie}, czy NDDL (ang. \textit{New Domain Definition Language}), różniący się używaniem zmiennych oraz interwałów zamiast akcji \JP{tu cytowanie, a tak w ogóle to NDDL to chyba nie jest klasyczne planowanie tylko bardziej jakby temporal planning}.
 
-Problemy automatycznego planowania, przedstawione w języku PDDL, są zapisane w dwóch plikach, domeny oraz problemu. Poniżej przedstawiono skrócony opis obydwu plików. Składa się on z przedstawienia elementu, krótkiego opisu oraz przykładu.
+Problemy automatycznego planowania, przedstawione w języku PDDL, są zapisane w dwóch plikach, dziedziny oraz problemu. Poniżej przedstawiono skrócony opis obydwu plików. Składa się on z przedstawienia elementu, krótkiego opisu oraz przykładu.
 \\\\\\
-Plik domeny zawiera:
-  \begin{itemize}
-\item Domena - definicja domeny - \textit{(define (domain samoloty))}
-\item Rozszerzenie - domena zawierająca dany wpis dziedziczy wymagania, typy, stałe, akcje, aksjomaty z innej domeny - \textit{(:extends pojazdy) }
-\item Wymagania - wymagania oczekiwane przez domenę - \textit{(:requirements :strips :typing)}
-\item Typy - typy znajdujące się w domenie - \textit{(:types okno drzwi)}
-\item Stałe - zdefiniowane stałe - \textit{(:constants pierwsza druga - opona)}
-\item Zmienne domeny - zmienne dla domen, które mają zadeklarowe wymaganie :expression-evaluation - \textit{(:domain-variables zmienna - int)}
-\item Predykaty - lista predykatów zawartych w domenie (znak ? poprzedzający x oznacza, że x jest zmienną) -  \textit{(:predicates (na-lotnisku ?x))}
-\item Pola wieczne - lista literałów, które są prawdziwe w każdej chwili - \textit{(:timeless literał (nazwa))}
-\item Ograniczenia bezpieczeństwa - cele, ograniczenia , które muszą pozostać spełnione w każdym punkcie tworzonego planu- \textit{(:safety (:goal (na-lotnisku samolot))}
-\item Akcje - akcje, których podejmowanie ma zapewnić osiągnięcie celu, zawierają założenia wstępne, parametry oraz efekt, który powinny przynieść - \textit{(:action laduj :parameters (?s - samolot ?l - lotnisko ?p - powietrze) :precondition (jest-na ?s ?p) :effect (jest-na ?s ?l)) }\\
-\end{itemize}
+Plik dziedziny zawiera:
+  \begin{description}
+\item[Dziedzina] Definicja dziedziny: \texttt{(define (domain samoloty))}
+\item[Rozszerzenie] Dziedzina zawierająca dany wpis dziedziczy wymagania, typy, stałe, akcje, aksjomaty z innej dziedziny: \texttt{(:extends pojazdy) }
+\item[Wymagania] Fragmenty języka PDDL wykorzystywane przez opis dziedziny: \texttt{(:requirements :strips :typing)}
+\item[Typy] Typy znajdujące się w problemie: \texttt{(:types okno drzwi)}
+\item[Stałe] Zdefiniowane stałe \texttt{(:constants pierwsza druga - opona)}
+\item[Zmienne dziedzinowe] Zmienne dla dziedzin, które mają zadeklarowe wymaganie \texttt{:expression-evaluation}: \texttt{(:domain-variables zmienna - int)}
+\item[Predykaty] Lista predykatów zawartych w domenie (znak \texttt{?} poprzedzający \texttt{x} oznacza, że \texttt{x} jest zmienną) -  \textit{(:predicates (na-lotnisku ?x))}\JP{Przecież to nic nie tłumaczy.}
+\item[Pola wieczne] Lista literałów, które są prawdziwe w każdej chwili \texttt{(:timeless literał (nazwa))}
+\item[Ograniczenia bezpieczeństwa] Ograniczenia, które muszą pozostać spełnione w każdym punkcie tworzonego planu \texttt{(:safety (:goal (na-lotnisku samolot))}
+\item[Operatory] Lista operatorów, których podejmowanie ma zapewnić osiągnięcie celu. Każdy operator zawiera warunki wykonania, parametry oraz efekt, który powinny przynieść: \texttt{(:action laduj :parameters (?s - samolot ?l - lotnisko ?p - powietrze) :precondition (jest-na ?s ?p) :effect (jest-na ?s ?l)) }\\
+\end{description}
 
 
 Plik problemu zawiera:
-\begin{itemize}
-\item Domena - opis zawarty w poprzednim akapicie - \textit{(:domain loty)}
-\item Wymagania - opis zawarty w poprzednim akapicie
-\item Sytuacja - nazwa sytuacji początkowej - \textit{(:situation początek)}
-\item Obiekty - lista obiektów problemu - \textit{(:objects drzewo liść)}
-\item Stan początkowy - stan początkowy problemu - \textit{(:init (jest A) (w B hangar))}
-\item Cel - oczekiwany stan końcowy problemu - \textit{(:goal (and (jest A) (w C hangar) (w B lotnisko))}
-\item Długość rozwiązania - pole stwierdzające, iż istnieje rozwiązanie o podanej długości - \textit{(:length (:serial 5))}
-\end{itemize}
+\begin{description}
+\item[Dziedzina] Wskazanie, do której dziedziny odnosi się definiowany problem: \texttt{(:domain loty)}
+\item[Wymagania] Opis zawarty w poprzednim akapicie.
+\item[Sytuacja] Nazwa sytuacji początkowej: \texttt{(:situation początek)}
+\item[Obiekty] Lista obiektów występujących w problemie: \texttt{(:objects drzewo liść)}
+\item[Stan początkowy] Opis stanu początkowego problemu w formie listy spełnionych literałów: \texttt{(:init (jest A) (w B hangar))}
+\item[Cel] Oczekiwany stan końcowy problemu w formie formuły logicznej, która musi być spełniona: \texttt{(:goal (and (jest A) (w C hangar) (w B lotnisko))}
+\item[Długość rozwiązania] Pole stwierdzające, iż istnieje rozwiązanie o podanej długości: \texttt{(:length (:serial 5))}\JP{Czy to raczej nie jest podpowiedź dla planera, że ma szukać rozwiązań o danej długości?}
+\end{description}
 \begin{Code}
 \begin{lstlisting}[language=LISP,frame=single,label=ana_code, caption=Zawartość przykładowego pliku domeny]
 (define (domain loty)
@@ -93,13 +93,13 @@ Plik problemu zawiera:
 \end{Code}
 
 \section{Oprogramowanie}
-Aby język PDDL mógł spełniać swoją rolę, wymagane są narzędzia służące do planowania. Jednym z takich przyrządów jest \textit{Fast Downward}. Pozwala na zaplanowanie problemu zapisanego w jęzeku PDDL w wersji 2.2. Dodatkowo wspiera wymaganie \textit{:action-costs}, używane w wersji 3.1. Aplikacja wymaga od użytkownika posiadania wiersza poleceń oraz prostego edytora tekstu. Do ułożenia planu \textit{Fast Downward} używa heurystyki opartej na algorytmie \textit{Best-First Search}. Na podobnej zasadzie działania oparte są aplikacje \textit{Fast Forward} oraz \textit{LPG}.
+Aby język PDDL mógł spełniać swoją rolę, wymagane są narzędzia służące do planowania. Jednym z takich przyrządów\JP{proszę nie ufać na ślepo słownikowi wyrazów bliskoznacznych} jest \textit{Fast Downward}\JP{URL,cytowanie}, który pozwala na zaplanowanie problemu zapisanego w~jęzeku PDDL w wersji 2.2. Dodatkowo wspiera wymaganie \textit{:action-costs}, używane\JP{wprowadzone} w wersji 3.1. Aplikacja wymaga od użytkownika posiadania\JP{dostępu do} wiersza poleceń oraz prostego edytora tekstu. Do ułożenia planu \textit{Fast Downward} używa heurystyki opartej na algorytmie \textit{Best-First Search}\JP{tylko?}. Na podobnej zasadzie działania oparte są aplikacje \textit{Fast Forward}\JP{URL, cytownaie} oraz \textit{LPG}\JP{URL, cytownaie}.
 
-Kolejny elektroniczny planista nosi nazwę \textit{Satplan}. Algorytm wykorzystywany przez ten program spełnia założenia metody automatycznego planowania o takiej samej nazwie: konwertuje daną instancje problemu planowania na instancje problemu spełnialności, a następnie rozwiązuje wykorzystując odpowiednie schematy działań. Algorytm zawarty w \textit{Satplanie} ma następujący przebieg: utworzenie grafu planistycznego do pewnej długości \textit{k}, zamiana więzi wynikających z grafu na zbiór klauzul, używając odpowiedniego algorytmu pozwalającego rozstrzygnąć problem spełnialności, znajduje się odpowiednie rozwiązanie. W przypadku gdy nie można było znaleźć wyniku, zwiększona zostaje wartość \textit{k}. Jeśli jednak rozwiązanie zostało znalezione, transponuje się wynik działania algorytmu do wyniku pierwotnego pierwotnego problemu planowania. Na końcu usuwane są niektóre z niepotrzebnych akcji.
+Kolejny elektroniczny planista\JP{HMM... to jest poważny problem. U nas w Instytucie mianem planisty określa się zazwyczaj scheduler, więc bałbym się użycia tego terminu jako tłumaczenia angielskiego planner. A jeżeli juz, to musi być konsekwentnie używane w całym dokumencie i koniecznie wyjaśnione na początku.} nosi nazwę \textit{Satplan}\JP{URL, cytowanie}. Algorytm wykorzystywany przez ten program spełnia założenia metody automatycznego planowania o takiej samej nazwie: konwertuje daną instancje problemu planowania na instancje problemu spełnialności \JP{spełnialności czego?}, a następnie rozwiązuje wykorzystując odpowiednie schematy działań \JP{???; tak poza tym cytowanie do czegoś co opisuje tę metodę}. Algorytm zawarty w \textit{Satplanie} ma następujący przebieg: utworzenie grafu planistycznego\JP{?} do pewnej długości \textit{k}, zamiana więzi\JP{?} wynikających z grafu na zbiór klauzul,\JP{tu chyba czegoś brakuje, bo zdanie jest gramatycznie niespójne} używając odpowiedniego algorytmu pozwalającego rozstrzygnąć problem spełnialności, znajduje się odpowiednie rozwiązanie. W przypadku gdy nie można było znaleźć wyniku, zwiększona zostaje wartość \textit{k}. Jeśli jednak rozwiązanie zostało znalezione, transponuje się wynik działania algorytmu do wyniku pierwotnego pierwotnego problemu planowania. Na końcu usuwane są niektóre z niepotrzebnych akcji.
 
-Kolejną aplikacją umożliwiającą rozwiązywanie problemów automatycznego planowania jest Gavs+ (\textit{Game Arena Visualization and Synthesis, Plus!}), który skupia się na kwestiach związanych z grami. Program ten posiada bibliotekę (\textit{PDDL4J}) umożliwiającą wykonywanie problemów zapisanych w PDDL. Dzięki wbudowanemu interfejsowi Gavs+ umożliwia graficzne prześledzenie wynikowego planu.
+Kolejną aplikacją umożliwiającą rozwiązywanie problemów automatycznego planowania jest Gavs+ (\textit{Game Arena Visualization and Synthesis, Plus!})\JP{URL, cytowanie}, który skupia się na kwestiach związanych z grami. Program ten posiada bibliotekę (\textit{PDDL4J}) umożliwiającą wykonywanie problemów zapisanych w PDDL. Dzięki wbudowanemu interfejsowi Gavs+ umożliwia graficzne prześledzenie wynikowego planu.
 
-Wszystkie opisane tu narzędzia stworzone zostały na licencji otwartego oprogramowania.
+Wszystkie opisane tu narzędzia stworzone\JP{opublikowane} zostały na licencji otwartego oprogramowania.
 
 %algorytmy używane przez planery
 %satplan
