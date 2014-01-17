@@ -1,9 +1,12 @@
 \chapter{Architektura systemu}
 \section{Podział na projekty Eclipse}
-Ze względu na złożoność oraz zakres wymagań projekt GUI4PDDL podzielono na 6 głównych podprojektów związanych z rozwojem wtyczki oraz 2 dodatkowych, standardowych projektów \textit{Eclipse}, służących do testowania istniejących rozwiązań. Taka struktura pozwala na logiczne oddzielenie najważniejszej części -- implementacji wtyczki od kodu, odpowiedzialnego za możliwość jej integracji oraz związanego z testami. Pozwala to zmniejszyć rozmiar plików pobieranych przy instalacji przez użytkownika, zwłaszcza dodatkowych bibliotek.
+\JP{Tu jakiś schemat czy coś, bo jak się czyta te opisy dalej, to można się nieźle pogubić}
+
+Ze względu na złożoność oraz zakres wymagań projekt GUI4PDDL podzielono na 6 głównych podprojektów związanych z rozwojem wtyczki oraz 2 dodatkowych, standardowych projektów \textit{Eclipse}, służących do testowania istniejących rozwiązań. Taka struktura pozwala na logiczne oddzielenie implementacji wtyczki od kodu, odpowiedzialnego za jej testowanie i integrację z \emph{Eclipse}. Pozwala to zmniejszyć rozmiar plików pobieranych przy instalacji przez użytkownika, zwłaszcza dodatkowych bibliotek.
 
 Zgodnie z konwencją nazewniczą pakietów języka \textit{Java}, wszystkie główne projekty mają przedrostek \texttt{pl.poznan.put.cs.gui4pddl}, natomiast w pozostałych obowiązują dowolne nazwy. Dokładna struktura i opis poszczególnych projektów przedstawione są poniżej.
 
+\JP{We wszystkich wypunktowaniach w tym rozdziale zamiast ,,\textbf{\texttt{blah}} -- blah'' powinno być ,,\textbf{\texttt{blah}} Blah'' (proszę zwrócić uwagę na wielką literę!). Przy nazwach bibliotek i/lub narzędzi powinny pojawić się odpowiednie przypisy z linkami do stron.}
 Projekty główne:
 \begin{itemize}
 \item \textbf{\texttt{pl.poznan.put.cs.gui4pddl}} -- projekt zawierający pełną implementację wtyczki (wersję instalacyjną). Składa się z pakietów odpowiedzialnych za logikę biznesową oraz wszystkie istniejące widoki. Szerszy opis tego projektu znajduje się w rozdziale~\ref{sec:struktura}.
@@ -11,7 +14,7 @@ Projekty główne:
 \item \textbf{\texttt{pl.poznan.put.cs.gui4pddl.feature}} -- projekt \textit{Feature}, umożliwiający połączenie różnych wtyczek w taki sposób, by z zewnątrz były traktowane jako logiczna całość, co ułatwia zarządzanie nimi. Dodatkowo pozwala na uzupełnienie informacji dotyczących wersji, licencji, obsługiwanych systemów operacyjnych itp. Projekt tego typu wymagany jest także w procesie budowania i aktualizacji.
 
 We wtyczce GUI4PDDL grupuje podprojekty \texttt{pl.poznan.put.cs.gui4pddl}\linebreak oraz \texttt{pl.poznan.put.cs.gui4pddl.antlr}, a także udostępnia podstawowe informacje o niej.
-\item \textbf{\texttt{pl.poznan.put.cs.gui4pddl.tests}} -- projekt zawierający testy jednostkowe kodu niezwiązanego z interfejsem graficznym (z wykorzystaniem biblioteki \textit{jUnit}) oraz gramatyki formalnej, generowanej przez narzędzie \textit{ANTLR}, używanej w parserze (z wykorzystaniem biblioteki \textit{gUnit}). Oddzielenie testów od kodu głównego projektu pozwoliło na zmniejszenie wielkości wersji instalacyjnej oraz zredukowanie zależności od dodatkowych bibliotek.
+\item \textbf{\texttt{pl.poznan.put.cs.gui4pddl.tests}} -- projekt zawierający testy jednostkowe kodu niezwiązanego z interfejsem graficznym (z wykorzystaniem biblioteki \textit{jUnit}) oraz gramatyki formalnej, generowanej przez narzędzie \textit{ANTLR}, używanej w parserze (z wykorzystaniem biblioteki \textit{gUnit})\JP{polski odpowiednik słowa parser}. Oddzielenie testów od kodu głównego projektu pozwoliło na zmniejszenie wielkości wersji instalacyjnej oraz zredukowanie zależności od dodatkowych bibliotek.
 \item \textbf{\texttt{pl.poznan.put.cs.gui4pddl.uitests}} -- projekt zawierający testy jednostkowe interfejsu graficznego, z wykorzystaniem biblioteki \textit{SWTBot}. Biblioteka ta umożliwia przeprowadzenie automatycznych testów akceptacyjnych GUI, stworzonego przy pomocy biblioteki \textit{SWT}.
 \item \textbf{\texttt{pl.poznan.put.cs.gui4pddl.update}} -- projekt typu \textit{Update site}, zawierający statyczne pliki, które mogą być umieszczone w określonym miejscu na serwerze. Użytkownicy, korzystając z adresu do tego miejsca mogą pobrać i zainstalować wtyczkę poprzez menedżer aktualizacji. Projekt ten korzysta z wcześniej zdefiniowanego projektu \textit{Feature} oraz zawiera opis wtyczki i kategorię wyświetlone następnie przy instalacji.
 \end{itemize}
@@ -28,10 +31,10 @@ Pozostałe projekty:
 Kod głównego projektu wtyczki GUI4PDDL (\texttt{pl.poznan.put.cs.gui4pddl}) podzielony jest pomiędzy szereg pakietów, których nazwy, zgodnie z konwencją przyjętą w języku \textit{Java} wskazują na zakres odpowiedzialności. Wyróżnić można kilka odrębnych grup oraz podpakiety.
 
 \begin{itemize}
-\item \texttt{pl.poznan.put.cs.gui4pddl} -- podstawowy pakiet projektu, zawierający implementację (klasa \textit{Activator}) klasy \textit{Plugin}, którą musi implementować każda wtyczka platformy \textit{Eclipse}. Klasa ta odpowiada za cykl życia (inicjalizacja, zakończenie) projektu. W pakiecie tym znajdują się również stałe, współdzielone pomiędzy pakietami, definicja natury \textit{PDDL} (roz. \textbf{ROZDZIAŁ}), klasa magazynu obrazów (\textit{ImageCache}) oraz metod pomocnych przy tworzeniu nowego projektu.
+\item \texttt{pl.poznan.put.cs.gui4pddl} -- podstawowy pakiet projektu, zawierający implementację (klasa \textit{Activator}) klasy \textit{Plugin}, którą musi implementować każda wtyczka platformy \textit{Eclipse}. Klasa ta odpowiada za cykl życia (inicjalizacja, zakończenie) projektu. W pakiecie tym znajdują się również stałe, współdzielone pomiędzy pakietami, definicja natury \textit{PDDL} (roz. \textbf{ROZDZIAŁ}), klasa magazynu obrazów (\textit{ImageCache}) oraz metod pomocnych przy tworzeniu nowego projektu.\JP{Brakuje odnośnika i ja nadal nie wiem co to jest natura PDDL i czy mój PDDL też ją ma; ponadto nie wiem co to jest magazyn obrazów?}
 \item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{codecompletion}} -- zawiera klasy odpowiedzialne za zarządzanie podpowiadaniem składni, w tym za tworzenie prawidłowych propozycji uzupełniania kodu.
-\item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{codemodel}} -- zawiera klasy wchodzące w skład indeksu kodu, czyli modelu struktur \textit{PDDL}. Znajdują się tam klasy reprezentujące m.in. akcje, predykaty, problemy i domeny.
-\item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{editor}} -- zawiera implementację edytora tekstowego oraz wszystkich jego funkcjonalności -- kolorowania i podpowiadania składni, dopasowywania nawiasów, automatycznych wcięć.
+\item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{codemodel}} -- zawiera klasy wchodzące w skład indeksu kodu, czyli modelu struktur \textit{PDDL}. Znajdują się tam klasy reprezentujące m.in. akcje, predykaty, problemy i domeny.\JP{ale co to jest indeks kodu?}
+\item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{editor}} -- zawiera implementację edytora tekstowego oraz wszystkich jego funkcjonalności: kolorowania i podpowiadania składni, dopasowywania nawiasów, automatycznych wcięć.
 \begin{itemize}
 \item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{editor.scanners}} -- zawiera detektory słów kluczowych oraz elementów składniowych języka, które są wykorzystywane na etapie kolorowania i podpowiadania składni.
 \end{itemize}
@@ -40,31 +43,31 @@ Kod głównego projektu wtyczki GUI4PDDL (\texttt{pl.poznan.put.cs.gui4pddl}) po
 \item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{perspective}} -- zawiera definicję perspektywy \textit{PDDL}, czyli widocznego układu widoków podczas edycji plików \textit{PDDL}. Charakterystycznymi elementami tej perspektywy są: przeglądarka projektów (ang. \textit{Project Explorer}), edytor plików oraz standardowo widoczna przeglądarka planów (ang. \textit{Plan Browser}).
 \item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{planview}} -- pakiet związany z implementacją przeglądarki planów (\textit{Plan Browser}).
 \begin{itemize}
-\item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{planview.helpers}} -- zawiera klasy pomocnicze, służące do obsługi otwierania plików planów w zewnętrznym edytorze oraz uruchamiania systemowej przeglądarki plików, a także przetwarzania wzorca regularnego nazwy planu, zdefiniowanego w preferencjach plannera (roz.~\ref{subsec:konfiguracja}).
+\item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{planview.helpers}} -- zawiera klasy pomocnicze, służące do wyświetlania planów w zewnętrznym edytorze oraz uruchamiania systemowej przeglądarki plików, a także przetwarzania wzorca regularnego nazwy planu, zdefiniowanego w preferencjach plannera (roz.~\ref{subsec:konfiguracja}).
 \item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{planview.model}} -- zawiera klasę modelu danych, wykorzystywanych w przeglądarce planów.
 \begin{itemize}
-\item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{planview.model.manager}} -- zawiera klasy zarządcy danych przeglądarki planów, który umożliwia zapisanie oraz wczytywanie danych z pliku \textit{XML} oraz dodawanie i usuwanie elementów z jednoczesną aktualizacją widoku przeglądarki.
+\item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{planview.model.manager}} -- zawiera klasy zarządcy danych przeglądarki planów, który umożliwia zapisanie oraz wczytywanie danych z pliku \textit{XML} oraz dodawanie i usuwanie elementów z jednoczesną aktualizacją widoku przeglądarki.\JP{Co to jest zarządca danych? Chodzi o Contorller z MVC czy o kogoś podobnego do zarządcy nieruchomości?}
 \end{itemize}
 \item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{planview.ui}} -- zawiera pełną implementację widoku przeglądarki planów.
 \end{itemize}
-\item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{preferences}} -- zawiera implementację widoków standardowych stron preferencji wtyczki (preferencje ogólne, edytora oraz plannera), dostępnych z menu głównego \textit{Window} pod elementem \textit{Preferences}.
+\item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{preferences}} -- zawiera implementację widoków standardowych stron preferencji wtyczki, tzn. takich, które korzystają z \textit{API Preferences}. Są to preferencje ogólne, edytora oraz plannera, dostępne z menu głównego \textit{Window} pod elementem \textit{Preferences}.
 \begin{itemize}
 \item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{preferences.model}} -- zawiera klasę modelu danych preferencji plannera.
 \begin{itemize}
 \item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{preferences.model.manager}} -- zawiera klasę zarządcy danych preferencji plannera. Pozwala na zapis i odczyt danych z pliku w formacie \textit{XML}.
 \end{itemize}
-\item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{preferences.ui}} -- zawiera implementację niestandardowych widoków preferencji (tzn. takich, które nie korzystają z \textit{API} \textit{Preferences}) -- widok preferencji plannera oraz jego okna dialogowe.
+\item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{preferences.ui}} -- zawiera implementację niestandardowych widoków preferencji, tzn. takich, które nie korzystają z \textit{API} \textit{Preferences}: widok preferencji plannera oraz jego okna dialogowe.
 \end{itemize}
 \item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{runners}} -- zawiera klasy odpowiedzialne za wywołanie plannera, od momentu wciśnięcia przycisku \textit{Run}, poprzez stworzenie nowej konfiguracji uruchamiania, aż do inicjalizacji procesu zewnętrznego narzędzia. W pakiecie tym znajduje się także implementacja przerywania procesu znajdowania planu opisana w rozdziale~\ref{subsec:przerywanie}.
 \begin{itemize}
-\item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{runners.helpers}} -- zawiera pomocniczą klasę (\textit{LaunchUtil}) statycznych metod, związanych głównie ze zwracaniem określonego rodzaju zasobów w projekcie.
+\item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{runners.helpers}} -- zawiera pomocniczą klasę (\textit{LaunchUtil}) statycznych metod, związanych głównie ze zwracaniem określonego rodzaju zasobów w projekcie.\JP{um... powstrzymam się od suchego dowcipu, ale kompletnie nie rozumiem o co chodzi ze \emph{zwracaniem określonego rodzaju zasobów w projekci}}
 \item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{runners.ui}} -- zawiera klasy, związane z tworzeniem okna nowej konfiguracji uruchamiania, dostępnego podczas inicjalizacji zewnętrznego narzędzia lub poprzez wybranie z menu \textit{Run} elementu \textit{Run Configurations...} i przejście na zakładkę \textit{PDDL}.
 \begin{itemize}
-\item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{runners.ui.blocks}} -- zawiera klasy odpowiedzialne za elementy widoku (bloki) okna nowej konfiguracji uruchamiania.
+\item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{runners.ui.blocks}} -- zawiera klasy odpowiedzialne za elementy widoku (bloki) okna nowej konfiguracji uruchamiania.\JP{Jakie bloki? Takie jak na Ratajach?}
 \end{itemize}
 \end{itemize}
 \item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{wizards}} -- pakiet związany z implementacją dostępnych we wtyczce kreatorów.
 \begin{itemize}
-\item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{wizards.ui}} -- zawiera implementację kreatorów tworzenia nowego projektu \textit{PDDL} oraz nowego pliku domeny lub problemu.
+\item \texttt{pl.poznan.put.cs.gui4pddl.\textbf{wizards.ui}} -- zawiera implementację kreatorów tworzenia nowego projektu \textit{PDDL} oraz nowego pliku dziedziny lub problemu.
 \end{itemize}
 \end{itemize}
