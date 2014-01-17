@@ -362,6 +362,18 @@ Przedostatnia reguła znajduje wszystkie puste znaki, wykorzystując wbudowany i
 \end{figure}
 Środowisko Eclipse posiada wbudowaną metodę w klasie TextEditor, configureSourceViewerDecorationSupport. W klasie PDDLEditor zostaje ona nadpisana własną funkcją. Wykorzystano metodę setCharacterPairMatcher. Metoda ta wyszukuje rekurencyjnie kolejne pary znaków "(" oraz ")".  W edytorze dopasowane nawiasy są sparowane, więc przy zaznaczaniu jednego znaku z pary, drugi nawias otoczony jest szarą obwódką. Dzięki temu użytkownik szybko zauważy dopasowany nawias, lub jego brak.
 \subsection{Podpowiadanie kodu}
+\begin{figure}[h]
+  \centering
+    \includegraphics{img/code-assistant1.png}
+    \caption{Przykład podpowiadania kodu po dwukropku}
+    \label{ana_structure}
+\end{figure}
+\begin{figure}[h]
+  \centering
+    \includegraphics{img/code-assistant2.png}
+    \caption{Przykład podpowiadania kodu w połowie słowa kluczowego}
+    \label{ana_structure}
+\end{figure}
 Podpowiadanie składni wywoływane jest po wpisaniu dowolnej litery, znaku ":" lub po wciśnięciu kombinacji klawiszy Ctrl+Space - jest to domyślna kombinacja klawiszy w środowisku Eclipse wywołująca klasę PDDLCompletionAssistant. Klasa ta wymaga bezpośredniej współpracy z naturą wtyczki GU4PDDL. Jako domyślny asystent podpowiedzi, użyto klasy PDDLCompletionAssistant. Zawiera ona metodę computeCompletionsProposals(). Na początku metoda uzyskuje dostęp do dokumentu. Następnie obliczana jest ilość znaków, począwszy od pozycji kursora w danym momencie. Skaner tekstu przechodzi przez znaki poprzedzające kursor, aż natrafi na znak pusty, lub znak specjalny z wyłączeniem znaków ":" i "?". Wynikowy tekst jest prefixem. Następnie metoda dostaje dostęp do natury projektu. Poprzez instancję IPDDLCodeCompletionManager wywoływany jest CodeComletionManager. Ostatecznie metoda pobiera listę propozycji utworzoną przez menedżer (o czym w innym rozdziale). Lista propozycji jest filtrowana używając przygotowanego wcześniej prefixu. Lista wynikowa zawiera listę słów zaczynających się prefixem. Każda propozycja z listy wyświetlona jest w oknie kontekstowym. Użytkownik następnie wybiera jedną z nich i edytor wpisuje propozycję tuż za kursorem.
 
 
