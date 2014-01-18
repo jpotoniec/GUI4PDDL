@@ -387,16 +387,16 @@ Podpowiadanie składni wywoływane jest po wpisaniu dowolnej litery, znaku ":" l
 
 \section{Współpraca z oprogramowaniem wyznaczającym plan}
 \label{sec:wspolpraca}
-Zadaniem oprogramowania wyznaczającego plan (tzw. \JP{planera}plannera) jest \JP{wyznaczanie planu, czyli, to wykreślamy: przetwarzanie problemów automatycznego planowania, uzyskując na wyjściu plan, czyli} sekwencję akcji, umożliwiającą osiągnięcie stanu końcowego ze stanu początkowego problemu. Opis problemu wyrażony jest za pomocą języka automatycznego planowania (np. \textit{STRIPS}, \textit{PDDL}). 
+Zadaniem oprogramowania wyznaczającego plan (tzw. \JP{PPR planera}planera) jest ustalanie planu, czyli sekwencji akcji, \JP{PPR wyznaczanie planu, czyli, to wykreślamy: przetwarzanie problemów automatycznego planowania, uzyskując na wyjściu plan, czyli} prowadzącej do osiągnięcia stanu końcowego ze stanu początkowego problemu. Opis problemu wyrażony jest za pomocą języka automatycznego planowania (np. STRIPS, PDDL). 
 
-W przypadku języka \textit{PDDL}, wykorzystywanego w niniejszej pracy, zadanie\JP{instancja problemu, zadanie funkcjonuje jako odpowiednik słowa problem w rozumieniu teorii złożoności obliczeniowej} automatycznego planowania składa się z dwóch plików: pliku domeny, w którym opisana jest dziedzina zadania oraz pliku problemu, opisującego stan początkowy oraz docelowy. Współpraca narzędzia GUI4PDDL z plannerami wymaga więc sposobności\JP{możliwości} uzyskania planu na podstawie aktualnej zawartości dwóch, wyżej wymienionych plików. Ponadto należy zagwarantować możliwość zmiany algorytmu planowania lub innych opcji, które są dostępne dla poszczególnych narzędzi. Gotowy plan powinien być również przedstawiony użytkownikowi w postaci czytelnej.
+W przypadku języka PDDL, wykorzystywanego w niniejszej pracy, instancja problemu\JP{PPR instancja problemu, zadanie funkcjonuje jako odpowiednik słowa problem w rozumieniu teorii złożoności obliczeniowej} automatycznego planowania składa się z dwóch plików: pliku dziedziny, w którym opisana jest dziedzina zadania oraz pliku problemu, opisującego stan początkowy oraz docelowy. Współpraca narzędzia GUI4PDDL z planerami wymaga więc możliwości\JP{PPR możliwości} uzyskania planu na podstawie aktualnej zawartości dwóch, wyżej wymienionych plików. Ponadto należy zagwarantować możliwość zmiany algorytmu planowania lub innych opcji, które są dostępne dla poszczególnych narzędzi. Gotowy plan powinien być również przedstawiony użytkownikowi w postaci czytelnej.
 
-Obecnie dostępnych jest wiele plannerów, korzystających z języka \textit{PDDL}, różniących się dostępnymi algorytmami, sposobem uruchamiania, ilością\JP{argumenty są policzalne, więc: liczbą} oraz rodzajem przyjmowanych na wejściu argumentów, a także strukturą strumienia wyjściowego. Ze względu na to, że programy wyznaczające plan tworzone są często z przeznaczeniem na konkurs \textit{IPC} (\textit{International Planning Competition}), dotychczas nie zdefiniowano standardu uruchamiania tego typu narzędzi, który obejmowałby m.in. ujednolicenie argumentów linii poleceń, dodatkowo wykorzystywanych narzędzi, specyficznych dla systemu operacyjnego oraz formatu plików wyjściowych\JP{serio różnią się formatem? myślałem, że IPC ma standardowy format wyjściowy, bo inaczej nie byłoby jak weryfikować planów?}.
+Obecnie dostępnych jest wiele planerów, korzystających z języka PDDL, różniących się dostępnymi algorytmami, sposobem uruchamiania, liczbą\JP{PPR argumenty są policzalne, więc: liczbą} oraz rodzajem przyjmowanych na wejściu argumentów, a także strukturą strumienia wyjściowego. Ze względu na to, że programy wyznaczające plan tworzone są często z przeznaczeniem na konkurs IPC (\emph{International Planning Competition}), dotychczas nie zdefiniowano standardu uruchamiania tego typu narzędzi, który obejmowałby m.in. ujednolicenie argumentów linii poleceń oraz dodatkowych, wykorzystywanych komend powłoki, często specyficznych dla systemu operacyjnego.\JP{PPR serio różnią się formatem? myślałem, że IPC ma standardowy format wyjściowy, bo inaczej nie byłoby jak weryfikować planów?}.
 
-Analiza przykładowych narzędzi (\textit{FastDownward}, \textit{SATPLAN}, \textit{FastForward}) pod kątem inicjalizacji procesu planowania wykazała\JP{pozwoliła zidentyfikować} następujące cechy wspólne oraz różnice pomiędzy plannerami:\JP{opisane w tabeli \ref{plannersTable}.}
+Analiza przykładowych narzędzi (\emph{FastDownward}\footnote{http://www.fast-downward.org/} , \emph{SATPLAN}\footnote{http://www.cs.rochester.edu/users/faculty/kautz/satplan/}, \emph{FastForward}\footnote{http://fai.cs.uni-saarland.de/hoffmann/ff.html}) pod kątem inicjalizacji procesu planowania pozwoliła zidentyfikować\JP{PPR pozwoliła zidentyfikować} cechy wspólne oraz różnice pomiędzy planerami, opisane w tabeli \ref{plannersTable}.\JP{PPR opisane w tabeli \ref{plannersTable}.}
 \begin{table}[h]
 \centering
-\caption{Cechy wspólne oraz różnice w uruchamianiu pomiędzy przykładowymi plannerami.}
+\caption{Cechy wspólne oraz różnice w uruchamianiu pomiędzy przykładowymi planerami.}
 \label{plannersTable}
 \begin{tabular}{|p{6cm}|p{6cm}|}
 \hline
@@ -406,14 +406,14 @@ Analiza przykładowych narzędzi (\textit{FastDownward}, \textit{SATPLAN}, \text
    \hline
 \begin{itemize}
 \item Narzędzia konsolowe.
-\item Wymaganie wskazania ścieżek do plików domeny oraz problemu.
+\item Wymaganie wskazania ścieżek do plików dziedziny oraz problemu.
 \item Możliwość wyboru algorytmu za pomocą argumentu wejściowego programu.
 \item Tworzenie pliku wyjściowego z wynikowym planem.
 \end{itemize}
 &
 \begin{itemize}
 \item Różna liczba faz przetwarzania.
-\item Różna liczba podprogramów plannera.
+\item Różna liczba podprogramów planera.
 \item Różnice w nazewnictwie poszczególnych opcji i algorytmów.
 \item Różnice w nazwie pliku wyjściowego oraz jego formatowaniu.
 \end{itemize} \\
@@ -421,103 +421,111 @@ Analiza przykładowych narzędzi (\textit{FastDownward}, \textit{SATPLAN}, \text
 \end{tabular}
 \end{table}
 
-Biorąc pod uwagę \JP{wspólne cechy zamiast: powyższe cechy wspólne} oraz wymaganie projektu, dotyczące możliwości integracji z wieloma plannerami, ze szczególnym uwzględnieniem \textit{FastDownward}, zdecydowano o stworzeniu wewnętrznego standardu uruchamiania. Standard ten opisuje postać argumentów linii poleceń dla plików plannerów, które mogą być prawidłowo powiązane z wtyczką GUI4PDDL. 
+Biorąc pod uwagę wspólne cechy \JP{PPR wspólne cechy zamiast: powyższe cechy wspólne} oraz wymaganie projektu, dotyczące możliwości integracji z wieloma planerami, ze szczególnym uwzględnieniem \emph{FastDownward}, zdecydowano o stworzeniu wewnętrznego standardu uruchamiania. Standard ten opisuje postać argumentów linii poleceń dla plików planerów, które mogą być prawidłowo powiązane z wtyczką GUI4PDDL. 
 
-Narzędzia te wymagają podania na wejście programu ścieżek do plików domeny oraz problemu. W niektórych przypadkach konieczne jest także wskazanie nazwy algorytmu planowania. Cechy te w całości pokrywają się z wymaganiami skryptu uruchomieniowego narzędzia \textit{FastDownward}. W związku z tym, powzięto decyzję o przyjęciu formatu skryptu uruchomieniowego, analogicznego do formatu skryptu \texttt{plan}, znajdującego się w katalogu \texttt{src} \textit{FastDownward}. Skrypt (bądź bezpośrednio plik wykonywalny plannera) przeznaczony do integracji z wtyczką GUI4PDDL musi więc przyjmować następujące argumenty wejściowe w odpowiedniej kolejności:
+Narzędzia te wymagają podania na wejście programu ścieżek do plików dziedziny oraz problemu. W niektórych przypadkach konieczne jest także wskazanie nazwy algorytmu planowania. Cechy te w całości pokrywają się z wymaganiami skryptu uruchomieniowego narzędzia \emph{FastDownward}. W związku z tym, powzięto decyzję o przyjęciu formatu skryptu uruchomieniowego, analogicznego do formatu skryptu \path{plan}, znajdującego się w katalogu \path{src} \emph{FastDownward}. Skrypt (bądź bezpośrednio plik wykonywalny planera) przeznaczony do integracji z wtyczką GUI4PDDL musi więc przyjmować następujące argumenty wejściowe w odpowiedniej kolejności:
 
 \noindent
-\centerline{\texttt{<ścieżka\_do\_domeny>}\textvisiblespace\texttt{<ścieżka\_do\_problemu>}\textvisiblespace\texttt{<argumenty\_planowania>}}
+\centerline{\texttt{<ścieżka\_do\_dziedziny>}\textvisiblespace\texttt{<ścieżka\_do\_problemu>}\textvisiblespace\texttt{<argumenty\_planowania>}}
 
 
 \noindent
 gdzie:
 \begin{itemize}
-\item \textbf{\texttt{<ścieżka\_do\_domeny>}}  ścieżka do pliku domeny danego zadania automatycznego planowania;
-\item \textbf{\texttt{<ścieżka\_do\_problemu>}} ścieżka do pliku problemu, zdefiniowanego na dziedzinie wskazanej w podanym jako pierwszy argument pliku domeny;
-\item \textbf{\texttt{<argumenty\_planowania>}} dowolne argumenty plannera, na przykład dotyczące wyboru algorytmu planowania.
+\item \textbf{\texttt{<ścieżka\_do\_dziedziny>}}  ścieżka do pliku dziedziny danego zadania automatycznego planowania;
+\item \textbf{\texttt{<ścieżka\_do\_problemu>}} ścieżka do pliku problemu, zdefiniowanego na dziedzinie wskazanej w podanym jako pierwszy argument pliku dziedziny;
+\item \textbf{\texttt{<argumenty\_planowania>}} dowolne argumenty planera, na przykład dotyczące wyboru algorytmu planowania.
 \end{itemize}
-Narzędzia uruchamiane według innego schematu nie będą prawidłowo zintegrowane z GUI4PDDL. W takim przypadku należy przygotować skrypt powłoki systemu operacyjnego, który dostosuje sposób inicjalizacji procesu planowania do przedstawionego powyżej. Dzięki zastosowaniu funkcji systemowych (roz.~\ref{subsec:przerywanie}) istnieje możliwość kontroli nad tego typu skryptami z poziomu \textit{Eclipse}, włączając uruchamiane przez nie podprocesy.
+Narzędzia uruchamiane według innego schematu nie będą prawidłowo zintegrowane z GUI4PDDL. W takim przypadku należy przygotować skrypt powłoki systemu operacyjnego, który dostosuje sposób inicjalizacji procesu planowania do przedstawionego powyżej. Dzięki zastosowaniu funkcji systemowych (roz.~\ref{subsec:przerywanie}) istnieje możliwość kontroli nad tego typu skryptami z poziomu \emph{Eclipse}, włączając uruchamiane przez nie podprocesy.
 
-Jak wspomniano, planner \textit{FastDownward} w wersji dla systemów z rodziny \textit{Linux} posiada odpowiedni plik uruchomieniowy w katalogu \path{src} instalacji. W przypadku systemu \textit{Windows} należy stworzyć osobny program wsadowy. Przykładowa forma takiego pliku znajduje się w katalogu \path{resources} projektu \texttt{pl.poznan.put.cs.gui4pddl}.
+Jak wspomniano, planer \emph{FastDownward} w wersji dla systemów z rodziny Linux posiada odpowiedni plik uruchomieniowy w katalogu \path{src} instalacji. W przypadku systemu Windows należy stworzyć osobny program wsadowy. Przykładowa forma takiego pliku znajduje się w katalogu \path{resources} projektu \texttt{pl.poznan.put.cs.gui4pddl}.
 
-Analogiczny skrypt uruchomieniowy można wykonać również dla innego oprogramowania wyznaczającego plan. \JP{Przykładowy skrypt dla planera SATPLAN znajduje się \ldots.}
+Analogiczny skrypt uruchomieniowy można wykonać również dla innego oprogramowania wyznaczającego plan. Kod takiego skryptu dla planera \emph{SATPLAN} przedstawiony jest w przykładzie~\ref{lst:satplan}. \JP{PPR Przykładowy skrypt dla planera SATPLAN znajduje się \ldots.}
   
-\JP{Ten przykład trzeba uprościć, zawiera za dużo rzeczy niezwiązanych z tematem. Usuńcie die i usage na rzecz wstawienia odpowiedniego kodu w miejscu ich wywołania, tak samo usuńcie echo przed i po wywołaniu SATPLAN}
+\JP{PPR Ten przykład trzeba uprościć, zawiera za dużo rzeczy niezwiązanych z tematem. Usuńcie die i usage na rzecz wstawienia odpowiedniego kodu w miejscu ich wywołania, tak samo usuńcie echo przed i po wywołaniu SATPLAN}
 \begin{Code}
-\begin{lstlisting}[language=bash,frame=single,caption={Przykładowy skrypt uruchomieniowy (skrypt \textit{bash} dla systemu \textit{Linux}) dla plannera \textit{SATPLAN}}.]
+\begin{lstlisting}[language=bash,label=lst:satplan,frame=single,caption={Przykładowy skrypt uruchomieniowy (skrypt \emph{bash} dla systemu Linux) dla planera \textit{SATPLAN}}.]
 #!/bin/bash
 set -e
 BASEDIR="$(dirname "$0")"
-
-function die {
-    echo "$@" 1>&2
-    exit 1
-}
-
-function usage {
-    die "usage: $(basename "$0") DOMAIN_FILE PROBLEM_FILE SEARCH_OPTION ..."
-}
-
-# Paths to planner components
 SATPLAN="$BASEDIR/satplan"
 
 if [[ "$#" < 2 ]]; then
-    usage
+    echo "usage: $(basename "$0") DOMAIN_FILE PROBLEM_FILE SEARCH_OPTION ..." 1>&2
+    exit 1
 fi
 
 DOMAIN=$1
 PROBLEM=$2
 shift 2
 
-echo "Running SATPLAN"
 "$SATPLAN" -domain "$DOMAIN" -problem "$PROBLEM" "$@"
-echo
 \end{lstlisting}
 \end{Code}
 
-Poza określonym formatem argumentów linii poleceń, każdy planner musi zapewnić możliwość zapisu uzyskanego planu do pliku w postaci czytelnej, co jest wykorzystywane w przeglądarce planów, opisanej w rozdziale~\ref{subsec:uruchamianie}.
+Poza określonym formatem argumentów linii poleceń, każdy planer musi zapewnić możliwość zapisu uzyskanego planu do pliku w postaci czytelnej, co jest wykorzystywane w przeglądarce planów, opisanej w rozdziale~\ref{subsec:uruchamianie}.
 
 \subsection{Konfiguracja zewnętrznego oprogramowania}
 \label{subsec:konfiguracja}
-Istnienie zróżnicowanego oprogramowania, pozwalającego wyznaczyć plan wymaga możliwości integracji ze środowiskiem programistycznym. Platforma \textit{Eclipse} zapewnia standardową opcję uruchamiania zewnętrznych narzędzi z poziomu menu \textit{Run} aplikacji, bądź skrótów znajdujących się na pasku narzędziowym lub menu kontekstowym edytowanego pliku. W wielu wtyczkach, rozszerzających \textit{Eclipse} o obsługę języków programowania ogólnego przeznaczenia (\textit{Java}, \textit{C++}), opcja ta odpowiada za rozpoczęcie procesu kompilacji. Biorąc pod uwagę podobieństwo procesu planowania do kompilacji oraz przyzwyczajenia użytkowników, zdecydowano o wprowadzeniu w projekcie GUI4PDDL analogicznego sposobu uruchamiania plannera i jego konfiguracji.
+Istnienie zróżnicowanego oprogramowania, pozwalającego wyznaczyć plan wymaga możliwości integracji ze środowiskiem programistycznym. Platforma \emph{Eclipse} zapewnia standardową opcję uruchamiania zewnętrznych narzędzi z poziomu menu \emph{Run} aplikacji, bądź skrótów znajdujących się na pasku narzędziowym lub menu kontekstowym edytowanego pliku. W wielu wtyczkach, rozszerzających \emph{Eclipse} o obsługę języków programowania ogólnego przeznaczenia (Java, C++), opcja ta odpowiada za rozpoczęcie procesu kompilacji. Biorąc pod uwagę podobieństwo procesu planowania do kompilacji oraz przyzwyczajenia użytkowników, zdecydowano o wprowadzeniu w projekcie GUI4PDDL analogicznego sposobu uruchamiania planera i jego konfiguracji.
 
-Zanim możliwa będzie aktywacja planowania z poziomu \textit{Eclipse}, należy skonfigurować planner, wybierając z menu \textit{Window}, opcję \textit{Preferences}, a następnie w otwartym oknie, rozwijając listę \textit{PDDL} wybrać element \textit{Planners}.
+Zanim możliwa będzie aktywacja planowania z poziomu \emph{Eclipse}, należy skonfigurować planer, wybierając z menu \emph{Window}, opcję \emph{Preferences}, a następnie w otwartym oknie, rozwijając listę \emph{PDDL} wybrać element \emph{Planners}.
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\textwidth]{img/planner_preferences_window}
-    \caption{Widok okna konfiguracji plannera.}
+    \caption{Widok okna konfiguracji planera.}
     \label{fig:preferences_window}
 \end{figure}
-Standardowo, dostępny jest wstępnie skonfigurowany planner \textit{FastDownward}. Okno preferencji \JP{przedstawione na rysunku \ref{fig:preferences_window}} udostępnia następujące opcje:
-\JP{W tym wypunkowaniu coś trzeba zrobić wizualnie. Nazwy opcji powinny chyba albo się wyróżniać, albo być sensownie zintegrowane z tekstem. Może np przejść na describe i tylko w nawiasach pisać, że na rysunku jest to oznaczone nr jakimśtam?}
-\begin{enumerate}
-\item Wybór plannera domyślnego. Włączenie tej opcji, powoduje, że przy każdym uruchomieniu procesu planowania na plikach domeny i problemu, wykorzystany będzie wskazany w tym polu planner wraz z odpowiednim algorytmem planowania.
-\item Nowa konfiguracja. Przycisk ten umożliwia stworzenie nowej konfiguracji, dla innego niż bieżący plannera. Może istnieć wiele takich konfiguracji, które w trakcie uruchamiania procesu planowania można dowolnie zmieniać.
-\item Nazwa konfiguracji. Pozwala na rozróżnienie poszczególnych konfiguracji. Nazwa powinna być unikalna i może składać się z liter, cyfr, spacji oraz znaków \texttt{.}, \texttt{\_}, \texttt{-}.
-\item Ścieżka do pliku plannera. Za pomocą przycisku \textit{Browse...} należy wskazać ścieżkę do pliku wykonywalnego lub skryptu powłoki systemu operacyjnego (\textit{Linux} lub \textit{Windows}), zgodnego z formatem przedstawionym w rozdziale~\ref{sec:wspolpraca}.
-\item Argumenty plannera. W pierwszej kolumnie znajduje się czytelna dla użytkownika nazwa argumentu, w szczególności nazwa wykorzystywanego algorytmu planowania, która będzie używana jako prosty odpowiednik argumentu linii poleceń, znajdującego się w drugiej kolumnie. Parametry wiersza poleceń danego plannera wpisane muszą być w sposób identyczny, jak przy wpisywaniu ich podczas uruchamiania w konsoli.
-\item Nowy argument. Przycisk ten umożliwia dodanie nowego argumentu linii poleceń plannera wraz z jego nazwą.
-\item Edycja argumentu. Pozwala na edycję aktualnie zaznaczonego argumentu plannera.
-\item Usunięcie argumentu. Pozwala na usunięcie aktualnie zaznaczonego argumentu plannera.
-\item Usunięcie konfiguracji plannera. Przycisk ten usuwa bieżącą konfigurację. Nie ma możliwości cofnięcia tej operacji, dlatego przed jej wykonaniem wyświetlone zostaje pytanie, potwierdzające chęć usunięcia konfiguracji.
-\item Wzorzec pliku planu. Okno to umożliwia zdefiniowanie wyrażenia regularnego, dotyczącego nazwy pliku wynikowego planu, powstałego w rezultacie działania bieżącego plannera. Prawidłowy wzorzec pozwala na wykrycie plików planów i bezpośrednie ich wyświetlenie przy pomocy przeglądarki planów (roz.~\ref{subsec:uruchamianie}).
+Standardowo, dostępny jest wstępnie skonfigurowany planer \emph{FastDownward}. Okno preferencji, przedstawione na rysunku~\ref{fig:preferences_window} \JP{PPR przedstawione na rysunku \ref{fig:preferences_window}} udostępnia następujące opcje:
+\JP{PPR W tym wypunkowaniu coś trzeba zrobić wizualnie. Nazwy opcji powinny chyba albo się wyróżniać, albo być sensownie zintegrowane z tekstem. Może np przejść na describe i tylko w nawiasach pisać, że na rysunku jest to oznaczone nr jakimśtam?}
+
+{
+\newcounter{desccount} 
+\setcounter{desccount}{1}
+\renewcommand{\descriptionlabel}[1]%
+{\protect\circled{\arabic{desccount}} \hspace\labelsep\normalfont\bfseries #1\stepcounter{desccount}}
+
+\begin{description}
+\item[Wybór planera domyślnego] Włączenie tej opcji, powoduje, że przy każdym uruchomieniu procesu ustalania planu, wykorzystany będzie wskazany w tym polu planer oraz algorytm planowania.
+\item [Nowa konfiguracja] Przycisk ten umożliwia stworzenie nowej konfiguracji, dla innego niż bieżący planera. Może istnieć wiele takich konfiguracji, które w trakcie uruchamiania procesu planowania można dowolnie zmieniać.
+\item [Nazwa konfiguracji] Pozwala na rozróżnienie poszczególnych konfiguracji. Nazwa powinna być unikalna i może składać się z liter, cyfr, spacji oraz znaków \texttt{.}, \texttt{\_}, \texttt{-}.
+\item [Ścieżka do pliku planera] Za pomocą przycisku \emph{Browse...} należy wskazać ścieżkę do pliku wykonywalnego lub skryptu powłoki systemu operacyjnego (Linux lub Windows), zgodnego z formatem przedstawionym w rozdziale~\ref{sec:wspolpraca}.
+\item [Argumenty planera] W pierwszej kolumnie znajduje się czytelna dla użytkownika nazwa argumentu, w szczególności nazwa wykorzystywanego algorytmu planowania, która będzie używana jako prosty odpowiednik argumentu linii poleceń, znajdującego się w drugiej kolumnie. Parametry wiersza poleceń danego planera wpisane muszą być w sposób identyczny, jak przy wpisywaniu ich podczas uruchamiania w konsoli.
+\item [Nowy argument] Przycisk ten umożliwia dodanie nowego argumentu linii poleceń planera wraz z jego nazwą.
+\item [Edycja argumentu] Pozwala na edycję aktualnie zaznaczonego argumentu planera.
+\item [Usunięcie argumentu] Pozwala na usunięcie aktualnie zaznaczonego argumentu planera.
+\item [Usunięcie konfiguracji planera] Przycisk ten usuwa bieżącą konfigurację. Nie ma możliwości cofnięcia tej operacji, dlatego przed jej wykonaniem wyświetlone zostaje pytanie, potwierdzające chęć usunięcia konfiguracji.
+\item [Wzorzec pliku planu] Przycisk ten otwiera okno, które umożliwia zdefiniowanie wyrażenia regularnego, dotyczącego nazwy pliku wynikowego planu, powstałego w rezultacie działania bieżącego planera. Prawidłowy wzorzec pozwala na wykrycie plików planów i bezpośrednie ich wyświetlenie przy pomocy przeglądarki planów (roz.~\ref{subsec:uruchamianie}).
+\end{description}
+}
+
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.8\textwidth]{img/plan_view_dialog}
-    \caption{Widok okna konfiguracji przeglądarki planów.}
+    \caption{Widok okna konfiguracji wzorca pliku planu.}
     \label{fig:plan_view_window}
 \end{figure}
-\begin{enumerate}
-\item Wyrażenie regularne. Wzorzec opisujący nazwę pliku wynikowego planu. Planner \textit{FastDownward} standardowo generuje pliki planów o nazwie \texttt{sas\_plan.}, a w przypadku większej ilości planów kolejno \texttt{sas\_plan.1}, \texttt{sas\_plan.2}..., dlatego wyrażenie obejmujące te nazwy ma postać \texttt{sas\_plan.*}. Dla narzędzia \textit{SATPLAN} wzorzec ma postać \texttt{-problem\_file\_name-\textbackslash.pddl\textbackslash.soln} (opis wzorca \texttt{-problem\_file\_name-} znajduje się poniżej), ponieważ generuje pliki o nazwie \texttt{<nazwa\_pliku\_problemu>.pddl.soln}.
-\item Wzorzec katalogu roboczego. Przycisk ten powoduje wstawienie w bieżącym miejscu kursora, ciągu \texttt{-working\_directory-}, który w czasie procesu planowania zamieniany jest na aktualną nazwę katalogu roboczego plannera (roz.~\ref{subsec:uruchamianie}). Opcja ta pozwala na wykrycie plików wynikowych, które jako swoją nazwę przyjmują nazwę bieżącego katalogu.
-\item Wzorzec nazwy projektu. Przycisk ten powoduje wstawienie w bieżącym miejscu kursora, ciągu \texttt{-project\_name-}, który w czasie planowania zamieniany jest na nazwę projektu \textit{Eclipse}, w którym znajdują się przetwarzane pliki domeny oraz problemu.
-\item Wzorzec nazwy pliku domeny. Przycisk ten powoduje wstawienie w bieżącym miejscu kursora, ciągu \texttt{-domain\_file\_name-}, który w czasie planowania zamieniany jest na nazwę pliku domeny, wykorzystywanej w tym przetwarzaniu, bez rozszerzenia \texttt{.pddl}.
-\item Wzorzec nazwy pliku problemu. Przycisk ten powoduje wstawienie w bieżącym miejscu kursora, ciągu \texttt{-problem\_file\_name-}, który w czasie planowania zamieniany jest na nazwę pliku problemu, wykorzystywanego w tym przetwarzaniu, bez rozszerzenia \texttt{.pddl}.
-\end{enumerate}
-\end{enumerate}
 
-Minimalna konfiguracja plannera, możliwa do zapisu składa się z prawidłowej nazwy oraz ścieżki do pliku programu. Zachowanie utworzonych lub zmodyfikowanych ustawień odbywa się po naciśnięciu przycisku ,,OK''.
+
+Okno konfiguracji wzorca pliku planu przedstawione jest na rysunku~\ref{fig:plan_view_window}. Posiada ono następujące elementy:
+
+{
+\newcounter{alphcount} 
+\setcounter{alphcount}{1}
+\renewcommand{\descriptionlabel}[1]%
+{\hspace\labelsep\normalfont\bfseries\alph{alphcount}) #1\stepcounter{alphcount}}
+\begin{description}
+\item [Wyrażenie regularne] Wzorzec opisujący nazwę pliku wynikowego planu. Planer \emph{FastDownward} standardowo generuje pliki planów o nazwie \texttt{sas\_plan.}, a w przypadku większej ilości planów kolejno \texttt{sas\_plan.1}, \texttt{sas\_plan.2}\ldots, dlatego wyrażenie obejmujące te nazwy ma postać \texttt{sas\_plan.*}. Dla narzędzia \emph{SATPLAN} wzorzec ma postać \texttt{-problem\_file\_name-\textbackslash.pddl\textbackslash.soln} (opis wzorca \texttt{-problem\_file\_name-} znajduje się poniżej), ponieważ generuje pliki o nazwie \texttt{<nazwa\_pliku\_problemu>.pddl.soln}.
+\item [Wzorzec katalogu roboczego] Przycisk ten powoduje wstawienie w bieżącym miejscu kursora, ciągu \texttt{-working\_directory-}, który w czasie procesu planowania zamieniany jest na aktualną nazwę katalogu roboczego planera (roz.~\ref{subsec:uruchamianie}). Opcja ta pozwala na wykrycie plików wynikowych, które jako swoją nazwę przyjmują nazwę bieżącego katalogu.
+\item [Wzorzec nazwy projektu] Przycisk ten powoduje wstawienie w bieżącym miejscu kursora, ciągu \texttt{-project\_name-}, który w czasie planowania zamieniany jest na nazwę projektu \emph{Eclipse}, w którym znajdują się przetwarzane pliki dziedziny oraz problemu.
+\item [Wzorzec nazwy pliku dziedziny] Przycisk ten powoduje wstawienie w bieżącym miejscu kursora, ciągu \texttt{-domain\_file\_name-}, który w czasie planowania zamieniany jest na nazwę pliku dziedziny, wykorzystywanej w tym przetwarzaniu, bez rozszerzenia \texttt{.pddl}.
+\item [Wzorzec nazwy pliku problemu] Przycisk ten powoduje wstawienie w bieżącym miejscu kursora, ciągu \texttt{-problem\_file\_name-}, który w czasie planowania zamieniany jest na nazwę pliku problemu, wykorzystywanego w tym przetwarzaniu, bez rozszerzenia \texttt{.pddl}.
+\end{description}
+}
+
+
+Minimalna konfiguracja planera, możliwa do zapisu składa się z prawidłowej nazwy oraz ścieżki do pliku programu. Zachowanie utworzonych lub zmodyfikowanych ustawień odbywa się po naciśnięciu przycisku \emph{OK}.
 Wszystkie konfiguracje zapisywane są w tzw. obszarze stanu (ang. \textit{state area}) przestrzeni roboczej (ang. \textit{workspace}) w folderze \path{planner_preferences}. 
 
 Ścieżka do tego katalogu ma następującą postać:
@@ -531,10 +539,10 @@ gdzie:
 \noindent
 \textbf{\path{<l_p_rob>}} -- lokalizacja przestrzeni roboczej.
 
-Każda konfiguracja ustawień plannera zapisywana jest w osobnym pliku o nazwie analogicznej do wpisanej w oknie preferencji. Ze względu na łatwość modyfikacji, elastyczność w przechowywaniu listy argumentów oraz odporność na zmiany, jako format zapisu danych wybrano \textit{XML}. Do tego typu serializacji, wykorzystane zostało \textit{API Memento} dołączone do platformy \textit{Eclipse}. W tej formie zapisywane są wszystkie informacje o konfiguracji, z wyjątkiem ustawień domyślnego plannera, które zachowywane są przy pomocy standardowego \textit{API Preferences} do zapisu preferencji w~\textit{Eclipse}.
+Każda konfiguracja ustawień planera zapisywana jest w osobnym pliku o nazwie analogicznej do wpisanej w oknie preferencji. Ze względu na łatwość modyfikacji, elastyczność w przechowywaniu listy argumentów oraz odporność na zmiany, jako format zapisu danych wybrano XML. Do tego typu serializacji, wykorzystane zostało API \emph{Memento}\footnote{http://help.eclipse.org/kepler/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/ui/IMemento.html}\cite{eclipseplugins} dołączone do platformy \emph{Eclipse}. W tej formie zapisywane są wszystkie informacje o konfiguracji (przykład~\ref{lst:preferencje_plannera}), z wyjątkiem ustawień domyślnego planera, które zachowywane są przy pomocy standardowego API \emph{Preferences}\footnote{http://help.eclipse.org/kepler/topic/org.eclipse.platform.doc.isv/guide/preferences\_prefs.htm?cp=2\_0\_4\_3}\cite{eclipseplugins} do zapisu preferencji w~\emph{Eclipse}.
 
 \begin{Code}
-\begin{lstlisting}[language=XML,frame=single,label={lst:preferencje_plannera},caption={Przykładowa konfiguracja plannera FastDownward w postaci XML}]  % Start your code-block
+\begin{lstlisting}[language=XML,frame=single,label={lst:preferencje_plannera},caption={Przykładowa konfiguracja planera FastDownward w postaci XML}]  % Start your code-block
 <?xml version="1.0" encoding="UTF-8"?>
 <PlannerPreferences 
 	PlanViewFilePattern="sas_plan.*" 
@@ -555,7 +563,7 @@ Każda konfiguracja ustawień plannera zapisywana jest w osobnym pliku o nazwie 
 \subsection{Uruchamianie zewnętrznego oprogramowania}
 \label{subsec:uruchamianie}
 
-Inicjalizacja oprogramowania wyznaczającego plan odbywa się poprzez wbudowany w \textit{Eclipse} mechanizm skrótów uruchamiania (ang \textit{Launch Shortcuts}). Rozszerzenie wtyczki o tego typu element pozwala na wywołanie zewnętrznych narzędzi przy pomocy menu \textit{Run} lub \textit{Debug}, a także przycisku znajdującego się na pasku narzędziowym lub menu kontekstowego edytowanego pliku.
+Inicjalizacja oprogramowania wyznaczającego plan odbywa się poprzez wbudowany w \emph{Eclipse} mechanizm skrótów uruchamiania (ang. \textit{Launch Shortcuts})\footnote{http://help.eclipse.org/indigo/topic/org.eclipse.platform.doc.isv/guide/debug\_launch\_uishortcuts.htm}. Rozszerzenie wtyczki o tego typu element pozwala na wywołanie zewnętrznych narzędzi przy pomocy menu \emph{Run} lub \emph{Debug}, a także przycisku znajdującego się na pasku narzędziowym (rys.~\ref{fig:running_options_menu_toolbar}) lub menu kontekstowego edytowanego pliku (rys.~\ref{fig:running_options_context_menu}).
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{img/running_options_menu_toolbar}
@@ -570,7 +578,7 @@ Inicjalizacja oprogramowania wyznaczającego plan odbywa się poprzez wbudowany 
     \label{fig:running_options_context_menu}
 \end{figure}
 
-Podczas pierwszego uruchomienia zewnętrznego programu na aktualnie edytowanych plikach, tworzona jest nowa konfiguracja uruchamiania (ang. \textit{Run Configuration}). W przypadku, gdy opcja zastosowania domyślnego plannera (konfiguracja plannera, roz. \ref{subsec:konfiguracja}) nie jest ustawiona, należy w wyświetlonym oknie (rys. \ref{fig:run_configuration_window}) uzupełnić tę konfigurację o~nazwę i~argument plannera, który będzie wykorzystany w procesie planowania. 
+Podczas pierwszego uruchomienia zewnętrznego programu na aktualnie edytowanych plikach, tworzona jest nowa konfiguracja uruchamiania (ang. \textit{Run Configuration}). W przypadku, gdy opcja zastosowania domyślnego planera (konfiguracja planera, roz. \ref{subsec:konfiguracja}) nie jest ustawiona, należy w wyświetlonym oknie (rys. \ref{fig:run_configuration_window}) uzupełnić tę konfigurację o~nazwę i~argument planera, który będzie wykorzystany w procesie planowania. 
 
 \begin{figure}[h!]
     \centering
@@ -579,15 +587,15 @@ Podczas pierwszego uruchomienia zewnętrznego programu na aktualnie edytowanych 
     \label{fig:run_configuration_window}
 \end{figure}
 
-Jeżeli uruchomienie nastąpiło na pliku problemu (za pomocą globalnego menu \textit{Run} lub przycisku na pasku narzędziowym, gdy plik problemu był otwarty w edytorze, bądź poprzez wybranie z menu kontekstowego pliku problemu opcji \textit{Run as $\rightarrow$ PDDL Project}) ścieżka do odpowiadającego pliku domeny w projekcie zostanie automatycznie wykryta za pomocą funkcji indeksu kodu opisanego w rozdziale \ref{subsec:indeks}. Analogicznie w przypadku uruchomienia narzędzia na pliku domeny. W sytuacjach wyjątkowych (brak odpowiadającej domeny, więcej niż jeden pasujący problem) wyświetlane są listy wyboru:
+Jeżeli uruchomienie nastąpiło na pliku problemu (za pomocą globalnego menu \emph{Run} lub przycisku na pasku narzędziowym, gdy plik problemu był otwarty w edytorze, bądź poprzez wybranie z menu kontekstowego pliku problemu opcji \emph{Run as $\rightarrow$ PDDL Project}) ścieżka do odpowiadającego pliku dziedziny w projekcie zostanie automatycznie wykryta za pomocą funkcji indeksu kodu opisanego w rozdziale \ref{subsec:indeks}. Analogicznie w przypadku uruchomienia narzędzia na pliku dziedziny. W sytuacjach wyjątkowych (brak odpowiadającej dziedziny, więcej niż jeden pasujący problem) wyświetlane są listy wyboru:
 \begin{itemize}
-\item W przypadku gdy do danej domeny pasuje wiele plików problemów, wyświetla się okno wyboru ze wszystkimi pasującymi problemami.
-\item W przypadku gdy do danej domeny nie pasuje żaden plik problemu, wyświetli się informująca o tym wiadomość.
-\item W przypadku gdy do danego pliku problemu nie pasuje żaden plik domeny, ale w projekcie istnieją inne pliki domen, wyświetli się okno wyboru z wszystkimi plikami domen w projekcie.
-\item W przypadku gdy do danego pliku problemu nie pasuje żaden plik domeny, ponieważ w projekcie nie istnieje żaden plik domeny, wyświetli się informująca o tym wiadomość.
+\item W przypadku gdy do danej dziedziny pasuje wiele plików problemów, wyświetla się okno wyboru ze wszystkimi pasującymi problemami.
+\item W przypadku gdy do danej dziedziny nie pasuje żaden plik problemu, wyświetli się informująca o tym wiadomość.
+\item W przypadku gdy do danego pliku problemu nie pasuje żaden plik dziedziny, ale w projekcie istnieją inne pliki dziedzin, wyświetli się okno wyboru z wszystkimi plikami dziedzin w projekcie.
+\item W przypadku gdy do danego pliku problemu nie pasuje żaden plik dziedziny oraz w projekcie nie istnieje żaden plik  dziedziny, wyświetli się informująca o tym wiadomość.
 \end{itemize}
 
-Proces planowania rozpoczyna się po wybraniu przycisku \textit{Run} w oknie konfiguracji uruchamiania (lub z pominięciem tego okna w przypadku włączenia opcji domyślnego plannera w konfiguracji plannera). Działanie plannera objawia się widocznym paskiem postępu w prawym dolnym rogu aplikacji oraz na zakładce \textit{Progress} (rys.~\ref{fig:run_progress}). Również strumień wyjściowy działającego narzędzia kierowany jest w całości do widoku \textit{Console}.
+Proces planowania rozpoczyna się po wybraniu przycisku \emph{Run} w oknie konfiguracji uruchamiania (lub z pominięciem tego okna w przypadku włączenia opcji domyślnego planera w konfiguracji planera). Działanie planera objawia się widocznym paskiem postępu w prawym dolnym rogu aplikacji oraz na zakładce \emph{Progress} (rys.~\ref{fig:run_progress}). Również strumień wyjściowy działającego narzędzia kierowany jest w całości do widoku \emph{Console}.
 
 \begin{figure}[h!]
     \centering
@@ -596,9 +604,9 @@ Proces planowania rozpoczyna się po wybraniu przycisku \textit{Run} w oknie kon
     \label{fig:run_progress}
 \end{figure}
 
-W razie błędów należy sprawdzić wyjście (w widoku \textit{Console}) oraz poprawność skryptu poprzez uruchomienie go w konsoli systemowej. Dobrą praktyką jest również zmiana ścieżki do przestrzeni roboczej \textit{Eclipse} w taki sposób, by nie zawierała spacji, gdyż niektóre narzędzia (np. \textit{SATPLAN}) niepoprawnie obsługują takie ścieżki.
+W razie błędów należy sprawdzić wyjście (w widoku \emph{Console}) oraz poprawność skryptu poprzez uruchomienie go w konsoli systemowej. Dobrą praktyką jest również zmiana ścieżki do przestrzeni roboczej \emph{Eclipse} w taki sposób, by nie zawierała spacji, gdyż niektóre narzędzia (np. \emph{SATPLAN}) niepoprawnie obsługują takie ścieżki.
 
-Efektem przetwarzania jest powstanie planu, który w \textit{Eclipse} jest dostępny z poziomu przeglądarki planów (ang. \textit{Plan Browser}). Jest ona widoczna standardowo w pespektywie \textit{PDDL}, jako zakładka w dolnej części aplikacji. Każdy wiersz przeglądarki wskazuje na zakończony (powodzeniem lub niepowodzeniem) proces planowania. 
+Efektem przetwarzania jest powstanie planu, który w \textit{Eclipse} jest dostępny z poziomu przeglądarki planów (ang. \textit{Plan Browser}). Jest ona widoczna standardowo w perspektywie PDDL, jako zakładka w dolnej części aplikacji. Każdy wiersz przeglądarki wskazuje na zakończony (powodzeniem lub niepowodzeniem) proces planowania. 
 
 \begin{figure}[h!]
     \centering
@@ -608,12 +616,12 @@ Efektem przetwarzania jest powstanie planu, który w \textit{Eclipse} jest dost�
 \end{figure}
 
 \noindent
-Poszczególne kolumny oznaczają:
-\begin{enumerate}
+Poszczególne kolumny tabeli (rys.~\ref{fig:plan_browser_row}) oznaczają:
+\begin{enumerate}[label=\protect\circled{\arabic*}]
 \item Nazwa projektu, który zawiera rozważany problem automatycznego planowania.
-\item Nazwa domeny wykorzystywanej w rozważanym problemie automatycznego planowania. Standardowo jest to nazwa pliku domeny bez rozszerzenia \texttt{.pddl}.
-\item Nazwa problemu wykorzystywanego w rozważanym problemie automatycznego planowania. Standardowo jest to nazwa pliku problemu bez rozszerzenie \texttt{.pddl}.
-\item Numer ID przetwarzanego zadania o danej nazwie domeny i problemu, znajdującego się w danym projekcie. W celu możliwości zachowania poprzednich wyników planowania, każde przetwarzanie wykonywane jest w innym folderze roboczym, do którego ścieżka ma postać:
+\item Nazwa dziedziny wykorzystywanej w rozważanym problemie automatycznego planowania. Standardowo jest to nazwa pliku dziedziny bez rozszerzenia \texttt{.pddl}.
+\item Nazwa problemu wykorzystywanego w rozważanym problemie automatycznego planowania. Standardowo jest to nazwa pliku problemu bez rozszerzenia \texttt{.pddl}.
+\item Numer ID przetwarzanego zadania o danej nazwie dziedziny i problemu, znajdującego się w danym projekcie. W celu możliwości zachowania poprzednich wyników planowania, każde przetwarzanie wykonywane jest w innym folderze roboczym, do którego ścieżka ma postać:
 
 \noindent
 \centerline{\path{<l_p_rob>/<project_name>/plans/<domain_name>/<problem_name>/<id>}}
@@ -624,19 +632,21 @@ gdzie:
 \begin{itemize}
 \item \textbf{\path{<l_p_rob>}} -- lokalizacja przestrzeni roboczej.
 \item \textbf{\path{<project_name>}} -- nazwa projektu.
-\item \textbf{\path{<domain_name>}} -- nazwa domeny.
+\item \textbf{\path{<domain_name>}} -- nazwa dziedziny.
 \item \textbf{\path{<problem_name>}} -- nazwa problemu.
 \item \textbf{\path{<id>}} -- numer ID kolejnego przetwarzania.
 \end{itemize}
-Dzięki takiej strukturze katalogu roboczego użytkownik nie nadpisze omyłkowo poprzednio utworzonych wyników planowania. W przeglądarce planów powstaje zaś chronologiczna lista kolejnych uruchomień plannera, którą można swobodnie zarządzać, w tym usuwać.
-\item Nazwy plików wynikowych, zawierających plan, które dopasowane są do wyrażenia regularnego ustalanego podczas konfiguracji plannera (roz.~\ref{subsec:konfiguracja}). W przypadku, gdy przetwarzanie nie zwróci pasujących plików lub zostanie przerwane przed zakończeniem, wyświetlany jest w tym miejscu komunikat o braku danych wynikowych (\textit{No plan files}).
-\item Nazwa plannera, wykorzystywanego podczas znajdowania planu. Nazwa ta jest definiowana przy jego konfiguracji (roz.~\ref{subsec:konfiguracja}).
-\item Nazwa argumentu plannera, wykorzystywanego podczas znajdowania planu, ustalana przy jego konfiguracji (roz.~\ref{subsec:konfiguracja}).
+Dzięki takiej strukturze katalogu roboczego użytkownik nie nadpisze omyłkowo poprzednio utworzonych wyników planowania. W przeglądarce planów powstaje zaś chronologiczna lista kolejnych uruchomień planera, którą można swobodnie zarządzać, w tym usuwać.
+\item Nazwy plików wynikowych, zawierających plan, które dopasowane są do wyrażenia regularnego ustalanego podczas konfiguracji planera (roz.~\ref{subsec:konfiguracja}). W przypadku, gdy przetwarzanie nie zwróci pasujących plików lub zostanie przerwane przed zakończeniem, wyświetlany jest w tym miejscu komunikat o braku danych wynikowych (\textit{No plan files}).
+\item Nazwa planera, wykorzystywanego podczas znajdowania planu. Nazwa ta jest definiowana przy jego konfiguracji (roz.~\ref{subsec:konfiguracja}).
+\item Nazwa argumentu planera, wykorzystywanego podczas znajdowania planu, ustalana przy jego konfiguracji (roz.~\ref{subsec:konfiguracja}).
 \end{enumerate}
 
-Dane przeglądarki zapisywane są po wyłączeniu \textit{Eclipse} oraz wczytywane podczas uruchamiania platformy za pomocą \textit{API} \textit{Memento} w postaci \textit{XML}, analogicznej jak przy zapisie preferencji plannera (przykład~\ref{lst:preferencje_plannera});
+Dane przeglądarki zapisywane są po wyłączeniu \emph{Eclipse} oraz wczytywane podczas uruchamiania platformy za pomocą API \emph{Memento} w postaci XML, analogicznej jak przy zapisie preferencji planera (przykład~\ref{lst:preferencje_plannera}).
 
-Przeglądarka planów poza możliwością utrzymywania historii przetwarzania, daje również możliwość otwierania plików wynikowych oraz katalogu roboczego, a także wyszukiwania istniejących rekordów i ich usuwania:
+Przeglądarka planów poza możliwością utrzymywania historii przetwarzania, daje również możliwość otwierania plików wynikowych oraz katalogu roboczego, a także wyszukiwania istniejących rekordów i ich usuwania. 
+
+Jej interfejs graficzny przedstawiono na rys.~\ref{fig:plan_browser_options} wraz z opisem:
 
 \begin{figure}[h!]
     \centering
@@ -645,9 +655,9 @@ Przeglądarka planów poza możliwością utrzymywania historii przetwarzania, d
     \label{fig:plan_browser_options}
 \end{figure}
 
-\begin{enumerate}
+\begin{enumerate}[label=\protect\circled{\arabic*}]
 \item Wyszukiwarka rekordów, posiadająca możliwość prostego filtrowania wierszy, pasujących do zadanego wzorca.
-\item Otwieranie pliku planu w wewnętrznym edytorze \textit{Eclipse}. W przypadku, gdy jest więcej niż jeden plik wynikowy, wyświetlona zostaje lista wyboru.
+\item Otwieranie pliku planu w wewnętrznym edytorze \emph{Eclipse}. W przypadku, gdy jest więcej niż jeden plik wynikowy, wyświetlona zostaje lista wyboru.
 \item Otwieranie katalogu roboczego w systemowej przeglądarce plików, umożliwiające zarządzanie planami z poziomu plików, a także kontrolę błędów w przypadku nieprawidłowego przetwarzania.
 \item Usunięcie zaznaczonego wiersza przeglądarki wraz z folderem roboczym, zawierającym wyniki przetwarzania, którego dotyczy ten rekord.
 \item Usunięcie wszystkich rekordów przeglądarki wraz z odpowiadającymi im folderami roboczymi.
@@ -656,9 +666,9 @@ Przeglądarka planów poza możliwością utrzymywania historii przetwarzania, d
 \item Odświeżenie zawartości przeglądarki planów, pozwalające na usunięcie rekordów, dla których nie istnieją odpowiadające im pliki planów lub foldery robocze (ponieważ zostały wcześniej usunięte przez użytkownika z poziomu plików).
 \end{enumerate}
 
-Standardowym zachowaniem \textit{Eclipse} podczas inicjalizacji narzędzia zewnętrznego jest korzystanie z ostatnio utworzonej konfiguracji uruchamiania. Przy rozpoczęciu kolejnego procesu znajdowania planu na tych samych plikach, aplikacja nie wyświetla już okna edycji ustawień, lecz od razu przechodzi do fazy przetwarzania. Takie działanie daje użytkownikowi możliwość szybkiego sprawdzenia wyników planowania w trakcie edycji plików, lecz jednocześnie powoduje, że zmiana parametrów uruchamiania takich jak planner i jego argumenty jest utrudniona.
+Standardowym zachowaniem \emph{Eclipse} podczas inicjalizacji narzędzia zewnętrznego jest korzystanie z ostatnio utworzonej konfiguracji uruchamiania. Przy rozpoczęciu kolejnego procesu znajdowania planu na tych samych plikach, aplikacja nie wyświetla już okna edycji ustawień, lecz od razu przechodzi do fazy przetwarzania. Takie działanie daje użytkownikowi możliwość szybkiego sprawdzenia wyników planowania w trakcie edycji plików, lecz jednocześnie powoduje, że zmiana parametrów uruchamiania takich jak planer i jego argumenty jest utrudniona.
 
-Z tego powodu utworzono dodatkową opcję edycji istniejących konfiguracji. Chcąc zmienić planner, bądź jego argumenty należy wybrać z menu kontekstowego edytowanego pliku element \textit{Run as} a następnie \textit{PDDL Project...} lub zastosować skrót klawiaturowy \texttt{Shift~+~Alt~+~X~+~U}. Gdy istnieje więcej niż jedna konfiguracja uruchamiania powiązana z danym plikiem, pojawi się okno wyboru istniejących profili (rys.~\ref{fig:run_configuration_choice}). Wybierając jeden z nich, użytkownik ma możliwość zmiany aktualnych parametrów.
+Z tego powodu utworzono dodatkową opcję edycji istniejących konfiguracji. Chcąc zmienić planer, bądź jego argumenty należy wybrać z menu kontekstowego edytowanego pliku element \emph{Run as} a następnie \emph{PDDL Project...} lub zastosować skrót klawiaturowy \texttt{Shift~+~Alt~+~X~+~U}. Gdy istnieje więcej niż jedna konfiguracja uruchamiania powiązana z danym plikiem, pojawi się okno wyboru istniejących profili (rys.~\ref{fig:run_configuration_choice}). Wybierając jeden z nich, użytkownik ma możliwość zmiany aktualnych parametrów.
 
 \begin{figure}[h!]
     \centering
@@ -670,9 +680,9 @@ Z tego powodu utworzono dodatkową opcję edycji istniejących konfiguracji. Chc
 \subsection{Przerywanie procesu planowania}
 \label{subsec:przerywanie}
 \JP{Dziwne jest odwoływanie się z rozdziału 6.4.3 do rozdziału 6.4. Być może stopień zagnieżdżenia jest zbyt duży?}
-Mnogość dostępnych narzędzi do wyznaczania planu, brak wśród nich jednoznacznego, powszechnie wykorzystywanego lidera oraz prawdopodobieństwo udoskonalania i powstawania nowych programów spowodowały, iż w projekcie GUI4PDDL powzięto założenie o wsparciu dla uruchamiania jak największego zakresu istniejących rozwiązań (z plannerem \textit{FastDownward} jako priorytetem). Wymaganie to zostało zrealizowane poprzez unifikację formatu pliku uruchomieniowego, obsługiwanego w \textit{Eclipse} (roz.~\ref{sec:wspolpraca}) oraz dostosowywanie do niego plannerów poprzez skrypty powłoki systemu operacyjnego.
+Mnogość dostępnych narzędzi do wyznaczania planu, brak wśród nich jednoznacznego, powszechnie wykorzystywanego lidera oraz prawdopodobieństwo udoskonalania i powstawania nowych programów spowodowały, iż w projekcie GUI4PDDL powzięto założenie o wsparciu dla uruchamiania jak największego zakresu istniejących rozwiązań (z planerem \emph{FastDownward} jako priorytetem). Wymaganie to zostało zrealizowane poprzez unifikację formatu pliku uruchomieniowego, obsługiwanego w \emph{Eclipse} (roz.~\ref{sec:wspolpraca}) oraz dostosowywanie do niego planerów poprzez skrypty powłoki systemu operacyjnego.
 
-Testy wykazały jednak, że środowisko programistyczne posiada kontrolę tylko nad procesami samych skryptów, natomiast wszystkie uruchamiane przez nie podprocesy (w tym proces programu plannera) pozostają bez nadzoru. W przypadku, gdy użytkownik zainicjalizuje\JP{zainicjuje} kilka zadań znajdowania planu jednocześnie, które z uwagi na swój charakter i wykorzystywany algorytm znacznie obciążają procesor, może dojść do obniżenia responsywności systemu operacyjnego. Wówczas, mimo zatrzymania działania głównego skryptu za pomocą przycisku \textit{Terminate} w widoku \textit{Console} (rys.~\ref{fig:terminate_button}), procesy plannera nie zostaną zakończone, co może powodować dalszy spadek wydajności.
+Testy wykazały jednak, że środowisko programistyczne posiada kontrolę tylko nad procesami samych skryptów, natomiast wszystkie uruchamiane przez nie podprocesy (w tym proces programu planera) pozostają bez nadzoru. W przypadku, gdy użytkownik zainicjuje\JP{PPR zainicjuje} kilka zadań znajdowania planu jednocześnie, które z uwagi na swój charakter i wykorzystywany algorytm znacznie obciążają procesor, może dojść do obniżenia responsywności systemu operacyjnego. Wówczas, mimo zatrzymania działania głównego skryptu za pomocą przycisku \textit{Terminate} w widoku \textit{Console} (rys.~\ref{fig:terminate_button}), procesy planera nie zostaną zakończone, co może powodować dalszy spadek wydajności.
 
 \begin{figure}[h!]
     \centering
@@ -681,8 +691,8 @@ Testy wykazały jednak, że środowisko programistyczne posiada kontrolę tylko 
     \label{fig:terminate_button}
 \end{figure}
 
-Rozwiązaniem tego problemu jest implementacja własnej fabryki procesów (ang. \textit{process factory}). Rozszerzenie to, wspierane przez platformę \textit{Eclipse}, pozwala na przejęcie kontroli nad tworzeniem nowego, natywnego procesu. W odpowiedzialnej za to metodzie \textit{newProcess} klasy \textit{PDDLProcessFactory} zwracany jest obiekt podklasy (\textit{RuntimeProcessWithChildProcessesTermination}) standardowego procesu, w której zmieniono część zajmującą się przerywaniem działania.
+Rozwiązaniem tego problemu jest implementacja własnej fabryki procesów (ang. \textit{process factory})\footnote{http://help.eclipse.org/indigo/topic/org.eclipse.platform.doc.isv/guide/debug\_launch\_processfactories.htm}. Rozszerzenie to, wspierane przez platformę \emph{Eclipse}, pozwala na przejęcie kontroli nad tworzeniem nowego, natywnego procesu. W odpowiedzialnej za to metodzie \texttt{newProcess} klasy \texttt{PDDLProcessFactory} zwracany jest obiekt podklasy (\texttt{RuntimeProcessWithChildProcessesTermination}) standardowego procesu, w której zmieniono część zajmującą się przerywaniem działania.
 
-Nowy sposób zakończenia procesu opiera się na wykorzystaniu natywnych metod wspieranych systemów operacyjnych (\textit{Windows} oraz \textit{Linux} \JP{a co z Makami? Bez tego dr AŁ będzie nieszczęśliwa}) poprzez bibliotekę \textit{JNA} (\textit{Java Native Access}). Biblioteka ta pozwala na wykonywanie operacji specyficznych dla danej platformy bez konieczności dodatkowej konfiguracji. Za jej pomocą pobierany jest numer \textit{PID} skryptu, który następnie podawany jest jako argument specyficznych dla systemu poleceń powłoki, odpowiedzialnych za przerywanie procesów. W przypadku systemu Windows jest to polecenie \textit{taskkill}, w przypadku rodziny \textit{Linux} -- \textit{kill}, z odpowiednio sparsowanym\JP{jakoś to po polsku proszę napisać, a nie robić kalkę z angielskiego} drzewem podprocesów otrzymanym z komendy \textit{pstree}.
+Nowy sposób zakończenia procesu opiera się na wykorzystaniu natywnych metod wspieranych systemów operacyjnych (Windows oraz Linux \JP{a co z Makami? Bez tego dr AŁ będzie nieszczęśliwa}) poprzez bibliotekę \textit{JNA} (\textit{Java Native Access})\footnote{https://github.com/twall/jna}. Biblioteka ta pozwala na wykonywanie operacji specyficznych dla danej platformy bez konieczności dodatkowej konfiguracji. Za jej pomocą pobierany jest numer PID skryptu, który następnie podawany jest jako argument specyficznych dla systemu poleceń powłoki, odpowiedzialnych za przerywanie procesów. W przypadku systemu Windows jest to polecenie \emph{taskkill}, w przypadku rodziny Linux -- \emph{kill}, z odpowiednio przetworzonym\JP{PPR jakoś to po polsku proszę napisać, a nie robić kalkę z angielskiego} drzewem podprocesów otrzymanym z komendy \emph{pstree}.
 
-Dzięki tak przygotowanemu wsparciu dla obsługi zakończenia skryptów, użytkownik jest w stanie kontrolować ich wykonywanie z poziomu \textit{Eclipse}, zarówno dla programów wsadowych (pliki \texttt{.bat} -- w systemie \textit{Windows}), jak i dla poleceń powłoki \textit{bash} (w systemach z rodziny \textit{Linux}).
+Dzięki tak przygotowanemu wsparciu dla obsługi zakończenia skryptów, użytkownik jest w stanie kontrolować ich wykonywanie z poziomu \emph{Eclipse}, zarówno dla programów wsadowych (pliki \texttt{.bat} -- w systemie Windows), jak i dla poleceń powłoki \textit{bash} (w systemach z rodziny Linux).
