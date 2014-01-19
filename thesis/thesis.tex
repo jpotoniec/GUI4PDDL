@@ -9,6 +9,12 @@
 \usepackage{color}
 \newcommand{\JP}[1]{\textcolor{red}{#1}}
 
+\usepackage{tikz}
+\definecolor{lightred}{rgb}{1,0,0}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw=none,fill=lightred,inner sep=2pt] (char) {#1};}}
+
+
 \newfloat{Code}{htbp}{myc}
 
 \begin{document}
