@@ -1,18 +1,18 @@
 \chapter{Wstęp}
 \section{Wprowadzenie}
-	Automatyczne planowanie jest dziedziną sztucznej inteligencji, która zajmuje się realizacją sekwencji akcji oraz strategii \JP{tu cytowanie}. Istnieje kilka powszechnie znanych języków formalnych, umożliwiających wyrażanie problemu automatycznego planowania. Najbardziej znane języki to STRIPS (\textit{Stanford Research Institute Problem Solver}) \JP{tu cytowanie} oraz PDDL(\textit{Planning Domain Definition Language}) \JP{tu cytowanie}, który jest jednym z ważniejszych elementów tej pracy.
+	Automatyczne planowanie jest dziedziną sztucznej inteligencji, która zajmuje się realizacją sekwencji akcji oraz strategii \cite{planning}. Istnieje kilka powszechnie znanych języków formalnych, umożliwiających wyrażanie problemu automatycznego planowania. Najbardziej znane języki to STRIPS (\textit{Stanford Research Institute Problem Solver}) \cite{strips} oraz PDDL(\textit{Planning Domain Definition Language}) \cite{pddl}, który jest jednym z ważniejszych elementów tej pracy.
 	
-	Pierwsza, oficjalna wersja PDDL została wydana w roku 1998 \JP{w [X]}.  Język został rozwinięty specjalnie na potrzeby pierwszego międzynarodowego konkursu planowania – IPC. Pomimo stworzenia przez autora następcy PDDL, OPT (\textit{Ontology with Polymorphic Types}) \JP{tu cytowanie}, język ten nadal był rozwijany. Na dzień dzisiejszy, aktualna wersja to 3.1 \JP{opublikowana XXXX roku [Y]}. Została użyta między innymi na konkursach w roku 2008 oraz 2011.
+	Pierwsza, oficjalna wersja PDDL została wydana w październiku, roku 1998 \cite{pddl}. Język został rozwinięty specjalnie na potrzeby pierwszego międzynarodowego konkursu planowania – IPC. Pomimo stworzenia przez autora następcy PDDL, OPT (\textit{Ontology with Polymorphic Types}) \cite{opt}, język ten nadal był rozwijany. Na dzień dzisiejszy, aktualna wersja to 3.1 opublikowana w roku 2008 \cite{pddl3.1}. Została użyta między innymi na konkursach w roku 2008 oraz 2011.
 
-	Oprócz głównej wersji PDDL, istnieją  inne, wyspecjalizowane warianty języka. Przykładowo  NDDL (\textit{New Domain Definition Language}), stworzony przez NASA, różni się między innymi reprezentowaniem \JP{reprezentacją? nie wiem o co chodzi w ogóle} zmiennych, czy ideą wykorzystywania aktywności i ograniczeń między nimi a koncepcją stanu i akcji \JP{czym czym i czym? nic nie rozumiem}. Kolejna wersja to PPDDL (\textit{Probabilistic PDDL}) \JP{tu cytowanie} używany podczas konkursu IPC w roku 2004 i 2006.
+	Oprócz głównej wersji PDDL, istnieją  inne, wyspecjalizowane warianty języka. Przykładowo  NDDL (\textit{New Domain Definition Language}) \cite{npdl}, stworzony przez NASA, jest językiem służącym do planowania interwałowego. Kolejna wersja to PPDDL (\textit{Probabilistic PDDL}) \cite{ppddl} używany podczas konkursu IPC w roku 2004 i 2006.
 
 
 \section{Motywacja}
-Pomimo stworzenia PDDL, autor\JP{autorzy} nie zapewnił odpowiedniego środowiska programistycznego. Problemem jest również znalezienie odpowiedniego narzędzia. Obecnie dostępne rozwiązania posiadają istotne wady. Są to między innymi brak możliwości pracy z innym systemem  niż Windows, brakiem odpowiedniego formatowania kodu czy nieodpowiednim kolorowaniem składni. Założeniem projektu GUI4PDDL jest rozwiązanie większości niedogodności związanych z pisaniem w języku PDDL.
+Pomimo stworzenia PDDL, autorzy nie zapewnił odpowiedniego środowiska programistycznego. Problemem jest również znalezienie odpowiedniego narzędzia. Obecnie dostępne rozwiązania posiadają istotne wady. Są to między innymi brak możliwości pracy z innym systemem  niż Windows, brakiem odpowiedniego formatowania kodu czy nieodpowiednim kolorowaniem składni. Założeniem projektu GUI4PDDL jest rozwiązanie większości niedogodności związanych z pisaniem w języku PDDL.
 \section{Cel i zakres pracy}
-Celem pracy jest stworzenie stworzenie graficznego środowiska programistycznego umożliwiającego pisanie programów w języku PDDL. \JP{To zdanie bym usunął:} Program powinien zawierać cechy typowe dla nowoczesnych środowisk. Ważniejsze założenia projektu GUI4PDDL to tworzenie automatycznych wcięć i kolorowanie składni, przez co zwiększa się przejrzystość kodu źródłowego. Kolejnymi znaczącymi założeniami są podpowiadanie składni oraz wykrywanie błędów w kodzie źródłowym, co powinno ułatwiać programiście tworzenie programu. Następnym ważnym elementem jest zarządzanie projektami oraz plikami. Dodatkowo, w~związku z wykorzystaniem dużej ilości nawiasów w PDDL, wymagane jest ich dopasowywanie. 
+Celem pracy jest stworzenie stworzenie graficznego środowiska programistycznego umożliwiającego pisanie programów w języku PDDL. Ważniejsze założenia projektu GUI4PDDL to tworzenie automatycznych wcięć i kolorowanie składni, przez co zwiększa się przejrzystość kodu źródłowego. Kolejnymi znaczącymi założeniami są podpowiadanie składni oraz wykrywanie błędów w kodzie źródłowym, co powinno ułatwiać programiście tworzenie programu. Następnym ważnym elementem jest zarządzanie projektami oraz plikami. Dodatkowo, w~związku z wykorzystaniem dużej ilości nawiasów w PDDL, wymagane jest ich dopasowywanie. 
 
-W pierwszej części drugiego rozdziału, przedstawiona została problematyka automatycznego planowania. W drugim fragmencie opisany jest \JP{język} PDDL, a następnie opisano najważniejsze narzędzia służące do planowania.
+W pierwszej części drugiego rozdziału, przedstawiona została problematyka automatycznego planowania. W drugim fragmencie opisany jest język PDDL, a następnie opisano najważniejsze narzędzia służące do planowania.
 
 Kolejny rozdział to opis wymagań funkcjonalnych oraz wymagań pozafunkcjonalnych.
 
@@ -20,7 +20,7 @@ Rozdział czwarty podzielony jest na dwie części. W pierwszej z nich opisane j
 
 W rozdziale piątym przedstawiono podział całego projektu na mniejsze projekty Eclipse. Opisana jest tu również szczegółowa zawartość każdej osobnej wtyczki.
 
-Następny rozdział zawiera szczegółowe przedstawienie implementacji najważniejszych funkcjonalności. Opisane są tu problemy\JP{czy to jest właściwe słowo? ja z tego rozumiem, że tworzenie nowego projektu albo jest problemem albo nastręczało problemów przy implementacji} tworzenia nowego projektu PDDL oraz nowych plików PDDL. Dalej przedstawione są kolorowanie kodu, automatyczne wcięcia, dopasowanie nawiasów oraz kwestie związane obsługą podpowiedzi. W kolejnej części ukazano zagadnienia związane z przetwarzaniem kodu PDDL: wykrywanie błędów składniowych i semantycznych, tworzenie indeksu\JP{???}, podpowiadanie kodu. Na końcu podjęto\JP{omówiono} kwestię współpracy z oprogramowaniem wyznaczającym plan, czyli konfiguracje i uruchamianie zewnętrznego oprogramowania\JP{planera} oraz przerywanie procesu planowania.
+Następny rozdział zawiera szczegółowe przedstawienie implementacji najważniejszych funkcjonalności. Opisane są tu kwestie tworzenia nowego projektu PDDL oraz nowych plików PDDL. Dalej przedstawione są kolorowanie kodu, automatyczne wcięcia, dopasowanie nawiasów oraz kwestie związane obsługą podpowiedzi. W kolejnej części ukazano zagadnienia związane z przetwarzaniem kodu PDDL: wykrywanie błędów składniowych i semantycznych, podpowiadanie kodu. Na końcu omówiono kwestię współpracy z oprogramowaniem wyznaczającym plan, czyli konfiguracje i uruchamianie zewnętrznego planera oraz przerywanie procesu planowania.
 
 W rozdziale siódmym opisane są testy jednostkowe kodu oraz gramatyk formalnych. Dodatkowo przedstawiono testy akceptacyjne.
 
@@ -40,7 +40,7 @@ W niniejszym podrozdziale zawarty jest zadań, wykonanych przez poszczególne os
 \end{itemize}
   \item[Mateusz Michalak] \hfill 
     \begin{itemize}
-\item Testy \JP{jednostkowe i integracyjne} tworzonego oprogramowania
+\item Testy jednostkowe i integracyjne tworzonego oprogramowania
 \item Witryna internetowa
 \end{itemize}
   \item[Wojciech Rybicki] \hfill 
@@ -51,7 +51,7 @@ W niniejszym podrozdziale zawarty jest zadań, wykonanych przez poszczególne os
   \item[Andrzej Płuszka] \hfill 
     \begin{itemize}
 \item Edytor kodu PDDL i jego integracja z środowiskeim \textit{Eclipse}
-\item Kolorowanie i podpowiadanie składni\JP{coś jest niedobrze: raz jest podpowiadanie składni, a raz podpowiadanie kodu. Musi być spójnie}
+\item Kolorowanie i podpowiadanie składni
 \end{itemize}
 \end{description}
 
