@@ -52,13 +52,13 @@ zawiera kod, który będzie wykonywany przy każdej zmianie zasobu. Zasobem
 może być plik lub folder. Budowniczowie
 są przypisani do projektu i zawsze działają w jego kontekście.
 
-Budowniczemu przekazywany jest obiekt typu \texttt{IResourceDelta}. Jest to drzewowa\JP{drzewiasta}
+Budowniczemu przekazywany jest obiekt typu \texttt{IResourceDelta}. Jest to drzewiasta %\JP{drzewiasta}
 struktura zawierająca zmiany dotyczące zasobów. Na jej podstawie można określić, 
 które zasoby zostały dodane, zmodyfikowane lub usunięte. Budowniczy PDDL wywołuje analizator
-kodu PDDL dla każdego nowego lub zmienionego pliku. Usunięcie pliku powoduje wykreślenie\JP{usunięcie}
+kodu PDDL dla każdego nowego lub zmienionego pliku. Usunięcie pliku powoduje usunięcie % \JP{usunięcie}
 odpowiednich informacji z indeksu.
 
-\JP{UWAGA: móstwo rysunków w tym pliku ma ten sam label: ana\_structure. Proszę coś z tym zrobic!}
+
 Analizator kodu PDDL został zaimplementowany w klasie PDDLAnalyzer.
 Jego struktura została przedstawiona na rysunku \ref{ana_structure}.
 Przetwarzany plik PDDL jest poddawany najpierw analizie leksykalnej i zamieniany
@@ -93,8 +93,8 @@ W związku z tym zmniejsza się ryzyko popełnienia błędu. Ponadto, wygenerowa
 wydajne. Gramatykę można także przeanalizować pod kątem występowania niejednoznaczności
 składniowych
 oraz konstrukcji trudnych do analizy. Istotną kwestią jest także to, że
-języki zmieniają się w czasie. Dodawane są nowe konstrukcje i zadania\JP{zadania?}. Implementację
-bazującą na gramatyce można w łatwy sposób zmienić.
+języki zmieniają się w czasie. Dodawane są nowe konstrukcje. %\JP{zadania?}.
+Implementację bazującą na gramatyce można w łatwy sposób zmienić.
 
 Generator analizatorów ANTLR posiada szereg zalet, które zadecydowały o jego wyborze.
 Największe znaczenie miała rozbudowana obsługa błędów w wygenerowanych analizatorach.
@@ -126,7 +126,7 @@ wbudowanych w ANTLR.
 \end{sloppypar}
 
 
-Analizatory LL, generowane przez ANTLR, mają własność \emph{prefiksu żywotnego}. \JP{angielski termin, cytowanie}
+Analizatory LL, generowane przez ANTLR, mają \emph{własność prefiksu żywotnego} (ang. \emph{viable-prefix property}) \cite{compilers,compilersEN}. %\JP{angielski termin, cytowanie}
 Oznacza to, że błąd jest wykrywany w miejscu, w którym prefiks wejścia nie może
 być prefiksem żadnego napisu w danym języku. Miejsce to znajduje się blisko miejsca
 wystąpienia błędu.
@@ -198,7 +198,8 @@ znajdują się metody umożliwiające tworzenie i~modyfikacje indeksu.
 
 Klasa \texttt{PDDLCodeModel} implementuje oba interfejsy. Jest ona kolekcją obiektów klasy
 \texttt{PDDLFile} reprezentujących pliki PDDL. Każdy z plików może zawierać dowolną liczbę
-definicji dziedzin, problemów lub sytuacji początkowych. \JP{nie rozumiem tego ,,lub sytuacji początkowych''. Mamy jakąś trzecią możliwość poza dziedzinami i problemami?}
+definicji dziedzin, problemów lub sytuacji początkowych.
+% \JP{nie rozumiem tego ,,lub sytuacji początkowych''. Mamy jakąś trzecią możliwość poza dziedzinami i problemami?} -- tak. Specyfikacja PDDL 1.1, strona 19 wyróżnia sytuacje początkowe. (define (situation NAME)). Można się do niej odwołać przy definicji problemu.
 
 Klasy reprezentujące definicje przechowują część informacji zawartych w pliku. Niektóre
 składowe definicji zostały pominięte ze względu na fakt, że są one istotne jedynie 
@@ -264,11 +265,13 @@ listę podpowiedzi ustala na podstawie kontekstu, który symbol leksykalny powin
 wywołania. Następnie odpowiednie wyrazy wyszukiwane są w indeksie kodu. Kolekcja znalezionych 
 wyrazów jest porządkowana alfabetycznie i przekazywana edytorowi.
 
+\begin{sloppypar}
 W narzędziu GUI4PDDL kontekst zaimplementowany został jako klasa \texttt{PDDLCodeCompletionContext}.
 Przechowuje on rodzaj definicji (problem, domena,
 sytuacja początkowa), nazwę definiowanego obiektu oraz stos list wyrazów. Każdy poziom stosu odpowiada
 poziomowi zagnieżdżenia konstrukcji języka. Listy składają się z wyrazów występujących na danym poziomie
 zagnieżdżenia przed miejscem bieżącym.
+\end{sloppypar}
 
 \begin{Code}
 \begin{lstlisting}[language=LISP,frame=single,label=ana_completions, caption=Edytowany kod PDDL]
@@ -284,25 +287,27 @@ zagnieżdżenia przed miejscem bieżącym.
 \begin{figure}[h]
   \centering
     \includegraphics{img/ana_completion.pdf}
-    \caption{Kontekst dla ostatniej pozycji z listingu\JP{przykładu} \ref{ana_completions}}
+    \caption{Kontekst dla ostatniej pozycji z przykładu \ref{ana_completions}}
     \label{ana_context}
 \end{figure}
 
- \JP{Uwaga ogólna: trzeba zadbać, żeby tekst nie wychodził na margines (mam tu na myśli głównie nazwy klas, które się nie dają podzielić)}
+ %\JP{Uwaga ogólna: trzeba zadbać, żeby tekst nie wychodził na margines (mam tu na myśli głównie nazwy klas, które się nie dają podzielić)}
 
-Rozważmy następującą sytuację.\JP{Dana jest następująca sytuacja:} Wyznaczanie listy podpowiedzi zostało wywołane w kodzie przedstawionym
-na listingu\JP{przykładu} \ref{ana_completions} na końcu pliku. Dane zawarte w wyznaczonym kontekście zamieszczone
+Dana jest następująca sytuacja: Wyznaczanie listy podpowiedzi zostało wywołane w kodzie przedstawionym
+z przykładu \ref{ana_completions} na końcu pliku. Dane zawarte w wyznaczonym kontekście zamieszczone
 są na rysunku \ref{ana_context}. Z kontestu wynika, że edytowana jest definicja problemu o nazwie
 \texttt{rubik-01}. Kursor znajduje się w strukturze będącej na trzecim poziomie zagnieżdżenia.
  Na tym poziomie,
 przed kursorem znajduje się jeden wyraz \texttt{pos2}. Znajdujące się na stosie znaki \texttt{(} 
 reprezentują zagnieżdżone struktury, które nie są strukturami nadrzędnymi dla bieżącej konstrukcji.
 
+\begin{sloppypar}
 Algorytm wyznaczania listy podpowiedzi został zaimplementowany w klasie \texttt{PDDLCodeCompletionManager}.
 Zawarta jest w niej kolekcja dostawców podpowiedzi. Dostawcy, implementujący interfejs
 \texttt{IPDDLCodeCompletionProvider} uzupełniają listę podpowiedzi na podstawie kontekstu 
 o pozycje związane z pojedynczym rodzajem symboli leksykalnych. Wyznaczanie listy podpowiedzi polega 
 więc na obliczeniu kontekstu i przekazaniu go wszystkim dostawcom.
+\end{sloppypar}
 
 W narzędziu GUI4PDDL zaimplementowane zostało podpowiadanie:
 \begin{itemize}
@@ -315,6 +320,7 @@ W narzędziu GUI4PDDL zaimplementowane zostało podpowiadanie:
 \end{itemize}
 
 \section{Edytor}
+\JP{UWAGA: móstwo rysunków w tym pliku ma ten sam label: ana\_structure. Proszę coś z tym zrobic!}
 Edytor kodu we wtyczce GUI4PDDL zajmuje się kolorowaniem kodu, dopasowywaniem nawiasów oraz podpowiedziami kodu. Automatyczne wcięcia zaimplementowane są domyślnie w edytorze Eclipse, tak więc po wpisaniu znaku nowej linii kursor automatycznie ustawia się w takiej odległości od lewej krawędzi, jak w poprzedniej linii kodu.
 \subsection{Kolorowanie kodu}
 \begin{figure}[h]
