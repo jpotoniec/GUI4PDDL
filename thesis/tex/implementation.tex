@@ -387,13 +387,15 @@ Podpowiadanie składni wywoływane jest po wpisaniu dowolnej litery, znaku ":" l
 
 \section{Współpraca z oprogramowaniem wyznaczającym plan}
 \label{sec:wspolpraca}
-Zadaniem oprogramowania wyznaczającego plan (tzw. \JP{PPR planera}planera) jest ustalanie planu, czyli sekwencji akcji, \JP{PPR wyznaczanie planu, czyli, to wykreślamy: przetwarzanie problemów automatycznego planowania, uzyskując na wyjściu plan, czyli} prowadzącej do osiągnięcia stanu końcowego ze stanu początkowego problemu. Opis problemu wyrażony jest za pomocą języka automatycznego planowania (np. STRIPS, PDDL). 
+Zadaniem oprogramowania wyznaczającego plan (tzw. planera) jest ustalanie planu, czyli sekwencji akcji, prowadzącej do osiągnięcia stanu końcowego ze stanu początkowego problemu. Opis problemu wyrażony jest za pomocą języka automatycznego planowania (np. STRIPS, PDDL). 
 
-W przypadku języka PDDL, wykorzystywanego w niniejszej pracy, instancja problemu\JP{PPR instancja problemu, zadanie funkcjonuje jako odpowiednik słowa problem w rozumieniu teorii złożoności obliczeniowej} automatycznego planowania składa się z dwóch plików: pliku dziedziny, w którym opisana jest dziedzina zadania oraz pliku problemu, opisującego stan początkowy oraz docelowy. Współpraca narzędzia GUI4PDDL z planerami wymaga więc możliwości\JP{PPR możliwości} uzyskania planu na podstawie aktualnej zawartości dwóch, wyżej wymienionych plików. Ponadto należy zagwarantować możliwość zmiany algorytmu planowania lub innych opcji, które są dostępne dla poszczególnych narzędzi. Gotowy plan powinien być również przedstawiony użytkownikowi w postaci czytelnej.
+W przypadku języka PDDL, wykorzystywanego w niniejszej pracy, instancja problemu automatycznego planowania składa się z dwóch plików: pliku dziedziny, w którym opisana jest dziedzina zadania oraz pliku problemu, opisującego stan początkowy oraz docelowy. Współpraca narzędzia GUI4PDDL z planerami wymaga więc możliwości uzyskania planu na podstawie aktualnej zawartości dwóch, wyżej wymienionych plików. Ponadto należy zagwarantować możliwość zmiany algorytmu planowania lub innych opcji, które są dostępne dla poszczególnych narzędzi. Gotowy plan powinien być również przedstawiony użytkownikowi w postaci czytelnej.
 
-Obecnie dostępnych jest wiele planerów, korzystających z języka PDDL, różniących się dostępnymi algorytmami, sposobem uruchamiania, liczbą\JP{PPR argumenty są policzalne, więc: liczbą} oraz rodzajem przyjmowanych na wejściu argumentów, a także strukturą strumienia wyjściowego. Ze względu na to, że programy wyznaczające plan tworzone są często z przeznaczeniem na konkurs IPC (\emph{International Planning Competition}), dotychczas nie zdefiniowano standardu uruchamiania tego typu narzędzi, który obejmowałby m.in. ujednolicenie argumentów linii poleceń oraz dodatkowych, wykorzystywanych komend powłoki, często specyficznych dla systemu operacyjnego.\JP{PPR serio różnią się formatem? myślałem, że IPC ma standardowy format wyjściowy, bo inaczej nie byłoby jak weryfikować planów?}.
+\subsection{Integracja zewnętrznego oprogramowania z wtyczką}
+\label{subsec:integracja}
+Obecnie dostępnych jest wiele planerów, korzystających z języka PDDL, różniących się dostępnymi algorytmami, sposobem uruchamiania, liczbą oraz rodzajem przyjmowanych na wejściu argumentów, a także strukturą strumienia wyjściowego. Ze względu na to, że programy wyznaczające plan tworzone są często z przeznaczeniem na konkurs IPC (\emph{International Planning Competition}), dotychczas nie zdefiniowano standardu uruchamiania tego typu narzędzi, który obejmowałby m.in. ujednolicenie argumentów linii poleceń oraz dodatkowych, wykorzystywanych komend powłoki, często specyficznych dla systemu operacyjnego.
 
-Analiza przykładowych narzędzi (\emph{FastDownward}\footnote{http://www.fast-downward.org/} , \emph{SATPLAN}\footnote{http://www.cs.rochester.edu/users/faculty/kautz/satplan/}, \emph{FastForward}\footnote{http://fai.cs.uni-saarland.de/hoffmann/ff.html}) pod kątem inicjalizacji procesu planowania pozwoliła zidentyfikować\JP{PPR pozwoliła zidentyfikować} cechy wspólne oraz różnice pomiędzy planerami, opisane w tabeli \ref{plannersTable}.\JP{PPR opisane w tabeli \ref{plannersTable}.}
+Analiza przykładowych narzędzi (\emph{FastDownward}\footnote{http://www.fast-downward.org/} , \emph{SATPLAN}\footnote{http://www.cs.rochester.edu/users/faculty/kautz/satplan/}, \emph{FastForward}\footnote{http://fai.cs.uni-saarland.de/hoffmann/ff.html}) pod kątem inicjalizacji procesu planowania pozwoliła zidentyfikować cechy wspólne oraz różnice pomiędzy planerami, opisane w tabeli \ref{plannersTable}.
 \begin{table}[h]
 \centering
 \caption{Cechy wspólne oraz różnice w uruchamianiu pomiędzy przykładowymi planerami.}
@@ -421,7 +423,7 @@ Analiza przykładowych narzędzi (\emph{FastDownward}\footnote{http://www.fast-d
 \end{tabular}
 \end{table}
 
-Biorąc pod uwagę wspólne cechy \JP{PPR wspólne cechy zamiast: powyższe cechy wspólne} oraz wymaganie projektu, dotyczące możliwości integracji z wieloma planerami, ze szczególnym uwzględnieniem \emph{FastDownward}, zdecydowano o stworzeniu wewnętrznego standardu uruchamiania. Standard ten opisuje postać argumentów linii poleceń dla plików planerów, które mogą być prawidłowo powiązane z wtyczką GUI4PDDL. 
+Biorąc pod uwagę wspólne cechy oraz wymaganie projektu, dotyczące możliwości integracji z wieloma planerami, ze szczególnym uwzględnieniem \emph{FastDownward}, zdecydowano o stworzeniu wewnętrznego standardu uruchamiania. Standard ten opisuje postać argumentów linii poleceń dla plików planerów, które mogą być prawidłowo powiązane z wtyczką GUI4PDDL. 
 
 Narzędzia te wymagają podania na wejście programu ścieżek do plików dziedziny oraz problemu. W niektórych przypadkach konieczne jest także wskazanie nazwy algorytmu planowania. Cechy te w całości pokrywają się z wymaganiami skryptu uruchomieniowego narzędzia \emph{FastDownward}. W związku z tym, powzięto decyzję o przyjęciu formatu skryptu uruchomieniowego, analogicznego do formatu skryptu \path{plan}, znajdującego się w katalogu \path{src} \emph{FastDownward}. Skrypt (bądź bezpośrednio plik wykonywalny planera) przeznaczony do integracji z wtyczką GUI4PDDL musi więc przyjmować następujące argumenty wejściowe w odpowiedniej kolejności:
 
@@ -440,9 +442,8 @@ Narzędzia uruchamiane według innego schematu nie będą prawidłowo zintegrowa
 
 Jak wspomniano, planer \emph{FastDownward} w wersji dla systemów z rodziny Linux posiada odpowiedni plik uruchomieniowy w katalogu \path{src} instalacji. W przypadku systemu Windows należy stworzyć osobny program wsadowy. Przykładowa forma takiego pliku znajduje się w katalogu \path{resources} projektu \texttt{pl.poznan.put.cs.gui4pddl}.
 
-Analogiczny skrypt uruchomieniowy można wykonać również dla innego oprogramowania wyznaczającego plan. Kod takiego skryptu dla planera \emph{SATPLAN} przedstawiony jest w przykładzie~\ref{lst:satplan}. \JP{PPR Przykładowy skrypt dla planera SATPLAN znajduje się \ldots.}
+Analogiczny skrypt uruchomieniowy można wykonać również dla innego oprogramowania wyznaczającego plan. Kod takiego skryptu dla planera \emph{SATPLAN} przedstawiony jest w przykładzie~\ref{lst:satplan}.
   
-\JP{PPR Ten przykład trzeba uprościć, zawiera za dużo rzeczy niezwiązanych z tematem. Usuńcie die i usage na rzecz wstawienia odpowiedniego kodu w miejscu ich wywołania, tak samo usuńcie echo przed i po wywołaniu SATPLAN}
 \begin{Code}
 \begin{lstlisting}[language=bash,label=lst:satplan,frame=single,caption={Przykładowy skrypt uruchomieniowy (skrypt \emph{bash} dla systemu Linux) dla planera \textit{SATPLAN}}.]
 #!/bin/bash
@@ -477,8 +478,7 @@ Zanim możliwa będzie aktywacja planowania z poziomu \emph{Eclipse}, należy sk
     \caption{Widok okna konfiguracji planera.}
     \label{fig:preferences_window}
 \end{figure}
-Standardowo, dostępny jest wstępnie skonfigurowany planer \emph{FastDownward}. Okno preferencji, przedstawione na rysunku~\ref{fig:preferences_window} \JP{PPR przedstawione na rysunku \ref{fig:preferences_window}} udostępnia następujące opcje:
-\JP{PPR W tym wypunkowaniu coś trzeba zrobić wizualnie. Nazwy opcji powinny chyba albo się wyróżniać, albo być sensownie zintegrowane z tekstem. Może np przejść na describe i tylko w nawiasach pisać, że na rysunku jest to oznaczone nr jakimśtam?}
+Standardowo, dostępny jest wstępnie skonfigurowany planer \emph{FastDownward}. Okno preferencji, przedstawione na rysunku~\ref{fig:preferences_window} udostępnia następujące opcje:
 
 {
 \newcounter{desccount} 
@@ -490,7 +490,7 @@ Standardowo, dostępny jest wstępnie skonfigurowany planer \emph{FastDownward}.
 \item[Wybór planera domyślnego] Włączenie tej opcji, powoduje, że przy każdym uruchomieniu procesu ustalania planu, wykorzystany będzie wskazany w tym polu planer oraz algorytm planowania.
 \item [Nowa konfiguracja] Przycisk ten umożliwia stworzenie nowej konfiguracji, dla innego niż bieżący planera. Może istnieć wiele takich konfiguracji, które w trakcie uruchamiania procesu planowania można dowolnie zmieniać.
 \item [Nazwa konfiguracji] Pozwala na rozróżnienie poszczególnych konfiguracji. Nazwa powinna być unikalna i może składać się z liter, cyfr, spacji oraz znaków \texttt{.}, \texttt{\_}, \texttt{-}.
-\item [Ścieżka do pliku planera] Za pomocą przycisku \emph{Browse...} należy wskazać ścieżkę do pliku wykonywalnego lub skryptu powłoki systemu operacyjnego (Linux lub Windows), zgodnego z formatem przedstawionym w rozdziale~\ref{sec:wspolpraca}.
+\item [Ścieżka do pliku planera] Za pomocą przycisku \emph{Browse...} należy wskazać ścieżkę do pliku wykonywalnego lub skryptu powłoki systemu operacyjnego (Linux lub Windows), zgodnego z formatem przedstawionym w rozdziale~\ref{subsec:integracja}.
 \item [Argumenty planera] W pierwszej kolumnie znajduje się czytelna dla użytkownika nazwa argumentu, w szczególności nazwa wykorzystywanego algorytmu planowania, która będzie używana jako prosty odpowiednik argumentu linii poleceń, znajdującego się w drugiej kolumnie. Parametry wiersza poleceń danego planera wpisane muszą być w sposób identyczny, jak przy wpisywaniu ich podczas uruchamiania w konsoli.
 \item [Nowy argument] Przycisk ten umożliwia dodanie nowego argumentu linii poleceń planera wraz z jego nazwą.
 \item [Edycja argumentu] Pozwala na edycję aktualnie zaznaczonego argumentu planera.
@@ -679,10 +679,9 @@ Z tego powodu utworzono dodatkową opcję edycji istniejących konfiguracji. Chc
 
 \subsection{Przerywanie procesu planowania}
 \label{subsec:przerywanie}
-\JP{Dziwne jest odwoływanie się z rozdziału 6.4.3 do rozdziału 6.4. Być może stopień zagnieżdżenia jest zbyt duży?}
-Mnogość dostępnych narzędzi do wyznaczania planu, brak wśród nich jednoznacznego, powszechnie wykorzystywanego lidera oraz prawdopodobieństwo udoskonalania i powstawania nowych programów spowodowały, iż w projekcie GUI4PDDL powzięto założenie o wsparciu dla uruchamiania jak największego zakresu istniejących rozwiązań (z planerem \emph{FastDownward} jako priorytetem). Wymaganie to zostało zrealizowane poprzez unifikację formatu pliku uruchomieniowego, obsługiwanego w \emph{Eclipse} (roz.~\ref{sec:wspolpraca}) oraz dostosowywanie do niego planerów poprzez skrypty powłoki systemu operacyjnego.
+Mnogość dostępnych narzędzi do wyznaczania planu, brak wśród nich jednoznacznego, powszechnie wykorzystywanego lidera oraz prawdopodobieństwo udoskonalania i powstawania nowych programów spowodowały, iż w projekcie GUI4PDDL powzięto założenie o wsparciu dla uruchamiania jak największego zakresu istniejących rozwiązań (z planerem \emph{FastDownward} jako priorytetem). Wymaganie to zostało zrealizowane poprzez unifikację formatu pliku uruchomieniowego, obsługiwanego w \emph{Eclipse} (roz.~\ref{subsec:integracja}) oraz dostosowywanie do niego planerów poprzez skrypty powłoki systemu operacyjnego.
 
-Testy wykazały jednak, że środowisko programistyczne posiada kontrolę tylko nad procesami samych skryptów, natomiast wszystkie uruchamiane przez nie podprocesy (w tym proces programu planera) pozostają bez nadzoru. W przypadku, gdy użytkownik zainicjuje\JP{PPR zainicjuje} kilka zadań znajdowania planu jednocześnie, które z uwagi na swój charakter i wykorzystywany algorytm znacznie obciążają procesor, może dojść do obniżenia responsywności systemu operacyjnego. Wówczas, mimo zatrzymania działania głównego skryptu za pomocą przycisku \textit{Terminate} w widoku \textit{Console} (rys.~\ref{fig:terminate_button}), procesy planera nie zostaną zakończone, co może powodować dalszy spadek wydajności.
+Testy wykazały jednak, że środowisko programistyczne posiada kontrolę tylko nad procesami samych skryptów, natomiast wszystkie uruchamiane przez nie podprocesy (w tym proces programu planera) pozostają bez nadzoru. W przypadku, gdy użytkownik zainicjuje kilka zadań znajdowania planu jednocześnie, które z uwagi na swój charakter i wykorzystywany algorytm znacznie obciążają procesor, może dojść do obniżenia responsywności systemu operacyjnego. Wówczas, mimo zatrzymania działania głównego skryptu za pomocą przycisku \textit{Terminate} w widoku \textit{Console} (rys.~\ref{fig:terminate_button}), procesy planera nie zostaną zakończone, co może powodować dalszy spadek wydajności.
 
 \begin{figure}[h!]
     \centering
@@ -693,6 +692,6 @@ Testy wykazały jednak, że środowisko programistyczne posiada kontrolę tylko 
 
 Rozwiązaniem tego problemu jest implementacja własnej fabryki procesów (ang. \textit{process factory})\footnote{http://help.eclipse.org/indigo/topic/org.eclipse.platform.doc.isv/guide/debug\_launch\_processfactories.htm}. Rozszerzenie to, wspierane przez platformę \emph{Eclipse}, pozwala na przejęcie kontroli nad tworzeniem nowego, natywnego procesu. W odpowiedzialnej za to metodzie \texttt{newProcess} klasy \texttt{PDDLProcessFactory} zwracany jest obiekt podklasy (\texttt{RuntimeProcessWithChildProcessesTermination}) standardowego procesu, w której zmieniono część zajmującą się przerywaniem działania.
 
-Nowy sposób zakończenia procesu opiera się na wykorzystaniu natywnych metod wspieranych systemów operacyjnych (Windows oraz Linux \JP{a co z Makami? Bez tego dr AŁ będzie nieszczęśliwa}) poprzez bibliotekę \textit{JNA} (\textit{Java Native Access})\footnote{https://github.com/twall/jna}. Biblioteka ta pozwala na wykonywanie operacji specyficznych dla danej platformy bez konieczności dodatkowej konfiguracji. Za jej pomocą pobierany jest numer PID skryptu, który następnie podawany jest jako argument specyficznych dla systemu poleceń powłoki, odpowiedzialnych za przerywanie procesów. W przypadku systemu Windows jest to polecenie \emph{taskkill}, w przypadku rodziny Linux -- \emph{kill}, z odpowiednio przetworzonym\JP{PPR jakoś to po polsku proszę napisać, a nie robić kalkę z angielskiego} drzewem podprocesów otrzymanym z komendy \emph{pstree}.
+Nowy sposób zakończenia procesu opiera się na wykorzystaniu natywnych metod wspieranych systemów operacyjnych (Windows oraz Linux) poprzez bibliotekę \textit{JNA} (\textit{Java Native Access})\footnote{https://github.com/twall/jna}. Biblioteka ta pozwala na wykonywanie operacji specyficznych dla danej platformy bez konieczności dodatkowej konfiguracji. Za jej pomocą pobierany jest numer PID skryptu, który następnie podawany jest jako argument specyficznych dla systemu poleceń powłoki, odpowiedzialnych za przerywanie procesów. W przypadku systemu Windows jest to polecenie \emph{taskkill}, w przypadku rodziny Linux -- \emph{kill}, z odpowiednio przetworzonym drzewem podprocesów otrzymanym z komendy \emph{pstree}.
 
 Dzięki tak przygotowanemu wsparciu dla obsługi zakończenia skryptów, użytkownik jest w stanie kontrolować ich wykonywanie z poziomu \emph{Eclipse}, zarówno dla programów wsadowych (pliki \texttt{.bat} -- w systemie Windows), jak i dla poleceń powłoki \textit{bash} (w systemach z rodziny Linux).
