@@ -1,7 +1,10 @@
 digraph antlr_tree {
 	node [shape = none];
+	requirements [label = < <B>requirements</B><br/>[:requirements] >];
+	requirementName2[label = < requirementName<br/>[:strips] >];
+	requirementName [label = < <B >requirementName</B ><br/>[:fluents] >];
 
-	requirements [label = ":requirements"];
 	requirements -> requirementName;
+	requirements -> requirementName2;
 }
 

@@ -51,13 +51,13 @@ ANTLR (ang. \emph{ANother Tool for Language Recognition}) jest generatorem
 analizatorów leksykalnych i składniowych \cite{antlr}.
 
 Narzędzie przetwarza opisy gramatyk języków formalnych w postaci 
-zbliżonej do notacji
- Backusa-Naura\JP{tu cytowanie}. Na podstawie specyfikacji generowany jest kod analizatora.
+zbliżonej do rozszerzonej notacji
+ Backusa-Naura \cite{antlr}. Na podstawie specyfikacji generowany jest kod analizatora.
 Językami programowania wspieranymi przez ANTLR są między innymi C, C\#, Java
 i Python.
 
 Istotną zaletą oprogramowania jest jego prostota użycia. Wygenerowany kod 
-jest czytelny i \JP{może zostać łatwo dołączony do tworzonej} łatwo można go dołączyć do własnej aplikacji. Postać plików
+jest czytelny i może zostać łatwo dołączony do tworzonej aplikacji. Postać plików
 wejściowych jest podobna dla wszystkich rodzajów analizatorów. Dodatkowo
 istnieją narzędzia wspierające projektowanie i implementację gramatyk
 formalnych z wykorzystaniem ANTLR. Należy do nich ANTLRWorks, będące
@@ -65,9 +65,11 @@ zintegrowanym środowiskiem programistycznym. Zawiera ono edytor strukturalny,
 zintegrowany program do usuwania błędów i moduł do wizualizacji struktur 
 danych powstających podczas translacji.
 
-ANTLR został opublikowany wraz z kodem źródłowym na licencji BSD\JP{URL}. Projekt jest
+ANTLR został opublikowany wraz z kodem źródłowym na licencji BSD\footnote{http://www.antlr3.org}. 
+Projekt jest
 aktywnie rozwijany. Wiele programów zawiera analizatory wygenerowane za pomocą
-ANTLR, np. Hibernate\JP{URL}, Jython\JP{URL} i Netbeans\JP{URL}.
+ANTLR, np. Hibernate\footnote{http://hibernate.org}, Jython\footnote{http://jython.org}
+i Netbeans\footnote{http://netbeans.org}.
 
 \subsection{Przetwarzanie języków formalnych}
 Języki formalne, w tym języki programowania, są opisane zbiorem zasad określającym
@@ -76,13 +78,10 @@ danych wejściowych ze specyfikacją języka oraz na wyodrębnieniu części sk�
 Ponadto podczas analizy mogą zostać wykonane operacje działające na danych zgodnie
 z~ich znaczeniem określonym przez reguły semantyczne \cite{compilers}.
 
-\JP{a może zrezygnować z tego wypunktowania i napisać coś pokroju: Wyodrębnia się trzy fazy analizy. Zależności między nimi przedstawione są na rysunku \ref{antlr_phases}}
-Wyodrębnia się trzy fazy analizy:
-\begin{enumerate}
-\item \emph{Analizę leksykalną}.
-\item \emph{Analizę składniową}.
-\item \emph{Analizę semantyczną}.
-\end{enumerate}
+% \JP{a może zrezygnować z tego wypunktowania i napisać coś pokroju: Wyodrębnia się trzy fazy analizy. Zależności między nimi przedstawione są na rysunku \ref{antlr_phases}}
+Wyodrębnia się trzy fazy analizy: analizę leksykalną, składniową i semantyczną. 
+Zależności między nimi przedstawia rysunek \ref{antlr_phases}. 
+
 
 \begin{figure}[h]
   \centering
@@ -91,25 +90,39 @@ Wyodrębnia się trzy fazy analizy:
     \label{antlr_phases}
 \end{figure}
 
-Zależności pomiędzy fazami przedstawia rysunek \ref{antlr_phases}. 
 
-Podczas analizy leksykalnej dane wejściowe są traktowane jako strumień znaków, który
-jest odczytywany od strony prawej do lewej. Znaki są grupowane w \emph{symbole leksykalne}, czyli
-ciągi posiadające określone znaczenie. Analiza składniowa ma na celu zgrupowanie 
-symboli leksykalnych w hierarchiczne struktury,
-mające pewne znaczenie.\JP{Z tego fragmentu nie wynika, żeby analiza leksykalna czymś różniła się od składniowej: tak czy siak na końcu są struktury mające znaczenie, co niczego nie mówi} Analiza semantyczna przetwarza dane zgodnie z ich znaczeniem
-opisanym przez reguły semantyczne. W~tej fazie zbierane są informacje zawarte w danych.
+%\JP{Z tego fragmentu nie wynika, żeby analiza leksykalna czymś różniła się od składniowej: tak czy siak na końcu są struktury mające znaczenie, co niczego nie mówi}
+Analiza leksykalna polega na przekształcenia danych wejściowych, traktowanych jako 
+strumień znaków, na sekwencje \emph{symboli leksykalnych}. Symbol leksykalny reprezentuje
+ciąg znaków, któremu przypisane jest znaczenie w opisie języka formanego. Może to 
+być np. słowo kluczowe, literał liczbowy lub identyfikator zmiennej.
+Z każdym symbolem leksykalnym związana jest reguła, zwana \emph{wzorcem}. Określa ona
+zbiór ciągów znaków, na podstawie którego, dany symbol może zostać wygenerowany.
+Konkretny ciąg znaków pasujący do wzorca nazwany jest \emph{leksemem}.
+Wzorce często opisywane są za pomocą wyrażeń regularnych.
 
-Reguły języka mogą być opisane językiem naturalnym lub w sposób sformalizowany.
+Analiza składniowa ma na celu hierarchiczne zgrupowanie symboli leksykalnych 
+w zagnieżdżone struktury. Poprawną postać takich struktur, zwanych wyrażeniami gramatycznymi,
+podaje specyfikacja języka. Podział na analizę składniową i leksykalną jest umowny.
+Dokonuje się go w taki sposób, żeby uprościć konstrukcje analizatora. Przyjętym kryterium podziału
+jest to, czy dana struktura jest rekurencyjna. Opis symboli leksykalnych zwykle nie wymaga rekursji.
+Konstrukcje składniowe często są rekurencyjne.
+
+Analiza semantyczna przetwarza dane zgodnie z ich znaczeniem opisanym przez reguły semantyczne.
+Na tym etapie zbierane są informacje zawarte w kodzie, obliczane są różne wartości związane
+z konstrukcjami języka oraz dokonywane są testy sprawdzające, czy składniki języka pasują do siebie.
+
+Reguły składniowe języka mogą być opisane językiem naturalnym lub w sposób sformalizowany.
 Jednym z formalizmów, odzwierciedlającym hierarchiczną strukturę konstrukcji językowych,
-jest \emph{gramatyka bezkontekstowa} \JP{tu cytowanie}. Składa się ona z czterech elementów:
+jest \emph{gramatyka bezkontekstowa} \cite{compilers}. Składa się ona z czterech elementów:
 
-%Pytanie nieuniknięto powtórzenia skłów w definicji
+%Nie udało mi się uniknąć powtórzenia niektórych wyrażeń w definicji. Czy to jest problem?
 \begin{itemize}
 \item Zbioru symboli leksykalnych zwanych \emph{symbolami terminalnymi} lub \emph{terminalami}.
 \item Zbioru symboli \emph{nieterminalnych}.
+  %\JP{Czy ta strzałka to jest zaczerpinęta z jakiejś mądrej książki? - Tak. Z \cite{compilers} - strona 25}
 \item Zbioru \emph{produkcji}. Każda produkcja składa się z symbolu nieterminalnego,
-  zwanego lewą stroną produkcji, strzałki i ciągu symboli zwanego prawą stroną produkcji.\JP{Czy ta strzałka to jest zaczerpinęta z jakiejś mądrej książki?}
+  zwanego lewą stroną produkcji, strzałki i ciągu symboli zwanego prawą stroną produkcji.
 \item Wyznaczonego \emph{symbolu startowego}.
 \end{itemize}
 
@@ -120,14 +133,34 @@ można wyprowadzić dany napis obrazuje \emph{drzewo wyprowadzania}. W~korzeniu 
 znajduje się symbol startowy. Dzieci wierzchołka reprezentującego symbol nieterminalny
 zawierają symbole z prawej strony produkcji użytej do jego zastąpienia.
 
-\JP{Proszę przepisać bezosobowo. Ja chyba nie do końca rozumiem czym jest requirementName, bo potem pojawia się :strips jako konkretny przykład. Dobrze by też było, żeby ten przykład był trochę bardziej rozbudowany, bo potem rysunek \ref{antlr_ast} wygląda drętwo.}
+
+%\JP{Proszę przepisać bezosobowo. Ja chyba nie do końca rozumiem czym jest requirementName, bo potem pojawia się :strips jako konkretny przykład. Dobrze by też było, żeby ten przykład był trochę bardziej rozbudowany, bo potem rysunek \ref{antlr_ast} wygląda drętwo.}
 \paragraph{Przykład 4.1}
-Rozpatrzmy przykład konstrukcji języka PDDL reprezentującej listę wymagań domeny lub problemu.
+W języku PDDL występuje konstrukcja reprezentująca listę wymagań problemu lub dziedziny.
 Składa się ona z otoczonych nawiasami okrągłymi symbolu \texttt{:requirements} oraz
-ciągu symboli oznaczających nazwy wymagań. Symbolami terminalnymi są 
-\textbf{(}, \textbf{)}, słowo kluczowe \textbf{:requirements} i 
-\textbf{requirementName} reprezentujący nazwę wymagania. Poniższa gramatyka opisuje
-składnię takiego wyrażenia:
+ciągu symboli oznaczających nazwy wymagań. 
+
+Symbole leksykalne, z których składa się lista wymagań zostały przedstawione w tablicy
+\ref{ana_lextable}.
+
+\begin{table}[h]
+  \centering
+  \caption{Symbole leksykalne występujące w liście wymagań}
+  \begin{tabular}{|l|l|}
+    \hline
+    Symbol leksykalny & Opis wzorca \\ \hline
+    \textbf{(} & ciąg '(' \\ 
+    \textbf{)} & ciąg ')' \\ 
+    \textbf{requirements} & ciąg ':requirements' \\
+    \textbf{requirementName} & ciąg znaków alfanumerycznych rozpoczynający się od ':' \\
+    \hline
+  \end{tabular}
+  \label{ana_lextable}
+\end{table}
+
+Składnię wyrażenia można opisać za pomocą gramatyki bezkontekstowej, przedstawionej
+poniżej. Symbole leksykalne zawarte w tablicy \ref{ana_lextable} pełnią także rolę symboli terminalnych.
+Wprowadzone są dwa symbole nieterminalne: R i requirementsList.
 
 \begin{itemize}
 \item requirementsList $\rightarrow$ \textbf{(} \textbf{:requirements} R
@@ -135,21 +168,28 @@ składnię takiego wyrażenia:
 \item R $\rightarrow$ \textbf{requirementName} \textbf{R}
 \end{itemize}
 
-Dla napisu postaci \texttt{(:requirements :strips)} zostanie
-wygenerowany strumień symboli leksykalnych \textbf{( :requirements requirementName )}.
+Przykładem poprawnej listy wymagań jest napis \texttt{(:requirements :strips :fluents)}.
+Podczas analizy składniowej, zostanie on zamieniony na strumień symboli leksykalnych.
+Poniżej zamieszczono strumień symboli wraz z odpowiadającymi im leksemami umieszczonymi 
+w nawiasach prostokątnych.\\
+\textbf{(}[(] , \textbf{requirements}[:requirements] , \textbf{requirementName}[:strips] , \\
+\textbf{requirementName}[:fluents] , \textbf{)}[)]
+
 Drzewo wyprowadzania tworzone podczas analizy składniowej jest przedstawione 
-na rysunku \ref{antlr_example}
+na rysunku \ref{antlr_example}. Leksemy przyporządkowane symbolom leksykalnym
+są atrybutami liści drzewa. Zostały one umieszczone w nawiasach prostokątnych.
 
 \begin{figure}[h!]
   \centering
     \includegraphics[width=0.7\textwidth]{img/antlr_example.pdf}
-    \caption{Drzewo wyprowadzania dla przykładu 12\JP{tu chyba inny numer?}}
+    \caption{Drzewo wyprowadzania dla przykładu 4.1} %\JP{tu chyba inny numer?}
     \label{antlr_example}
 \end{figure}
 
 \subsection{Metoda LL(*)}
 Główną zaletą gramatyk bezkontekstowych jest możliwość automatycznego generowania programów
-wykonujących analizę leksykalną i składniową na podstawie gramatyki\JP{tu cytowanie}.
+wykonujących analizę leksykalną i składniową na podstawie gramatyki \cite{compilers}. 
+% \JP{tu cytowanie}.
 
 Narzędzie ANTLR generuje analizatory leksykalne i składniowe dla pewnego podzbioru
 gramatyk formalnych. Elementy tego podzbioru nazwane są gramatykami LL(*). Metoda 
@@ -158,17 +198,21 @@ analizy stosowana w generowanych analizatorach nazwana jest analizą LL(*).
 Analizatory LL(*) należą do klasy analizatorów LL. Wykorzystują one
 analizę zstępującą i metodę zejść 
 rekurencyjnych. Każdemu nieterminalowi zdefiniowanemu w specyfikacji gramatyki
-odpowiada procedura lub metoda\JP{nie bardzo rozumiem to procedura lub metoda. Nie wystarczy jedno z tych słów?}. 
+odpowiada podprogram.
+%\JP{nie bardzo rozumiem to procedura lub metoda. Nie wystarczy jedno z tych słów?}.
+%Metody występują w klasach, funkcje i procedury poza nimi
+%Użyłem teraz słowa podprogram, obejmującego wszystkie te terminy.
+%Niestety wydaje się ono nieco archaiczne. 
 
-Analiza\JP{jaka? składownia? zstępująca?}, polegająca na konstrukcji drzewa
+Analiza LL, polegająca na konstrukcji drzewa %\JP{jaka? składownia? zstępująca?}
 wyprowadzenia, rozpoczyna się od korzenia. Związany z nim jest symbol 
 startowy gramatyki. W każdym kroku analizy wykonywane są następujące czynności:
-\JP{Skoro mówimy o drzewie, to chyba jednak właściwszym tłumaczeniem byłyby wierzchołki, a nie węzły}
+% \JP{Skoro mówimy o drzewie, to chyba jednak właściwszym tłumaczeniem byłyby wierzchołki, a nie węzły}
 \begin{enumerate}
 \item Wybierany jest pierwszy w porządku, zdefiniowanym przez
-  przeszukiwanie wgłąb, węzeł $V$ zawierający symbol nieterminalny $A$.\JP{skąd się wzięło to $A$?}
+  przeszukiwanie wgłąb, wierzchołek $V$ zawierający pewien symbol nieterminalny $A$. %\JP{skąd się wzięło to $A$?} - dodałem słowo pewien. Chodzi o to, że może być to dowolny symbol i w tym miejscu wprowadziłem jego oznaczenie.
 \item Wybierana jest produkcja mająca po lewej stronie symbol $A$.
-\item Jako dzieci węzła $V$ dodawane są węzły związane z symbolami znajdującymi się po prawej
+\item Jako dzieci wierzchołka $V$ dodawane są wierzchołki związane z symbolami znajdującymi się po prawej
   stronie produkcji z punktu 2.
 \end{enumerate}
 
@@ -179,9 +223,9 @@ tych symboli nie jest ograniczona. W celu przeglądania strumienia wejściowego
 ,,w przód'' tworzone są automaty skończone mogące zawierać cykle.
 
 W odróżnieniu od tradycyjnych gramatyk LL, w~gramatykach LL(*) prawe strony
-produkcji dla jednego nieterminala mogą mieć ten sam prefiks. Nie ma więc 
-konieczności lewostronnej faktoryzacji, co znacznie ułatwia tworzenie
-gramatyk.\JP{Termin lewostronna faktoryzacja musi zniknąć albo być wyjaśniony, bo teraz nie wiadomo o co chodzi.}
+produkcji dla jednego nieterminala mogą mieć ten sam prefiks.
+Stanowi to znaczne ułatwienie przy tworzeniu gramatyk. 
+%\JP{Termin lewostronna faktoryzacja musi zniknąć albo być wyjaśniony, bo teraz nie wiadomo o co chodzi.}
 
 \subsection{Abstrakcyjne drzewa składniowe}
 % Analizę semantyczną języka opisanego gramatyką bezkontekstową można 
@@ -194,13 +238,13 @@ może być \emph{abstrakcyjne drzewo składniowe}. Jest to skondensowana postać
 wyprowadzania, składająca się
 wyłącznie z węzłów reprezentujących symbole wejściowe. Węzły
 wewnętrzne reprezentują słowa kluczowe i operatory, liście -- argumenty.
-Abstrakcyjne drzewo składniowe dla przykładu 1\JP{znowu coś z tym numerem jest nie tak} jest przedstawione na rysunku 
-\ref{antlr_ast}.
+Abstrakcyjne drzewo składniowe dla przykładu 4.1 jest przedstawione na rysunku 
+\ref{antlr_ast}. %\JP{znowu coś z tym numerem jest nie tak}
 
 \begin{figure}[h!]
   \centering
     \includegraphics[scale=0.8]{img/antlr_ast.pdf}
-    \caption{Abstrakcyjne drzewo składniowe dla przykładu 1\JP{tak jak pisałem wyżej: ten rysunek jest nie dość fascynujący}}
+    \caption{Abstrakcyjne drzewo składniowe dla przykładu 4.1} %\JP{tak jak pisałem wyżej: ten rysunek jest nie dość fascynujący}}
     \label{antlr_ast}
 \end{figure}
 
@@ -216,11 +260,21 @@ wygenerowanie struktury. Poza tym, specyfikacja analizatora składniowego
 
 
 Przetwarzanie abstrakcyjnego drzewa składniowego podczas analizy semantycznej
-sprowadza się do jego przechodzenia. Można do tego wykorzystać analizator drzewowy. \JP{Czy drzewowy jest na pewno poprawnym terminem po polsku? Może warto, żeby pojawiła się angielska wersja w nawiasie}
-Jest to podprogram generowany przez
+sprowadza się do jego przechodzenia. Typowym sposobem pretwarzania drzewowej struktury 
+jest wykorzystanie wzorca \emph{Visitor}. Polega on na przechodzeniu drzewa w głąb
+i wykonywaniu w każdym wierzchołku metody, odpowiadającej symbolowi w nim zawartemu.
+Podejście to posiada jednak ograniczenia. Struktura drzewa nie jest walidowana.
+Wywoływane metody mają jedynie dostęp do informacji związanych z bieżącym wierzchołkiem.
+Nie jest im przekazywana informacja kontekstowa o otaczających wierzchołkach.
+
+Zalecanym sposobem przetwarzania abstrakcyjnych drzew składniowych jest analizator drzewowy
+(ang \emph{tree parser}). Jest to podprogram generowany przez
 ANTLR na podstawie specyfikacji, tak jak analizator składniowy lub leksykalny.
-Wprowadzenie analizatorów drzewowych wyróżnia ANTLR na tle innych generatorów
- parserów.  \JP{Czy to się czymś różni od wzorca Visitor? Jeżeli tak, to czym? Jeżeli nie, to warto o tym napisać.}
+Podprogram ten przechodzi przez drzewo, sprawdzając jego strukturę. Informacja o wierzchołkach
+nadrzędnych jest przekazywana ,,w dół''. Wprowadzenie analizatorów drzewowych 
+wyróżnia ANTLR na tle innych generatorów parserów. 
+%\JP{Czy drzewowy jest na pewno poprawnym terminem po polsku? Może warto, żeby pojawiła się angielska wersja w nawiasie} -- literatura o ANTLR jest dostępna wyłącznie w języku angielskim. Jedyna wzmianka po polski jest na wikipedii - tam jest analizator drzewa składni abstrakcyjnej. 
+%\JP{Czy to się czymś różni od wzorca Visitor? Jeżeli tak, to czym? Jeżeli nie, to warto o tym napisać.}
 
 \subsection{Pliki wejściowe}
 
@@ -241,3 +295,36 @@ tworzony jest analizator leksykalny. Pozostałe reguły tworzą analizator
 składniowy.
 
 \JP{Tu bym widział jakiś krótki przykład takiego pliku i/lub odwołanie do odpowiedniego dodatku z omówionym przynajmniej fragmentem takiego kodu ze stworzonego projektu.}
+
+\setcounter{lstlisting}{1}
+\begin{Code}
+\begin{lstlisting}[label=antlr_code, caption=Gramatyka ANTLR opisująca listę wymagań]
+grammar PDDL;
+
+options {
+	output = AST;
+	ASTLabelType=CommonTree;
+}
+
+tokens {
+	PLEFT = '(';
+	PRIGHT = ')';
+	REQUIREMENTS = ':requirements';
+}
+
+requirementsList
+	:	'('! ':requirements'^ R
+	;
+
+R
+	:	REQUIREMENT_NAME ')'!
+	|	REQUIREMENT_NAME R
+	;
+
+
+REQUIREMENT\_NAME
+	:	':'('a'..'z'|'A'..'Z'|'_'|'-'|'0'..'9')+
+    ;
+
+\end{lstlisting}
+\end{Code}

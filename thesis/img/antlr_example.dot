@@ -1,12 +1,19 @@
 digraph antlr_example {
-	node [shape = none];
+	graph [ordering = out];
+	node [shape = none, ordering = out];
 	requirementsList -> parL;
 	requirementsList -> requirements;
 	requirementsList -> R;
-	requirements [label = <<B>:requirements</B>>];
-        parL [label = <<B >(</B >>]; 
+	requirements [label = < <B>requirements</B><br/>[:requirements] >];
+	R[ordering = out];
+	R2[label = R];
+	requirementName2[label = < requirementName<br/>[:strips] >];
+        parL [label = <<U >(</U ><br/>[(]>]; 
 	R -> requirementName;
-	R -> parR;
-	requirementName [label = <<B >requirementName</B >>];
-	parR [label = <<B>)</B>>];	
+	R -> R2
+
+	R2 -> requirementName2;
+	R2 ->parR;
+	requirementName [label = < <B >requirementName</B ><br/>[:fluents] >];
+	parR [label = <<B>)</B><br/>[)]>];	
 }
