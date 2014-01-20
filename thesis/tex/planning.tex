@@ -3,7 +3,7 @@
  \section{Opis dziedziny}
 Automatyczne planowanie to poddziedzina sztucznej inteligencji, która dotyczy wykonywania sekwencji akcji, realizacji strategii lub generowania planów, prowadzących do określonego wyniku \cite{planning}.
 
-Każdy problem automatycznego planowania zawiera stan początkowy oraz stan końcowy. W stanie początkowym określone są wszystkie wartości zmiennych (stany poszczególnych obiektów) jakie aktualnie zawarte są w problemie, a które mają zostać zmienione podczas wykonania planu. W stanie końcowym sformułowane są wartości zmiennych, których osiągniecie jest głównym zadaniem planu. Ponad to problemy automatycznego planowania zawierają zdefiniowane operatory, umożliwiające zmianę stanu. Tylko przez podejmowanie akcji plan może zostać wykonany. Wyjątkiem jest sytuacja, w której stan końcowy jest równy stanu początkowemu.
+Każdy problem automatycznego planowania zawiera stan początkowy oraz stan końcowy. W stanie początkowym określone są wszystkie wartości zmiennych (stany poszczególnych obiektów) jakie aktualnie zawarte są w problemie, a które mają zostać zmienione podczas wykonania planu. W stanie końcowym sformułowane są wartości zmiennych, których osiągniecie jest głównym zadaniem planu. Ponadto problemy automatycznego planowania zawierają zdefiniowane operatory, umożliwiające zmianę stanu. Tylko przez podejmowanie akcji plan może zostać wykonany. Wyjątkiem jest sytuacja, w której stan końcowy jest równy stanu początkowemu.
 
 Plany, otrzymywane w wyniku rozwiązywania problemów, można otrzymać dzięki zastosowaniem różnego rodzaju schematów działania. Spośród klasycznych algorytmów, wymienić można między innymi całkowity przegląd stanów, wnioskowanie w tył czy wnioskowanie w przód. Mimo, iż całkowity przegląd stanów zapewni rozwiązanie najlepsze, jest to rzadko stosowane rozwiązanie. Liczba stanów możliwych do osiągnięcia rośnie wykładniczo, co powoduje, że zaplanowanie nawet niezbyt skomplikowanych problemów, może zająć czas, w którym rozwiązanie znacznie przekracza zdatność do użycia. W takim wypadku stosuje się algorytmy mogące zwrócić plany, których wykonanie zajmie więcej czasu, jednak szybkość ich uzyskania znacznie wzrasta \cite{fdalgorytm}.
 
@@ -99,7 +99,7 @@ of a given length;}
 \end{lstlisting}
 \end{Code}
 
-Aby stworzyć w pełni funkcjonalną wtyczkę, należało sporządzić gramarykę formalną, Jest to zbór wszystkich symboli terminalnych, nieterminalnych oraz reguł, określających sposób wyprowadzania słów, należący do języka PDDL. Bez gramatyki nie możliwe byłoby wykonanie większości funkcji, które powinny być zapewnione przez GUI4PDDL. W przykładzie \ref{frag_gramatyki} przedstawiono fragment gramatyki formalnej języka PDDL.\\
+Aby stworzyć w pełni funkcjonalną wtyczkę, należało sporządzić gramarykę formalną, Jest to zbór wszystkich symboli leksykalnych, zwanych \emph{symbolami terminalnymi, symboli nieterminalnych} oraz reguł, określających sposób wyprowadzania słów, należący do języka PDDL. Bez gramatyki nie możliwe byłoby wykonanie większości funkcji, które powinny być zapewnione przez GUI4PDDL. W przykładzie \ref{frag_gramatyki} przedstawiono fragment gramatyki formalnej języka PDDL.\\
 \begin{Code}
 \begin{lstlisting}[language=LISP,frame=single,label={frag_gramatyki}, caption={Fragment gramatyki formalnej}]
 problem_item
