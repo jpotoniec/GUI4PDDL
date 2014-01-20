@@ -68,8 +68,8 @@ danych powstających podczas translacji.
 ANTLR został opublikowany wraz z kodem źródłowym na licencji BSD\footnote{http://www.antlr3.org}. 
 Projekt jest
 aktywnie rozwijany. Wiele programów zawiera analizatory wygenerowane za pomocą
-ANTLR, np. Hibernate\footnote{http://hibernate.org}, Jython\footnote{http://jython.org}
-i Netbeans\footnote{http://netbeans.org}.
+ANTLR, np. \emph{Hibernate}\footnote{http://hibernate.org}, \emph{Jython}\footnote{http://jython.org}
+i \emph{Netbeans}\footnote{http://netbeans.org}.
 
 \subsection{Przetwarzanie języków formalnych}
 Języki formalne, w tym języki programowania, są opisane zbiorem zasad określającym
@@ -296,7 +296,7 @@ składniowy.
 
 %\JP{Tu bym widział jakiś krótki przykład takiego pliku i/lub odwołanie do odpowiedniego dodatku z omówionym przynajmniej fragmentem takiego kodu ze stworzonego projektu.}
 
-Na listingu \ref{antlr_code} zamieszczony jest opis gramatyki rozpoznającej
+W przykładzie \ref{antlr_code} zamieszczony jest opis gramatyki rozpoznającej
 listy wymagań. Jest to implementacja gramatyki bezkontekstowej z przykładu
 4.1.
 
@@ -328,7 +328,7 @@ R
 
 REQUIREMENT\_NAME
 	:	':'('a'..'z'|'A'..'Z'|'_'|'-'|'0'..'9')+
-    ;
+	;
 
 \end{lstlisting}
 \end{Code}
@@ -337,13 +337,14 @@ W pierwszej linijce znajduje się określenie typu i nazwy
 gramatyki. W tym przypadku jest to połączona gramatyka analizatora
 składniowego i leksykalnego (dyrektywa \texttt{grammar}). Nazwa gramatyki
 ma wpływ na nazwy wygenerowanych klas parserów. Będą to 
-\texttt{PDDLLexer.java} oraz \texttt{PDDLParser.java}.
+\texttt{PDDLLexer} oraz \texttt{PDDLParser}.
 
 W sekcji \texttt{options} można ustawić parametry globalne, które mają
 wpływ na generację analizatorów. Nadanie parametrowi \texttt{output}
 wartości \texttt{AST} powoduje, że wynikiem działania analizatora
 składniowego będzie abstrakcyjne drzewo składniowe. Parametr 
-\texttt{ASTLabelType} określa klasę, której instancjami są wierchołki drzewa.
+\texttt{ASTLabelType} określa klasę, której instancjami będą
+ wierchołki drzewa.
 
 W gramatyce występują cztery symbole leksykalne: lewy nawias \texttt{PLEFT}, 
 prawy nawias \texttt{PRIGHT}, słowo kluczowe \texttt{REQUIREMENTS} oraz
@@ -354,7 +355,8 @@ nazwy symbolu i literału, co zwiększa czytelność pliku. Symbol
 \texttt{REQUIREMENT\_NAME} jest określony za pomocą wyrażenia regularnego
 w linijce 24.
 
-Zostały zdefiniowane dwa symbole nieterminalne: requirementsList. W produkcjach
+Zostały zdefiniowane dwa symbole nieterminalne: requirementsList i R.
+Pierwszy z nich jest symbolem startowym. W produkcjach
 je definiujących, znak strzałki jest zastąpiony dwukropkiem. W przypadku,
 kiedy w gramatyce występują alternatywne produkcje posiadające po lewej
 stronie ten sam symbol nieterminalny, rozdziela się je znakiem ,,|''.
@@ -365,4 +367,32 @@ oznacza, że występujący przed nim symbol powinien zostać pominięty przy
 budowie drzewa. Znak ,,\^\ '' występuje za symbolem, który stanie się rodzicem
 wierzchołków reprezentujących pozostałe symbole.
 
+\begin{Code}[h!]
+\begin{lstlisting}[label=antlr_astcode, caption=Gramatyka analizatora drzewowego przetwarzającego listę wymagań, numbers=left, frame=single]
+tree grammar PDDL;
 
+options {
+    tokenVocab=PDDL;
+    ASTLabelType=CommonTree;
+}
+
+requirementsList
+	: ^(REQUIREMENTS (REQUIREMENT_NAME {System.out.println($REQUIREMENT_NAME.text);)+) //$
+	;
+\end{lstlisting}
+\end{Code}
+
+Kod z przykładu \ref{antlr_astcode} opisuje przykładowy
+analizator drzewowy. Przetwarza on
+abstrakcyjne drzewo składniowe reprezentujące listę wymagań. Dyrektywą 
+określającą typ gramatyki jest \texttt{tree grammar}. Nazwą klasy
+zawierającej wygenerowany kod będzie \texttt{PDDL}.
+
+Parametry wymienione w sekcji \texttt{options} określają zbiór symboli 
+leksykalnych oraz typ klasy reprezentującej wierzchołki drzewa. Powinny
+być one zgodne z ustawieniami analizatorów leksykalnego i składniowego.
+
+Reguła \texttt{requirementsList} pasuje do drzewa, które w korzeniu
+posiada symbol leksykalny \texttt{REQUIREMENTS}, a w wierzchołkach
+potomnych symbole \texttt{REQUIREMENT\_NAME}. W każdym takim wierzchołku 
+wykonywana jest akcja polegająca na wypisaniu nazwy wymagania na ekran.
