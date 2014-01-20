@@ -2,6 +2,15 @@
 \section{Podział na projekty Eclipse}
 
 \JP{PPR Tu jakiś schemat czy coś, bo jak się czyta te opisy dalej, to można się nieźle pogubić}
+Opracowany system opiera się na architekturze platformy \emph{Eclipse}, która pozwala na rozszerzanie jej funkcjonalności na podstawie ściśle określonej struktury. Struktura ta opisuje poszczególne elementy, które mogą znaleźć się w tworzonej wtyczce (np. widoki, edytory, obsługa zewnętrznych narzędzi). Dzięki możliwości wstępnej konfiguracji wtyczki za pomocą pliku (rozdzial), praca nad projektem sprowadza się głównie do własnej implementacji tych elementów. 
+
+W przypadku systemu GUI4PDDL są to:
+\begin{itemize}
+\item Edytor kodu wraz z analizatorem kodu i podpowiadaniem składni.
+\item Widoki preferencji wtyczki oraz przeglądarki planów.
+\item Obsługa uruchamiania zewnętrznych narzędzi (planerów).
+\item Kreatory nowego projektu i pliku PDDL.
+\end{itemize}
 
 Ze względu na złożoność oraz zakres wymagań projekt GUI4PDDL podzielono na 6 głównych podprojektów związanych z rozwojem wtyczki oraz 2 dodatkowe, standardowe projekty \emph{Eclipse}, służące do testowania istniejących rozwiązań. Taka struktura pozwala na logiczne oddzielenie implementacji wtyczki od kodu, odpowiedzialnego za jej testowanie i integrację z \emph{Eclipse}. Pozwala to zmniejszyć rozmiar plików pobieranych przy instalacji przez użytkownika, zwłaszcza dodatkowych bibliotek.
 
