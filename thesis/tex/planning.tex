@@ -46,7 +46,7 @@ Plik dziedziny zawiera:
 \item[Typy] Typy znajdujące się w problemie: \texttt{(:types okno drzwi)}
 \item[Stałe] Zdefiniowane stałe \texttt{(:constants pierwsza druga - opona)}
 \item[Zmienne dziedzinowe] Zmienne dla dziedzin, które mają zadeklarowe wymaganie \texttt{:expression-evaluation}: \texttt{(:domain-variables zmienna - int)}
-\item[Predykaty] Lista predykatów zawartych w domenie (znak \texttt{?} poprzedzający \texttt{x} oznacza, że \texttt{x} jest zmienną) -  \texttt{  (:predicates 
+\item[Predykaty] Lista predykatów zawartych w dziedzinie (znak \texttt{?} poprzedzający \texttt{x} oznacza, że \texttt{x} jest zmienną) -  \texttt{  (:predicates 
    (połaczone-z-lad ?p1 - miejsce ?p2 - miejsce) 
    (połaczone-z-droga ?p1 - miejsce ?p2 - miejsce) 
    (połaczone-z-morze ?p1 - miejsce ?p2 - miejsce) 
@@ -70,7 +70,7 @@ Plik problemu zawiera:
 of a given length;}
 \end{description}
 \begin{Code}
-\begin{lstlisting}[language=LISP,frame=single,label=ana_code, caption=Zawartość przykładowego pliku domeny]
+\begin{lstlisting}[language=LISP,frame=single,label=ana_code, caption=Zawartość przykładowego pliku dziedziny]
 (define (domain loty)
 (:extends pojazdy)
 (:requirements :strips :typing )
