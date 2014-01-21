@@ -395,7 +395,7 @@ W przypadku języka PDDL, wykorzystywanego w niniejszej pracy, instancja problem
 \label{subsec:integracja}
 Obecnie dostępnych jest wiele planerów, korzystających z języka PDDL, różniących się dostępnymi algorytmami, sposobem uruchamiania, liczbą oraz rodzajem przyjmowanych na wejściu argumentów, a także strukturą strumienia wyjściowego. Ze względu na to, że programy wyznaczające plan tworzone są często z przeznaczeniem na konkurs IPC (\emph{International Planning Competition}), dotychczas nie zdefiniowano standardu uruchamiania tego typu narzędzi, który obejmowałby m.in. ujednolicenie argumentów linii poleceń oraz dodatkowych, wykorzystywanych komend powłoki, często specyficznych dla systemu operacyjnego.
 
-Analiza przykładowych narzędzi (\emph{FastDownward}\footnote{http://www.fast-downward.org/} , \emph{SATPLAN}\footnote{http://www.cs.rochester.edu/users/faculty/kautz/satplan/}, \emph{FastForward}\footnote{http://fai.cs.uni-saarland.de/hoffmann/ff.html}) pod kątem inicjalizacji procesu planowania pozwoliła zidentyfikować cechy wspólne oraz różnice pomiędzy planerami, opisane w tabeli \ref{plannersTable}.
+Analiza przykładowych narzędzi (\emph{FastDownward}\footnote{http://www.fast-downward.org/} , \emph{SatPlan}\footnote{http://www.cs.rochester.edu/users/faculty/kautz/satplan/}, \emph{FastForward}\footnote{http://fai.cs.uni-saarland.de/hoffmann/ff.html}) pod kątem inicjalizacji procesu planowania pozwoliła zidentyfikować cechy wspólne oraz różnice pomiędzy planerami, opisane w tabeli \ref{plannersTable}.
 \begin{table}[h]
 \centering
 \caption{Cechy wspólne oraz różnice w uruchamianiu pomiędzy przykładowymi planerami.}
@@ -442,10 +442,10 @@ Narzędzia uruchamiane według innego schematu nie będą prawidłowo zintegrowa
 
 Jak wspomniano, planer \emph{FastDownward} w wersji dla systemów z rodziny Linux posiada odpowiedni plik uruchomieniowy w katalogu \path{src} instalacji. W przypadku systemu Windows należy stworzyć osobny program wsadowy. Przykładowa forma takiego pliku znajduje się w katalogu \path{resources} projektu \texttt{pl.poznan.put.cs.gui4pddl}.
 
-Analogiczny skrypt uruchomieniowy można wykonać również dla innego oprogramowania wyznaczającego plan. Kod takiego skryptu dla planera \emph{SATPLAN} przedstawiony jest w przykładzie~\ref{lst:satplan}.
+Analogiczny skrypt uruchomieniowy można wykonać również dla innego oprogramowania wyznaczającego plan. Kod takiego skryptu dla planera \emph{SatPlan} przedstawiony jest w przykładzie~\ref{lst:satplan}.
   
 \begin{Code}
-\begin{lstlisting}[language=bash,label=lst:satplan,frame=single,caption={Przykładowy skrypt uruchomieniowy (skrypt \emph{bash} dla systemu Linux) dla planera \textit{SATPLAN}}.]
+\begin{lstlisting}[language=bash,label=lst:satplan,frame=single,caption={Przykładowy skrypt uruchomieniowy (skrypt \emph{bash} dla systemu Linux) dla planera \textit{SatPlan}}.]
 #!/bin/bash
 set -e
 BASEDIR="$(dirname "$0")"
@@ -516,7 +516,7 @@ Okno konfiguracji wzorca pliku planu przedstawione jest na rysunku~\ref{fig:plan
 \renewcommand{\descriptionlabel}[1]%
 {\hspace\labelsep\normalfont\bfseries\alph{alphcount}) #1\stepcounter{alphcount}}
 \begin{description}
-\item [Wyrażenie regularne] Wzorzec opisujący nazwę pliku wynikowego planu. Planer \emph{FastDownward} standardowo generuje pliki planów o nazwie \texttt{sas\_plan.}, a w przypadku większej ilości planów kolejno \texttt{sas\_plan.1}, \texttt{sas\_plan.2}\ldots, dlatego wyrażenie obejmujące te nazwy ma postać \texttt{sas\_plan.*}. Dla narzędzia \emph{SATPLAN} wzorzec ma postać \texttt{-problem\_file\_name-\textbackslash.pddl\textbackslash.soln} (opis wzorca \texttt{-problem\_file\_name-} znajduje się poniżej), ponieważ generuje pliki o nazwie \texttt{<nazwa\_pliku\_problemu>.pddl.soln}.
+\item [Wyrażenie regularne] Wzorzec opisujący nazwę pliku wynikowego planu. Planer \emph{FastDownward} standardowo generuje pliki planów o nazwie \texttt{sas\_plan.}, a w przypadku większej ilości planów kolejno \texttt{sas\_plan.1}, \texttt{sas\_plan.2}\ldots, dlatego wyrażenie obejmujące te nazwy ma postać \texttt{sas\_plan.*}. Dla narzędzia \emph{SatPlan} wzorzec ma postać \texttt{-problem\_file\_name-\textbackslash.pddl\textbackslash.soln} (opis wzorca \texttt{-problem\_file\_name-} znajduje się poniżej), ponieważ generuje pliki o nazwie \texttt{<nazwa\_pliku\_problemu>.pddl.soln}.
 \item [Wzorzec katalogu roboczego] Przycisk ten powoduje wstawienie w bieżącym miejscu kursora, ciągu \texttt{-working\_directory-}, który w czasie procesu planowania zamieniany jest na aktualną nazwę katalogu roboczego planera (roz.~\ref{subsec:uruchamianie}). Opcja ta pozwala na wykrycie plików wynikowych, które jako swoją nazwę przyjmują nazwę bieżącego katalogu.
 \item [Wzorzec nazwy projektu] Przycisk ten powoduje wstawienie w bieżącym miejscu kursora, ciągu \texttt{-project\_name-}, który w czasie planowania zamieniany jest na nazwę projektu \emph{Eclipse}, w którym znajdują się przetwarzane pliki dziedziny oraz problemu.
 \item [Wzorzec nazwy pliku dziedziny] Przycisk ten powoduje wstawienie w bieżącym miejscu kursora, ciągu \texttt{-domain\_file\_name-}, który w czasie planowania zamieniany jest na nazwę pliku dziedziny, wykorzystywanej w tym przetwarzaniu, bez rozszerzenia \texttt{.pddl}.
@@ -604,7 +604,7 @@ Proces planowania rozpoczyna się po wybraniu przycisku \emph{Run} w oknie konfi
     \label{fig:run_progress}
 \end{figure}
 
-W razie błędów należy sprawdzić wyjście (w widoku \emph{Console}) oraz poprawność skryptu poprzez uruchomienie go w konsoli systemowej. Dobrą praktyką jest również zmiana ścieżki do przestrzeni roboczej \emph{Eclipse} w taki sposób, by nie zawierała spacji, gdyż niektóre narzędzia (np. \emph{SATPLAN}) niepoprawnie obsługują takie ścieżki.
+W razie błędów należy sprawdzić wyjście (w widoku \emph{Console}) oraz poprawność skryptu poprzez uruchomienie go w konsoli systemowej. Dobrą praktyką jest również zmiana ścieżki do przestrzeni roboczej \emph{Eclipse} w taki sposób, by nie zawierała spacji, gdyż niektóre narzędzia (np. \emph{SatPlan}) niepoprawnie obsługują takie ścieżki.
 
 Efektem przetwarzania jest powstanie planu, który w \textit{Eclipse} jest dostępny z poziomu przeglądarki planów (ang. \textit{Plan Browser}). Jest ona widoczna standardowo w perspektywie PDDL, jako zakładka w dolnej części aplikacji. Każdy wiersz przeglądarki wskazuje na zakończony (powodzeniem lub niepowodzeniem) proces planowania. 
 
