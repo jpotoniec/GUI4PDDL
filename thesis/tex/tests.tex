@@ -1,9 +1,9 @@
 \chapter{Testy}
 \section{Testy jednostkowe kodu}
 
-Aby wykryć i naprawić błędy, które znalazły się w kodzie projektu, przygotowano testy jednostkowe. Do wykonania testów użyto narzędzie \textit{JUnit }dostępne w środowisku programistycznym \textit{Eclipse}. Dodatkowo, aby sprawdzić pokrycie kodu testami, wykorzystano oprogramowanie \textit{Emma}.
+Aby wykryć i naprawić błędy, które znalazły się w kodzie projektu, przygotowano testy jednostkowe. Do wykonania testów użyto narzędzia \textit{JUnit} dostępnego w środowisku programistycznym \textit{Eclipse}. Dodatkowo, aby sprawdzić pokrycie kodu testami, wykorzystano oprogramowanie \textit{Emma}.
 
-Podczas prac nad projektem GUI4PDDL przetestowane zostały widoki oraz analizator składniowy. Testy pierwszego z dwóch wymienionych elementów polegały na prostym porównywaniu oczekiwanego stanu z stanem obecnym, za pomocą funkcji \textit{assertEquals}, która to należy do pakietu narzędzi \textit{JUnit}. Przykładowy, pojedynczy test przedstawiono w przykładzie \ref{test_jednostkowy}.\\\\
+Podczas prac nad projektem GUI4PDDL przetestowane zostały widoki oraz analizator składniowy. Testy pierwszego z dwóch wymienionych elementów polegały na prostym porównywaniu oczekiwanego stanu ze stanem obecnym, za pomocą funkcji \textit{assertEquals}, która to należy do pakietu narzędzi \textit{JUnit}. Przykładowy, pojedynczy test przedstawiono w przykładzie \ref{test_jednostkowy}.\\\\
 \begin{Code}
 \begin{lstlisting}[language=JAVA,frame=single,label={test_jednostkowy}, caption={Przykładowy test jedostkowy}]
 	@Test
@@ -17,15 +17,15 @@ Podczas prac nad projektem GUI4PDDL przetestowane zostały widoki oraz analizato
 \end{Code}
 
 
-Testowanie analizatora składniowego polegało, przede wszystkim, na sprawdzeniu poprawności działania indeksowania poszczególnych elementów języka PDDL. Pierwszą czynnością jaką należało wykonać było wczytanie przykładowego pliku zawierajace go przykładową dziedzinę. Następnie indeksowano plik za pomocą napisanej funkcji, dzięki czemu otrzymywano obiekt zawierający dziedzinę wraz z jej zawartością. Dalej, tworzono pusty obiekt dziedziny, do którego kolejnymi instrukcjami oraz funkcjami dostarczonymi przez klasę, dołączano elementy znajdujące się w pliku. Porównanie tych dwóch obiektów zapewniało kompletną informację o działaniu indeksera.
+Testowanie analizatora składniowego polegało, przede wszystkim, na sprawdzeniu poprawności działania indeksowania poszczególnych elementów języka PDDL. Pierwszą czynnością jaką należało wykonać było wczytanie pliku, zawierajacego przykładową dziedzinę. Następnie indeksowano plik za pomocą napisanej funkcji, dzięki czemu otrzymywano obiekt zawierający dziedzinę wraz z jej zawartością. Dalej, tworzono pusty obiekt dziedziny, do którego kolejnymi instrukcjami oraz funkcjami dostarczonymi przez klasę, dołączano elementy znajdujące się w pliku. Porównanie tych dwóch obiektów zapewniało kompletną informację o działaniu indeksera.
 
 Oprócz wyżej wymienionych testów, stworzono również badania pojedynczych funkcji znajdujących się w różnych miejscach kodu.
 
 Testy jednostkowe wykryły kilka pomniejszych błędów, które należało usunąć. Spowodowane były one niepoprawnym indeksowaniem niektórych elementów języka PDDL. Przykładowo, testów nie przechodził kod, w którym zdefiniowano akcję zawierającą dyrektywę \textit{forall}.
 \section{Testy jednostkowe gramatyk formalnych}
-Oprócz standardowych testów jednostkowych, wymagane było przetestowanie gramatyki formalnej zawartej w projekcie GUI4PDDL. Jednym z sposobów przeprowadzenia testów jest wykorzystanie narzędzia \textit{GUnit}. Jest to specjalna platforma, wyspecjalizowana w tworzeniu testów gramatyk. Dzięki wbudowanym funkcjom \textit{GUnit} zmienia każdy z testów w instancje testu \textit{JUnit}, który następnie wykonywany jest standardowo przez odpowiedzialne narzędzie.
+Oprócz standardowych testów jednostkowych, wymagane było przetestowanie gramatyki formalnej zawartej w projekcie GUI4PDDL. Jednym ze sposobów przeprowadzenia testów jest wykorzystanie narzędzia \textit{gUnit}. Jest to specjalna platforma, wyspecjalizowana w tworzeniu testów gramatyk. Dzięki wbudowanym funkcjom \textit{gUnit} zmienia każdy z testów w instancję testu \textit{JUnit}, która następnie jest standardowo wykonywana.
 
-Aby testy gramatyki były kompletne, należało przetestować wszystkie zdefiniowane elementy języka PDDL. Opisano je w rozdziale \ref{sec:jezykpddl}. Są to między innymi akcje, wymagania, czy cele. W projekcie GUI4PDDL definicja gramatyki formalnej jest jednym z ważniejszych elementów, więc to dla niej przeznaczoną większą część testów.
+Aby testy gramatyki były kompletne, należało przetestować wszystkie zdefiniowane elementy języka PDDL. Opisano je w rozdziale \ref{sec:jezykpddl}. Są to między innymi akcje, wymagania oraz cele. W projekcie GUI4PDDL definicja gramatyki formalnej jest jednym z najważniejszych elementów, więc to dla niej przeznaczono znaczną część testów.
 
 Przykład \ref{gramatyka_formalna} przedstawia fagment gramatyki formalnej.
 
@@ -64,7 +64,7 @@ action_def
 \end{lstlisting}
 \end{Code}
 
-Przykład 6.3 przedstawia fragment testu, dotyczącego elementu akcji. Każdy z testów otoczony jest znakami \texttt{<<} \texttt{>>}, po których następuje słowo \texttt{FAIL} bądź \texttt{OK}. To, które z tych dwóch słów znajduje się na końcu, określa czy testowany kod jest poprawny (\texttt{OK}) lub nie (\texttt{FAIL)}.
+Przykład \ref{test_gramatyki} przedstawia fragment testu, dotyczącego elementu akcji. Każdy z testów otoczony jest znakami \texttt{$<<$} \texttt{$>>$}, po których następuje słowo \texttt{FAIL} bądź \texttt{OK}. To, które z tych dwóch słów znajduje się na końcu, określa czy testowany kod jest poprawny (\texttt{OK}) lub nie (\texttt{FAIL)}.
 
 
 
@@ -76,24 +76,24 @@ Dodatkowo każde opisane zadanie zostało postawione przed potencjalnymi użytko
 \textbf{Scenariusz testowy:}
   \begin{enumerate}
   
-\item W środowisku \textit{Eclipse} należy kliknąć prawym przyciskiem myszy na polu \textit{Package Explorer} i wybrać \textit{New}, \textit{Other...} .
+\item W środowisku \textit{Eclipse} należy kliknąć prawym przyciskiem myszy w widoku \textit{Project Explorer} i wybrać \textit{New}, \textit{Other...} .
 \item Wybrać z listy \textit{GUI4PDDL}, \textit{PDDL Project} i kliknąć \textit{Next}.
 \item Wpisać nazwę projektu i kilknąć \textit{Finish}.
 \end{enumerate}
 
-\textbf{Oczekiwany wynik:} Na polu \textit{Package Explorer} powinien pojawić się nowy projekt o wybranej wcześniej nazwie.
+\textbf{Oczekiwany wynik:} W widoku \textit{Project Explorer} powinien pojawić się nowy projekt o wybranej wcześniej nazwie.
 
 \textbf{Obserwacja użytkowników:} Utworzenie nowego projektu PDDL nie powodowało problemów, nawet dla użytkowników nie znających środowiska \textit{Eclipse}.
 \subsection{Dodanie nowego pliku do projektu PDDL}
 \textbf{Scenariusz testowy:}
   \begin{enumerate}
   
-\item Z pola \textit{Package Explorer} kliknąć prawym przyciskiem myszy na projekt PDDL. Wybrać \textit{New}, \textit{Other...} .
+\item W widoku \textit{Project Explorer} kliknąć prawym przyciskiem myszy na projekt PDDL. Wybrać \textit{New}, \textit{Other...} .
 \item Wybrać z listy \textit{GUI4PDDL}, \textit{PDDL File} i kliknąć \textit{Next}.
 \item W polu oznaczonym \textit{File name} wpisać nazwę i kliknąć \textit{Finish}.
 \end{enumerate}
 
-\textbf{Oczekiwany wynik:} W oknie głównym powinien pojawić się nowy plik. Po rozwinięciu zawartości projektu na polu \textit{Package Explorer}, również powinien być widoczny utworzony plik.
+\textbf{Oczekiwany wynik:} W oknie głównym powinien pojawić się nowy plik. Po rozwinięciu zawartości projektu w widoku \textit{Project Explorer}, również powinien być widoczny utworzony plik.
 
 \textbf{Obserwacja użytkowników:} Dodawanie nowych plików nie stwarzało problemów osobom znającym środowisko \textit{Eclipse}. Pozostałe osoby potrzebowały chwilę czasu, aby zaznajomić się ze środowiskiem.  
 
@@ -136,7 +136,7 @@ Dodatkowo każde opisane zadanie zostało postawione przed potencjalnymi użytko
 \item Zatwierdzić przyciskiem \textit{OK}. 
 \end{enumerate}
 
-\textbf{Oczekiwany wynik:} Wybrany planista powinien rozwiązać danych problem i wyświetlić dostępny wynik zakładce \textit{Plan Browser}. Otwarcie wyniku spowoduje wyświetlenie ułożonego planu na głównym polu. W przypadku gdy pliki są niepoprawne, informacje o błędach zostaną wyświetlone w zakładce \textit{Console}. 
+\textbf{Oczekiwany wynik:} Wybrany planista powinien rozwiązać dany problem i wyświetlić dostępny wynik w zakładce \textit{Plan Browser}. Otwarcie wyniku (poprzez dwukrotne kliknięcie na wierszu tabeli) spowoduje wyświetlenie ułożonego planu w edytorze kodu. W przypadku gdy pliki są niepoprawne, informacje o błędach zostaną wyświetlone w zakładce \textit{Console}. 
 
 \textbf{Obserwacja użytkowników:} Pierwsze uruchomienie planisty zajmowało więcej czasu niż jest to potrzebne doświadczonemu programiście. Powodem jest brak wyraźnego komunikatu, dotyczącego braku poszczególnych ustawień (np. brak pliku dziedziny czy problemu).
 
