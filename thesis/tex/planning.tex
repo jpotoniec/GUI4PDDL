@@ -61,7 +61,7 @@ Plik dziedziny zawiera:
 Plik problemu zawiera:
 \begin{description}
 \item[Dziedzina] Wskazanie, do której dziedziny odnosi się definiowany problem: \texttt{(:domain loty)}
-\item[Wymagania] Opis zawarty w poprzednim akapicie.
+\item[Wymagania] Fragmenty języka PDDL wykorzystywane przez opis dziedziny: \texttt{(:requirements :strips :typing)}
 \item[Sytuacja] Nazwa sytuacji początkowej: \texttt{(:situation początek)}
 \item[Obiekty] Lista obiektów występujących w problemie: \texttt{(:objects drzewo liść)}
 \item[Stan początkowy] Opis stanu początkowego problemu w formie listy spełnionych literałów: \texttt{(:init (jest A) (w B hangar))}
@@ -99,38 +99,23 @@ of a given length;}
 \end{lstlisting}
 \end{Code}
 
-Aby stworzyć w pełni funkcjonalną wtyczkę, należało przygotować gramatykę formalną, Jest to zbór wszystkich symboli leksykalnych, zwanych \emph{symbolami terminalnymi, symboli nieterminalnych} oraz reguł, określających sposób wyprowadzania słów, należących do języka PDDL. Bez gramatyki niemożliwe byłoby wykonanie większości funkcji, które powinny być zapewnione przez GUI4PDDL. W przykładzie \ref{frag_gramatyki} przedstawiono fragment gramatyki formalnej języka PDDL.\\
-\begin{Code}
-\begin{lstlisting}[language=LISP,frame=single,label={frag_gramatyki}, caption={Fragment gramatyki formalnej}]
-problem_item
-	:	domain_reference
-	|	require_def
-	|	situation
-	|	object_declaration
-	|	init
-	|	goal
-	|	length_spec
-	;
+Aby stworzyć w pełni funkcjonalną wtyczkę, należało przygotować gramatykę formalną, Jest to zbór wszystkich symboli leksykalnych, zwanych \emph{symbolami terminalnymi, symboli nieterminalnych} oraz reguł, określających sposób wyprowadzania słów, należących do języka PDDL. Bez gramatyki niemożliwe byłoby wykonanie większości funkcji, które powinny być zapewnione przez GUI4PDDL. 
 
-domain_reference 
-	:	'('! ':domain'^ NAME ')'!
-	;
-	
-require_def
-	:	'('! ':requirements'^ REQUIRE_KEY+ ')'!
-	;
-	
-situation 
-	:	'('! ':situation' NAME ')'!
-	;
-	
-\end{lstlisting}
-\end{Code} 
 \section{Oprogramowanie}
 \label{sec:oprogramowanie}
 Język PDDL jest wspierany przez wiele narzędzi, służących do przeprowadzania procesu planowania. Jednym z takich narządzi jest \textit{Fast Downward} \cite{fastdownward}, który pozwala na zaplanowanie problemu zapisanego w~jęzeku PDDL w wersji 2.2. Dodatkowo wspiera wymaganie \textit{:action-costs}, wprowadzone w wersji 3.1. Aplikacja wymaga od użytkownika posiadania dostępu do wiersza poleceń oraz prostego edytora tekstu. Do ułożenia planu \textit{Fast Downward} używa heurystyki opartej na kilku algorytmach, między innymi \textit{Best-First Search} \cite{fdalgorytm}. Na podobnej zasadzie działania oparte są aplikacje \textit{Fast Forward} \cite{fastforward} oraz \textit{LPG} \cite{lpg}.
 
-Kolejny planer nosi nazwę \textit{SatPlan}\cite{satplanprog} Algorytm wykorzystywany przez ten program spełnia założenia metody automatycznego planowania o takiej samej nazwie: konwertuje daną instancje problemu planowania na instancje problemu spełnialności formuły logicznej, a następnie rozwiązuje, wykorzystując odpowiednie schematy działań \cite{satplan}. Algorytm zawarty w \textit{SatPlan'ie} ma następujący przebieg: na podstawie problemu automatycznego planowania utworzenie grafu o pewnej długości \textit{k}, zamiana ograniczeń wynikających z grafu na zbiór klauzul, używając odpowiedniego algorytmu pozwalającego rozstrzygnąć problem spełnialności, znajduje się odpowiednie rozwiązanie. W przypadku gdy nie można było znaleźć wyniku, zwiększona zostaje wartość \textit{k}. Jeśli jednak rozwiązanie zostało znalezione, transponuje się wynik działania algorytmu do wyniku pierwotnego problemu planowania. Na końcu usuwane są niektóre z niepotrzebnych akcji.
+Kolejny planer nosi nazwę \textit{SatPlan}\cite{satplanprog}. Algorytm wykorzystywany przez ten program spełnia założenia metody automatycznego planowania o takiej samej nazwie: konwertuje daną instancje problemu planowania na instancje problemu spełnialności formuły logicznej, a następnie rozwiązuje, wykorzystując odpowiednie schematy działań \cite{satplan}. Algorytm zawarty w \textit{SatPlan'ie} ma następujący przebieg: 
+
+  \begin{itemize}
+\item Na podstawie problemu automatycznego planowania tworzy się graf o pewnej długości \textit{k}.
+\item Zamiana ograniczeń wynikających z grafu na zbiór klauzul.
+\item Używając odpowiedniego algorytmu, pozwalającego rozstrzygnąć problem spełnialności danego zbioru klauzul, znajduje się odpowiednie rozwiązanie.
+\item W przypadku gdy nie można było znaleźć wyniku, zwiększona zostaje wartość \textit{k}.
+\item Jeśli jednak rozwiązanie zostało znalezione, transponuje się wynik działania algorytmu do wyniku pierwotnego problemu planowania
+\item Na końcu usuwane są niektóre z niepotrzebnych akcji.
+\end{itemize}
+
 
 Kolejną aplikacją umożliwiającą rozwiązywanie problemów automatycznego planowania jest Gavs+ (\textit{Game Arena Visualization and Synthesis, Plus!})\cite{gavs}, który skupia się na kwestiach związanych z grami. Program ten posiada bibliotekę (\textit{PDDL4J}) umożliwiającą wykonywanie problemów zapisanych w PDDL. Dzięki wbudowanemu interfejsowi Gavs+ umożliwia graficzne prześledzenie wynikowego planu.
 
