@@ -13,19 +13,19 @@ Pomimo stworzenia PDDL, problemem jest znalezienie odpowiedniego, w pełni funkc
 \section{Cel i zakres pracy}
 Celem pracy jest stworzenie graficznego środowiska programistycznego, umożliwiającego pisanie programów w języku PDDL. Środowisko to powinno dostarczać przede wszystkim edytor kodu, zapewniający tworzenie automatycznych wcięć i kolorowanie składni, co pozwala zwiększyć przejrzystość struktury programu. Znaczącymi założeniami edytora są także podpowiadanie składni oraz wykrywanie błędów w kodzie źródłowym, które przyspieszają proces przygotowywania projektu. Dodatkowo, w~związku z wykorzystaniem dużej ilości nawiasów w PDDL, wymagane jest ich dopasowywanie. Dostępna powinna być również możliwość uruchamiania zewnętrznego oprogramowania do wyznaczania planu i przeglądania wyników planowania oraz zarządzania projektami i plikami.  
 
-W pierwszej części drugiego rozdziału, przedstawiona została problematyka automatycznego planowania. W rozdziale~\ref{sec:jezykpddl} opisany jest język PDDL, a następnie (roz.~\ref{sec:oprogramowanie}) opisano najważniejsze narzędzia służące do przeprowadzania procesu planowania.
+W pierwszej części drugiego rozdziału (roz \ref{sec:opis}), przedstawiona została problematyka automatycznego planowania. W rozdziale~\ref{sec:jezykpddl} opisany jest język PDDL, a następnie (roz.~\ref{sec:oprogramowanie}) opisano najważniejsze narzędzia służące do przeprowadzania procesu planowania.
 
-Kolejny rozdział to opis wymagań funkcjonalnych oraz wymagań pozafunkcjonalnych.
+Kolejny rozdział (roz. \ref{sec:specyfikacja}) to opis wymagań funkcjonalnych oraz wymagań pozafunkcjonalnych.
 
-Rozdział czwarty podzielony jest na dwie części. W pierwszej z nich opisane jest środowisko programistyczne Eclipse, w którym stworzona została wtyczka GUI4PDDL. Jest to również środowisko, na którym docelowo ma działać stworzony projekt. W drugiej części opisany został generator analizatorów składniowych ANTLR.
+Rozdział czwarty podzielony jest na dwie części. W pierwszej z nich (roz. \ref{sec:eclipseśrodowisko})  opisane jest środowisko programistyczne Eclipse, w którym stworzona została wtyczka GUI4PDDL. Jest to również środowisko, na którym docelowo ma działać stworzony projekt. W drugiej części (roz. \ref{sec:antlrśrodowisko}) opisany został generator analizatorów składniowych ANTLR.
 
-W rozdziale piątym przedstawiono architekturę tworzonego systemu, uwzględniając jego podział na projekty platformy \emph{Eclipse}. Opisana jest tu również szczegółowa zawartość każdego pakietu głównego projektu.
+W rozdziale \ref{sec:piaty} przedstawiono architekturę tworzonego systemu, uwzględniając jego podział na projekty platformy \emph{Eclipse}. Opisana jest tu również szczegółowa zawartość każdego pakietu głównego projektu.
 
-Następny rozdział zawiera szczegółowe przedstawienie implementacji najważniejszych funkcjonalności. Opisane są tu kwestie tworzenia nowego projektu PDDL oraz nowych plików PDDL. Dalej przedstawione są: kolorowanie kodu, automatyczne wcięcia, dopasowanie nawiasów oraz kwestie związane z obsługą podpowiedzi. W kolejnej części ukazano zagadnienia związane z przetwarzaniem kodu PDDL, czyli wykrywanie błędów składniowych i semantycznych oraz podpowiadanie kodu. Na końcu omówiono współpracę wtyczki z oprogramowaniem wyznaczającym plan, jego konfigurację i uruchamianie, a także przerywanie procesu planowania.
+Następny rozdział (roz. \ref{sec:implementacja}) zawiera szczegółowe przedstawienie implementacji najważniejszych funkcjonalności. Opisane są tu kwestie tworzenia nowego projektu PDDL oraz nowych plików PDDL (roz. \ref{sec:zarzadzanie}).W kolejnej części ukazano zagadnienia związane z przetwarzaniem kodu PDDL, czyli wykrywanie błędów składniowych i semantycznych oraz podpowiadanie kodu (roz. \ref{sec:przetwarzanie}). Dalej przedstawione są: kolorowanie kodu, automatyczne wcięcia, dopasowanie nawiasów oraz kwestie związane z obsługą podpowiedzi (roz. \ref{sec:edytor}).  Na końcu omówiono współpracę wtyczki z oprogramowaniem wyznaczającym plan, jego konfigurację i uruchamianie, a także przerywanie procesu planowania (roz. \ref{sec:wspolpraca}).
 
-W rozdziale siódmym opisane są testy jednostkowe kodu oraz gramatyk formalnych. Dodatkowo przedstawiono testy akceptacyjne.
+W rozdziale \ref{sec:testy} opisane są testy jednostkowe kodu oraz gramatyk formalnych. Dodatkowo przedstawiono testy akceptacyjne.
 
-W ostatnim rozdziale zawarte jest podsumowanie pracy.
+W ostatnim rozdziale \ref{sec:podsumowanie} zawarte jest podsumowanie pracy.
 
 W dodatku A opisana jest zawartość płyty CD dołączonej do pracy.
 
