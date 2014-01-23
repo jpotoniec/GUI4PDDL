@@ -1,6 +1,7 @@
 \hyphenation{wnio-sko-wa-nie}
 \chapter{Problematyka automatycznego planowania}
  \section{Opis dziedziny}
+ \label{sec:opis}
 Automatyczne planowanie to poddziedzina sztucznej inteligencji, która dotyczy wykonywania sekwencji akcji, realizacji strategii lub generowania planów, prowadzących do określonego wyniku \cite{planning}.
 
 Każdy problem automatycznego planowania zawiera stan początkowy oraz stan końcowy. W stanie początkowym określone są wszystkie wartości zmiennych (stany poszczególnych obiektów) jakie aktualnie zawarte są w problemie, a które mają zostać zmienione podczas wykonania planu. W stanie końcowym sformułowane są wartości zmiennych, których osiągniecie jest głównym zadaniem planu. Ponadto problemy automatycznego planowania zawierają zdefiniowane operatory, umożliwiające zmianę stanu. Tylko przez podejmowanie akcji plan może zostać wykonany. Wyjątkiem jest sytuacja, w której stan końcowy jest równy stanu początkowemu.
@@ -103,9 +104,9 @@ Aby stworzyć w pełni funkcjonalną wtyczkę, należało przygotować gramatyk�
 
 \section{Oprogramowanie}
 \label{sec:oprogramowanie}
-Język PDDL jest wspierany przez wiele narzędzi, służących do przeprowadzania procesu planowania. Jednym z takich narządzi jest \textit{Fast Downward} \cite{fastdownward}, który pozwala na zaplanowanie problemu zapisanego w~jęzeku PDDL w wersji 2.2. Dodatkowo wspiera wymaganie \textit{:action-costs}, wprowadzone w wersji 3.1. Aplikacja wymaga od użytkownika posiadania dostępu do wiersza poleceń oraz prostego edytora tekstu. Do ułożenia planu \textit{Fast Downward} używa heurystyki opartej na kilku algorytmach, między innymi \textit{Best-First Search} \cite{fdalgorytm}. Na podobnej zasadzie działania oparte są aplikacje \textit{Fast Forward} \cite{fastforward} oraz \textit{LPG} \cite{lpg}.
+Język PDDL jest wspierany przez wiele narzędzi, służących do przeprowadzania procesu planowania. Jednym z takich narządzi jest \textit{Fast Downward} \footnote{http://www.fast-downward.org/}, który pozwala na zaplanowanie problemu zapisanego w~jęzeku PDDL w wersji 2.2. Dodatkowo wspiera wymaganie \textit{:action-costs}, wprowadzone w wersji 3.1. Aplikacja wymaga od użytkownika posiadania dostępu do wiersza poleceń oraz prostego edytora tekstu. Do ułożenia planu \textit{Fast Downward} używa heurystyki opartej na kilku algorytmach, między innymi \textit{Best-First Search} \cite{fdalgorytm}. Na podobnej zasadzie działania oparte są aplikacje \textit{Fast Forward} \footnote{http://fai.cs.uni-saarland.de/hoffmann/ff.html} oraz \textit{LPG} \footnote{http://zeus.ing.unibs.it/lpg/}.
 
-Kolejny planer nosi nazwę \textit{SatPlan}\cite{satplanprog}. Algorytm wykorzystywany przez ten program spełnia założenia metody automatycznego planowania o takiej samej nazwie: konwertuje daną instancje problemu planowania na instancje problemu spełnialności formuły logicznej, a następnie rozwiązuje, wykorzystując odpowiednie schematy działań \cite{satplan}. Algorytm zawarty w \textit{SatPlan'ie} ma następujący przebieg: 
+Kolejny planer nosi nazwę \textit{SatPlan}\footnote{http://www.cs.rochester.edu/users/faculty/kautz/satplan/index.htm}. Algorytm wykorzystywany przez ten program spełnia założenia metody automatycznego planowania o takiej samej nazwie: konwertuje daną instancje problemu planowania na instancje problemu spełnialności formuły logicznej, a następnie rozwiązuje, wykorzystując odpowiednie schematy działań \cite{satplan}. Algorytm zawarty w \textit{SatPlan'ie} ma następujący przebieg: 
 
   \begin{itemize}
 \item Na podstawie problemu automatycznego planowania tworzy się graf o pewnej długości \textit{k}.
@@ -117,7 +118,7 @@ Kolejny planer nosi nazwę \textit{SatPlan}\cite{satplanprog}. Algorytm wykorzys
 \end{itemize}
 
 
-Kolejną aplikacją umożliwiającą rozwiązywanie problemów automatycznego planowania jest Gavs+ (\textit{Game Arena Visualization and Synthesis, Plus!})\cite{gavs}, który skupia się na kwestiach związanych z grami. Program ten posiada bibliotekę (\textit{PDDL4J}) umożliwiającą wykonywanie problemów zapisanych w PDDL. Dzięki wbudowanemu interfejsowi Gavs+ umożliwia graficzne prześledzenie wynikowego planu.
+Kolejną aplikacją umożliwiającą rozwiązywanie problemów automatycznego planowania jest Gavs+ (\textit{Game Arena Visualization and Synthesis, Plus!})\footnote{http://www6.in.tum.de/~chengch/gavs/}, który skupia się na kwestiach związanych z grami. Program ten posiada bibliotekę (\textit{PDDL4J}) umożliwiającą wykonywanie problemów zapisanych w PDDL. Dzięki wbudowanemu interfejsowi Gavs+ umożliwia graficzne prześledzenie wynikowego planu.
 
 Wszystkie opisane tu narzędzia opublikowane zostały na licencji otwartego oprogramowania.
 
