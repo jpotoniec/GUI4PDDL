@@ -30,12 +30,6 @@ Przykład zależności między wtyczkami opisanych w pliku plugin.xml
 
 By zachęcić twórców do rozwijania środowiska Eclipse, wymyślono tzw. \emph{Extension Points}. Extension Points to instrukcje informujące Eclipse, jakich klas użyć do rozszerzenia elementów takich jak okna, menu kontekstowe, kreatory. Korzystając z tych punktów można domyślne elementy podmienić własnymi, bardziej rozbudowanymi modułami. Dzięki takiemu rozwiązaniu, rdzenną aplikację można niemal w nieograniczony sposób dostosować do swoich potrzeb.\ref{ana_structure}
 
-\JP{czy ten przykład służy czemukolwiek?}
-\begin{verbatim}
-<extension-point id="decorators" name="%ExtPoint.decorators"
-                 schema="schema/decorators.exsd"/>
-\end{verbatim}
-
 \begin{figure}[h]
   \centering
     \includegraphics{img/custom-window.png}
@@ -43,7 +37,7 @@ By zachęcić twórców do rozwijania środowiska Eclipse, wymyślono tzw. \emph
     \label{ana_structure}
 \end{figure}
 
-Dobrym przykładem jest tutaj całkiem popularne środowisko deweloperskie \emph{Aptana Studio}. Aplikacja ta została zbudowana całkowicie na rdzeniu Eclipse, można więc zauwazyć pewne podobieństwa w układzie okien, modułowości. Mimo podobieństw jest jednak zupełnie inna, ukierunkowana na jedną gałąź programowania – \emph{Web Development}\JP{ten termin angielski na pewno nie jest potrzebny}. Nie wszyscy twórcy potrzebują jednak tworzyć całkowicie odrębne oprogramowanie. Eclipse SDK przychodzi z szeregiem domyślnych modułów, takich jak dekoratory, edytory tekstu, paski narzędzi i nawigatory\JP{znam słowo nawigatorzy, ale ono odnosi się do żeglugi. Co to są nawigatory?}. Każdy z tych modułów może zostać zastąpiony własnym lub rozszerzony o pewne funkcjonalności.
+Dobrym przykładem jest tutaj całkiem popularne środowisko deweloperskie \emph{Aptana Studio}. Aplikacja ta została zbudowana całkowicie na rdzeniu Eclipse, można więc zauwazyć pewne podobieństwa w układzie okien, modułowości. Mimo podobieństw jest jednak zupełnie inna, ukierunkowana na programowanie aplikacji internetowych. Nie wszyscy twórcy potrzebują jednak tworzyć całkowicie odrębne oprogramowanie. Eclipse SDK przychodzi z szeregiem domyślnych modułów, takich jak edytory tekstu, paski narzędzi oraz okna kontekstowe. Każdy z tych modułów może zostać zastąpiony własnym lub rozszerzony o pewne funkcjonalności.
 
 \subsection{Perspektwywy}
 Pojęcie perspektywy jest ważnym elementem środowiska Eclipse. Perspektywy pozwalają na zarządzanie konkretnym układem okien służących do wykonania określonego działania. Każde większe rozszerzenie posiada własną perspektywę, która posiada specyficzne dla danego języka programowania opcje i funkcje. Utworzenie tzw. perspektywy pozwala w środowisku Eclipse na płynne przełączanie między perspektywami dla różnych języków, w zależności od wybranego pakietu podstawowego i rozszerzeń zainstalowanych w Eclipse.

@@ -1,35 +1,31 @@
 \chapter{Implementacja}
-\label{sec:implementacja}
-\JP{Tu gdzieś (albo może nawet lepiej wcześniej, w rozdziale o wymaganiach) powinien pojawić się typowy sposób pracy z tym narzędziem: że najpierw się tworzy projekt, potem robi cośtam, potem cośtam itd itp. Te kolejne cośtam będą potem rozwinięte w kolejnych podrozdziałach: jak się je robi i jak są zaimplementowane.}
 \section{Zarządzanie projektem PDDL}
-\label{sec:zarzadzanie}
 \subsection{Tworzenie projektu PDDL}
 \begin{figure}[h]
   \centering
-    \includegraphics{img/new-project.png}
-    \caption{Kreator nowego projektu PDDL\JP{Ten rysunek mało wnosi. Jeżeli zostanie to trzeba go trochę zmniejszyć, żeby się lepiej na stronie mieścił i gdzieś w tekście zrobić do niego odwołanie.}}
+    \includegraphics[width=12cm,keepaspectratio]{img/new-project.png}
+    \caption{Kreator nowego projektu PDDL}
     \label{ana_structure}
 \end{figure}
 Tworzenie nowego projektu PDDL polega na wywołaniu odpowiedniego kreatora. Można go wybrać na dwa sposoby. Pierwszy sposób polega na otwarciu kreatora nowgo projektu. Następnie w nowym oknie należy z listy dostępnych propozycji wybrać kategorię \emph{PDDL} oraz \emph{PDDL Project}. 
 
-W pliku \emph{plugin.xml} utworzono \emph{Extension Point}\JP{referencja do odpowiedniego rozdziału}, w którym zawarto informację o typie nowego kreatora, jego przeznaczeniu, a także jaki projekt zostanie utworzony przy wykorzystaniu tego kreatora. Znajdują się tam także informacje o ikonie projektu, a także perspektywie projektu. Ta ostania jest ważna, ponieważ w widoku perspektywu PDDL pojawiają się nowe funkcje specjalnie stworzone na potrzeby języka. \JP{W rozdziale o Eclipse powinnien pojawić się akapit o tym czym są perspektywy}
+W pliku \emph{plugin.xml} utworzono \emph{Extension Point}, w którym zawarto informację o typie nowego kreatora, jego przeznaczeniu, a także jaki projekt ma być utworzony korzystając z tego kreatora. Znajdują się tam także informacje o ikonie projektu, a także perspektywie projektu. Ta ostania jest ważna, ponieważ w widoku perspektywu PDDL pojawiają się nowe funkcje specjalnie stworzone na potrzeby języka. 
 
-Drugi sposób to wybranie osobnej opcji \emph{PDDL Project}\JP{gdzie?}. Ta opcja również wymagała utworzenia \emph{Extension Point}. W tym wypadku jednak punkt nie zawiera informacji o nowym kreatorze, a wskazuje na wcześniej wymieniony kreator projektu PDDL.
+Drugi sposób to wybranie osobnej opcji \emph{PDDL Project}(rys. 6.1). Ta opcja również wymagała utworzenia \emph{Extension Point}. W tym wypadku jednak punkt nie zawiera informacji o nowym kreatorze, a wskazuje na wcześniej wymieniony kreator projektu PDDL.
 
-\JP{nazwy klas powinny być składane czcionką o stałej szerokości, np. z użyciem $\backslash$texttt}
-Extension Point wywołuje klasę \emph{PDDLProjectWizard}, która inicjalizuje nową instancję klasy \emph{PDDLProjectNameAndLocationWizard}, która wyświetla stronę w kreatorze zawierającą pole do podania nazwy kreatora i lokalizacji. \JP{W kreatorze nazwa kreatora? Nie rozumiem}
+\emph{Extension Point} wywołuje klasę \texttt{PDDLProjectWizard}, która inicjalizuje nową instancję klasy \textt{PDDLProjectNameAndLocationWizard}, która wyświetla stronę w kreatorze zawierającą pole do podania nazwy kreatora i lokalizacji. 
 
-Po wybraniu nazwy projektu i opcjonalnie lokalizacji (domyślnie aktywny \emph{workspace}\JP{może jednak posługiwać się polskim przestrzeń robocza?}), klasa \emph{PDDLProjectNameAndLocationWizard} przekazuje informacje ze strony\JP{czego strony?} do głównego kreatora, który wykorzystując domyślne funkcje środowiska Eclipse tworzy nowy, pusty projekt. Extension Point zawiera informacje o zalecanym widoku perspektywy\JP{widoku perspektywy? samo "perspektywie" nie wystaczy?} \emph{PDDLPerspective}, dlatego po utworzeniu projektu i aktywowaniu go Eclipse zaproponuje przejście do tej perspektywy.
+Po wybraniu nazwy projektu i opcjonalnie lokalizacji (domyślnie aktywny \emph{workspace}), klasa \texttt{PDDLProjectNameAndLocationWizard} przekazuje informacje ze strony do głównego kreatora, który wykorzystując domyslne funkcje środowiska Eclipse tworzy nowy, pusty projekt. \emph{Extension Point} zawiera informacje o zalecanym widoku perspektywy \emph{PDDLPerspective}, dlatego po utworzeniu projektu i aktywowaniu go Eclipse zaproponuje przejście do tej perspektywy.
 
 
 \subsection{Tworzenie nowych plików PDDL}
-Każdy projekt PDDL powinien zawierać przynajmniej jeden plik problemu oraz jeden plik dziedziny. Wymaga tego gramatyka języka PDDL, aczkolwiek jest możliwe utworzenie większej liczby plików problemu dla tej samej dziedziny. Jest tak dlatego, ponieważ opis dziedziny zawiera definicje świata i reguł w nim panujących. Plik problemu definiuje daną instancję problemu lub sytuację, którą chcemy wykonać danym świecie. Każdy z plików różni się od siebie, dlatego użytkownik tworząc nowy plik otrzymuje szablon w zależności od wybranej opcji w kreatorze. 
+Każdy projekt PDDL powinien zawierać przynajmniej jeden plik problemu oraz jeden plik domeny. Wymaga tego gramatyka języka PDDL, aczkolwiek jest możliwe utworzenie większej liczby plików problemu dla tej samej domeny. Jest tak dlatego, ponieważ plik domeny zawiera definicje świata i reguł w nim panujących. Plik problemu definiuje dany problem lub sytuację, którą chcemy wykonać danym świecie. Każdy z plików różni się od siebie, dlatego użytkownik tworząc nowy plik otrzymuje szablon w zależności od wybranej opcji w kreatorze. 
 
-Tworzenie pliku PDDL polega na wybraniu odpowiedniej opcji, podobnie jak w kreatorze nowego projektu PDDL, na dwa sposoby. Po otwarciu właściwego kreatora, \emph{Extension Point} uruchamia klasę \emph{PDDLFileWizard}. Klasa ta tworzy okno kreatora a następne tworzy nową instancję klasy \emph{PDDLFilePage}, która wyświetla typ pliku PDDL\JP{co to znaczy, że wyświetla typ pliku? już istniejącego pliku? czy może chodzi o to, żę daje możliwość do wyboru?} oraz okno na nazwę oraz lokalizację.
+Tworzenie pliku PDDL polega na wybraniu odpowiedniej opcji, podobnie jak w kreatorze nowego projektu PDDL, na dwa sposoby. Po otwarciu właściwego kreatora, \emph{Extension Point} uruchamia klasę \texttt{PDDLFileWizard}. Klasa ta tworzy okno kreatora a następne tworzy nową instancję klasy \texttt{PDDLFilePage}, która wyświetla opcję do wyboru typu pliku PDDL oraz okno na nazwę oraz lokalizację.
 
 Po wybraniu opcji oraz nazwy (lokalizacja jest opcjonalna) informacje przekazane są do klasy, która sprawdza czy plik w danej lokalizacji już istnieje. Jeśli nie wybrano innej lokalizacji, domyślnie jest to folder projektu.
  
-Tworzenie pliku i zapisanie do lokalizacji zaimplementowano korzystając kodu źródłowego domyślnego kreatora pliku, dodano natomiast odpowiednie rozszerzenie \texttt{.pddl}. Klasa pobiera z kreatora typ pliku, oraz przekazuje tą informację wraz z nazwą i ścieżką pliku do klasy \emph{PDDLFileWizard}. Na koniec \emph{PDDLFileWizard} tworzy nowy plik w odpowiedniej lokalizacji i~wypełnia go treścią zgodną z \JP{szablonem dla danego typu pliku}. Po wykonaniu tych czynności plik przekazywany jest do edytora tekstu.
+Tworzenie pliku i zapisanie do lokalizacji zaimplementowano korzystając kodu źródłowego domyślnego kreatora pliku, dodano natomiast odpowiednie rozszerzenie (\emph{.pddl}). Klasa pobiera z kreatora typ pliku, oraz przekazuje tą informację wraz z nazwą i ścieżką pliku do klasy \texttt{PDDLFileWizard}. Na koniec \texttt{PDDLFileWizard} tworzy nowy plik w odpowiedniej lokalizacji, wypełnia go treścią zgodną z szablonem dla danego typu pliku. Po wykonaniu tych czynności plik przekazany jest do edytora tekstu.
 
 \section{Przetwarzanie kodu PDDL}
 \label{sec:przetwarzanie}
