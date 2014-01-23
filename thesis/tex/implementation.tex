@@ -25,7 +25,7 @@ Tworzenie pliku PDDL polega na wybraniu odpowiedniej opcji, podobnie jak w kreat
 
 Po wybraniu opcji oraz nazwy (lokalizacja jest opcjonalna) informacje przekazane są do klasy, która sprawdza czy plik w danej lokalizacji już istnieje. Jeśli nie wybrano innej lokalizacji, domyślnie jest to folder projektu.
  
-Tworzenie pliku i zapisanie do lokalizacji zaimplementowano korzystając kodu źródłowego domyślnego kreatora pliku, dodano natomiast odpowiednie rozszerzenie (\emph{.pddl}). Klasa pobiera z kreatora typ pliku, oraz przekazuje tą informację wraz z nazwą i ścieżką pliku do klasy \texttt{PDDLFileWizard}. Na koniec \texttt{PDDLFileWizard} tworzy nowy plik w odpowiedniej lokalizacji, wypełnia go treścią zgodną z szablonem dla danego typu pliku. Po wykonaniu tych czynności plik przekazany jest do edytora tekstu.
+Tworzenie pliku i zapisanie do lokalizacji zaimplementowano korzystając kodu źródłowego domyślnego kreatora pliku, dodano natomiast odpowiednie rozszerzenie (\emph{.pddl}). Klasa pobiera z kreatora nazwę pliku, oraz przekazuje tą informację wraz z opcjonalną ścieżką do klasy \texttt{PDDLFileWizard}. Na koniec \texttt{PDDLFileWizard} tworzy nowy plik w odpowiedniej lokalizacji, wypełnia go treścią z podstawowego szablonu dla pliku \emph{PDDL}. Po wykonaniu tych czynności plik przekazany jest do edytora tekstu.
 
 \section{Przetwarzanie kodu PDDL}
 \label{sec:przetwarzanie}

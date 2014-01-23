@@ -1,35 +1,82 @@
 \chapter{Specyfikacja wymagań}
 \label{sec:specyfikacja}
+\section{Wstęp}
+Założeniem projektu było utworzenie lekkiego i wydajnego nardzędzia do programowania w języku PDDL. Dodatkowym ważnym wymaganiem było wsparcie zewnętrznego planera FastDownward oraz możliwe dalsze rozwijanie aplikacji w kiedunku innych planerów. Aplikacja powinna pomagać użytkownikowi w utworzeniu plików PDDL, a później w zarządzaniu kodem. Kluczowym elementem zarządzania kodem jest wykrywanie błędów oraz wyświetlenie kodu w czytelnej formie. Aplikacja ma za zadanie pokolorować kod, oddzielić kluczowe fragmenty i podpowiadać słowa kluczowe, wzorem z popularnych środowisk pracy typu edytory języków Java lub Pascal. Ponadto sama aplikacja miała być łatwo dostępna i łatwa w instalacji, jak również w użytkowaniu.
 \section{Wymagania funkcjonalne}
-\JP{Większość z tego co poniżej to nie są w ogóle przypadki użycia, a jeżeli już nawet są to wyglądają bardziej jak wprawki, niż jak fragment pracy dyplomowej. Ten rozdział w zasadzie w całości kwalifikuje się do przepisania. Najlepiej to chyba widać w punkcie "Tworzenie nowego projektu", który przypomina bardziej instrukcję obsługi.}
 \subsection{Kolorowanie składni}
+\begin{tabular}{|l|}
+\hline 
+\textbf{Przypadek użycia:} Kolorowanie składni\\
+\hline
+\textbf{Aktorzy:} Użytkownik\\
+\hline
+\textbf{Pre:} Użytkownik otwiera pusty dokument\\
+\hline
+\textbf{Post:} System wyświetla pokolorowany kod\\
+\hline
+\textbf{Scenariusz główny}\\
+\hline
 \begin{enumerate}
 \item Użytkownik wpisuje ciąg znaków do edytora tekstu.
 \item Edytor rozpoznaje typ ciągu znaków.
 \item Tekst zostaje pokolorowany na odpowiedni kolor.
-\end{enumerate}
-Rozszerzenia
+\end{enumerate}\\
+\hline
+\\\textbf{Rozszerzenia}\\
+\hline
 \begin{enumerate}
 \item[2.a] Ciąg znaków to komentarz.
 \item[2.b] Ciąg znaków nie jest komentarzem.
 \item[2.b.1] Następuje głębsza analiza znaków.
-\end{enumerate}
+\end{enumerate}\\
+\hline
+\end{tabular} 
+
 \subsection{Wykrywanie błędów}
 \label{reqErrorDetection}
+\begin{tabular}{|l|}
+\hline 
+\textbf{Przypadek użycia:} Wykrywanie błędów\\
+\hline
+\textbf{Aktorzy:} Użytkownik\\
+\hline
+\textbf{Pre:} Użytkownik wpisuje fragment kodu\\
+\hline
+\textbf{Post:} System wykrywa i wskazuje błędy w dokumencie\\
+\hline
+\textbf{Scenariusz główny}\\
+\hline
 \begin{enumerate}
 \item Użytkownik wpisuje kod.
 \item Edytor pobiera aktualny stan dokumentu.
 \item System sprawdza kod pod kątem gramatycznym i semantycznym.
-\end{enumerate}
-Rozszerzenia
+\end{enumerate}\\
+\hline
+\\\textbf{Rozszerzenia}\\
+\hline
 \begin{enumerate}
 \item[3.a] System wykrywa błąd. 
 \item[3.a.1] W domyślnym oknie błędów pojawia się informacja o błędzie i miejscu.
 \item[3.a.2] W oknie edytora błąd zostaje podkreślony.
 \item[3.b] System nie wykrywa błędu.
-\end{enumerate}
+\end{enumerate}\\
+\hline
+\end{tabular}
+
 \subsection{Podpowiadanie składni}
 \label{reqAutocompletion}
+\begin{tabular}{|l|}
+\hline 
+\textbf{Przypadek użycia:} Podpowiadanie składni\\
+\hline
+\textbf{Aktorzy:} Użytkownik\\
+\hline
+\textbf{Pre:} Użytkownik wpisuje ciąg znaków\\
+\hline
+\textbf{Post:} System pokazuje użytkownikowi możliwe zakończenia podanego ciągu\\
+\hline
+\textbf{Scenariusz główny}\\
+\hline
 \begin{enumerate}
 \item Użytkownik podaje ciąg znaków lub korzysta z okna podpowiedzi.
 \item Edytor pobiera ostatnią sekwencję znaków przed kursorem.
@@ -37,40 +84,61 @@ Rozszerzenia
 \item Edytor wyświetla listę w oknie podpowiedzi.
 \item Użytkownik zaznacza wybraną podpowiedź.
 \item Edytor wpisuje tekst za kursorem.
-\end{enumerate}
-Rozszerzenia
+\end{enumerate}\\
+\hline
+\\\textbf{Rozszerzenia}\\
+\hline
 \begin{enumerate}
 \item[3.a] System zwraca listę propozycji zaczynających się na podany ciąg znaków.
 \item[3.b] System nie znajduje podpowiedzi i zwraca pustą listę.
-\end{enumerate}
-\subsection{Tworzenie nowego projektu}
-\begin{enumerate}
-\item Użytkownik otwiera menu kontekstowe.
-\item Użytkownik wybiera opcję nowy.
-\item Użytkownik uruchamia kreatora projektu PDDL.
-\item Użytkownik proszony jest o podanie nazwy projektu
-\item Kreator tworzy nowy, pusty projekt.
-\end{enumerate}
-Rozszerzenia
-\begin{enumerate}
-\item[3.a] Użytkownik uruchamia kreatora tworzenia nowego projektu. 
-\item[3.a.1] Użytkownik wybiera projekt PDDL z listy propozycji.
-\end{enumerate}
+\end{enumerate}\\
+\hline
+\end{tabular}
+
 \subsection{Tworzenie nowego pliku PDDL}
+\label{reqAutocompletion}
+\begin{tabular}{|l|}
+\hline 
+\textbf{Przypadek użycia:} Tworzenie nowego pliku PDDL\\
+\hline
+\textbf{Aktorzy:} Użytkownik\\
+\hline
+\textbf{Pre:} Użytkownik chce utworzyć plik PDDL\\
+\hline
+\textbf{Post:} System otwiera plik z szablonem gotowy do pracy\\
+\hline
+\textbf{Scenariusz główny}\\
+\hline
 \begin{enumerate}
-\item Użytkownik otwiera menu kontekstowe.
-\item Użytkownik wybiera opcję nowy.
 \item Użytkownik uruchamia kreatora tworzenia pliku PDDL.
-\item Użytkownik proszony jest o podanie nazwy pliku.
+\item System prosi o podanie nazwy pliku.
 \item Użytkownik wybiera przeznaczenie pliku.
 \item Kreator tworzy nowy plik PDDL z szablonem zgodnym z przeznaczeniem pliku.
-\end{enumerate}
-Rozszerzenia
+\end{enumerate}\\
+\hline
+\\\textbf{Rozszerzenia}\\
+\hline
 \begin{enumerate}
 \item[3.a] Użytkownik uruchamia kreatora tworzenia niestandardowego pliku.
 \item[3.a.1] Użytkownik wybiera typ pliku PDDL z listy propozycji.
-\end{enumerate}
+\end{enumerate}\\
+\hline
+\end{tabular}
+
 \subsection{Repozytorium kodu}
+\label{reqAutocompletion}
+\begin{tabular}{|l|}
+\hline 
+\textbf{Przypadek użycia:} Repozytorium kodu\\
+\hline
+\textbf{Aktorzy:} Użytkownik\\
+\hline
+\textbf{Pre:} Użytkownik chce zainstalować aplikację\\
+\hline
+\textbf{Post:} System instaluje aplikację\\
+\hline
+\textbf{Scenariusz główny}\\
+\hline
 \begin{enumerate}
 \item Użytkownik otwiera okno instalacji dodatkowego oprogramowania Eclipse.
 \item Użytkownik wpisuje adres repozytorium.
@@ -79,7 +147,10 @@ Rozszerzenia
 \item System rozpoczyna pobieranie oraz instalację.
 \item Użytkownik uruchamia ponownie program Eclipse by ukończyć instalację.
 \item Po otwarciu programu ponownie wtyczka widoczna jest na liście aktywnych dodatków Eclipse.
-\end{enumerate}
+\end{enumerate}\\
+\hline
+\end{tabular}
+
 \section{Wymagania pozafunkcjonalne}
 \subsection*{Funkcjonalność}
 Wtyczka \emph{GUI4PDDL} umożliwia użytkownikowi efektywne zarządzanie kodem pisanym w języku \emph{PDDL}. Pomaga w kontrolowaniu zawartości kodu. Wtyczka zbudowana jest jako jeden produkt, zgodnie ze specyfikacją wymaganą przez wtyczki programu \emph{Eclipse}. Zgodnie z polityką twórców Eclipse, \emph{GUI4PDDL} jest zbudowana w pełni modułowo, co umożliwia pełną integrację ze środowiskiem oraz jest łatwa w rozwoju.
