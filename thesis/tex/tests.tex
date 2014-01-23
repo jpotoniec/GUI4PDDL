@@ -1,9 +1,10 @@
 \chapter{Testy}
+\label{sec:testy}
 \section{Testy jednostkowe kodu}
 
 Aby wykryć i naprawić błędy, które znalazły się w kodzie projektu, przygotowano testy jednostkowe. Do wykonania testów użyto narzędzia \textit{JUnit} dostępnego w środowisku programistycznym \textit{Eclipse}. Dodatkowo, aby sprawdzić pokrycie kodu testami, wykorzystano oprogramowanie \textit{Emma}.
 
-Podczas prac nad projektem GUI4PDDL przetestowane zostały widoki oraz analizator składniowy. Testy pierwszego z dwóch wymienionych elementów polegały na prostym porównywaniu oczekiwanego stanu ze stanem obecnym, za pomocą funkcji \textit{assertEquals}, która to należy do pakietu narzędzi \textit{JUnit}. Przykładowy, pojedynczy test przedstawiono w przykładzie \ref{test_jednostkowy}.\\\\
+Podczas prac nad projektem GUI4PDDL przetestowane zostały poszczególne klasy odpowiedzialne za tworzenie nowych plików i projektów, oraz analizator składniowy. Testy pierwszego z dwóch wymienionych elementów polegały na prostym porównywaniu oczekiwanego stanu ze stanem obecnym, za pomocą funkcji \textit{assertEquals}, która to należy do pakietu narzędzi \textit{JUnit}. Przykładowy, pojedynczy test przedstawiono w przykładzie \ref{test_jednostkowy}.\\\\
 \begin{Code}
 \begin{lstlisting}[language=JAVA,frame=single,label={test_jednostkowy}, caption={Przykładowy test jedostkowy}]
 	@Test
@@ -70,8 +71,7 @@ Przykład \ref{test_gramatyki} przedstawia fragment testu, dotyczącego elementu
 
 
 \section{Testy akceptacyjne}
-W końcowym etapie tworzenia projektu GUI4PDDL podjęto testy akceptacyjne, mające na celu sprawdzenie spełnienia wymagań funkcjonalnych. Kolejne testy przedstawiono jako scenariusze i oczekiwane wyniki przeprowadzonych akcji.
-Dodatkowo każde opisane zadanie zostało postawione przed potencjalnymi użytkownikami wtyczki GUI4PDDL, w celu sprawdzenia, czy projekt spełnia założenia dotyczące użytkowania praktycznego. Na końcu każdego scenariusza przedstawione zostały wnioski z obserwacji. 
+W końcowym etapie tworzenia projektu GUI4PDDL podjęto testy akceptacyjne, mające na celu sprawdzenie spełnienia wymagań funkcjonalnych. Kolejne testy przedstawiono jako scenariusze i oczekiwane wyniki przeprowadzonych akcji.Do testowania widoków użyto \emph{SWTBot} \footnote{http://eclipse.org/swtbot/}. Jest to wyspecjalizowan narzędzie służące do testowania interfejsu użytkownika. Dodatkowo każde opisane zadanie zostało postawione przed potencjalnymi użytkownikami wtyczki GUI4PDDL, w celu sprawdzenia, czy projekt spełnia założenia dotyczące użytkowania praktycznego. Na końcu każdego scenariusza przedstawione zostały wnioski z obserwacji. 
 \subsection{Utworzenie nowego projektu PDDL}
 \textbf{Scenariusz testowy:}
   \begin{enumerate}
@@ -139,6 +139,8 @@ Dodatkowo każde opisane zadanie zostało postawione przed potencjalnymi użytko
 \textbf{Oczekiwany wynik:} Wybrany planista powinien rozwiązać dany problem i wyświetlić dostępny wynik w zakładce \textit{Plan Browser}. Otwarcie wyniku (poprzez dwukrotne kliknięcie na wierszu tabeli) spowoduje wyświetlenie ułożonego planu w edytorze kodu. W przypadku gdy pliki są niepoprawne, informacje o błędach zostaną wyświetlone w zakładce \textit{Console}. 
 
 \textbf{Obserwacja użytkowników:} Pierwsze uruchomienie planisty zajmowało więcej czasu niż jest to potrzebne doświadczonemu programiście. Powodem jest brak wyraźnego komunikatu, dotyczącego braku poszczególnych ustawień (np. brak pliku dziedziny czy problemu).
+
+Ze względu na uciążliwość problem został rozwiązany, poprzez dodanie komunikatu informującego o zaistniałym błędzie.
 
 
 

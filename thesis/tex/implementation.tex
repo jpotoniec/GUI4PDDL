@@ -1,6 +1,8 @@
 \chapter{Implementacja}
+\label{sec:implementacja}
 \JP{Tu gdzieś (albo może nawet lepiej wcześniej, w rozdziale o wymaganiach) powinien pojawić się typowy sposób pracy z tym narzędziem: że najpierw się tworzy projekt, potem robi cośtam, potem cośtam itd itp. Te kolejne cośtam będą potem rozwinięte w kolejnych podrozdziałach: jak się je robi i jak są zaimplementowane.}
 \section{Zarządzanie projektem PDDL}
+\label{sec:zarzadzanie}
 \subsection{Tworzenie projektu PDDL}
 \begin{figure}[h]
   \centering
@@ -30,6 +32,7 @@ Po wybraniu opcji oraz nazwy (lokalizacja jest opcjonalna) informacje przekazane
 Tworzenie pliku i zapisanie do lokalizacji zaimplementowano korzystając kodu źródłowego domyślnego kreatora pliku, dodano natomiast odpowiednie rozszerzenie \texttt{.pddl}. Klasa pobiera z kreatora typ pliku, oraz przekazuje tą informację wraz z nazwą i ścieżką pliku do klasy \emph{PDDLFileWizard}. Na koniec \emph{PDDLFileWizard} tworzy nowy plik w odpowiedniej lokalizacji i~wypełnia go treścią zgodną z \JP{szablonem dla danego typu pliku}. Po wykonaniu tych czynności plik przekazywany jest do edytora tekstu.
 
 \section{Przetwarzanie kodu PDDL}
+\label{sec:przetwarzanie}
 W specyfikacji wymagań zostały zawarte punkty dotyczące wyświetlania błędów znajdujących 
 się w pliku PDDL (roz. \ref{reqErrorDetection}) oraz prezentowania listy automatycznych\
 podpowiedzi wyrazów (roz. \ref{reqAutocompletion}).
@@ -320,6 +323,7 @@ W narzędziu GUI4PDDL zaimplementowane zostało podpowiadanie:
 \end{itemize}
 
 \section{Edytor}
+\label{sec:edytor}
 \JP{UWAGA: móstwo rysunków w tym pliku ma ten sam label: ana\_structure. Proszę coś z tym zrobic!}
 Edytor kodu we wtyczce GUI4PDDL zajmuje się kolorowaniem kodu, dopasowywaniem nawiasów oraz podpowiedziami kodu. Automatyczne wcięcia zaimplementowane są domyślnie w edytorze Eclipse, tak więc po wpisaniu znaku nowej linii kursor automatycznie ustawia się w takiej odległości od lewej krawędzi, jak w poprzedniej linii kodu.
 \subsection{Kolorowanie kodu}

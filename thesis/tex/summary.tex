@@ -1,2 +1,35 @@
 \chapter{Podsumowanie}
-\JP{Wtyczka jest wspaniała, jesteśmy zachwyceni i planujemy zbić dzięki GUI4PDDL kokosy, a na Wydział nowi studenci będą walić drzwiami i oknami, żeby uczyć się o automatycznym planowaniu. (Hint: to jest za krótkie i zbyt kwiecistym stylem napisane, więc niestety nie wystarczy.)}
+\label{sec:podsumowanie}
+W prezentowanej pracy zaprojektowano oraz zaimplementowano graficzne narzędzie do opisu problemów planowania
+w języku \emph{PDDL}.
+Posiada ono funkcjonalność zintegrowanego środowiska programistycznego. Umożliwia tworzenie i zarządzanie
+projektami oraz plikami \emph{PDDL}. W skład narzędzia wchodzą edytor strukturalny, moduł analizy kodu oraz moduł
+integracji z zewnętrznym oprogramowaniem planisty. Wśród zaimplementowanych funkcji można wymienić: kolorowanie kodu źródłowego, znajdowanie błędów składniowych i semantycznych,
+podpowiadanie składni, proste uruchamianie planisty, przeglądanie wyznaczonych planów.
+
+Cel pracy, opisany w rozdziale 1.1, został spełniony. Zaimplementowano wszystkie funkcje, których specyfikacja
+została zamieszczona w rozdziale 3.1. Automatyczne testy jednostkowe oraz ręczne testy integracyjne wykazały
+poprawność i stabilność pracy oprogramowania. Wymagania pozafunkcjonalne zostały spełnione.
+
+Narzędzie \emph{GUI4PDDL} zostało zaimplementowane jako wtyczka do środowiska Eclipse. Dzięki temu 
+zespół miał możliwość zapoznania się z architekturą rozbudowanej aplikacji. Jest to cenne doświadczenie,
+które może zostać wykorzystane w pracy zawodowej.
+
+Planowane jest wykorzystanie opracowanego narzędzia na zajęciach dydaktycznych prowadzonych na Wydziale 
+Informatyki Politechniki Poznańskiej w ramach przedmiotu Sztuczna Inteligencja. Opiekun niniejszej pracy mgr Jędrzej
+Potoniec prowadzi zajęcia laboratoryjne z tego przedmiotu. Wprowadzenie zintegrowanego środowiska programistycznego
+ułatwi studentom tworzenie i testowanie problemów planowania. Przyczyni się to do lepszego zrozumienia tematyki
+automatycznego planowania.
+
+Opracowane oprogramowanie posiada modułową strukturę. Dzięki temu w łatwy sposób może zostać dostosowane do 
+nowych wymagań.
+
+Wśród możliwości przyszłej rozbudowy narzędzia warto wymienić moduł symulacji planów, pełniący rolę narzędzia
+do usuwania błędów. Moduł mógłby umożliwiać wykonywanie ciągu akcji w trybie pracy krokowej.
+Możliwa byłaby wizualizacja zbioru spełnionych predykatów oraz wskazanie akcji ze spełninymi warunkami wstępnymi.
+Podobne funkcje, w odniesieniu do systemów eksperckich, zawiera narzędzie \emph{CLIPS}\footnote{http://clipsrules.sourceforge.net}.
+
+Inną możlwiością przyszłego rozwoju oprogramowania jest dodanie wsparcia dla języków wywodzących się z PDDL.
+Można do nich zaliczyć \emph{Probabilistic PDDL} \cite{ppddl}, \emph{PDDL+} \cite{pddlplus} i \emph{Web-PDDL}
+\cite{webpddl}. 
+
