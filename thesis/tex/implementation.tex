@@ -7,13 +7,13 @@
   \centering
     \includegraphics[width=12cm,keepaspectratio]{img/new-project.png}
     \caption{Kreator nowego projektu PDDL}
-    \label{ana_structure}
+    \label{fig:impl:new-project}
 \end{figure}
-Tworzenie nowego projektu PDDL polega na wywołaniu odpowiedniego kreatora. Można go wybrać na dwa sposoby. Pierwszy sposób polega na otwarciu kreatora nowgo projektu. Następnie w nowym oknie należy z listy dostępnych propozycji wybrać kategorię \emph{PDDL} oraz \emph{PDDL Project}. 
+Tworzenie nowego projektu PDDL polega na wywołaniu odpowiedniego kreatora. Moż\-na go wybrać na dwa sposoby. Pierwszy sposób polega na otwarciu kreatora nowgo projektu. Następnie w nowym oknie należy z listy dostępnych propozycji wybrać kategorię \emph{PDDL} oraz \emph{PDDL Project}. 
 
-W pliku \emph{plugin.xml} utworzono \emph{Extension Point}, w którym zawarto informację o typie nowego kreatora, jego przeznaczeniu, a także jaki projekt ma być utworzony korzystając z tego kreatora. Znajdują się tam także informacje o ikonie projektu, a także perspektywie projektu. Ta ostania jest ważna, ponieważ w widoku perspektywu PDDL pojawiają się nowe funkcje specjalnie stworzone na potrzeby języka. 
+W pliku \emph{plugin.xml} utworzono \emph{Extension Point}, w którym zawarto informację o typie nowego kreatora, jego przeznaczeniu, a także jaki projekt ma być utworzony przy użyciu tego kreatora. Znajdują się tam także informacje o ikonie projektu, a także perspektywie projektu. Ta ostania jest ważna, ponieważ w widoku perspektywu PDDL pojawiają się nowe funkcje specjalnie stworzone na potrzeby języka. 
 
-Drugi sposób to wybranie osobnej opcji \emph{PDDL Project}(rys. 6.1). Ta opcja również wymagała utworzenia \emph{Extension Point}. W tym wypadku jednak punkt nie zawiera informacji o nowym kreatorze, a wskazuje na wcześniej wymieniony kreator projektu PDDL.
+Drugi sposób to wybranie osobnej opcji \emph{PDDL Project} (rys. \ref{fig:impl:new-project}). Ta opcja również wymagała utworzenia \emph{Extension Point}. W tym wypadku jednak punkt nie zawiera informacji o nowym kreatorze, a wskazuje na wcześniej wymieniony kreator projektu PDDL.
 
 \emph{Extension Point} wywołuje klasę \texttt{PDDLProjectWizard}, która inicjalizuje nową instancję klasy \texttt{PDDLProjectNameAndLocationWizard}, która wyświetla stronę w kreatorze zawierającą pole do podania nazwy kreatora i lokalizacji. 
 
@@ -21,9 +21,10 @@ Po wybraniu nazwy projektu i opcjonalnie lokalizacji (domyślnie aktywny \emph{w
 
 
 \subsection{Tworzenie nowych plików PDDL}
+\JP{Zamiast \emph{domena} ma być \emph{dziedzina}!}
 Każdy projekt PDDL powinien zawierać przynajmniej jeden plik problemu oraz jeden plik domeny. Wymaga tego gramatyka języka PDDL, aczkolwiek jest możliwe utworzenie większej liczby plików problemu dla tej samej domeny. Jest tak dlatego, ponieważ plik domeny zawiera definicje świata i reguł w nim panujących. Plik problemu definiuje dany problem lub sytuację, którą chcemy wykonać danym świecie. Każdy z plików różni się od siebie, dlatego użytkownik tworząc nowy plik otrzymuje szablon w zależności od wybranej opcji w kreatorze. 
 
-Tworzenie pliku PDDL polega na wybraniu odpowiedniej opcji, podobnie jak w kreatorze nowego projektu PDDL, na dwa sposoby. Po otwarciu właściwego kreatora, \emph{Extension Point} uruchamia klasę \texttt{PDDLFileWizard}. Klasa ta tworzy okno kreatora a następne tworzy nową instancję klasy \texttt{PDDLFilePage}, która wyświetla opcję do wyboru typu pliku PDDL oraz okno na nazwę oraz lokalizację.
+Tworzenie pliku PDDL polega na wybraniu odpowiedniej opcji, podobnie jak w kreatorze nowego projektu PDDL, na dwa sposoby. Po otwarciu właściwego kreatora, \emph{Extension Point} uruchamia klasę \texttt{PDDLFileWizard}. Klasa ta tworzy okno kreatora, a następne tworzy nową instancję klasy \texttt{PDDLFilePage}, która wyświetla opcję do wyboru typu pliku PDDL oraz okno na nazwę oraz lokalizację.
 
 Po wybraniu opcji oraz nazwy (lokalizacja jest opcjonalna) informacje przekazane są do klasy, która sprawdza czy plik w danej lokalizacji już istnieje. Jeśli nie wybrano innej lokalizacji, domyślnie jest to folder projektu.
  
@@ -182,7 +183,7 @@ pominie zagnieżdżone konstrukcje i spowoduje przejście do linii 14.
 Na podstawie abstrakcyjnego drzewa składniowego tworzony jest indeks kodu. 
 Gramatyka opisująca analizator drzewowy znajduje się w pliku \texttt{PDDLModelBuilder.g}.
 
-Klasy będące modelami struktur PDDL i wchodzące w skład indeksu znajdują się w pakiecie
+Klasy będące modelami struktur PDDL i wchodzące w skład indeksu znajdują się w~pakiecie
 \texttt{pl.poznan.put.cs.gui4pddl.codemodel}. Schemat zależności pomiędzy tymi klasami
 przedstawiony jest na rysunku \ref{ana_model}. Wszystkie klasy zawierają metody dostępu
 do pól.
@@ -195,7 +196,7 @@ do pól.
 \end{figure}
 
 Indeks kodu przyporządkowany jest projektowi. Znajdują się w nim informacje strukturalne dotyczące każdego
-z plików PDDL w projekcie. Istnieją dwa interfejsy związane z indeksem. \texttt{IPDDLCodeModel}
+z plików PDDL w projekcie. Istnieją dwa interfejsy związane z~indeksem. \texttt{IPDDLCodeModel}
 zawiera metody służące do zadawania zapytań i wyszukiwania informacji. W \texttt{IPDDLProjectIndex}
 znajdują się metody umożliwiające tworzenie i~modyfikacje indeksu.
 
@@ -210,7 +211,7 @@ dla oprogramowania wyznaczającego plan.
 
 Klasa \texttt{PDDLType} reprezentuje typ w języku PDDL. Wspierane są typy proste, typy 
 zmienne w czasie \emph{fluent}, oraz typy złożone \emph{either}.
-Typ \texttt{PDDLTypedList} odpowiada liście z określeniami typów opisanej w specyfikacji PDDL.
+Typ \texttt{PDDLTypedList} odpowiada liście z~określeniami typów opisanej w specyfikacji PDDL.
 
 \subsection{Wykrywanie błędów semantycznych}
 Do wykrywania błędów semantycznych służy analizator drzewowy, którego gramatyka znajduje się
@@ -270,7 +271,7 @@ wyrazów jest porządkowana alfabetycznie i przekazywana edytorowi.
 W narzędziu GUI4PDDL kontekst zaimplementowany został jako klasa \texttt{PDDLCodeCompletionContext}.
 Przechowuje on rodzaj definicji (problem, domena,
 sytuacja początkowa), nazwę definiowanego obiektu oraz stos list wyrazów. Każdy poziom stosu odpowiada
-poziomowi zagnieżdżenia konstrukcji języka. Listy składają się z wyrazów występujących na danym poziomie
+poziomowi zagnieżdżenia konstrukcji języka. Listy składają się z~wyrazów występujących na danym poziomie
 zagnieżdżenia przed miejscem bieżącym.
 \end{sloppypar}
 
@@ -294,7 +295,7 @@ zagnieżdżenia przed miejscem bieżącym.
 
  %\JP{Uwaga ogólna: trzeba zadbać, żeby tekst nie wychodził na margines (mam tu na myśli głównie nazwy klas, które się nie dają podzielić)}
 
-Dana jest następująca sytuacja: Wyznaczanie listy podpowiedzi zostało wywołane w kodzie przedstawionym
+Dana jest następująca sytuacja: Wyznaczanie listy podpowiedzi zostało wywołane w~kodzie przedstawionym
 z przykładu \ref{ana_completions} na końcu pliku. Dane zawarte w wyznaczonym kontekście zamieszczone
 są na rysunku \ref{ana_context}. Z kontestu wynika, że edytowana jest definicja problemu o nazwie
 \texttt{rubik-01}. Kursor znajduje się w strukturze będącej na trzecim poziomie zagnieżdżenia.
@@ -347,7 +348,7 @@ Pozostałe fragmenty kodu poddawane są dalszej analizie. Klasa \texttt{DefaultS
     \label{ana_structure}
 \end{figure}
 
- W przeciwnym wypadku edytor "cofa się" na początek analizowanego kodu i klasa \texttt{DefaultScanner} wywołuje kolejną regułę. Następna metoda znajduje fragmenty kodu rozpoczynające się na znak "?".  Podobnie jak w przypadku pierwszej reguły, skaner odczytuje kolejne litery lub cyfry (dopuszczalne znaki specjalne to kropka oraz myślnik). Taki fragment oznaczony jest jako zmienna w języku PDDL. Tekst otrzymuje token variableToken (rys. 6.9).
+ W przeciwnym wypadku edytor ,,cofa się'' na początek analizowanego kodu i klasa \texttt{DefaultScanner} wywołuje kolejną regułę. Następna metoda znajduje fragmenty kodu rozpoczynające się na znak "?".  Podobnie jak w przypadku pierwszej reguły, skaner odczytuje kolejne litery lub cyfry (dopuszczalne znaki specjalne to kropka oraz myślnik). Taki fragment oznaczony jest jako zmienna w języku PDDL. Tekst otrzymuje token variableToken (rys. 6.9).
 
 \begin{figure}[h]
   \centering
@@ -356,7 +357,7 @@ Pozostałe fragmenty kodu poddawane są dalszej analizie. Klasa \texttt{DefaultS
     \label{ana_structure}
 \end{figure}
 
-Kolejna reguła wyszukuje stałe słowa, takie jak np. define. Metoda ta działa identycznie, jak w przypadku \emph{valueRule}. Fragment kodu dopasowany jest do listy słów kluczowych z listy keywords. Elementy pasujące do reguły otrzymują token keywordToken. Reguła dotycząca nawiasów to \emph{BracketRule}. Ponieważ w języku PDDL nie dopuszcza się znaków "(" oraz ")" w nazwach zmiennych, ani słowach kluczowych, BracketRule analizuje znaki szukając nawiasów okrągłych. Znaki te otrzymują token bracketToken (rys 6.10).
+Kolejna reguła wyszukuje stałe słowa, takie jak np. define. Metoda ta działa identycznie, jak w przypadku \emph{valueRule}. Fragment kodu dopasowany jest do listy słów kluczowych z listy keywords. Elementy pasujące do reguły otrzymują token keywordToken. Reguła dotycząca nawiasów to \emph{BracketRule}. Ponieważ w języku PDDL nie dopuszcza się znaków ,,('' oraz ,,)'' w nazwach zmiennych, ani słowach kluczowych, BracketRule analizuje znaki szukając nawiasów okrągłych. Znaki te otrzymują token bracketToken (rys 6.10).
 
 \begin{figure}[h]
   \centering
@@ -365,7 +366,7 @@ Kolejna reguła wyszukuje stałe słowa, takie jak np. define. Metoda ta działa
     \label{ana_structure}
 \end{figure}
 
-Przedostatnia reguła znajduje wszystkie puste znaki, wykorzystując wbudowany interfejs  IWhitespaceDetector oraz metodę klasy Character - isWhitespace(). Jeśli fragment kodu nie dostał żadnego tokenu, otrzymuje token domyślny.  Po podziale kodu na tokeny, środowisko Eclipse używając wbudowanych metod, koloruje tokeny na kolory ustalone przez użytkownika w ustawieniach, bądź domyślne, zdefiniowane w klasie Activator.
+Przedostatnia reguła znajduje wszystkie puste znaki, wykorzystując wbudowany interfejs \texttt{IWhitespaceDetector} oraz metodę \texttt{Character.isWhitespace()}. Jeśli fragment kodu nie dostał żadnego tokenu, otrzymuje token domyślny.  Po podziale kodu na tokeny, środowisko Eclipse używając wbudowanych metod, koloruje tokeny na kolory ustalone przez użytkownika w ustawieniach, bądź domyślne, zdefiniowane w klasie \texttt{Activator}.
 \subsection{Dopasowanie nawiasów}
 \begin{figure}[h]
   \centering
@@ -379,9 +380,9 @@ Przedostatnia reguła znajduje wszystkie puste znaki, wykorzystując wbudowany i
     \caption{Zaznaczanie działa w obie strony}
     \label{ana_structure}
 \end{figure}
-Środowisko Eclipse posiada wbudowaną metodę w klasie \texttt{TextEditor}, \emph{configureSourceViewerDecorationSupport}. W klasie PDDLEditor zostaje ona nadpisana własną funkcją. Wykorzystano metodę setCharacterPairMatcher. Metoda ta wyszukuje rekurencyjnie kolejne pary znaków "(" oraz ")".  W edytorze dopasowane nawiasy są sparowane, więc przy zaznaczaniu jednego znaku z pary, drugi nawias otoczony jest szarą obwódką. Dzięki temu użytkownik szybko zauważy dopasowany nawias, lub jego brak.
+Środowisko Eclipse posiada wbudowaną metodę \texttt{TextEditor.configureSourceViewerDecorationSupport()}. W klasie PDDLEditor zostaje ona nadpisana własną funkcją. Wykorzystano metodę \texttt{setCharacterPairMatcher}. Metoda ta wyszukuje rekurencyjnie kolejne pary znaków ,,('' oraz ,,)''.  W edytorze dopasowane nawiasy są sparowane, więc przy zaznaczaniu jednego znaku z pary, drugi nawias otoczony jest szarą obwódką. Dzięki temu użytkownik szybko zauważy dopasowany nawias lub jego brak.
 \subsection{Podpowiadanie kodu}
-Podpowiadanie składni wywoływane jest po wpisaniu dowolnej litery, znaku ":" lub po wciśnięciu kombinacji klawiszy \emph{Ctrl+Space} - jest to domyślna kombinacja klawiszy w środowisku Eclipse wywołująca klasę \texttt{PDDLCompletionAssistant}. Klasa ta wymaga bezpośredniej współpracy z klasą \texttt{IPDDLNature} wtyczki GU4PDDL. Jako domyślny asystent podpowiedzi, użyto klasy \texttt{PDDLCompletionAssistant}. Zawiera ona metodę \emph{computeCompletionsProposals()}. Skaner tekstu przechodzi przez znaki poprzedzające kursor, aż natrafi na znak pusty, lub znak specjalny z wyłączeniem znaków ":" i "?". Wynikowy tekst jest prefiksem, stanowiącym podstawę do podpowiedzi. Następnie metoda dostaje dostęp do projektu. Poprzez instancję interfejsu \texttt{IPDDLCodeCompletionManager} wywoływana jest klasa \texttt{CodeCompletionManager}. Ostatecznie metoda \emph{computeCompletionsProposals()} pobiera listę propozycji utworzoną przez menedżer (rozdz. 6.2.5). Lista propozycji jest filtrowana przy wykorzystaniu przygotowanego wcześniej prefiksu. Lista wynikowa zawiera listę słów zaczynających się prefiksem. Każda propozycja z listy wyświetlona jest w oknie kontekstowym. Użytkownik następnie wybiera jedną z nich i edytor umieszcza propozycję tuż za kursorem.
+Podpowiadanie składni wywoływane jest po wpisaniu dowolnej litery, znaku ,,:'' lub po wciśnięciu kombinacji klawiszy \emph{Ctrl+Space} - jest to domyślna kombinacja klawiszy w środowisku Eclipse wywołująca klasę \texttt{PDDLCompletionAssistant}. Klasa ta wymaga bezpośredniej współpracy z klasą \texttt{IPDDLNature} wtyczki GU4PDDL. Jako domyślny asystent podpowiedzi, użyto klasy \texttt{PDDLCompletionAssistant}. Zawiera ona metodę \texttt{computeCompletionsProposals()}. Skaner tekstu przechodzi przez znaki poprzedzające kursor, aż natrafi na znak pusty, lub znak specjalny z wyłączeniem znaków ,,:'' i ,,?''. Wynikowy tekst jest prefiksem, stanowiącym podstawę do podpowiedzi. Następnie metoda dostaje dostęp do projektu. Poprzez instancję interfejsu \texttt{IPDDLCodeCompletionManager} wywoływana jest klasa \texttt{CodeCompletionManager}. Ostatecznie metoda \emph{computeCompletionsProposals()} pobiera listę propozycji utworzoną przez menedżer (rozdz. 6.2.5). Lista propozycji jest filtrowana przy wykorzystaniu przygotowanego wcześniej prefiksu. Lista wynikowa zawiera listę słów zaczynających się prefiksem. Każda propozycja z listy wyświetlona jest w oknie kontekstowym. Użytkownik następnie wybiera jedną z nich i edytor umieszcza propozycję tuż za kursorem.
 
 
 
@@ -395,9 +396,9 @@ W przypadku języka PDDL, wykorzystywanego w niniejszej pracy, instancja problem
 
 \subsection{Integracja zewnętrznego oprogramowania z wtyczką}
 \label{subsec:integracja}
-Obecnie dostępnych jest wiele planerów, korzystających z języka PDDL, różniących się dostępnymi algorytmami, sposobem uruchamiania, liczbą oraz rodzajem przyjmowanych na wejściu argumentów, a także strukturą strumienia wyjściowego. Narzędzia te tworzone są często w celach porównawczych np. w konkursie IPC\footnote{http://ipc.icaps-conference.org/}(\emph{International Planning Competition}) lub naukowych, dlatego twórcy nie przywiązują wagi do kwestii integracji ze środowiskami programistyczymi. Nie zdefiniowano więc dotychczas standardu uruchamiania tego typu oprogramowania, który obejmowałby m.in. ujednolicenie argumentów linii poleceń oraz dodatkowych, wykorzystywanych komend powłoki, często specyficznych dla systemu operacyjnego.
+Obecnie dostępnych jest wiele planerów, korzystających z języka PDDL, różniących się dostępnymi algorytmami, sposobem uruchamiania, liczbą oraz rodzajem przyjmowanych na wejściu argumentów, a także strukturą strumienia wyjściowego. Narzędzia te tworzone są często w celach porównawczych np. w konkursie IPC\footnote{\url{http://ipc.icaps-conference.org/}}(\emph{International Planning Competition}) lub naukowych, dlatego twórcy nie przywiązują wagi do kwestii integracji ze środowiskami programistyczymi. Nie zdefiniowano więc dotychczas standardu uruchamiania tego typu oprogramowania, który obejmowałby m.in. ujednolicenie argumentów linii poleceń oraz dodatkowych, wykorzystywanych komend powłoki, często specyficznych dla systemu operacyjnego.
 
-Analiza przykładowych narzędzi (\emph{FastDownward}\footnote{http://www.fast-downward.org/} , \emph{SatPlan}\footnote{http://www.cs.rochester.edu/users/faculty/kautz/satplan/}, \emph{FastForward}\footnote{http://fai.cs.uni-saarland.de/hoffmann/ff.html}) pod kątem inicjalizacji procesu planowania pozwoliła zidentyfikować cechy wspólne oraz różnice pomiędzy planerami, opisane w tabeli \ref{plannersTable}.
+Analiza przykładowych narzędzi (\emph{FastDownward}\footnote{\url{http://www.fast-downward.org/}} , \emph{SatPlan}\footnote{\url{http://www.cs.rochester.edu/users/faculty/kautz/satplan/}}, \emph{FastForward}\footnote{\url{http://fai.cs.uni-saarland.de/hoffmann/ff.html}}) pod kątem inicjalizacji procesu planowania pozwoliła zidentyfikować cechy wspólne oraz różnice pomiędzy planerami, opisane w tabeli \ref{plannersTable}.
 \begin{table}[h]
 \centering
 \caption{Cechy wspólne oraz różnice w uruchamianiu pomiędzy przykładowymi planerami.}
@@ -425,7 +426,7 @@ Analiza przykładowych narzędzi (\emph{FastDownward}\footnote{http://www.fast-d
 \end{tabular}
 \end{table}
 
-Biorąc pod uwagę wspólne cechy oraz wymaganie projektu, dotyczące możliwości integracji z wieloma planerami, ze szczególnym uwzględnieniem \emph{FastDownward}, zdecydowano o stworzeniu wewnętrznego standardu uruchamiania. Standard ten opisuje postać argumentów linii poleceń dla plików planerów, które mogą być prawidłowo powiązane z wtyczką GUI4PDDL. 
+Biorąc pod uwagę wspólne cechy oraz wymaganie projektu, dotyczące możliwości integracji z wieloma planerami, ze szczególnym uwzględnieniem \emph{FastDownward}, zdecydowano o stworzeniu wewnętrznego standardu uruchamiania. Standard ten opisuje postać argumentów linii poleceń dla plików planerów, które mogą być prawidłowo powiązane z~wtyczką GUI4PDDL. 
 
 Narzędzia te wymagają podania na wejście programu ścieżek do plików dziedziny oraz problemu. W niektórych przypadkach konieczne jest także wskazanie nazwy algorytmu planowania. Cechy te w całości pokrywają się z wymaganiami skryptu uruchomieniowego narzędzia \emph{FastDownward}. W związku z tym, powzięto decyzję o przyjęciu formatu skryptu uruchomieniowego, analogicznego do formatu skryptu \path{plan}, znajdującego się w katalogu \path{src} \emph{FastDownward}. Skrypt (bądź bezpośrednio plik wykonywalny planera) przeznaczony do integracji z wtyczką GUI4PDDL musi więc przyjmować następujące argumenty wejściowe w odpowiedniej kolejności:
 
@@ -440,7 +441,7 @@ gdzie:
 \item \textbf{\texttt{<ścieżka\_do\_problemu>}} ścieżka do pliku problemu, zdefiniowanego na dziedzinie wskazanej w podanym jako pierwszy argument pliku dziedziny;
 \item \textbf{\texttt{<argumenty\_planowania>}} dowolne argumenty planera, na przykład dotyczące wyboru algorytmu planowania.
 \end{itemize}
-Narzędzia uruchamiane według innego schematu nie będą prawidłowo zintegrowane z GUI4PDDL. W takim przypadku należy przygotować skrypt powłoki systemu operacyjnego, który dostosuje sposób inicjalizacji procesu planowania do przedstawionego powyżej. Dzięki zastosowaniu funkcji systemowych (roz.~\ref{subsec:przerywanie}) istnieje możliwość kontroli nad tego typu skryptami z poziomu \emph{Eclipse}, włączając uruchamiane przez nie podprocesy.
+Narzędzia uruchamiane według innego schematu nie będą prawidłowo zintegrowane z~GUI4PDDL. W takim przypadku należy przygotować skrypt powłoki systemu operacyjnego, który dostosuje sposób inicjalizacji procesu planowania do przedstawionego powyżej. Dzięki zastosowaniu funkcji systemowych (roz.~\ref{subsec:przerywanie}) istnieje możliwość kontroli nad tego typu skryptami z poziomu \emph{Eclipse}, włączając uruchamiane przez nie podprocesy.
 
 Jak wspomniano, planer \emph{FastDownward} w wersji dla systemów z rodziny Linux posiada odpowiedni plik uruchomieniowy w katalogu \path{src} instalacji. W przypadku systemu Windows należy stworzyć osobny program wsadowy. Przykładowa forma takiego pliku znajduje się w katalogu \path{resources} projektu \texttt{pl.poznan.put.cs.gui4pddl}.
 
@@ -498,7 +499,7 @@ Standardowo, dostępny jest wstępnie skonfigurowany planer \emph{FastDownward}.
 \item [Edycja argumentu] Pozwala na edycję aktualnie zaznaczonego argumentu planera.
 \item [Usunięcie argumentu] Pozwala na usunięcie aktualnie zaznaczonego argumentu planera.
 \item [Usunięcie konfiguracji planera] Przycisk ten usuwa bieżącą konfigurację. Nie ma możliwości cofnięcia tej operacji, dlatego przed jej wykonaniem wyświetlone zostaje pytanie, potwierdzające chęć usunięcia konfiguracji.
-\item [Wzorzec pliku planu] Przycisk ten otwiera okno, które umożliwia zdefiniowanie wyrażenia regularnego, dotyczącego nazwy pliku wynikowego planu, powstałego w rezultacie działania bieżącego planera. Prawidłowy wzorzec pozwala na wykrycie plików planów i bezpośrednie ich wyświetlenie przy pomocy przeglądarki planów (roz.~\ref{subsec:uruchamianie}).
+\item [Wzorzec pliku planu] Przycisk ten otwiera okno, które umożliwia zdefiniowanie wyrażenia regularnego, dotyczącego nazwy pliku wynikowego planu, powstałego w~rezultacie działania bieżącego planera. Prawidłowy wzorzec pozwala na wykrycie plików planów i bezpośrednie ich wyświetlenie przy pomocy przeglądarki planów (roz.~\ref{subsec:uruchamianie}).
 \end{description}
 }
 
@@ -541,7 +542,7 @@ gdzie:
 \noindent
 \textbf{\path{<l_p_rob>}} -- lokalizacja przestrzeni roboczej.
 
-Każda konfiguracja ustawień planera zapisywana jest w osobnym pliku o nazwie analogicznej do wpisanej w oknie preferencji. Ze względu na łatwość modyfikacji, elastyczność w przechowywaniu listy argumentów oraz odporność na zmiany, jako format zapisu danych wybrano XML. Do tego typu serializacji, wykorzystane zostało API \emph{Memento}\footnote{http://help.eclipse.org/kepler/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/ui/IMemento.html}\cite{eclipseplugins} dołączone do platformy \emph{Eclipse}. W tej formie zapisywane są wszystkie informacje o konfiguracji (przykład~\ref{lst:preferencje_plannera}), z wyjątkiem ustawień domyślnego planera, które zachowywane są przy pomocy standardowego API \emph{Preferences}\footnote{http://help.eclipse.org/kepler/topic/org.eclipse.platform.doc.isv/guide/preferences\_prefs.htm?cp=2\_0\_4\_3}\cite{eclipseplugins} do zapisu preferencji w~\emph{Eclipse}.
+Każda konfiguracja ustawień planera zapisywana jest w osobnym pliku o nazwie analogicznej do wpisanej w oknie preferencji. Ze względu na łatwość modyfikacji, elastyczność w przechowywaniu listy argumentów oraz odporność na zmiany, jako format zapisu danych wybrano XML. Do tego typu serializacji, wykorzystane zostało API \emph{Memento}\footnote{\url{http://help.eclipse.org/kepler/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/ui/IMemento.html}}\cite{eclipseplugins} dołączone do platformy \emph{Eclipse}. W tej formie zapisywane są wszystkie informacje o konfiguracji (przykład~\ref{lst:preferencje_plannera}), z wyjątkiem ustawień domyślnego planera, które zachowywane są przy pomocy standardowego API \emph{Preferences}\footnote{\url{http://help.eclipse.org/kepler/topic/org.eclipse.platform.doc.isv/guide/preferences_prefs.htm?cp=2_0_4_3}}\cite{eclipseplugins} do zapisu preferencji w~\emph{Eclipse}.
 
 \begin{Code}
 \begin{lstlisting}[language=XML,frame=single,label={lst:preferencje_plannera},caption={Przykładowa konfiguracja planera FastDownward w postaci XML}]  % Start your code-block
@@ -565,7 +566,7 @@ Każda konfiguracja ustawień planera zapisywana jest w osobnym pliku o nazwie a
 \subsection{Uruchamianie zewnętrznego oprogramowania}
 \label{subsec:uruchamianie}
 
-Inicjalizacja oprogramowania wyznaczającego plan odbywa się poprzez wbudowany w \emph{Eclipse} mechanizm skrótów uruchamiania (ang. \textit{Launch Shortcuts})\footnote{http://help.eclipse.org/indigo/topic/org.eclipse.platform.doc.isv/guide/debug\_launch\_uishortcuts.htm}. Rozszerzenie wtyczki o tego typu element pozwala na wywołanie zewnętrznych narzędzi przy pomocy menu \emph{Run} lub \emph{Debug}, a także przycisku znajdującego się na pasku narzędziowym (rys.~\ref{fig:running_options_menu_toolbar}) lub menu kontekstowego edytowanego pliku (rys.~\ref{fig:running_options_context_menu}).
+Inicjalizacja oprogramowania wyznaczającego plan odbywa się poprzez wbudowany w \emph{Eclipse} mechanizm skrótów uruchamiania (ang. \textit{Launch Shortcuts})\footnote{\url{http://help.eclipse.org/indigo/topic/org.eclipse.platform.doc.isv/guide/debug_launch_uishortcuts.htm}}. Rozszerzenie wtyczki o tego typu element pozwala na wywołanie zewnętrznych narzędzi przy pomocy menu \emph{Run} lub \emph{Debug}, a także przycisku znajdującego się na pasku narzędziowym (rys.~\ref{fig:running_options_menu_toolbar}) lub menu kontekstowego edytowanego pliku (rys.~\ref{fig:running_options_context_menu}).
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{img/running_options_menu_toolbar}
@@ -580,7 +581,7 @@ Inicjalizacja oprogramowania wyznaczającego plan odbywa się poprzez wbudowany 
     \label{fig:running_options_context_menu}
 \end{figure}
 
-Podczas pierwszego uruchomienia zewnętrznego programu na aktualnie edytowanych plikach, tworzona jest nowa konfiguracja uruchamiania (ang. \textit{Run Configuration}). W przypadku, gdy opcja zastosowania domyślnego planera (konfiguracja planera, roz. \ref{subsec:konfiguracja}) nie jest ustawiona, należy w wyświetlonym oknie (rys. \ref{fig:run_configuration_window}) uzupełnić tę konfigurację o~nazwę i~argument planera, który będzie wykorzystany w procesie planowania. 
+Podczas pierwszego uruchomienia zewnętrznego programu na aktualnie edytowanych plikach, tworzona jest nowa konfiguracja uruchamiania (ang. \textit{Run Configuration}). W~przypadku, gdy opcja zastosowania domyślnego planera (konfiguracja planera, roz. \ref{subsec:konfiguracja}) nie jest ustawiona, należy w wyświetlonym oknie (rys. \ref{fig:run_configuration_window}) uzupełnić tę konfigurację o~nazwę i~argument planera, który będzie wykorzystany w procesie planowania. 
 
 \begin{figure}[h!]
     \centering
@@ -593,8 +594,8 @@ Jeżeli uruchomienie nastąpiło na pliku problemu (za pomocą globalnego menu \
 \begin{itemize}
 \item W przypadku gdy do danej dziedziny pasuje wiele plików problemów, wyświetla się okno wyboru ze wszystkimi pasującymi problemami.
 \item W przypadku gdy do danej dziedziny nie pasuje żaden plik problemu, wyświetli się informująca o tym wiadomość.
-\item W przypadku gdy do danego pliku problemu nie pasuje żaden plik dziedziny, ale w projekcie istnieją inne pliki dziedzin, wyświetli się okno wyboru z wszystkimi plikami dziedzin w projekcie.
-\item W przypadku gdy do danego pliku problemu nie pasuje żaden plik dziedziny oraz w projekcie nie istnieje żaden plik  dziedziny, wyświetli się informująca o tym wiadomość.
+\item W przypadku gdy do danego pliku problemu nie pasuje żaden plik dziedziny, ale w~projekcie istnieją inne pliki dziedzin, wyświetli się okno wyboru z wszystkimi plikami dziedzin w projekcie.
+\item W przypadku gdy do danego pliku problemu nie pasuje żaden plik dziedziny oraz w~projekcie nie istnieje żaden plik  dziedziny, wyświetli się informująca o tym wiadomość.
 \end{itemize}
 
 Proces planowania rozpoczyna się po wybraniu przycisku \emph{Run} w oknie konfiguracji uruchamiania (lub z pominięciem tego okna w przypadku włączenia opcji domyślnego planera w konfiguracji planera). Działanie planera objawia się widocznym paskiem postępu w prawym dolnym rogu aplikacji oraz na zakładce \emph{Progress} (rys.~\ref{fig:run_progress}). Również strumień wyjściowy działającego narzędzia kierowany jest w całości do widoku \emph{Console}.
@@ -670,7 +671,7 @@ Jej interfejs graficzny przedstawiono na rys.~\ref{fig:plan_browser_options} wra
 
 Standardowym zachowaniem \emph{Eclipse} podczas inicjalizacji narzędzia zewnętrznego jest korzystanie z ostatnio utworzonej konfiguracji uruchamiania. Przy rozpoczęciu kolejnego procesu znajdowania planu na tych samych plikach, aplikacja nie wyświetla już okna edycji ustawień, lecz od razu przechodzi do fazy przetwarzania. Takie działanie daje użytkownikowi możliwość szybkiego sprawdzenia wyników planowania w trakcie edycji plików, lecz jednocześnie powoduje, że zmiana parametrów uruchamiania takich jak planer i jego argumenty jest utrudniona.
 
-Z tego powodu utworzono dodatkową opcję edycji istniejących konfiguracji. Chcąc zmienić planer, bądź jego argumenty należy wybrać z menu kontekstowego edytowanego pliku element \emph{Run as} a następnie \emph{PDDL Project...} lub zastosować skrót klawiaturowy \texttt{Shift~+~Alt~+~X~+~U}. Gdy istnieje więcej niż jedna konfiguracja uruchamiania powiązana z danym plikiem, pojawi się okno wyboru istniejących profili (rys.~\ref{fig:run_configuration_choice}). Wybierając jeden z nich, użytkownik ma możliwość zmiany aktualnych parametrów.
+Z tego powodu utworzono dodatkową opcję edycji istniejących konfiguracji. Chcąc zmienić planer, bądź jego argumenty należy wybrać z menu kontekstowego edytowanego pliku element \emph{Run as} a następnie \emph{PDDL Project...} lub zastosować skrót klawiaturowy \texttt{Shift~+~Alt~+~X~+~U}. Gdy istnieje więcej niż jedna konfiguracja uruchamiania powiązana z~danym plikiem, pojawi się okno wyboru istniejących profili (rys.~\ref{fig:run_configuration_choice}). Wybierając jeden z nich, użytkownik ma możliwość zmiany aktualnych parametrów.
 
 \begin{figure}[h!]
     \centering
@@ -681,9 +682,9 @@ Z tego powodu utworzono dodatkową opcję edycji istniejących konfiguracji. Chc
 
 \subsection{Przerywanie procesu planowania}
 \label{subsec:przerywanie}
-Mnogość dostępnych narzędzi do wyznaczania planu, brak wśród nich jednoznacznego, powszechnie wykorzystywanego lidera oraz prawdopodobieństwo udoskonalania i powstawania nowych programów spowodowały, iż w projekcie GUI4PDDL powzięto założenie o wsparciu dla uruchamiania jak największego zakresu istniejących rozwiązań (z planerem \emph{FastDownward} jako priorytetem). Wymaganie to zostało zrealizowane poprzez unifikację formatu pliku uruchomieniowego, obsługiwanego w \emph{Eclipse} (roz.~\ref{subsec:integracja}) oraz dostosowywanie do niego planerów poprzez skrypty powłoki systemu operacyjnego.
+Mnogość dostępnych narzędzi do wyznaczania planu, brak wśród nich jednoznacznego, powszechnie wykorzystywanego lidera oraz prawdopodobieństwo udoskonalania i powstawania nowych programów spowodowały, iż w projekcie GUI4PDDL powzięto założenie o~wsparciu dla uruchamiania jak największego zakresu istniejących rozwiązań (z planerem \emph{FastDownward} jako priorytetem). Wymaganie to zostało zrealizowane poprzez unifikację formatu pliku uruchomieniowego, obsługiwanego w \emph{Eclipse} (roz.~\ref{subsec:integracja}) oraz dostosowywanie do niego planerów poprzez skrypty powłoki systemu operacyjnego.
 
-Testy wykazały jednak, że środowisko programistyczne posiada kontrolę tylko nad procesami samych skryptów, natomiast wszystkie uruchamiane przez nie podprocesy (w tym proces programu planera) pozostają bez nadzoru. W przypadku, gdy użytkownik zainicjuje kilka zadań znajdowania planu jednocześnie, które z uwagi na swój charakter i wykorzystywany algorytm znacznie obciążają procesor, może dojść do obniżenia responsywności systemu operacyjnego. Wówczas, mimo zatrzymania działania głównego skryptu za pomocą przycisku \textit{Terminate} w widoku \textit{Console} (rys.~\ref{fig:terminate_button}), procesy planera nie zostaną zakończone, co może powodować dalszy spadek wydajności.
+Testy wykazały jednak, że środowisko programistyczne posiada kontrolę tylko nad procesami samych skryptów, natomiast wszystkie uruchamiane przez nie podprocesy (w~tym proces programu planera) pozostają bez nadzoru. W przypadku, gdy użytkownik zainicjuje kilka zadań znajdowania planu jednocześnie, które z uwagi na swój charakter i~wykorzystywany algorytm znacznie obciążają procesor, może dojść do obniżenia responsywności systemu operacyjnego. Wówczas, mimo zatrzymania działania głównego skryptu za pomocą przycisku \textit{Terminate} w widoku \textit{Console} (rys.~\ref{fig:terminate_button}), procesy planera nie zostaną zakończone, co może powodować dalszy spadek wydajności.
 
 \begin{figure}[h!]
     \centering
@@ -692,8 +693,8 @@ Testy wykazały jednak, że środowisko programistyczne posiada kontrolę tylko 
     \label{fig:terminate_button}
 \end{figure}
 
-Rozwiązaniem tego problemu jest implementacja własnej fabryki procesów (ang. \textit{process factory})\footnote{http://help.eclipse.org/indigo/topic/org.eclipse.platform.doc.isv/guide/debug\_launch\_processfactories.htm}. Rozszerzenie to, wspierane przez platformę \emph{Eclipse}, pozwala na przejęcie kontroli nad tworzeniem nowego, natywnego procesu. W odpowiedzialnej za to metodzie \texttt{newProcess} klasy \texttt{PDDLProcessFactory} zwracany jest obiekt podklasy (\texttt{RuntimeProcessWithChildProcessesTermination}) standardowego procesu, w której zmieniono część zajmującą się przerywaniem działania.
+Rozwiązaniem tego problemu jest implementacja własnej fabryki procesów (ang. \textit{process factory})\footnote{\url{http://help.eclipse.org/indigo/topic/org.eclipse.platform.doc.isv/guide/debug_launch_processfactories.htm}}. Rozszerzenie to, wspierane przez platformę \emph{Eclipse}, pozwala na przejęcie kontroli nad tworzeniem nowego, natywnego procesu. W odpowiedzialnej za to metodzie \texttt{newProcess} klasy \texttt{PDDLProcessFactory} zwracany jest obiekt podklasy (\texttt{RuntimeProcessWith\-ChildProcessesTermination}) standardowego procesu, w której zmieniono część zajmującą się przerywaniem działania.
 
-Nowy sposób zakończenia procesu opiera się na wykorzystaniu natywnych metod wspieranych systemów operacyjnych (Windows oraz Linux) poprzez bibliotekę \textit{JNA} (\textit{Java Native Access})\footnote{https://github.com/twall/jna}. Biblioteka ta pozwala na wykonywanie operacji specyficznych dla danej platformy bez konieczności dodatkowej konfiguracji. Za jej pomocą pobierany jest numer PID skryptu, który następnie podawany jest jako argument specyficznych dla systemu poleceń powłoki, odpowiedzialnych za przerywanie procesów. W przypadku systemu Windows jest to polecenie \emph{taskkill}, w przypadku rodziny Linux -- \emph{kill}, z odpowiednio przetworzonym drzewem podprocesów otrzymanym z komendy \emph{pstree}.
+Nowy sposób zakończenia procesu opiera się na wykorzystaniu natywnych metod wspieranych systemów operacyjnych (Windows oraz Linux) poprzez bibliotekę \textit{JNA} (\textit{Java Native Access})\footnote{\url{https://github.com/twall/jna}}. Biblioteka ta pozwala na wykonywanie operacji specyficznych dla danej platformy bez konieczności dodatkowej konfiguracji. Za jej pomocą pobierany jest numer PID skryptu, który następnie podawany jest jako argument specyficznych dla systemu poleceń powłoki, odpowiedzialnych za przerywanie procesów. W przypadku systemu Windows jest to polecenie \texttt{taskkill}, w przypadku rodziny Linux \texttt{kill}, z odpowiednio przetworzonym drzewem podprocesów otrzymanym z komendy \texttt{pstree}.
 
-Dzięki tak przygotowanemu wsparciu dla obsługi zakończenia skryptów, użytkownik jest w stanie kontrolować ich wykonywanie z poziomu \emph{Eclipse}, zarówno dla programów wsadowych (pliki \texttt{.bat} -- w systemie Windows), jak i dla poleceń powłoki \textit{bash} (w systemach z rodziny Linux).
+Dzięki tak przygotowanemu wsparciu dla obsługi zakończenia skryptów, użytkownik jest w stanie kontrolować ich wykonywanie z poziomu \emph{Eclipse}, zarówno dla programów wsadowych (pliki \texttt{.bat} w~systemie Windows), jak i dla poleceń powłoki \textit{bash} (w systemach z rodziny Linux).
