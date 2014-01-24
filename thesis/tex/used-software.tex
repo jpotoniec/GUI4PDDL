@@ -3,18 +3,19 @@
 \section{Eclipse}
 \label{sec:eclipseśrodowisko}
 \subsection{Rys historyczny}
-W 2001 roku pojawił się na rynku mało znany projekt typu \emph{otwarte oprogramowanie} – \emph{Eclipse 1.0}. Program ten został opisany jako ,,zintegrowane środowisko deweloperskie do wszystkiego i do niczego w szególności''\ref{eclipsearticle}. W założeniu nie miał to być kolejny zestaw narzędzi, a w pełni skalowanle i rozszerzalne środowisko programistyczne. Razem z programem, udostępniono szereg narzędzi dla programistów, umożliwiających rozwijanie projektu. Początkowo Eclipse powstał tylko po to, by dowieść, że można zbudować środowisko rozszerzalne w tak dużym zakresie. Dzięki społeczności, bardzo szybko środowisko to rozwinęło się na wiele języków programowania (ponad 1500 narzędzi w \emph{http://marketplace.eclipse.org} na początku stycznia 2014 roku).
+W 2001 roku pojawił się na rynku mało znany projekt typu \emph{otwarte oprogramowanie} – \emph{Eclipse 1.0}. Program ten został opisany jako ,,zintegrowane środowisko deweloperskie do wszystkiego i do niczego w szególności'' \cite{eclipsearticle}. W założeniu nie miał to być kolejny zestaw narzędzi, a w pełni skalowanle i rozszerzalne środowisko programistyczne. Razem z programem, udostępniono szereg narzędzi dla programistów, umożliwiających rozwijanie projektu. Początkowo Eclipse powstał tylko po to, by dowieść, że można zbudować środowisko rozszerzalne w tak dużym zakresie. Dzięki społeczności, bardzo szybko środowisko to rozwinęło się na wiele języków programowania (ponad 1500 narzędzi w \emph{Eclipse Marketplace}\footnote{\url{http://marketplace.eclipse.org}} na początku stycznia 2014 roku).
 
 Typowy wizerunek programisty otwartego oprogramowania ukazuje bezinteresownego programistę, nocami pracującego nad poprawą błędów i implementacją własnych pomysłów. W Eclipse, początkowe fragmenty kodu były napisane przez programistów firmy \emph{IBM}. Pracownicy ci dostawali pełne wynagrodzenie za pracę nad otwartym projektem, odpowiadaniem na pytania społeczności, naprawą błędów. Początkowy wkład w rozwój Eclipse miały firmy takie jak \emph{Borland}, \emph{IBM}, \emph{Merant}, \emph{QNX Software Systems}, \emph{Rational Software}, \emph{RedHat}, \emph{SuSE}, a także \emph{TogetherSoft}. Firmy te mogły dzięki temu liczyć na wypuszczenie na rynek programów komercyjnych bazujących na tym środowisku. 
 
 Pierwotnie Eclipse składał się z głównych elementów: \emph{Eclipse Platform}, \emph{Eclipse JDT} oraz \emph{Eclipse PDE}. Eclipse Platform stanowił bazę, środowisko programistyczne. JDT to skrót od \emph{Java Devevelopment Tools} - była to pierwsza większa wtyczka, umożliwiająca zarządzanie kodem Java. Jest ona dostępna do dziś, oczywiście w dużo bardziej zaawansowanej formie niż na początku. Ostatni element, PDE (\emph{Plug-in Development Environment}) to narzędzie do rozwijania środowiska Eclipse. Oferuje ono szereg domyślnych wtyczek, zawiera kreatory tworzenia nowych modułów, a także ogromną i wyczerpującą dokumentację na temat całego środowiska.
 
-Na początku Eclipse było znane jako czysta platforma, dziś jest to zaawansowane środowisko programistyczne z ponad 1500 mniejszymi i większymi rozszerzeniami. W Internecie można znaleźć narzędzia i wtyczki do Eclipse umożliwające pisanie i testowanie kodu niemal w każdym języku programowania.
+Na początku Eclipse było znane jako czysta platforma, dziś jest to zaawansowane środowisko programistyczne z ponad 1500 mniejszymi i większymi rozszerzeniami. W~Internecie można znaleźć narzędzia i wtyczki do Eclipse umożliwające pisanie i testowanie kodu niemal w każdym języku programowania.
 
 \subsection{Platforma}
 \label{subsec:platforma}
-Program Eclipse zbudowany jest w języku \emph{Java}, wymaga więc zainstalowanej Javy na komputerze użytkownika.  Całe środowisko składa się osobnych wtyczek współpracyjących ze sobą, oraz rdzenia samego programu (ang. \emph{Eclipse kernel}). Wtyczka to nic innego, jak plik \emph{JAR} z manifestem, określającym zachowanie i przeznaczenie modułu. W manifestach zawierane są również informacje na temat zależności między wtyczkami:
+Program Eclipse zbudowany jest w języku \emph{Java}, wymaga więc zainstalowanej Javy na komputerze użytkownika.  Całe środowisko składa się osobnych wtyczek współpracyjących ze sobą, oraz rdzenia samego programu (ang. \emph{Eclipse kernel}). Wtyczka to plik \emph{JAR} z manifestem, określającym zachowanie i przeznaczenie modułu. W manifestach zawierane są również informacje na temat zależności między wtyczkami:
 
+\JP{Skoro wcześniej przykłady były opakowane w ramki i miały swoje numery to tutaj też musi być w ten sposób. Co więcej, skoro jest taki przykład XMLa to musi on być skrótowo chociaż opisany.}
 Przykład zależności między wtyczkami opisanych w pliku plugin.xml
 \begin{verbatim}
 <requires>
@@ -28,7 +29,7 @@ Przykład zależności między wtyczkami opisanych w pliku plugin.xml
 </requires>
 \end{verbatim}
 
-By zachęcić twórców do rozwijania środowiska Eclipse, wymyślono tzw. \emph{Extension Points}. Extension Points to instrukcje informujące Eclipse, jakich klas użyć do rozszerzenia elementów takich jak okna, menu kontekstowe, kreatory. Korzystając z tych punktów można domyślne elementy podmienić własnymi, bardziej rozbudowanymi modułami. Dzięki takiemu rozwiązaniu, rdzenną aplikację można niemal w nieograniczony sposób dostosować do swoich potrzeb.\ref{ana_structure}
+By zachęcić twórców do rozwijania środowiska Eclipse, wymyślono tzw. \emph{Extension Points}. Extension Points to instrukcje informujące Eclipse, jakich klas użyć do rozszerzenia elementów takich jak okna, menu kontekstowe, kreatory. Korzystając z tych punktów można domyślne elementy podmienić własnymi, bardziej rozbudowanymi modułami. Dzięki takiemu rozwiązaniu, rdzenną aplikację można niemal w nieograniczony sposób dostosować do swoich potrzeb.\ref{ana_structure}\JP{$\leftarrow$ A to co? Numer rysunku nie może sobie tak samotnie wisieć. Nie mówiąc o tym, że tu chyba powinno być 4.1, a nie 6.12?}
 
 \begin{figure}[h]
   \centering
@@ -44,7 +45,7 @@ Pojęcie perspektywy jest ważnym elementem środowiska Eclipse. Perspektywy poz
 
 \section{ANTLR}
 \label{sec:antlrśrodowisko}
-ANTLR (ang. \emph{ANother Tool for Language Recognition}) jest generatorem
+ANTLR\footnote{\url{http://www.antlr3.org}} (ang. \emph{ANother Tool for Language Recognition}) jest generatorem
 analizatorów leksykalnych i składniowych \cite{antlr}.
 
 Narzędzie przetwarza opisy gramatyk języków formalnych w postaci 
@@ -57,12 +58,12 @@ Istotną zaletą oprogramowania jest jego prostota użycia. Wygenerowany kod
 jest czytelny i może zostać łatwo dołączony do tworzonej aplikacji. Postać plików
 wejściowych jest podobna dla wszystkich rodzajów analizatorów. Dodatkowo
 istnieją narzędzia wspierające projektowanie i implementację gramatyk
-formalnych z wykorzystaniem ANTLR. Należy do nich ANTLRWorks, będące
+formalnych z wykorzystaniem ANTLR. Należy do nich \emph{ANTLRWorks}\footnote{\url{http://www.antlr3.org/works/}}, będące
 zintegrowanym środowiskiem programistycznym. Zawiera ono edytor strukturalny,
 zintegrowany program do usuwania błędów i moduł do wizualizacji struktur 
 danych powstających podczas translacji.
 
-ANTLR został opublikowany wraz z kodem źródłowym na licencji BSD\footnote{http://www.antlr3.org}. 
+ANTLR został opublikowany wraz z kodem źródłowym na licencji BSD. 
 Projekt jest
 aktywnie rozwijany. Wiele programów zawiera analizatory wygenerowane za pomocą
 ANTLR, np. \emph{Hibernate}\footnote{http://hibernate.org}, \emph{Jython}\footnote{http://jython.org}
@@ -99,7 +100,7 @@ Konkretny ciąg znaków pasujący do wzorca nazwany jest \emph{leksemem}.
 Wzorce często opisywane są za pomocą wyrażeń regularnych.
 
 Analiza składniowa ma na celu hierarchiczne zgrupowanie symboli leksykalnych 
-w zagnieżdżone struktury. Poprawną postać takich struktur, zwanych wyrażeniami gramatycznymi,
+w~zagnieżdżone struktury. Poprawną postać takich struktur, zwanych wyrażeniami gramatycznymi,
 podaje specyfikacja języka. Podział na analizę składniową i leksykalną jest umowny.
 Dokonuje się go w taki sposób, żeby uprościć konstrukcje analizatora. Przyjętym kryterium podziału
 jest to, czy dana struktura jest rekurencyjna. Opis symboli leksykalnych zwykle nie wymaga rekursji.
@@ -114,6 +115,7 @@ Jednym z formalizmów, odzwierciedlającym hierarchiczną strukturę konstrukcji
 jest \emph{gramatyka bezkontekstowa} \cite{compilers}. Składa się ona z czterech elementów:
 
 %Nie udało mi się uniknąć powtórzenia niektórych wyrażeń w definicji. Czy to jest problem?
+%Żaden, w tekstach techniczno-naukowych to wprost porządane. - JP
 \begin{itemize}
 \item Zbioru symboli leksykalnych zwanych \emph{symbolami terminalnymi} lub \emph{terminalami}.
 \item Zbioru symboli \emph{nieterminalnych}.
@@ -128,7 +130,7 @@ od symbolu startowego i zamieniając symbole nieterminalne na ciągi znajdujące
 się po prawych stronach produkcju, można otrzymać dany ciąg. Sposób, w~jaki
 można wyprowadzić dany napis obrazuje \emph{drzewo wyprowadzania}. W~korzeniu drzewa wyprowadzania
 znajduje się symbol startowy. Dzieci wierzchołka reprezentującego symbol nieterminalny
-zawierają symbole z prawej strony produkcji użytej do jego zastąpienia.
+zawierają symbole z~prawej strony produkcji użytej do jego zastąpienia.
 
 
 %\JP{Proszę przepisać bezosobowo. Ja chyba nie do końca rozumiem czym jest requirementName, bo potem pojawia się :strips jako konkretny przykład. Dobrze by też było, żeby ten przykład był trochę bardziej rozbudowany, bo potem rysunek \ref{antlr_ast} wygląda drętwo.}
@@ -265,7 +267,7 @@ Wywoływane metody mają jedynie dostęp do informacji związanych z bieżącym 
 Nie jest im przekazywana informacja kontekstowa o otaczających wierzchołkach.
 
 Zalecanym sposobem przetwarzania abstrakcyjnych drzew składniowych jest analizator drzewowy
-(ang \emph{tree parser}). Jest to podprogram generowany przez
+(ang \emph{tree parser})\JP{Skoro to jest tree parser to dlaczego tego nie tłumaczyć jako analizator drzew? Z opisu na http://www.antlr2.org/doc/sor.html wynika mi, że on właśnie analizuje drzewa, a nie używa drzew do analizy czegoś innego?}. Jest to podprogram generowany przez
 ANTLR na podstawie specyfikacji, tak jak analizator składniowy lub leksykalny.
 Podprogram ten przechodzi przez drzewo, sprawdzając jego strukturę. Informacja o wierzchołkach
 nadrzędnych jest przekazywana ,,w dół''. Wprowadzenie analizatorów drzewowych 
@@ -348,12 +350,12 @@ prawy nawias \texttt{PRIGHT}, słowo kluczowe \texttt{REQUIREMENTS} oraz
 nazwa wymagania \texttt{REQUIREMENT\_NAME}. Pierwsze trzy z nich 
 odpowiadają pojedynczym ciągom znaków (literałom). Można je umieścić
 w sekcji \texttt{tokens}. Wówczas istnieje możliwość wymiennego używania 
-nazwy symbolu i literału, co zwiększa czytelność pliku. Symbol
+nazwy symbolu i~literału, co zwiększa czytelność pliku. Symbol
 \texttt{REQUIREMENT\_NAME} jest określony za pomocą wyrażenia regularnego
 w linijce 24.
 
 Zostały zdefiniowane dwa symbole nieterminalne: requirementsList i R.
-Pierwszy z nich jest symbolem startowym. W produkcjach
+Pierwszy z~nich jest symbolem startowym. W produkcjach
 je definiujących, znak strzałki jest zastąpiony dwukropkiem. W przypadku,
 kiedy w gramatyce występują alternatywne produkcje posiadające po lewej
 stronie ten sam symbol nieterminalny, rozdziela się je znakiem ,,|''.
