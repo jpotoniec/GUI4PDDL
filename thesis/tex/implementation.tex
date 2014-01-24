@@ -1,5 +1,7 @@
 \chapter{Implementacja}
+\label{sec:implementacja}
 \section{Zarządzanie projektem PDDL}
+\label{sec:zarzadzanie}
 \subsection{Tworzenie projektu PDDL}
 \begin{figure}[h]
   \centering
@@ -140,6 +142,7 @@ działanie byłoby uciążliwe. Dlatego też, po wystąpieniu błędu analizator
 próbę odzyskania kontroli. Analizator leksykalny przechodzi w tryb paniki. Po napotkaniu 
 błędu pomija znaki na wejściu aż do napotkania znaku, który pownien wystąpić.
 
+\begin{sloppypar}
 Domyślna strategia odzyskiwania kontroli przez analizatory składniowe wygenerowane 
 za pomocą ANTLR jest opisana w \cite{antlr}. Ze względu na specyfikę języka PDDL
 należało wprowadzić pewne poprawki. Pierwsza z nich dotyczy błędów zgłoszonych na końcu pliku.
@@ -147,6 +150,7 @@ Zwykle są to błędy wynikające z niedopasowania liczby nawiasów.
 Metoda \texttt{recoverFromMismatchedToken} wstawia symbole \textbf{)} tak długo, jak to jest konieczne.
 Druga poprawka dotyczy sytuacji, kiedy w miejscu wystąpieniu błędu nie możebyć użyta żadna
 z produkcji. Metoda \texttt{recover} próbuje opuścić bieżący poziom zagnieżdżenia.
+\end{sloppypar}
 
 \begin{Code}
 \begin{lstlisting}[language=LISP,frame=single,label=ana_code, caption=Kod PDDL zawierający błąd składniowy]
@@ -207,8 +211,6 @@ dla oprogramowania wyznaczającego plan.
 Klasa \texttt{PDDLType} reprezentuje typ w języku PDDL. Wspierane są typy proste, typy 
 zmienne w czasie \emph{fluent}, oraz typy złożone \emph{either}.
 Typ \texttt{PDDLTypedList} odpowiada liście z określeniami typów opisanej w specyfikacji PDDL.
-\texttt{PDDLTypedList} stanowi listę wielkości\JP{?} charakteryzowanych przez nazwę, będącą 
-łańcuchem znaków, oraz typ.
 
 \subsection{Wykrywanie błędów semantycznych}
 Do wykrywania błędów semantycznych służy analizator drzewowy, którego gramatyka znajduje się
