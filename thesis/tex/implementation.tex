@@ -13,7 +13,7 @@ W pliku \emph{plugin.xml} utworzono \emph{Extension Point}, w którym zawarto in
 
 Drugi sposób to wybranie osobnej opcji \emph{PDDL Project}(rys. 6.1). Ta opcja również wymagała utworzenia \emph{Extension Point}. W tym wypadku jednak punkt nie zawiera informacji o nowym kreatorze, a wskazuje na wcześniej wymieniony kreator projektu PDDL.
 
-\emph{Extension Point} wywołuje klasę \texttt{PDDLProjectWizard}, która inicjalizuje nową instancję klasy \textt{PDDLProjectNameAndLocationWizard}, która wyświetla stronę w kreatorze zawierającą pole do podania nazwy kreatora i lokalizacji. 
+\emph{Extension Point} wywołuje klasę \texttt{PDDLProjectWizard}, która inicjalizuje nową instancję klasy \texttt{PDDLProjectNameAndLocationWizard}, która wyświetla stronę w kreatorze zawierającą pole do podania nazwy kreatora i lokalizacji. 
 
 Po wybraniu nazwy projektu i opcjonalnie lokalizacji (domyślnie aktywny \emph{workspace}), klasa \texttt{PDDLProjectNameAndLocationWizard} przekazuje informacje ze strony do głównego kreatora, który wykorzystując domyslne funkcje środowiska Eclipse tworzy nowy, pusty projekt. \emph{Extension Point} zawiera informacje o zalecanym widoku perspektywy \emph{PDDLPerspective}, dlatego po utworzeniu projektu i aktywowaniu go Eclipse zaproponuje przejście do tej perspektywy.
 
