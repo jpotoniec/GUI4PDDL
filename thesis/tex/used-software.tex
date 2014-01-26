@@ -13,27 +13,19 @@ Na początku Eclipse było znane jako czysta platforma, dziś jest to zaawansowa
 
 \subsection{Platforma}
 \label{subsec:platforma}
-Program Eclipse zbudowany jest w języku \emph{Java}, wymaga więc zainstalowanej Javy na komputerze użytkownika.  Całe środowisko składa się osobnych wtyczek współpracyjących ze sobą, oraz rdzenia samego programu (ang. \emph{Eclipse kernel}). Wtyczka to plik \emph{JAR} z manifestem, określającym zachowanie i przeznaczenie modułu. W manifestach zawierane są również informacje na temat zależności między wtyczkami:
-
-\JP{Skoro wcześniej przykłady były opakowane w ramki i miały swoje numery to tutaj też musi być w ten sposób. Co więcej, skoro jest taki przykład XMLa to musi on być skrótowo chociaż opisany.}
-Przykład zależności między wtyczkami opisanych w pliku plugin.xml
-\begin{verbatim}
-<requires>
-	<import plugin="org.apache.xerces"/>
-	<import plugin="org.eclipse.core.resources"/>
-	<import plugin="org.eclipse.update.core"/>
-	:       :        :
-	<import plugin="org.eclipse.text" export="true"/>
-	<import plugin="org.eclipse.ui.workbench.texteditor" export="true"/>
-	<import plugin="org.eclipse.ui.editors" export="true"/>
-</requires>
-\end{verbatim}
+Program Eclipse zbudowany jest w języku \emph{Java}, wymaga więc zainstalowanej Javy na komputerze użytkownika.  Całe środowisko składa się osobnych wtyczek współpracyjących ze sobą, oraz rdzenia samego programu (ang. \emph{Eclipse kernel}). Wtyczka to plik \emph{JAR} z manifestem, określającym zachowanie i przeznaczenie modułu. W manifestach zawierane są również informacje na temat zależności między wtyczkami, a także informacje, jakie moduły eclipse będą zawarte we wtyczce \ref{eclipse_example}.
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=\textwidth]{img/eclipse-example.png}
+    \caption{Przykład zależności między wtyczkami opisanych w pliku plugin.xml}
+    \label{eclipse_example}
+\end{figure}
 
 By zachęcić twórców do rozwijania środowiska Eclipse, wymyślono tzw. \emph{Extension Points}. Extension Points to instrukcje informujące Eclipse, jakich klas użyć do rozszerzenia elementów takich jak okna, menu kontekstowe, kreatory. Korzystając z tych punktów można domyślne elementy podmienić własnymi, bardziej rozbudowanymi modułami. Dzięki takiemu rozwiązaniu, rdzenną aplikację można niemal w nieograniczony sposób dostosować do swoich potrzeb.\ref{ana_structure}\JP{$\leftarrow$ A to co? Numer rysunku nie może sobie tak samotnie wisieć. Nie mówiąc o tym, że tu chyba powinno być 4.1, a nie 6.12?}
 
 \begin{figure}[h]
   \centering
-    \includegraphics{img/custom-window.png}
+    \includegraphics[width=\textwidth]{img/custom-window.png}
     \caption{Dodatkowa zakładka Plan Browser}
     \label{ana_structure}
 \end{figure}

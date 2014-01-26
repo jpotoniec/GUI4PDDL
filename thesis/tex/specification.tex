@@ -1,10 +1,11 @@
 \chapter{Specyfikacja wymagań}
 \label{sec:specyfikacja}
-\section{Wstęp}
-Założeniem projektu było utworzenie lekkiego i wydajnego nardzędzia do programowania w języku PDDL. Dodatkowym ważnym wymaganiem było wsparcie zewnętrznego planera FastDownward oraz możliwe dalsze rozwijanie aplikacji w kiedunku innych planerów. Aplikacja powinna pomagać użytkownikowi w utworzeniu plików PDDL, a później w zarządzaniu kodem. Kluczowym elementem zarządzania kodem jest wykrywanie błędów oraz wyświetlenie kodu w czytelnej formie. Aplikacja ma za zadanie pokolorować kod, oddzielić kluczowe fragmenty i podpowiadać słowa kluczowe, wzorem z popularnych środowisk pracy typu edytory języków Java lub Pascal. Ponadto sama aplikacja miała być łatwo dostępna i łatwa w instalacji, jak również w użytkowaniu.
 \section{Wymagania funkcjonalne}
+\subsection{Wstęp}
+Założeniem projektu było utworzenie lekkiego i wydajnego nardzędzia do programowania w języku PDDL. Dodatkowym ważnym wymaganiem było wsparcie zewnętrznego planera FastDownward oraz możliwe dalsze rozwijanie aplikacji w kiedunku innych planerów. Aplikacja powinna pomagać użytkownikowi w utworzeniu plików PDDL, a później w zarządzaniu kodem. Kluczowym elementem zarządzania kodem jest wykrywanie błędów oraz wyświetlenie kodu w czytelnej formie. Aplikacja ma za zadanie pokolorować kod, oddzielić kluczowe fragmenty i podpowiadać słowa kluczowe, wzorem z popularnych środowisk pracy typu edytory języków Java lub Pascal. Ponadto sama aplikacja miała być łatwo dostępna i łatwa w instalacji, jak również w użytkowaniu.
 \JP{A nie możnaby kolorowania i wykrywania błędów połączyć w jedno? Coś pokroju: Wspomaganie użytkownika w pracy z edytorem?}
-\subsection{Kolorowanie składni}
+\subsection{Przypadki użycia}
+\subsubsection{Kolorowanie składni}
 \begin{tabular}{|p{\textwidth}|}
 \hline 
 \textbf{Przypadek użycia:} Kolorowanie składni\\
@@ -33,7 +34,7 @@ Założeniem projektu było utworzenie lekkiego i wydajnego nardzędzia do progr
 \hline
 \end{tabular} 
 
-\subsection{Wykrywanie błędów}
+\subsubsection{Wykrywanie błędów}
 \label{reqErrorDetection}
 \begin{tabular}{|p{\textwidth}|}
 \hline 
@@ -64,7 +65,7 @@ Założeniem projektu było utworzenie lekkiego i wydajnego nardzędzia do progr
 \hline
 \end{tabular}
 
-\subsection{Podpowiadanie składni}
+\subsubsection{Podpowiadanie składni}
 \label{reqAutocompletion}
 \begin{tabular}{|p{\textwidth}|}
 \hline 
@@ -96,7 +97,7 @@ Założeniem projektu było utworzenie lekkiego i wydajnego nardzędzia do progr
 \hline
 \end{tabular}
 
-\subsection{Tworzenie nowego pliku PDDL}
+\subsubsection{Tworzenie nowego pliku PDDL}
 \label{reqAutocompletion}
 \begin{tabular}{|p{\textwidth}|}
 \hline 
@@ -126,11 +127,11 @@ Założeniem projektu było utworzenie lekkiego i wydajnego nardzędzia do progr
 \hline
 \end{tabular}
 
-\subsection{Repozytorium kodu}
+\subsubsection{Instalacja aplikacji przez repozytorium}
 \label{reqAutocompletion}
 \begin{tabular}{|p{\textwidth}|}
 \hline 
-\textbf{Przypadek użycia:} Repozytorium kodu\\
+\textbf{Przypadek użycia:} Instalacja aplikacji przez repozytorium\\
 \hline
 \textbf{Aktorzy:} Użytkownik\\
 \hline
@@ -162,7 +163,7 @@ Oprogramowanie jest kompletne, dojrzałe. Aplikacja pozbawiona jest błędów, k
 \subsection*{Użyteczność}
 Plugin \emph{GUI4PDDL} wykorzystuje wszelkie formy pomocy dla użytkownika dostępne w środowisku \emph{Eclipse}. Użytkownik jest zawsze w prosty i czytelny sposób poinformowany o stanie swojego kodu oraz o błędach w kodzie. Kolorowanie składni pozwala z łatwością wykryć podstawowe błędy gramatyczne, a automatyczne wcięcia i kolorowe nawiasy umożliwiają szybkie znalezienie braków. Dodatkowo umożliwia intuicyjne korzystanie z wcześniej zdefiniowanych plannerów, wykorzystując np. domyślny przycisk uruchamiania kodu \emph{Eclipse}, co pozwala na szybkie i proste użytkowanie kodu przez użytkownika.
 \subsection*{Wydajność}
-Aplikacja jest bardzo lekka i pracuje w czasie rzeczywistym. Dzięki multiplatformowości użytkownik może korzystać ze wszystkich funkcji programu w systemach operacyjnych \emph{Windows XP}\ i wyżej oraz we wszystkich dystrybucjach linuksa nowszych od \emph{Ubuntu 10.04} lub porównywalnych.
+Aplikacja jest bardzo lekka i pracuje w czasie rzeczywistym. Dzięki multiplatformowości użytkownik może korzystać ze wszystkich funkcji programu w systemach operacyjnych \emph{Windows XP}\ i wyżej oraz we wszystkich dystrybucjach linuksa nowszych od \emph{Ubuntu 10.04} lub porównywalnych w których zainstalowane jest środowisko \emph{JDK}.
 \subsection*{Łatwość konserwacji}
 Kod jest utrzymywany w postaci modułowej. Modułowość wzorowana na innych wtyczkach programu Eclipse pozwala na łatwą i nieograniczoną rozbudowę aplikacji \emph{GUI4PDDL}. Dzięki architekturze modułowej, w przypadku wystąpienia błędów podczas rozszerzania wtyczki, aplikacja nie narusza ważnych elementów środowiska w którym pracuje. Wykorzystując schematy stosowane przez twórców \emph{Eclipse} kod jest stabilny i czytelny, zachowując odpowiednie standardy.
 

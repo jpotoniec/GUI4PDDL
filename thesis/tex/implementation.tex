@@ -13,7 +13,7 @@ Tworzenie nowego projektu PDDL polega na wywołaniu odpowiedniego kreatora. Moż
 
 W pliku \emph{plugin.xml} utworzono \emph{Extension Point}, w którym zawarto informację o typie nowego kreatora, jego przeznaczeniu, a także jaki projekt ma być utworzony przy użyciu tego kreatora. Znajdują się tam także informacje o ikonie projektu, a także perspektywie projektu. Ta ostania jest ważna, ponieważ w widoku perspektywu PDDL pojawiają się nowe funkcje specjalnie stworzone na potrzeby języka. 
 
-Drugi sposób to wybranie osobnej opcji \emph{PDDL Project} (rys. \ref{fig:impl:new-project}). Ta opcja również wymagała utworzenia \emph{Extension Point}. W tym wypadku jednak punkt nie zawiera informacji o nowym kreatorze, a wskazuje na wcześniej wymieniony kreator projektu PDDL.
+Drugi sposób to wybranie osobnej opcji \emph{PDDL Project} \ref{fig:impl:new-project}. Ta opcja również wymagała utworzenia \emph{Extension Point}. W tym wypadku jednak punkt nie zawiera informacji o nowym kreatorze, a wskazuje na wcześniej wymieniony kreator projektu PDDL.
 
 \emph{Extension Point} wywołuje klasę \texttt{PDDLProjectWizard}, która inicjalizuje nową instancję klasy \texttt{PDDLProjectNameAndLocationWizard}, która wyświetla stronę w kreatorze zawierającą pole do podania nazwy kreatora i lokalizacji. 
 
@@ -21,8 +21,7 @@ Po wybraniu nazwy projektu i opcjonalnie lokalizacji (domyślnie aktywny \emph{w
 
 
 \subsection{Tworzenie nowych plików PDDL}
-\JP{Zamiast \emph{domena} ma być \emph{dziedzina}!}
-Każdy projekt PDDL powinien zawierać przynajmniej jeden plik problemu oraz jeden plik domeny. Wymaga tego gramatyka języka PDDL, aczkolwiek jest możliwe utworzenie większej liczby plików problemu dla tej samej domeny. Jest tak dlatego, ponieważ plik domeny zawiera definicje świata i reguł w nim panujących. Plik problemu definiuje dany problem lub sytuację, którą chcemy wykonać danym świecie. Każdy z plików różni się od siebie, dlatego użytkownik tworząc nowy plik otrzymuje szablon w zależności od wybranej opcji w kreatorze. 
+Każdy projekt PDDL powinien zawierać przynajmniej jeden plik \emph{problemu} oraz jeden plik \emph{dziedziny}. Wymaga tego gramatyka języka PDDL, aczkolwiek jest możliwe utworzenie większej liczby plików problemu dla tej samej dziedziny. Jest tak dlatego, ponieważ plik dziedziny zawiera definicje świata i reguł w nim panujących. Plik problemu definiuje dany problem lub sytuację, którą chcemy wykonać danym świecie. Każdy z plików różni się od siebie, dlatego użytkownik tworząc nowy plik otrzymuje szablon w zależności od wybranej opcji w kreatorze. 
 
 Tworzenie pliku PDDL polega na wybraniu odpowiedniej opcji, podobnie jak w kreatorze nowego projektu PDDL, na dwa sposoby. Po otwarciu właściwego kreatora, \emph{Extension Point} uruchamia klasę \texttt{PDDLFileWizard}. Klasa ta tworzy okno kreatora, a następne tworzy nową instancję klasy \texttt{PDDLFilePage}, która wyświetla opcję do wyboru typu pliku PDDL oraz okno na nazwę oraz lokalizację.
 
@@ -323,47 +322,46 @@ W narzędziu GUI4PDDL zaimplementowane zostało podpowiadanie:
 
 \section{Edytor}
 \label{sec:edytor}
-\JP{UWAGA: móstwo rysunków w tym pliku ma ten sam label: ana\_structure. Proszę coś z tym zrobic!}
-Edytor kodu we wtyczce GUI4PDDL zajmuje się kolorowaniem kodu, dopasowywaniem nawiasów oraz podpowiedziami kodu. Automatyczne wcięcia zaimplementowane są domyślnie w edytorze Eclipse, tak więc po wpisaniu znaku nowej linii kursor automatycznie ustawia się w takiej odległości od lewej krawędzi, jak w poprzedniej linii kodu.
-\subsection{Kolorowanie kodu}
+Edytor kodu we wtyczce GUI4PDDL zajmuje się kolorowaniem składni, dopasowywaniem nawiasów oraz podpowiedziami kodu. Automatyczne wcięcia zaimplementowane są domyślnie w edytorze Eclipse, tak więc po wpisaniu znaku nowej linii kursor automatycznie ustawia się w takiej odległości od lewej krawędzi, jak w poprzedniej linii kodu.
+\subsection{Kolorowanie składni}
 \begin{figure}[h]
   \centering
     \includegraphics[width=13cm,height=7cm,keepaspectratio]{img/colored-code.png}
-    \caption{Pokolorowany kod PDDL}
-    \label{ana_structure}
+    \caption{Pokolorowana składnia kodu w języku PDDL}
+    \label{colored-code}
 \end{figure}
-Aby zaimplementować kolorowanie kodu, wykorzystano metody ze środowiska programistycznego Eclipse. Dokument wstępnie dzielony jest na partycje, czyli fragmenty kodu mające charakterystyczne cechy. Następnie każda partycja jest dzielona na tzw. tokeny. W GUI4PDDL kod podzielony jest na 2 partycje. Pierwsza partycja obejmuje komentarze. Klasa \texttt{PDDLPartitionScanner} znajduje fragmenty kodu rozpoczynające się od znaku ";", np.  ";testowy kometarz". Od tego znaku aż do końca linii, zgodnie z gramatyką języka PDDL, tekst traktowany jest jako komentarz (rys.6.7).
+Aby zaimplementować kolorowanie składni, wykorzystano metody ze środowiska programistycznego Eclipse. Dokument wstępnie dzielony jest na partycje, czyli fragmenty kodu mające charakterystyczne cechy. Następnie każda partycja jest dzielona na tzw. tokeny. W GUI4PDDL kod podzielony jest na 2 partycje. Pierwsza partycja obejmuje komentarze. Klasa \texttt{PDDLPartitionScanner} znajduje fragmenty kodu rozpoczynające się od znaku ";", np.  ";testowy kometarz". Od tego znaku aż do końca linii, zgodnie z gramatyką języka PDDL, tekst traktowany jest jako komentarz \ref{comments}.
 \begin{figure}[h]
   \centering
     \includegraphics[width=7cm,height=7cm,keepaspectratio]{img/comments.png}
     \caption{Komentarze są możliwe również na końcu linii}
-    \label{ana_structure}
+    \label{comments}
 \end{figure}
-Pozostałe fragmenty kodu poddawane są dalszej analizie. Klasa \texttt{DefaultScanner} zawiera listę słów kluczowych oraz definicje tokenów i reguł. Reguły wywoływane są w specjalnej kolejności, by wykluczyć błędne dopasowanie kodu do tokena. Pierwsza reguła szuka słów kluczowych zaczynających się znakiem ":".  Od tego znaku, aż do końca słowa (dopuszczalny myślnik) tekst przyrównywany jest do listy słów kluczowych. Jeśli słowo znajduje się na liście, fragment kodu oznaczony jest tokenem valueToken (rys. 6.8).
+Pozostałe fragmenty kodu poddawane są dalszej analizie. Klasa \texttt{DefaultScanner} zawiera listę słów kluczowych oraz definicje tokenów i reguł. Reguły wywoływane są w specjalnej kolejności, by wykluczyć błędne dopasowanie kodu do tokena. Pierwsza reguła szuka słów kluczowych zaczynających się znakiem ":".  Od tego znaku, aż do końca słowa (dopuszczalny myślnik) tekst przyrównywany jest do listy słów kluczowych. Jeśli słowo znajduje się na liście, fragment kodu oznaczony jest tokenem valueToken \ref{values_color}.
 
 \begin{figure}[h]
   \centering
     \includegraphics[width=7cm,height=7cm,keepaspectratio]{img/values-color.png}
     \caption{Słowa kluczowe oznaczone tokenem valueToken}
-    \label{ana_structure}
+    \label{values_color}
 \end{figure}
 
- W przeciwnym wypadku edytor ,,cofa się'' na początek analizowanego kodu i klasa \texttt{DefaultScanner} wywołuje kolejną regułę. Następna metoda znajduje fragmenty kodu rozpoczynające się na znak "?".  Podobnie jak w przypadku pierwszej reguły, skaner odczytuje kolejne litery lub cyfry (dopuszczalne znaki specjalne to kropka oraz myślnik). Taki fragment oznaczony jest jako zmienna w języku PDDL. Tekst otrzymuje token variableToken (rys. 6.9).
+ W przeciwnym wypadku edytor ,,cofa się'' na początek analizowanego kodu i klasa \texttt{DefaultScanner} wywołuje kolejną regułę. Następna metoda znajduje fragmenty kodu rozpoczynające się na znak "?".  Podobnie jak w przypadku pierwszej reguły, skaner odczytuje kolejne litery lub cyfry (dopuszczalne znaki specjalne to kropka oraz myślnik). Taki fragment oznaczony jest jako zmienna w języku PDDL. Tekst otrzymuje token variableToken \ref{variable_color}.
 
 \begin{figure}[h]
   \centering
     \includegraphics[width=7cm,height=7cm,keepaspectratio]{img/variable-color.png}
     \caption{Słowa kluczowe oznaczone tokenem variableToken}
-    \label{ana_structure}
+    \label{variable_color}
 \end{figure}
 
-Kolejna reguła wyszukuje stałe słowa, takie jak np. define. Metoda ta działa identycznie, jak w przypadku \emph{valueRule}. Fragment kodu dopasowany jest do listy słów kluczowych z listy keywords. Elementy pasujące do reguły otrzymują token keywordToken. Reguła dotycząca nawiasów to \emph{BracketRule}. Ponieważ w języku PDDL nie dopuszcza się znaków ,,('' oraz ,,)'' w nazwach zmiennych, ani słowach kluczowych, BracketRule analizuje znaki szukając nawiasów okrągłych. Znaki te otrzymują token bracketToken (rys 6.10).
+Kolejna reguła wyszukuje stałe słowa, takie jak np. define. Metoda ta działa identycznie, jak w przypadku \emph{valueRule}. Fragment kodu dopasowany jest do listy słów kluczowych z listy keywords. Elementy pasujące do reguły otrzymują token keywordToken. Reguła dotycząca nawiasów to \emph{BracketRule}. Ponieważ w języku PDDL nie dopuszcza się znaków ,,('' oraz ,,)'' w nazwach zmiennych, ani słowach kluczowych, BracketRule analizuje znaki szukając nawiasów okrągłych. Znaki te otrzymują token bracketToken \ref{bracket_color}.
 
 \begin{figure}[h]
   \centering
     \includegraphics[width=7cm,height=7cm,keepaspectratio]{img/bracket-color.png}
     \caption{Nawiasy oznaczone tokenem bracketToken}
-    \label{ana_structure}
+    \label{bracket_color}
 \end{figure}
 
 Przedostatnia reguła znajduje wszystkie puste znaki, wykorzystując wbudowany interfejs \texttt{IWhitespaceDetector} oraz metodę \texttt{Character.isWhitespace()}. Jeśli fragment kodu nie dostał żadnego tokenu, otrzymuje token domyślny.  Po podziale kodu na tokeny, środowisko Eclipse używając wbudowanych metod, koloruje tokeny na kolory ustalone przez użytkownika w ustawieniach, bądź domyślne, zdefiniowane w klasie \texttt{Activator}.
@@ -372,13 +370,13 @@ Przedostatnia reguła znajduje wszystkie puste znaki, wykorzystując wbudowany i
   \centering
     \includegraphics[width=7cm,height=7cm,keepaspectratio]{img/matched-bracket.png}
     \caption{Zaznaczony nawias w parze z nawiasem spod kursora}
-    \label{ana_structure}
+    \label{matched_bracket}
 \end{figure}
 \begin{figure}[h]
   \centering
     \includegraphics[width=7cm,height=7cm,keepaspectratio]{img/matched-bracket-reverse.png}
     \caption{Zaznaczanie działa w obie strony}
-    \label{ana_structure}
+    \label{matched_bracket_reverse}
 \end{figure}
 Środowisko Eclipse posiada wbudowaną metodę \texttt{TextEditor.configureSourceViewerDecorationSupport()}. W klasie PDDLEditor zostaje ona nadpisana własną funkcją. Wykorzystano metodę \texttt{setCharacterPairMatcher}. Metoda ta wyszukuje rekurencyjnie kolejne pary znaków ,,('' oraz ,,)''.  W edytorze dopasowane nawiasy są sparowane, więc przy zaznaczaniu jednego znaku z pary, drugi nawias otoczony jest szarą obwódką. Dzięki temu użytkownik szybko zauważy dopasowany nawias lub jego brak.
 \subsection{Podpowiadanie kodu}
