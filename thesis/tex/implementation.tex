@@ -13,7 +13,7 @@ Tworzenie nowego projektu PDDL polega na wywołaniu odpowiedniego kreatora. Moż
 
 W pliku \emph{plugin.xml} utworzono \emph{Extension Point}, w którym zawarto informację o typie nowego kreatora, jego przeznaczeniu, a także jaki projekt ma być utworzony przy użyciu tego kreatora. Znajdują się tam także informacje o ikonie projektu, a także perspektywie projektu. Ta ostania jest ważna, ponieważ w widoku perspektywu PDDL pojawiają się nowe funkcje specjalnie stworzone na potrzeby języka. 
 
-Drugi sposób to wybranie osobnej opcji \emph{PDDL Project} \ref{fig:impl:new-project}. Ta opcja również wymagała utworzenia \emph{Extension Point}. W tym wypadku jednak punkt nie zawiera informacji o nowym kreatorze, a wskazuje na wcześniej wymieniony kreator projektu PDDL.
+Drugi sposób to wybranie osobnej opcji \emph{PDDL Project} (rys. \ref{fig:impl:new-project}). Ta opcja również wymagała utworzenia \emph{Extension Point}. W tym wypadku jednak punkt nie zawiera informacji o nowym kreatorze, a wskazuje na wcześniej wymieniony kreator projektu PDDL.
 
 \emph{Extension Point} wywołuje klasę \texttt{PDDLProjectWizard}, która inicjalizuje nową instancję klasy \texttt{PDDLProjectNameAndLocationWizard}, która wyświetla stronę w kreatorze zawierającą pole do podania nazwy kreatora i lokalizacji. 
 
@@ -330,14 +330,14 @@ Edytor kodu we wtyczce GUI4PDDL zajmuje się kolorowaniem składni, dopasowywani
     \caption{Pokolorowana składnia kodu w języku PDDL}
     \label{colored-code}
 \end{figure}
-Aby zaimplementować kolorowanie składni, wykorzystano metody ze środowiska programistycznego Eclipse. Dokument wstępnie dzielony jest na partycje, czyli fragmenty kodu mające charakterystyczne cechy. Następnie każda partycja jest dzielona na tzw. tokeny. W GUI4PDDL kod podzielony jest na 2 partycje. Pierwsza partycja obejmuje komentarze. Klasa \texttt{PDDLPartitionScanner} znajduje fragmenty kodu rozpoczynające się od znaku ";", np.  ";testowy kometarz". Od tego znaku aż do końca linii, zgodnie z gramatyką języka PDDL, tekst traktowany jest jako komentarz \ref{comments}.
+Aby zaimplementować kolorowanie składni, wykorzystano metody ze środowiska programistycznego Eclipse. Dokument wstępnie dzielony jest na partycje, czyli fragmenty kodu mające charakterystyczne cechy. Następnie każda partycja jest dzielona na tzw. tokeny. W GUI4PDDL kod podzielony jest na 2 partycje. Pierwsza partycja obejmuje komentarze. Klasa \texttt{PDDLPartitionScanner} znajduje fragmenty kodu rozpoczynające się od znaku ";", np.  ";testowy kometarz". Od tego znaku aż do końca linii, zgodnie z gramatyką języka PDDL, tekst traktowany jest jako komentarz (rys. \ref{comments}).
 \begin{figure}[h]
   \centering
     \includegraphics[width=7cm,height=7cm,keepaspectratio]{img/comments.png}
     \caption{Komentarze są możliwe również na końcu linii}
     \label{comments}
 \end{figure}
-Pozostałe fragmenty kodu poddawane są dalszej analizie. Klasa \texttt{DefaultScanner} zawiera listę słów kluczowych oraz definicje tokenów i reguł. Reguły wywoływane są w specjalnej kolejności, by wykluczyć błędne dopasowanie kodu do tokena. Pierwsza reguła szuka słów kluczowych zaczynających się znakiem ":".  Od tego znaku, aż do końca słowa (dopuszczalny myślnik) tekst przyrównywany jest do listy słów kluczowych. Jeśli słowo znajduje się na liście, fragment kodu oznaczony jest tokenem valueToken \ref{values_color}.
+Pozostałe fragmenty kodu poddawane są dalszej analizie. Klasa \texttt{DefaultScanner} zawiera listę słów kluczowych oraz definicje tokenów i reguł. Reguły wywoływane są w specjalnej kolejności, by wykluczyć błędne dopasowanie kodu do tokena. Pierwsza reguła szuka słów kluczowych zaczynających się znakiem ":".  Od tego znaku, aż do końca słowa (dopuszczalny myślnik) tekst przyrównywany jest do listy słów kluczowych. Jeśli słowo znajduje się na liście, fragment kodu oznaczony jest tokenem valueToken (rys. \ref{values_color}).
 
 \begin{figure}[h]
   \centering
@@ -346,7 +346,7 @@ Pozostałe fragmenty kodu poddawane są dalszej analizie. Klasa \texttt{DefaultS
     \label{values_color}
 \end{figure}
 
- W przeciwnym wypadku edytor ,,cofa się'' na początek analizowanego kodu i klasa \texttt{DefaultScanner} wywołuje kolejną regułę. Następna metoda znajduje fragmenty kodu rozpoczynające się na znak "?".  Podobnie jak w przypadku pierwszej reguły, skaner odczytuje kolejne litery lub cyfry (dopuszczalne znaki specjalne to kropka oraz myślnik). Taki fragment oznaczony jest jako zmienna w języku PDDL. Tekst otrzymuje token variableToken \ref{variable_color}.
+ W przeciwnym wypadku edytor ,,cofa się'' na początek analizowanego kodu i klasa \texttt{DefaultScanner} wywołuje kolejną regułę. Następna metoda znajduje fragmenty kodu rozpoczynające się na znak "?".  Podobnie jak w przypadku pierwszej reguły, skaner odczytuje kolejne litery lub cyfry (dopuszczalne znaki specjalne to kropka oraz myślnik). Taki fragment oznaczony jest jako zmienna w języku PDDL. Tekst otrzymuje token variableToken (rys. \ref{variable_color}).
 
 \begin{figure}[h]
   \centering
@@ -355,7 +355,7 @@ Pozostałe fragmenty kodu poddawane są dalszej analizie. Klasa \texttt{DefaultS
     \label{variable_color}
 \end{figure}
 
-Kolejna reguła wyszukuje stałe słowa, takie jak np. define. Metoda ta działa identycznie, jak w przypadku \emph{valueRule}. Fragment kodu dopasowany jest do listy słów kluczowych z listy keywords. Elementy pasujące do reguły otrzymują token keywordToken. Reguła dotycząca nawiasów to \emph{BracketRule}. Ponieważ w języku PDDL nie dopuszcza się znaków ,,('' oraz ,,)'' w nazwach zmiennych, ani słowach kluczowych, BracketRule analizuje znaki szukając nawiasów okrągłych. Znaki te otrzymują token bracketToken \ref{bracket_color}.
+Kolejna reguła wyszukuje stałe słowa, takie jak np. define. Metoda ta działa identycznie, jak w przypadku \emph{valueRule}. Fragment kodu dopasowany jest do listy słów kluczowych z listy keywords. Elementy pasujące do reguły otrzymują token keywordToken. Reguła dotycząca nawiasów to \emph{BracketRule}. Ponieważ w języku PDDL nie dopuszcza się znaków ,,('' oraz ,,)'' w nazwach zmiennych, ani słowach kluczowych, BracketRule analizuje znaki szukając nawiasów okrągłych. Znaki te otrzymują token bracketToken (rys. \ref{bracket_color}).
 
 \begin{figure}[h]
   \centering
@@ -378,7 +378,7 @@ Przedostatnia reguła znajduje wszystkie puste znaki, wykorzystując wbudowany i
     \caption{Zaznaczanie działa w obie strony}
     \label{matched_bracket_reverse}
 \end{figure}
-Środowisko Eclipse posiada wbudowaną metodę \texttt{TextEditor.configureSourceViewerDecorationSupport()}. W klasie PDDLEditor zostaje ona nadpisana własną funkcją. Wykorzystano metodę \texttt{setCharacterPairMatcher}. Metoda ta wyszukuje rekurencyjnie kolejne pary znaków ,,('' oraz ,,)''.  W edytorze dopasowane nawiasy są sparowane, więc przy zaznaczaniu jednego znaku z pary, drugi nawias otoczony jest szarą obwódką. Dzięki temu użytkownik szybko zauważy dopasowany nawias lub jego brak.
+Środowisko Eclipse posiada wbudowaną metodę\\* \texttt{TextEditor.configureSourceViewerDecorationSupport()}. W klasie PDDLEditor zostaje ona nadpisana własną funkcją. Wykorzystano metodę \texttt{setCharacterPairMatcher}. Metoda ta wyszukuje rekurencyjnie kolejne pary znaków ,,('' oraz ,,)''.  W edytorze dopasowane nawiasy są sparowane, więc przy zaznaczaniu jednego znaku z pary, drugi nawias otoczony jest szarą obwódką. Dzięki temu użytkownik szybko zauważy dopasowany nawias lub jego brak.
 \subsection{Podpowiadanie kodu}
 Podpowiadanie składni wywoływane jest po wpisaniu dowolnej litery, znaku ,,:'' lub po wciśnięciu kombinacji klawiszy \emph{Ctrl+Space} - jest to domyślna kombinacja klawiszy w środowisku Eclipse wywołująca klasę \texttt{PDDLCompletionAssistant}. Klasa ta wymaga bezpośredniej współpracy z klasą \texttt{IPDDLNature} wtyczki GU4PDDL. Jako domyślny asystent podpowiedzi, użyto klasy \texttt{PDDLCompletionAssistant}. Zawiera ona metodę \texttt{computeCompletionsProposals()}. Skaner tekstu przechodzi przez znaki poprzedzające kursor, aż natrafi na znak pusty, lub znak specjalny z wyłączeniem znaków ,,:'' i ,,?''. Wynikowy tekst jest prefiksem, stanowiącym podstawę do podpowiedzi. Następnie metoda dostaje dostęp do projektu. Poprzez instancję interfejsu \texttt{IPDDLCodeCompletionManager} wywoływana jest klasa \texttt{CodeCompletionManager}. Ostatecznie metoda \emph{computeCompletionsProposals()} pobiera listę propozycji utworzoną przez menedżer (rozdz. 6.2.5). Lista propozycji jest filtrowana przy wykorzystaniu przygotowanego wcześniej prefiksu. Lista wynikowa zawiera listę słów zaczynających się prefiksem. Każda propozycja z listy wyświetlona jest w oknie kontekstowym. Użytkownik następnie wybiera jedną z nich i edytor umieszcza propozycję tuż za kursorem.
 

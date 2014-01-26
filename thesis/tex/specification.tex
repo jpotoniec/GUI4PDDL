@@ -3,18 +3,19 @@
 \section{Wymagania funkcjonalne}
 \subsection{Wstęp}
 Założeniem projektu było utworzenie lekkiego i wydajnego nardzędzia do programowania w języku PDDL. Dodatkowym ważnym wymaganiem było wsparcie zewnętrznego planera FastDownward oraz możliwe dalsze rozwijanie aplikacji w kiedunku innych planerów. Aplikacja powinna pomagać użytkownikowi w utworzeniu plików PDDL, a później w zarządzaniu kodem. Kluczowym elementem zarządzania kodem jest wykrywanie błędów oraz wyświetlenie kodu w czytelnej formie. Aplikacja ma za zadanie pokolorować kod, oddzielić kluczowe fragmenty i podpowiadać słowa kluczowe, wzorem z popularnych środowisk pracy typu edytory języków Java lub Pascal. Ponadto sama aplikacja miała być łatwo dostępna i łatwa w instalacji, jak również w użytkowaniu.
-\JP{A nie możnaby kolorowania i wykrywania błędów połączyć w jedno? Coś pokroju: Wspomaganie użytkownika w pracy z edytorem?}
 \subsection{Przypadki użycia}
-\subsubsection{Kolorowanie składni}
+\subsubsection{Wspomaganie użytkownika w pracy z edytorem}
+\begin{table}[H]
+\centering
 \begin{tabular}{|p{\textwidth}|}
 \hline 
-\textbf{Przypadek użycia:} Kolorowanie składni\\
+\textbf{Przypadek użycia:} Wspomaganie użytkownika w pracy z edytorem\\
 \hline
 \textbf{Aktorzy:} Użytkownik\\
 \hline
 \textbf{Pre:} Użytkownik otwiera pusty dokument\\
 \hline
-\textbf{Post:} System wyświetla pokolorowany kod\\
+\textbf{Post:} System wyświetla pokolorowany kod i informuje o ew. błędach\\
 \hline
 \textbf{Scenariusz główny}\\
 \hline
@@ -22,6 +23,8 @@ Założeniem projektu było utworzenie lekkiego i wydajnego nardzędzia do progr
 \item Użytkownik wpisuje ciąg znaków do edytora tekstu.
 \item Edytor rozpoznaje typ ciągu znaków.
 \item Tekst zostaje pokolorowany na odpowiedni kolor.
+\item System sprawdza ciąg znaków pod kątem gramatycznym i semantycznym.
+\item System wyświetla przetworzony kod w oknie edytora.
 \end{enumerate}\\
 \hline
 \textbf{Rozszerzenia}\\
@@ -30,43 +33,18 @@ Założeniem projektu było utworzenie lekkiego i wydajnego nardzędzia do progr
 \item[2.a] Ciąg znaków to komentarz.
 \item[2.b] Ciąg znaków nie jest komentarzem.
 \item[2.b.1] Następuje głębsza analiza znaków.
+\item[4.a] System wykrywa błąd. 
+\item[4.a.1] W domyślnym oknie błędów pojawia się informacja o błędzie i miejscu.
+\item[4.a.2] W oknie edytora błąd zostaje podkreślony.
+\item[4.b] System nie wykrywa błędu.
 \end{enumerate}\\
 \hline
 \end{tabular} 
-
-\subsubsection{Wykrywanie błędów}
-\label{reqErrorDetection}
-\begin{tabular}{|p{\textwidth}|}
-\hline 
-\textbf{Przypadek użycia:} Wykrywanie błędów\\
-\hline
-\textbf{Aktorzy:} Użytkownik\\
-\hline
-\textbf{Pre:} Użytkownik wpisuje fragment kodu\\
-\hline
-\textbf{Post:} System wykrywa i wskazuje błędy w dokumencie\\
-\hline
-\textbf{Scenariusz główny}\\
-\hline
-\begin{enumerate}
-\item Użytkownik wpisuje kod.
-\item Edytor pobiera aktualny stan dokumentu.
-\item System sprawdza kod pod kątem gramatycznym i semantycznym.
-\end{enumerate}\\
-\hline
-\\\textbf{Rozszerzenia}\\
-\hline
-\begin{enumerate}
-\item[3.a] System wykrywa błąd. 
-\item[3.a.1] W domyślnym oknie błędów pojawia się informacja o błędzie i miejscu.
-\item[3.a.2] W oknie edytora błąd zostaje podkreślony.
-\item[3.b] System nie wykrywa błędu.
-\end{enumerate}\\
-\hline
-\end{tabular}
-
+\end{table}
 \subsubsection{Podpowiadanie składni}
 \label{reqAutocompletion}
+\begin{table}[H]
+\centering
 \begin{tabular}{|p{\textwidth}|}
 \hline 
 \textbf{Przypadek użycia:} Podpowiadanie składni\\
@@ -96,9 +74,11 @@ Założeniem projektu było utworzenie lekkiego i wydajnego nardzędzia do progr
 \end{enumerate}\\
 \hline
 \end{tabular}
-
+\end{table}
 \subsubsection{Tworzenie nowego pliku PDDL}
 \label{reqAutocompletion}
+\begin{table}[H]
+\centering
 \begin{tabular}{|p{\textwidth}|}
 \hline 
 \textbf{Przypadek użycia:} Tworzenie nowego pliku PDDL\\
@@ -126,9 +106,11 @@ Założeniem projektu było utworzenie lekkiego i wydajnego nardzędzia do progr
 \end{enumerate}\\
 \hline
 \end{tabular}
-
+\end{table}
 \subsubsection{Instalacja aplikacji przez repozytorium}
 \label{reqAutocompletion}
+\begin{table}[H]
+\centering
 \begin{tabular}{|p{\textwidth}|}
 \hline 
 \textbf{Przypadek użycia:} Instalacja aplikacji przez repozytorium\\
@@ -152,7 +134,7 @@ Założeniem projektu było utworzenie lekkiego i wydajnego nardzędzia do progr
 \end{enumerate}\\
 \hline
 \end{tabular}
-
+\end{table}
 \section{Wymagania pozafunkcjonalne}
 \subsection*{Funkcjonalność}
 Wtyczka \emph{GUI4PDDL} umożliwia użytkownikowi efektywne zarządzanie kodem pisanym w języku \emph{PDDL}. Pomaga w kontrolowaniu zawartości kodu. Wtyczka zbudowana jest jako jeden produkt, zgodnie ze specyfikacją wymaganą przez wtyczki programu \emph{Eclipse}. Zgodnie z polityką twórców Eclipse, \emph{GUI4PDDL} jest zbudowana w pełni modułowo, co umożliwia pełną integrację ze środowiskiem oraz jest łatwa w rozwoju.
