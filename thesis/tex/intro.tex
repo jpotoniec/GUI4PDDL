@@ -1,3 +1,4 @@
+\hyphenation{naj-po-pu-lar-niej-szym}
 \chapter{Wstęp}
 \section{Wprowadzenie}
 Sztuczna inteligencja to dziedzina wywodząca się z informatyki. Jej początki sięgają lat pięćdziesiątych XX wieku. Jeden z pierwszych badaczy,  John McCarthy, określił sztuczną inteligencję jako ,,naukę i technikę tworzącą inteligentne maszyny''. Pomimo zmian, jakie dokonały się w przeciągu kolejnych 60 lat, definicję tę wciąż można uznać za aktualną. Sztuczna inteligencja obejmuje kilka zagadnień, między innymi logikę rozmytą, sieci neuronowe czy planowanie \cite{ai}.
@@ -11,7 +12,16 @@ W celu wydajnego tworzenia oprogramowania, programiści korzystają z rozmaitych
 \section{Motywacja}
 Pomimo stworzenia PDDL, problemem jest znalezienie odpowiedniego, w pełni funkcjonalnego narzędzia. Obecnie dostępne rozwiązania posiadają istotne wady. Są to między innymi brak możliwości pracy z innym systemem  niż Windows, brakiem odpowiedniego formatowania kodu czy nieodpowiednim kolorowaniem składni. Założeniem projektu GUI4PDDL jest rozwiązanie większości niedogodności związanych z pisaniem programów w języku PDDL.
 
-\JP{Tu by mogłobyć kilka słów o istniejących środowiskach plus może jakieś ich zrzuty ekranu.}
+Obecnie każdy znaczący język posiada co najmniej jedno środowisko programistyczne. Na rysunku \ref{fig:srodowiskoprogramistyczne} przedstawiono środowisko \emph{Code::Blocks}\footnote{http://www.codeblocks.org/}, które jest obecnie najpopularniejszym nadzędziem wspomagającym pisanie w języku C++ .
+
+\begin{figure}[h!]
+    \centering
+    
+    \includegraphics[width=\textwidth]{img/codeblocks}
+    \caption{Przykładowe środowisko programistyczne}
+    \label{fig:srodowiskoprogramistyczne}
+\end{figure}
+
 \section{Cel i zakres pracy}
 Celem pracy jest stworzenie graficznego środowiska programistycznego, umożliwiającego pisanie programów w języku PDDL. Środowisko to powinno dostarczać przede wszystkim edytor kodu, zapewniający tworzenie automatycznych wcięć i kolorowanie składni, co pozwala zwiększyć przejrzystość struktury programu. Znaczącymi założeniami edytora są także podpowiadanie składni oraz wykrywanie błędów w kodzie źródłowym, które przyspieszają proces przygotowywania projektu. Dodatkowo, w~związku z wykorzystaniem dużej liczby nawiasów w PDDL, wymagane jest ich dopasowywanie. Dostępna powinna być również możliwość uruchamiania zewnętrznego oprogramowania do wyznaczania planu i przeglądania wyników planowania oraz zarządzania projektami i plikami.  
 
