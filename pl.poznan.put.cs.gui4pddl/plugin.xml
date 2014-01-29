@@ -40,6 +40,59 @@
             project="true">
       </wizard>
    </extension>
+   
+       <!-- MENU -->
+<extension  
+  point="org.eclipse.ui.navigator.navigatorContent">
+    <navigatorContent
+    priority="highest"
+            activeByDefault="true"          
+				id="pl.poznan.put.cs.gui4pddl.navigatorContent">
+   <triggerPoints>
+				           <or>         
+				              <instanceof 
+				                    value="org.eclipse.core.resources.IWorkspaceRoot" /> 
+				              <instanceof
+				                    value="org.eclipse.core.resources.IProject" />  
+				              <instanceof  
+				                     value="org.eclipse.core.resources.IFolder" /> 
+				           </or>
+				  </triggerPoints>  
+				   <commonSorter
+               class="pl.poznan.put.cs.gui4pddl.PDDLViewerSorter"
+               id="customnavigator.sorter.schemacategorysorter">
+     
+         </commonSorter> 
+ </navigatorContent>
+ <commonWizard
+      type="new"
+      menuGroupId="1pl.poznan.put.cs.gui4pddl"
+   wizardId="pl.poznan.put.cs.gui4pddl.ui.wizards.PDDLFileWizard">
+  <enablement>
+           <adapt type="org.eclipse.core.resources.IResource">
+             <test
+                   property="org.eclipse.core.resources.projectNature"
+                   value="pl.poznan.put.cs.gui4pddl.PDDLProject">
+             </test>
+         </adapt>
+  </enablement>
+ </commonWizard>
+ <commonWizard
+      type="new"
+      menuGroupId="0pl.poznan.put.cs.gui4pddl"
+   wizardId="pl.poznan.put.cs.gui4pddl.ui.wizards.PDDLProjectWizard">
+  <enablement>
+           <adapt type="org.eclipse.core.resources.IResource">
+             <test
+                   property="org.eclipse.core.resources.projectNature"
+                   value="pl.poznan.put.cs.gui4pddl.PDDLProject">
+             </test>
+         </adapt>
+  </enablement>
+ </commonWizard>
+</extension>
+   
+   
    <extension
          id="PDDLProject"
          name="PDDL Project"
@@ -257,7 +310,7 @@
       </processFactory>
    </extension>
          
-         
+   <!-- PDDL PERSPECTIVE -->      
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
@@ -267,4 +320,8 @@
          </newWizardShortcut>
       </perspectiveExtension>
    </extension>
+    
+   
 </plugin>
+
+
