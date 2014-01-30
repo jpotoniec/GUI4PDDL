@@ -113,9 +113,9 @@ atomic_formula_of_term[Set<String> objectScope, Set<String> variableScope]
 	;
 
 
-/*
+/**********************
   PDDL Goal description
-*/
+***********************/
 
 gd [Set<String> objectScope, Set<String> variableScope]
 	:   atomic_formula_of_term[objectScope, variableScope]
@@ -123,19 +123,82 @@ gd [Set<String> objectScope, Set<String> variableScope]
     ;
 
 complicated_gd [Set<String> objectScope, Set<String> variableScope]
+	@init {
+		Set<String> newVariableScope;
+	}
 	: 	^('and' gd[objectScope, variableScope]*)
 	|	^('or' gd[objectScope, variableScope]*) //:disjunctive-preconditions
     |	^('not' atomic_formula_of_term[objectScope, variableScope]) 
     |	^('not' complicated_gd[objectScope, variableScope]) //:disjunctive-preconditions TODO lookahead
 	|	^('imply' gd[objectScope, variableScope] gd[objectScope, variableScope]) //:disjunctive-preconditions
-	|	^('exists' typed_list gd[objectScope, variableScope])  //:existential-preconditions
-	|	^('forall' typed_list gd[objectScope, variableScope])  //:universal-predonditions
+	|	^('exists' typed_list {
+	    		newVariableScope = new TreeSet<String>(variableScope);
+	    	 	for(PDDLTypedList.Entry e : $typed_list.list) {
+	    	 	 	newVariableScope.add(e.name);
+	    	 	}
+			}
+			gd[objectScope, newVariableScope])  //:existential-preconditions
+	|	^('forall' typed_list {
+	    		newVariableScope = new TreeSet<String>(variableScope);
+	    	 	for(PDDLTypedList.Entry e : $typed_list.list) {
+	    	 	 	newVariableScope.add(e.name);
+	    	 	}
+			}
+			gd[objectScope, newVariableScope])  //:universal-predonditions
 	.
 	;
 	
-/*
+/***********************
+  PDDL Actions
+***********************/
+
+action_def [Set<String> objectScope, Set<String> variableScope]
+	@init {
+		PDDLAction action = null;
+		Set<String> newVariableScope = new TreeSet<String>(variableScope);
+	}
+	: ^(':action' NAME {
+			if ($definition::domain != null) {
+				action = $definition::domain.getAction($NAME.text);
+				if (action != null) {
+					for(PDDLTypedList.Entry e : action.getParameters())
+						newVariableScope.add(e.name);
+					for(PDDLTypedList.Entry e : action.getVariables())
+						newVariableScope.add(e.name);
+				}
+			}
+		} ^(':parameters' typed_list)
+	  action_def_body_item[objectScope, newVariableScope]*) 
+	;
+    
+action_def_body_item [Set<String> objectScope, Set<String> variableScope]	
+    :    ^(':vars' typed_list)
+    |	 ^(':precondition' gd[objectScope, variableScope])
+    |	 ^(':effect' effect[objectScope, variableScope])
+    |    .
+    ;
+
+effect [Set<String> objectScope, Set<String> variableScope]
+	@init {
+		Set<String> newVariableScope;
+	}
+    :    ^('and' effect[objectScope, variableScope]*)
+    |    ^('not' atomic_formula_of_term[objectScope, variableScope] )
+    |    atomic_formula_of_term[objectScope, variableScope]
+    |    ^('forall' typed_list {
+    		newVariableScope = new TreeSet<String>(variableScope);
+    	 	for(PDDLTypedList.Entry e : $typed_list.list) {
+    	 	 	newVariableScope.add(e.name);
+    	 	}
+    	 }
+    	 effect[objectScope, newVariableScope] ) //:conditional−effects
+    |    ^('when' gd[objectScope, variableScope] effect[objectScope, variableScope] ) //:conditional−effects
+    |    ^( 'change' . . )  //:fluents
+    ;
+
+/*********************
   PDDL Definitions
-*/
+*********************/
 
 definition
 [IPDDLCodeModel model, PDDLFile file]
@@ -150,7 +213,7 @@ scope {
 			String name = $domain_header.name;
 			if (!(name + ".pddl").equals($file.getName()) && !"domain.pddl".equals($file.getName()))
 				warning($domain_header.line, String.format("Filename \%s should match domain name \%s", $file.getName(), name));
-			//$definition::domain=$file.getDomain(name);
+			$definition::domain=$file.getDomain(name);
 		}
 		domain_item* )
 	
@@ -186,9 +249,9 @@ require_def
 	;
 
 
-/*
+/****************
 Domains (4)
-*/
+****************/
 
 domain_header
 	returns [String name, int line]
@@ -196,14 +259,19 @@ domain_header
 	;
 
 domain_item
-	: require_def 
+	@init {
+		Set<String> objectScope = PDDLDomain.getObjectScope($definition::domain);
+		Set<String> variableScope = PDDLDomain.getVariableScope($definition::domain);
+	}
+	: require_def
+	| action_def[objectScope, variableScope]
 	| .
 	;
 	catch [Throwable t] {}
 
-/*
-Problems
-*/
+/*****************
+ Problems
+*****************/
 
 problem_header
 	returns [String name, int line]

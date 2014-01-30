@@ -162,6 +162,20 @@ public class PDDLDomain {
 		}
 		return result;
 	}
+	
+	public static Set<String> getObjectScope(PDDLDomain domain) {
+		Set<String> scope = new TreeSet<String>();
+		if (domain != null)
+			scope.addAll(domain.getConstants(null));
+		return scope;
+	}
+	
+	public static Set<String> getVariableScope(PDDLDomain domain) {
+		Set<String> scope = new TreeSet<String>();
+		if (domain != null)
+			scope.addAll(domain.getDomainVariables(null));
+		return scope;
+	}
 
 	@Override
 	public int hashCode() {

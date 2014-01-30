@@ -194,12 +194,12 @@ action_def_body_item
 Effects (7)
 */
 effect
-    :    '('! 'and' effect* ')'!
-    |    '('! 'not' atomic_formula_of_term ')'!
+    :    '('! 'and'^ effect* ')'!
+    |    '('! 'not'^ atomic_formula_of_term ')'!
     |    atomic_formula_of_term
-    |    '('! 'forall' '('! typed_list_of_variable ')'! effect ')'! //:conditional−effects
-    |    '('! 'when' gd effect ')'! //:conditional−effects
-    |    '('! 'change' fluent expression ')'!  //:fluents
+    |    '('! 'forall'^ '('! typed_list_of_variable ')'! effect ')'! //:conditional−effects
+    |    '('! 'when'^ gd effect ')'! //:conditional−effects
+    |    '('! 'change'^ fluent expression ')'!  //:fluents
     ;
 
 fluent

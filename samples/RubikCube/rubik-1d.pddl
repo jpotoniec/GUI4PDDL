@@ -62,7 +62,7 @@
    ;
    (:action rot0
              :parameters (?v1 ?v2 ?v3 ?v4 ?v5 ?v6)
-             :precondition (and (pos1 ?v1) 
+             :precondition (and (pos1 ?v1)
                                 (pos2 ?v2) 
                                 (pos3 ?v3) 
                                 (pos4 ?v4) 
