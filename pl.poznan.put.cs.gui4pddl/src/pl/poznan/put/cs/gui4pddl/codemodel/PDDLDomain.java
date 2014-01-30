@@ -84,7 +84,7 @@ public class PDDLDomain {
 	}
 
 	public Set<String> getTypeNames() {
-		Set<String> result = types.keySet();
+		Set<String> result = new TreeSet<String>(types.keySet());
 		result.add("object");
 		return result;
 	}
