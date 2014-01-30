@@ -34,6 +34,14 @@ public class PDDLAction {
 	public void addVariables(PDDLTypedList list) {
 		variables.append(list);
 	}
+	
+	public PDDLTypedList getVariables() {
+		return variables;
+	}
+	
+	public PDDLTypedList getParameters() {
+		return parameters;
+	}
 
 	@Override
 	public int hashCode() {

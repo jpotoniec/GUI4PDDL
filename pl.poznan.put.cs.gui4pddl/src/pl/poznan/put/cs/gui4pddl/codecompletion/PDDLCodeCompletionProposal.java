@@ -1,6 +1,6 @@
 package pl.poznan.put.cs.gui4pddl.codecompletion;
 
-public class PDDLCodeCompletionProposal {
+public class PDDLCodeCompletionProposal implements Comparable<PDDLCodeCompletionProposal>{
 	
 	private String text;
 	private String description;
@@ -29,5 +29,9 @@ public class PDDLCodeCompletionProposal {
 	public void setText(String text) {
 		this.text = text;
 	}
-	
+
+	@Override
+	public int compareTo(PDDLCodeCompletionProposal o) {
+		return text.compareTo(o.text);
+	}
 }

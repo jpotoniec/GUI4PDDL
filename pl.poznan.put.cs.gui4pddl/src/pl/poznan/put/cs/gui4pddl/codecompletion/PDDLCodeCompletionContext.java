@@ -60,6 +60,13 @@ public class PDDLCodeCompletionContext {
 		return fileIndex;
 	}
 	
+	public boolean isDomain() {
+		return type == PDDLCodeCompletionContext.DefinitionType.DOMAIN;
+	}
+	public boolean isProblem() {
+		return type == PDDLCodeCompletionContext.DefinitionType.PROBLEM;
+	}
+	
 	//pobiera token znajdujący się jako piewszy po tym samym nawiasie co kursor
 	public Token getOpeningToken() {
 		if (currentScope != null && currentScope.size() > 0)
@@ -113,12 +120,29 @@ public class PDDLCodeCompletionContext {
 		return false;
 	}
 	
+	public int nestingLevel() {
+		if (scopeStack.size() == 0)
+			return 0;
+		else
+			return scopeStack.size() - 1;
+	}
+	
 	public DefinitionType getDefinitionType() {
 		return type;
 	}
 	
 	public String getDefinitionName() {
 		return name;
+	}
+	
+	public List<Token> getElementScope(int elementType) {
+		for (int i =  scopeStack.size() - 1; i >= 0; i--)
+		{
+			List<Token> scope = scopeStack.get(i);
+			if (scope.size() > 0 && scope.get(0).getType() == elementType)
+				return scope;
+		}
+		return null;
 	}
 	
 	public void parse(IDocument document, int offset) {

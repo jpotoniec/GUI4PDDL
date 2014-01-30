@@ -18,6 +18,9 @@ tokens {
 	INIT = ':init';
 	GOAL = ':goal';
 	HYPHEN = '-';
+	ACTION = ':action';
+	AXIOM = ':axiom';
+	LENGTH = ':length';
 }
 
 @header {
@@ -446,7 +449,7 @@ INTEGER :	'0'..'9'+
 	;
 
 REQUIRE_KEY
-	:	':'('a'..'z'|'A'..'Z'|'_'|'-'|'0'..'9')+
+	:	':'('a'..'z'|'A'..'Z'|'_'|'-'|'0'..'9')*
     ;
 
 VARIABLE 
