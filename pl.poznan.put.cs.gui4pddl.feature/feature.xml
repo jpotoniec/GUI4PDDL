@@ -15,8 +15,8 @@
       Copyright 2013 Poznan University of Technology.
    </copyright>
 
-   <license url="http://www.example.com/license">
-      Eclipse Public License
+    <license url="http://eclipse.org/legal/epl-v10.html">
+      This software is distributed under the terms of the Eclipse Public License, version 1.0
    </license>
 
    <plugin
