@@ -45,9 +45,10 @@
 <extension  
   point="org.eclipse.ui.navigator.navigatorContent">
     <navigatorContent
-    priority="highest"
-            activeByDefault="true"          
-				id="pl.poznan.put.cs.gui4pddl.navigatorContent">
+          activeByDefault="true"
+          id="pl.poznan.put.cs.gui4pddl.navigatorContent"
+          name="Create new menu"
+          priority="highest">
    <triggerPoints>
 				           <or>         
 				              <instanceof 

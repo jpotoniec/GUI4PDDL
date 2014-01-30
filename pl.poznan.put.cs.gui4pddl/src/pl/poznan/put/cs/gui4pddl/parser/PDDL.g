@@ -17,6 +17,7 @@ tokens {
 	EFFECT = ':effect';
 	INIT = ':init';
 	GOAL = ':goal';
+	HYPHEN = '-';
 }
 
 @header {

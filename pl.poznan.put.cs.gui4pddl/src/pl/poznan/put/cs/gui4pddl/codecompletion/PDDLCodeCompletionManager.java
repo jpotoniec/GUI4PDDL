@@ -16,6 +16,7 @@ import pl.poznan.put.cs.gui4pddl.codemodel.PDDLInitialSituation;
 import pl.poznan.put.cs.gui4pddl.codemodel.PDDLPredicate;
 import pl.poznan.put.cs.gui4pddl.codemodel.PDDLProblem;
 import pl.poznan.put.cs.gui4pddl.codemodel.PDDLRequirementSet;
+import pl.poznan.put.cs.gui4pddl.codemodel.PDDLTypedList;
 import pl.poznan.put.cs.gui4pddl.parser.PDDLLexer;
 
 public class PDDLCodeCompletionManager implements IPDDLCodeCompletionManager {
@@ -84,9 +85,95 @@ public class PDDLCodeCompletionManager implements IPDDLCodeCompletionManager {
 		}
 	};
 	
+	public ICompletionProvider objectCompletionProvider = new ICompletionProvider() {
+		
+		@Override
+		public boolean getCodeCompletionProposals(
+				PDDLCodeCompletionContext context,
+				List<PDDLCodeCompletionProposal> proposals) {
+			
+			PDDLFile fileIndex = context.getFileIndex();
+			if (fileIndex == null)
+				return false;
+			
+			if (context.isFirstInScope())
+				return false;
+			
+			if (context.getDefinitionType() == PDDLCodeCompletionContext.DefinitionType.PROBLEM) {
+				if (context.isOpeningToken(PDDLLexer.INIT, true) || context.isOpeningToken(PDDLLexer.GOAL, true)) {
+					PDDLProblem problem = fileIndex.getProblem(context.getDefinitionName());
+					for(PDDLTypedList.Entry e: problem.getObjects()) {
+						//TODO: Type checking
+						proposals.add(new PDDLCodeCompletionProposal(e.name, e.type.toString()));
+					}
+					return true;
+				}
+			}
+			return false;
+		}
+	};
+	
+	public ICompletionProvider typeCompletionProvider = new ICompletionProvider() {
+		
+		@Override
+		public boolean getCodeCompletionProposals(
+				PDDLCodeCompletionContext context,
+				List<PDDLCodeCompletionProposal> proposals) {
+			PDDLFile fileIndex = context.getFileIndex();
+			if (fileIndex == null)
+				return false;
+			
+			if (context.isPreviousToken(PDDLLexer.HYPHEN)) {
+				PDDLDomain domain = getDomain(context);
+				proposals.add(new PDDLCodeCompletionProposal("object"));
+				if (domain != null) {
+					for(String typeName : domain.getTypeNames()) {
+						proposals.add(new PDDLCodeCompletionProposal(typeName));
+					}
+				}
+				return true;
+			}
+			
+			return false;
+		}
+	};
+	
+	
+	public static PDDLDomain getDomain(PDDLCodeCompletionContext context) {
+
+		PDDLFile fileIndex = context.getFileIndex();
+		if (fileIndex == null)
+			return null;
+
+		PDDLDomain domain = null;
+		switch(context.getDefinitionType()) {
+		case DOMAIN:
+			domain = fileIndex.getDomain(context.getDefinitionName());
+			break;
+		case PROBLEM:
+			IPath problemDirpath = fileIndex.getFullPath().removeLastSegments(1);
+			PDDLProblem problem = fileIndex.getProblem(context.getDefinitionName());
+			if (problem != null && context.getCodeModel() != null)
+				domain = context.getCodeModel().getDomain(problemDirpath, problem.getDomainName());
+			break;
+		case INITSIT:
+			IPath initsitDirpath = fileIndex.getFullPath().removeLastSegments(1);
+			PDDLInitialSituation initsit = fileIndex.getInitialSituation(context.getDefinitionName());
+			if (initsit != null && context.getCodeModel() != null)
+				domain = context.getCodeModel().getDomain(initsitDirpath, initsit.getDomainName());
+			break;
+		default:
+		}
+
+		return domain;
+	}
+	
+	
 	private ICompletionProvider[] completionProviders = {
 			requirementsCompletionProvider,
 			predicateCompletionProvider,
+			objectCompletionProvider,
+			typeCompletionProvider,
 	};
 	
 	private IPDDLNature nature;
@@ -113,7 +200,7 @@ public class PDDLCodeCompletionManager implements IPDDLCodeCompletionManager {
 		
 		for (ICompletionProvider provider : completionProviders ) {
 			if (provider.getCodeCompletionProposals(context, proposals))
-				break;
+				; //break;
 		}
 
 		return proposals;

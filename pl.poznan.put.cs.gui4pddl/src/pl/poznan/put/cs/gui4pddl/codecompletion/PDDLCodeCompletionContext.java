@@ -96,6 +96,14 @@ public class PDDLCodeCompletionContext {
 		return false;
 	}
 	
+	public boolean isPreviousToken(int type) {
+		List<Token> scope = scopeStack.peek();
+		if (scope.size() > 0 && scope.get(scope.size()-1).getType() == type)
+			return true;
+		else
+			return false;
+	}
+	
 	public boolean isFirstInScope() {
 		if (currentScope.size() == 0)
 			return true;
