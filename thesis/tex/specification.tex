@@ -3,12 +3,14 @@
 \section{Wymagania funkcjonalne}
 \subsection{Wstęp}
 Założeniem projektu było utworzenie lekkiego i wydajnego narzędzia do programowania w języku PDDL. Dodatkowym ważnym wymaganiem było wsparcie zewnętrznego planera FastDownward oraz możliwe dalsze rozwijanie aplikacji w kiedunku innych planerów. Aplikacja powinna pomagać użytkownikowi w utworzeniu plików PDDL, a później w zarządzaniu kodem. Kluczowym elementem zarządzania kodem jest wykrywanie błędów oraz wyświetlenie kodu w czytelnej formie. Aplikacja ma za zadanie pokolorować kod, oddzielić kluczowe fragmenty i podpowiadać słowa kluczowe, wzorem z popularnych środowisk pracy typu edytory języków Java lub Pascal. Ponadto sama aplikacja miała być łatwo dostępna i łatwa w instalacji, jak również w użytkowaniu.
+\clearpage
 \subsection{Przypadki użycia}
 \subsubsection{Wspomaganie użytkownika w pracy z edytorem}
+\vspace{\fill}
+\pagebreak[0]
+\vspace{-\fill}
 \label{UCeditor}
-\begin{table}[H]
-\centering
-\begin{tabular}{|p{\textwidth}|}
+\begin{longtable}{|p{\textwidth}|}
 \hline 
 \textbf{Przypadek użycia:} Wspomaganie użytkownika w pracy z edytorem\\
 \hline
@@ -40,13 +42,13 @@ Założeniem projektu było utworzenie lekkiego i wydajnego narzędzia do progra
 \item[4.b] System nie wykrywa błędu.
 \end{enumerate}\\
 \hline
-\end{tabular} 
-\end{table}
+\end{longtable}
+\vspace{\fill}
+\pagebreak[0]
+\vspace{-\fill}
 \subsubsection{Podpowiadanie składni}
 \label{reqAutocompletion}
-\begin{table}[H]
-\centering
-\begin{tabular}{|p{\textwidth}|}
+\begin{longtable}{|p{\textwidth}|}
 \hline 
 \textbf{Przypadek użycia:} Podpowiadanie składni\\
 \hline
@@ -74,8 +76,7 @@ Założeniem projektu było utworzenie lekkiego i wydajnego narzędzia do progra
 \item[3.b] System nie znajduje podpowiedzi i zwraca pustą listę.
 \end{enumerate}\\
 \hline
-\end{tabular}
-\end{table}
+\end{longtable}
 \subsubsection{Tworzenie nowego pliku PDDL}
 \label{reqAutocompletion}
 \begin{table}[H]
@@ -138,16 +139,16 @@ Założeniem projektu było utworzenie lekkiego i wydajnego narzędzia do progra
 \end{table}
 \section{Wymagania pozafunkcjonalne}
 \subsection*{Funkcjonalność}
-Wtyczka \emph{GUI4PDDL} umożliwia użytkownikowi efektywne zarządzanie kodem pisanym w języku \emph{PDDL}. Pomaga w kontrolowaniu zawartości kodu. Wtyczka zbudowana jest jako jeden produkt, zgodnie ze specyfikacją wymaganą przez wtyczki programu \emph{Eclipse}. Zgodnie z polityką twórców Eclipse, \emph{GUI4PDDL} jest zbudowana w pełni modułowo, co umożliwia pełną integrację ze środowiskiem oraz jest łatwa w rozwoju.
+Wtyczka \texttt{GUI4PDDL} umożliwia użytkownikowi efektywne zarządzanie kodem pisanym w języku \texttt{PDDL}. Pomaga w kontrolowaniu zawartości kodu. Wtyczka zbudowana jest jako jeden produkt, zgodnie ze specyfikacją wymaganą przez wtyczki programu \emph{Eclipse}. Zgodnie z polityką twórców Eclipse, \texttt{GUI4PDDL} jest zbudowana w pełni modułowo, co umożliwia pełną integrację ze środowiskiem oraz jest łatwa w rozwoju.
 \subsection*{Bezpieczeństwo}
 Żadne dane nie są wysyłane poza środowisko, dzięki czemu spełnia warunki bezpieczeństwa.
 \subsection*{Niezawodność}
 Oprogramowanie jest kompletne, dojrzałe. Aplikacja pozbawiona jest błędów, które mogłyby wpłynąć pośrednio lub bezpośrednio na pracę zarówno środowiska programistycznego \emph{Eclipse}, jak i kodu napisanego przez użytkownika. Zdolność do odtworzenia oraz niezawodność zapewnia samo środowisko \emph{Eclipse}, pozwalając na automatyczne odtworzenie kodu z kopii zapasowych w przypadku nieprawidłowego zamknięcia programu.
 \subsection*{Użyteczność}
-Plugin \emph{GUI4PDDL} wykorzystuje wszelkie formy pomocy dla użytkownika dostępne w środowisku \emph{Eclipse}. Użytkownik jest zawsze w prosty i czytelny sposób poinformowany o stanie swojego kodu oraz o błędach w kodzie. Kolorowanie składni pozwala z łatwością wykryć podstawowe błędy gramatyczne, a automatyczne wcięcia i kolorowe nawiasy umożliwiają szybkie znalezienie braków. Dodatkowo umożliwia intuicyjne korzystanie z wcześniej zdefiniowanych plannerów, wykorzystując np. domyślny przycisk uruchamiania kodu \emph{Eclipse}, co pozwala na szybkie i proste użytkowanie kodu przez użytkownika.
+Plugin \texttt{GUI4PDDL} wykorzystuje wszelkie formy pomocy dla użytkownika dostępne w środowisku \emph{Eclipse}. Użytkownik jest zawsze w prosty i czytelny sposób poinformowany o stanie swojego kodu oraz o błędach w kodzie. Kolorowanie składni pozwala z łatwością wykryć podstawowe błędy gramatyczne, a automatyczne wcięcia i kolorowe nawiasy umożliwiają szybkie znalezienie braków. Dodatkowo umożliwia intuicyjne korzystanie z wcześniej zdefiniowanych plannerów, wykorzystując np. domyślny przycisk uruchamiania kodu \emph{Eclipse}, co pozwala na szybkie i proste użytkowanie kodu przez użytkownika.
 \subsection*{Wydajność}
 Aplikacja jest bardzo lekka i pracuje w czasie rzeczywistym. Dzięki multiplatformowości użytkownik może korzystać ze wszystkich funkcji programu w systemach operacyjnych \emph{Windows XP}\ i wyżej oraz we wszystkich dystrybucjach linuksa nowszych od \emph{Ubuntu 10.04} lub porównywalnych w których zainstalowane jest środowisko \emph{JDK}.
 \subsection*{Łatwość konserwacji}
-Kod jest utrzymywany w postaci modułowej. Modułowość wzorowana na innych wtyczkach programu Eclipse pozwala na łatwą i nieograniczoną rozbudowę aplikacji \emph{GUI4PDDL}. Dzięki architekturze modułowej, w przypadku wystąpienia błędów podczas rozszerzania wtyczki, aplikacja nie narusza ważnych elementów środowiska w którym pracuje. Wykorzystując schematy stosowane przez twórców \emph{Eclipse} kod jest stabilny i czytelny, zachowując odpowiednie standardy.
+Kod jest utrzymywany w postaci modułowej. Modułowość wzorowana na innych wtyczkach programu Eclipse pozwala na łatwą i nieograniczoną rozbudowę aplikacji \texttt{GUI4PDDL}. Dzięki architekturze modułowej, w przypadku wystąpienia błędów podczas rozszerzania wtyczki, aplikacja nie narusza ważnych elementów środowiska w którym pracuje. Wykorzystując schematy stosowane przez twórców \emph{Eclipse} kod jest stabilny i czytelny, zachowując odpowiednie standardy.
 
 
