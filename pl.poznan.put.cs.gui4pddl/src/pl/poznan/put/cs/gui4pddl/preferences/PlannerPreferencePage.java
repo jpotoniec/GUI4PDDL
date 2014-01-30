@@ -38,6 +38,8 @@ public class PlannerPreferencePage extends PreferencePage implements
 	private Combo defaultPlannerCombo;
 	private Combo defaultArgumentCombo;
 
+	private TabFolder plannerTabFolder;
+
 	private List<PlannerPreferencesPageTabItem> tabsList;
 
 	public PlannerPreferencePage() {
@@ -146,7 +148,7 @@ public class PlannerPreferencePage extends PreferencePage implements
 		Composite pageComposite = createPageComposite(parent);
 		newPlannerButton = createNewPlannerButton(pageComposite);
 
-		final TabFolder plannerTabFolder = createPlannerTabFolder(pageComposite);
+		plannerTabFolder = createPlannerTabFolder(pageComposite);
 
 		addPlannersToTabFolder(plannerTabFolder);
 
@@ -156,6 +158,7 @@ public class PlannerPreferencePage extends PreferencePage implements
 				addPlannerTab(plannerTabFolder);
 				plannerTabFolder.setSelection(plannerTabFolder.getItemCount() - 1);
 				updateDefaultPlannerCombos();
+				checkIfAllPageTabItemsAreValid();
 			}
 
 		});
@@ -165,6 +168,7 @@ public class PlannerPreferencePage extends PreferencePage implements
 			public void widgetSelected(SelectionEvent e) {
 				if (tabsList.size() > plannerTabFolder.getSelectionIndex()) {
 					checkIfAllPageTabItemsAreValid();
+					updateDefaultPlannerCombos();
 				}
 
 			}
@@ -222,6 +226,10 @@ public class PlannerPreferencePage extends PreferencePage implements
 
 		defaultPlannerCombo.removeAll();
 		if (tabsList.size() > 0) {
+			if (defaultPlannerCheckBox.getSelection())
+			{
+				defaultPlannerCombo.setEnabled(true);
+			}
 			for (PlannerPreferencesPageTabItem tabItem : tabsList) {
 				defaultPlannerCombo.add(tabItem.getPlannerName());
 			}
@@ -249,6 +257,7 @@ public class PlannerPreferencePage extends PreferencePage implements
 				defaultArgumentCombo.add("No specified argument");
 				if (tabsList.get(defaultPlannerCombo.getSelectionIndex())
 						.getArguments().keySet().size() > 0) {
+					defaultArgumentCombo.setEnabled(true);
 					for (String key : tabsList
 							.get(defaultPlannerCombo.getSelectionIndex())
 							.getArguments().keySet()) {
@@ -257,6 +266,8 @@ public class PlannerPreferencePage extends PreferencePage implements
 				}
 			}
 			defaultArgumentCombo.select(0);
+		} else {
+			defaultArgumentCombo.setEnabled(false);
 		}
 	}
 
@@ -331,12 +342,21 @@ public class PlannerPreferencePage extends PreferencePage implements
 	}
 
 	public void checkIfAllPageTabItemsAreValid() {
+		boolean valid = true;
 		for (PlannerPreferencesPageTabItem item : tabsList) {
 			if (!item.checkIfTabItemIsValidAndSetErrorMessages()) {
+				valid = false;
 				setValid(false);
 				break;
 			}
 		}
+		if (valid) {
+			setValid(true);
+		}
+	}
+
+	public TabFolder getTabFolder() {
+		return plannerTabFolder;
 	}
 
 	public List<PlannerPreferencesPageTabItem> getTabsList() {
