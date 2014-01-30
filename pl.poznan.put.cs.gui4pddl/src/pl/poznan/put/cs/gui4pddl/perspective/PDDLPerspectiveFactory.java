@@ -57,11 +57,9 @@ public class PDDLPerspectiveFactory implements IPerspectiveFactory {
 
 		
 		layout.addShowViewShortcut(IConsoleConstants.ID_CONSOLE_VIEW);
-//		layout.addShowViewShortcut(IPageLayout.ID_OUTLINE);
 		layout.addShowViewShortcut(IPageLayout.ID_PROBLEM_VIEW);
 		layout.addShowViewShortcut(PlanView.ID);
 		layout.addShowViewShortcut("org.eclipse.pde.runtime.LogView");
-//		layout.addShowViewShortcut(IPageLayout.ID_TASK_LIST);
 
 		layout.addActionSet(IDebugUIConstants.LAUNCH_ACTION_SET);
 		layout.addActionSet(IPageLayout.ID_NAVIGATE_ACTION_SET);

@@ -329,12 +329,12 @@ public class DomainAndProblemFilesBlock extends AbstractLaunchConfigurationTab {
 							+ " does not exist.");
 					result = false;
 				} else if (!domainFile.isFile()) {
-					setErrorMessage("The domain file " + domainFile
-							+ " does not actually map to a file.");
+					setErrorMessage("The domain file field " + domainFile
+							+ " does not contain path to file.");
 					result = false;
 				} else if (!problemFile.isFile()) {
-					setErrorMessage("The problem file " + problemFile
-							+ " does not actually map to a file.");
+					setErrorMessage("The problem file field " + problemFile
+							+ " does not contain path to file.");
 					result = false;
 				}
 			}

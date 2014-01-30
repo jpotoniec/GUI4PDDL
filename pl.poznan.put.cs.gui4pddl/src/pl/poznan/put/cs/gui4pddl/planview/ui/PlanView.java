@@ -871,16 +871,6 @@ public class PlanView extends ViewPart {
 		}
 	}
 
-	/*
-	 * public static void refreshView() {
-	 * PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() { public
-	 * void run() { IViewPart foundView = PlatformUI.getWorkbench()
-	 * .getActiveWorkbenchWindow().getActivePage() .findView(ID); PlanView
-	 * thisView = (PlanView) foundView; if (thisView != null)
-	 * thisView.refresh();
-	 * 
-	 * } }); }
-	 */
 
 	private void refresh() {
 		if (viewer != null)

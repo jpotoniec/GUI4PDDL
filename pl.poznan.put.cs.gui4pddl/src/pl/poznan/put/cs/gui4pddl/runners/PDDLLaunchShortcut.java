@@ -217,7 +217,6 @@ public class PDDLLaunchShortcut implements ILaunchShortcut {
 	private boolean shouldLaunchConfigurationDialogBeShown(
 			ILaunchConfiguration conf) {
 		try {
-			//TODO cos mocniejszego - sprawdzanie czy pliki domeny i problemu istnieja?
 			return (conf.getAttribute(Constants.PLANNER, "").isEmpty()
 					|| conf.getAttribute(Constants.WORKING_DIRECTORY, "")
 							.isEmpty()

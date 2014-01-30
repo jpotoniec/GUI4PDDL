@@ -15,6 +15,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import pl.poznan.put.cs.gui4pddl.editor.TokenManager;
+import pl.poznan.put.cs.gui4pddl.log.Log;
 import pl.poznan.put.cs.gui4pddl.planview.model.manager.PlanViewDataManager;
 import pl.poznan.put.cs.gui4pddl.planview.ui.PlanView;
 import pl.poznan.put.cs.gui4pddl.preferences.model.manager.PlannerPreferencesManager;
@@ -29,7 +30,7 @@ public class Activator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static Activator plugin;
-	
+
 	private ImageCache imageCache;
 
 	private ResourceBundle resourceBundle;
@@ -44,7 +45,7 @@ public class Activator extends AbstractUIPlugin {
 		tokenManager = new TokenManager(getPreferenceStore());
 		// loggingModel = new LoggingModel();
 		// setupReceiver();
-		
+
 	}
 
 	/*
@@ -58,14 +59,12 @@ public class Activator extends AbstractUIPlugin {
 		super.start(context);
 		plugin = this;
 		imageCache = new ImageCache(getDefault().getBundle().getEntry("/"));
-		
+
 		System.out.println("PDDL PLUGIN START");
-		
+
 		PlanView.setActivateMode(PlanView.ACTIVATE_VIEW_AFTER_DATA_UPDATE);
 
 	}
-	
-	
 
 	public static void refreshProject(String projectName) {
 		try {
@@ -73,15 +72,14 @@ public class Activator extends AbstractUIPlugin {
 					.getProject(projectName);
 			project.refreshLocal(IResource.DEPTH_INFINITE, null);
 		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.log(e);
 		}
 	}
 
-	 public static ImageCache getImageCache() {
-	        return plugin.imageCache;
-	    }
-	
+	public static ImageCache getImageCache() {
+		return plugin.imageCache;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -91,11 +89,10 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public void stop(BundleContext context) throws Exception {
 		PlanViewDataManager.getManager().savePlanViewData();
-		plugin = null;	
+		plugin = null;
 		imageCache.dispose();
 		super.stop(context);
-	
-		
+
 		System.out.println("PDDL PLUGIN STOP");
 	}
 
@@ -128,7 +125,7 @@ public class Activator extends AbstractUIPlugin {
 	public static final String PREF_BRACKET_COLOR = "pddl_bracket_color";
 	// etc...
 	public static final String PREF_PORT = "pddl_view_port";
-	
+
 	public static final String PREF_SHOW_PLAN_BROWSER = "show_plan_browser";
 	public static final String PREF_DEFAULT_PLANNER = "use_default_planner";
 	public static final String PREF_DEFAULT_PLANNER_NAME = "default_planner_name";
@@ -150,7 +147,7 @@ public class Activator extends AbstractUIPlugin {
 				StringConverter.asString(new RGB(143, 143, 143)));
 		// etc...
 		store.setDefault(Activator.PREF_PORT, 4445);
-		
+
 		store.setDefault(Activator.PREF_SHOW_PLAN_BROWSER, true);
 		store.setDefault(Activator.PREF_DEFAULT_PLANNER, false);
 	}

@@ -49,7 +49,6 @@ public class PlanViewContentProvider implements IStructuredContentProvider,
 					viewer.getTable().setRedraw(true);
 					
 				}
-
 			}
 		});
 	}

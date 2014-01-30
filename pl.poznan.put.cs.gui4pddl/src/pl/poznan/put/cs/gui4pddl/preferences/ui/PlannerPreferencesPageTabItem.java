@@ -155,6 +155,12 @@ public class PlannerPreferencesPageTabItem {
 		plannerFile.fillIntoGrid(tabItemComposite, 3);
 		plannerFile.setEmptyStringAllowed(false);
 		plannerFile.setStringValue(preferences.getPlannerFilePath());
+		Label infoLabel = new Label(tabItemComposite, SWT.NONE);
+		infoLabel.setText("Planner file arguments order: <domain_file_path> <problem_file_path> [<planner_arguments>]");
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.grabExcessHorizontalSpace = true;
+		gd.horizontalSpan = 3;
+		infoLabel.setLayoutData(gd);
 
 		return plannerFile;
 	}
