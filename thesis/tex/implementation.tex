@@ -23,7 +23,7 @@ Po wybraniu nazwy projektu i opcjonalnie lokalizacji (domyślnie aktywny \emph{w
 \subsection{Tworzenie nowych plików PDDL}
 Każdy projekt PDDL powinien zawierać przynajmniej jeden plik \emph{problemu} oraz jeden plik \emph{dziedziny}. Wymaga tego gramatyka języka PDDL, aczkolwiek jest możliwe utworzenie większej liczby plików problemu dla tej samej dziedziny. Jest tak dlatego, ponieważ plik dziedziny zawiera definicje świata i reguł w nim panujących. Plik problemu definiuje dany problem lub sytuację, którą chcemy wykonać danym świecie. Każdy z plików różni się od siebie, dlatego użytkownik tworząc nowy plik otrzymuje szablon w zależności od wybranej opcji w kreatorze. 
 
-Tworzenie pliku PDDL polega na wybraniu odpowiedniej opcji, podobnie jak w kreatorze nowego projektu PDDL, na dwa sposoby. Po otwarciu właściwego kreatora, \emph{Extension Point} uruchamia klasę \texttt{PDDLFileWizard}. Klasa ta tworzy okno kreatora, a następne tworzy nową instancję klasy \texttt{PDDLFilePage}, która wyświetla opcję do wyboru typu pliku PDDL oraz okno na nazwę oraz lokalizację.
+Tworzenie pliku PDDL polega na wybraniu odpowiedniej opcji, podobnie jak w kreatorze nowego projektu PDDL, na dwa sposoby. Po otwarciu właściwego kreatora, \emph{Extension Point} uruchamia klasę \texttt{PDDLFileWizard}. Klasa ta tworzy okno kreatora, a następne tworzy nową instancję klasy \texttt{PDDLFilePage}, która wyświetla okno na nazwę oraz lokalizację.
 
 Po wybraniu opcji oraz nazwy (lokalizacja jest opcjonalna) informacje przekazane są do klasy, która sprawdza czy plik w danej lokalizacji już istnieje. Jeśli nie wybrano innej lokalizacji, domyślnie jest to folder projektu.
  
