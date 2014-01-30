@@ -6,6 +6,10 @@ import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.model.RuntimeProcess;
 
+/**
+ * RuntimeProcess subclass that can terminate the process subtree
+ *
+ */
 public class RuntimeProcessWithChildProcessesTermination extends RuntimeProcess {
 
 	public RuntimeProcessWithChildProcessesTermination(ILaunch launch,

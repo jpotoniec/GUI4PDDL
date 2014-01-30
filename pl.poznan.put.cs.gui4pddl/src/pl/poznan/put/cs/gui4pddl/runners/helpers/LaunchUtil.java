@@ -24,6 +24,10 @@ import org.eclipse.jface.window.Window;
 import pl.poznan.put.cs.gui4pddl.Activator;
 import pl.poznan.put.cs.gui4pddl.log.Log;
 
+/**
+ * Additional project resources methods
+ *
+ */
 public class LaunchUtil {
 
 	public static String getProjectLocation(IProject project) {

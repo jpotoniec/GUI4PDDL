@@ -6,6 +6,10 @@ import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.IProcessFactory;
 import org.eclipse.debug.core.model.IProcess;
 
+/**
+ * Creates new process that can terminate the process sub-tree
+ *
+ */
 public class PDDLProcessFactory implements IProcessFactory {
 
 	public static String ID = "pl.poznan.put.cs.gui4pddl.PDDLProcessFactory";

@@ -13,6 +13,10 @@ import pl.poznan.put.cs.gui4pddl.Constants;
 import pl.poznan.put.cs.gui4pddl.log.Log;
 import pl.poznan.put.cs.gui4pddl.runners.helpers.LaunchUtil;
 
+/**
+ * Class which replaces keywords in regex expressions with project name, domain name, problem name or working directory
+ *
+ */
 public class FileNameRegexProcessor {
 
 	public static List<String> getMatchedFilesNames(String regexp,
@@ -68,7 +72,7 @@ public class FileNameRegexProcessor {
 		int index = regexp.indexOf(keyword);
 
 		while (index >= 0) {
-			regexp = replaceRegexSpecialWord(regexp, index, keyword,
+			regexp = replaceKeywordInRegex(regexp, index, keyword,
 					replacement);
 			index = regexp.indexOf(keyword, index + keyword.length());
 		}
@@ -77,7 +81,7 @@ public class FileNameRegexProcessor {
 
 	}
 
-	private static String replaceRegexSpecialWord(String regexp, int index,
+	private static String replaceKeywordInRegex(String regexp, int index,
 			String keyword, String replacement) {
 		StringBuilder sb = new StringBuilder(regexp);
 		if ((index - 2 >= 0)

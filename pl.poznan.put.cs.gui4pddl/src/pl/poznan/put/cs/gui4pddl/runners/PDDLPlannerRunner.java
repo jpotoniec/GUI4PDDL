@@ -16,7 +16,11 @@ import pl.poznan.put.cs.gui4pddl.Constants;
 import pl.poznan.put.cs.gui4pddl.log.Log;
 import pl.poznan.put.cs.gui4pddl.runners.helpers.LaunchUtil;
 
-public class UniversalPlannerRunner {
+/**
+ * PDDL runner class
+ *
+ */
+public class PDDLPlannerRunner {
 
 	public static IProcess run(ILaunchConfiguration config,
 			IProgressMonitor monitor, ILaunch launch, IFolder workingDir) throws CoreException {

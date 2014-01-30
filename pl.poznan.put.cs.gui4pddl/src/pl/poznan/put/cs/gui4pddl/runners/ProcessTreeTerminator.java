@@ -11,6 +11,10 @@ import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.Platform;
 
+/**
+ * Kills the whole process tree on linux or windows
+ *
+ */
 public class ProcessTreeTerminator {
 
 	static interface Kernel32 extends Library {

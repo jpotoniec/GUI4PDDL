@@ -17,6 +17,10 @@ import org.eclipse.swt.widgets.Text;
 import pl.poznan.put.cs.gui4pddl.Constants;
 import pl.poznan.put.cs.gui4pddl.log.Log;
 
+/**
+ * A control for custom arguments in Run Configuration window.
+ *
+ */
 public class PlannerArgumentsBlock extends AbstractLaunchConfigurationTab {
 
 	private Text argumentsText;

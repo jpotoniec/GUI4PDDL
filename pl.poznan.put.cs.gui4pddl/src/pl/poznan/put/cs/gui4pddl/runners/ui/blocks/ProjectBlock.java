@@ -30,6 +30,10 @@ import pl.poznan.put.cs.gui4pddl.Constants;
 import pl.poznan.put.cs.gui4pddl.PDDLNature;
 import pl.poznan.put.cs.gui4pddl.log.Log;
 
+/**
+ * A control for selecting a pddl project in Run Configuration window.
+ *
+ */
 public class ProjectBlock extends AbstractLaunchConfigurationTab {
 
 	private Text projectText;

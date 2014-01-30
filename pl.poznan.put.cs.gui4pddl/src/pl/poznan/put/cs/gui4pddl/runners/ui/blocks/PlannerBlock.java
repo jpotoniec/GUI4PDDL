@@ -22,6 +22,9 @@ import pl.poznan.put.cs.gui4pddl.Constants;
 import pl.poznan.put.cs.gui4pddl.preferences.model.PlannerPreferences;
 import pl.poznan.put.cs.gui4pddl.preferences.model.manager.PlannerPreferencesManager;
 
+/**
+  * Combo boxes for selecting planner and defined arguments in Run Configuration window.
+ */
 public class PlannerBlock extends AbstractLaunchConfigurationTab {
 
 	private Combo plannerCombo;

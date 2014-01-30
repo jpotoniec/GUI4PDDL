@@ -20,12 +20,6 @@ public class MainPreferencePage extends FieldEditorPreferencePage implements
 	
 
 	public void createFieldEditors() {
-		IntegerFieldEditor portEditor = new IntegerFieldEditor(
-				Activator.PREF_PORT,
-				"&Port number for viewer (effective after restart):",
-				getFieldEditorParent());
-		portEditor.setValidRange(1000, 65535);
-		addField(portEditor);
 
 		addField(new BooleanFieldEditor(Activator.PREF_SHOW_PLAN_BROWSER,
 				"&Show Plan Browser after finish planning process.",

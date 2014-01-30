@@ -7,6 +7,10 @@ import java.util.regex.Pattern;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.ResourcesPlugin;
 
+/**
+ * Plan browser data model
+ *
+ */
 public class PlanViewDataRow implements Serializable {
 	/**
 	 * 
