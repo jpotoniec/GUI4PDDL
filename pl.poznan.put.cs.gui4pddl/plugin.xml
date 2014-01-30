@@ -59,11 +59,6 @@
 				                     value="org.eclipse.core.resources.IFolder" /> 
 				           </or>
 				  </triggerPoints>  
-				   <commonSorter
-               class="pl.poznan.put.cs.gui4pddl.PDDLViewerSorter"
-               id="customnavigator.sorter.schemacategorysorter">
-     
-         </commonSorter> 
  </navigatorContent>
  <commonWizard
       type="new"

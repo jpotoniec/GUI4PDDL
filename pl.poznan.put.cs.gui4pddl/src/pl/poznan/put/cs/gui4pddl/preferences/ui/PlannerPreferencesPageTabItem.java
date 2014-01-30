@@ -75,7 +75,8 @@ public class PlannerPreferencesPageTabItem {
 
 		argumentsTable = createArgumentsTable(tabItemComposite);
 
-		planViewDialog = new PlanFilenamePatternConfigurationDialog(tabItemComposite.getShell());
+		planViewDialog = new PlanFilenamePatternConfigurationDialog(
+				tabItemComposite.getShell());
 		planViewDialog
 				.setRegexp((preferences.getPlanViewFilePattern() != null) ? preferences
 						.getPlanViewFilePattern() : "");
@@ -111,7 +112,8 @@ public class PlannerPreferencesPageTabItem {
 		addSelectionListenerToEditArgumentButton(tabItemComposite);
 		addSelectionListenerToRemoveArgumentButton(tabItemComposite);
 
-		addSelectionListenerToRemovePlannerButton(tabItemComposite, tabFolder, this);
+		addSelectionListenerToRemovePlannerButton(tabItemComposite, tabFolder,
+				this);
 
 		addSelectionListenerToPlanViewDialogButton();
 
@@ -156,7 +158,8 @@ public class PlannerPreferencesPageTabItem {
 		plannerFile.setEmptyStringAllowed(false);
 		plannerFile.setStringValue(preferences.getPlannerFilePath());
 		Label infoLabel = new Label(tabItemComposite, SWT.NONE);
-		infoLabel.setText("Planner file arguments order: <domain_file_path> <problem_file_path> [<planner_arguments>]");
+		infoLabel
+				.setText("Planner file arguments order: <domain_file_path> <problem_file_path> [<planner_arguments>]");
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.grabExcessHorizontalSpace = true;
 		gd.horizontalSpan = 3;
@@ -261,7 +264,7 @@ public class PlannerPreferencesPageTabItem {
 		boolean valid = true;
 
 		if (plannerName.isValid() && plannerFile.isValid()
-				&& plannerFile.getStringValue().length() > 0) {
+				&& plannerFile.getStringValue().trim().length() > 0) {
 
 			// if plannerName has been changed to name that exists
 			if (PlannerPreferencesManager.getManager().getPlannerPreferences()
@@ -464,7 +467,8 @@ public class PlannerPreferencesPageTabItem {
 	}
 
 	private void addSelectionListenerToRemovePlannerButton(
-			final Composite fParent, final TabFolder tabFolder, final PlannerPreferencesPageTabItem item) {
+			final Composite fParent, final TabFolder tabFolder,
+			final PlannerPreferencesPageTabItem item) {
 		removePlannerButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -476,18 +480,20 @@ public class PlannerPreferencesPageTabItem {
 					boolean removeOk = PlannerPreferencesManager.getManager()
 							.removePlannerPreferences(preferences);
 					if (removeOk) {
+						page.getTabsList().remove(
+								page.getTabFolder().getSelectionIndex());
 						tabFolder.getSelection()[0].dispose();
-						System.out.println(page.getTabsList().remove(item));
 						page.updateDefaultPlannerCombos();
+						page.checkIfAllPageTabItemsAreValid();
 						if (tabFolder.getItemCount() == 0) {
 							tabFolder.setVisible(false);
 							page.setValid(true);
 							page.setErrorMessage(null);
 						}
-
 						MessageDialog.openInformation(fParent.getShell(),
 								"Planner Preferences removed",
 								"Planner preferences has been removed");
+
 					} else {
 						MessageDialog.openError(
 								fParent.getShell(),
@@ -521,7 +527,7 @@ public class PlannerPreferencesPageTabItem {
 		}
 		return true;
 	}
-	
+
 	public String getPlannerName() {
 		return plannerName.getStringValue();
 	}
