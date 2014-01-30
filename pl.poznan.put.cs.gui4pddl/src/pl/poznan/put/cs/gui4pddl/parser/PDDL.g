@@ -304,13 +304,13 @@ gd  :   atomic_formula_of_term
     |   complicated_gd
     ;
 
-complicated_gd 	: 	'('! 'and' gd* ')'!
-	|	'('! 'or' gd* ')'! //:disjunctive-preconditions
-    |	'('! 'not' atomic_formula_of_term ')'! 
-    |	'('! 'not' complicated_gd ')'! //:disjunctive-preconditions TODO lookahead
-	|	'('! 'imply' gd gd ')'! //:disjunctive-preconditions
-	|	'('! 'exists' '('! typed_list_of_variable ')'! gd ')'! //:existential-preconditions
-	|	'('! 'forall' '('! typed_list_of_variable ')'! gd ')'! //:universal-predonditions
+complicated_gd 	: 	'('! 'and'^ gd* ')'!
+	|	'('! 'or'^ gd* ')'! //:disjunctive-preconditions
+    |	'('! 'not'^ atomic_formula_of_term ')'! 
+    |	'('! 'not'^ complicated_gd ')'! //:disjunctive-preconditions TODO lookahead
+	|	'('! 'imply'^ gd gd ')'! //:disjunctive-preconditions
+	|	'('! 'exists'^ '('! typed_list_of_variable ')'! gd ')'! //:existential-preconditions
+	|	'('! 'forall'^ '('! typed_list_of_variable ')'! gd ')'! //:universal-predonditions
 	;
 
 
@@ -326,20 +326,20 @@ term 	:	NAME
 
 literal_of_name 
 	:	atomic_formula_of_name
-	|	'('! 'not' atomic_formula_of_name ')'!
+	|	'('! 'not'^ atomic_formula_of_name ')'!
 	;
 
 literal_of_term
 	:	atomic_formula_of_term
-	|	'('! 'not' atomic_formula_of_term ')'!
+	|	'('! 'not'^ atomic_formula_of_term ')'!
 	;
 
 atomic_formula_of_term
-	:	'('! predicate term* ')'!
+	:	'('! predicate^ term* ')'!
 	;
 	
 atomic_formula_of_name
-	:	'('! predicate NAME* ')'!
+	:	'('! predicate^ NAME* ')'!
 	;
 
 typed_list_of_name

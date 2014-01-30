@@ -12,7 +12,7 @@ public class PDDLRequirementSet {
 	public static String[] knownRequirements = new String[] { ":strips",
 			":typing", ":disjunctive-preconditions", ":equality",
 			":existential-preconditions", ":universal-preconditions",
-			"::quantified-preconditions", ":conditional-effects",
+			":quantified-preconditions", ":conditional-effects",
 			":action-expansions", ":foreach-expansions", ":dag-expansions",
 			":domain-axioms", ":subgoal-through-axioms", ":safety-constraints",
 			":expression-evaluation", ":fluents", ":open-world",
@@ -70,6 +70,14 @@ public class PDDLRequirementSet {
 		return requirements.contains(name);
 	}
 
+	public static boolean isValid(String name)
+	{
+		for (String knownName : knownRequirements) {
+			if (knownName.equals(name))
+				return true;
+		}
+		return false;
+	}
 
 
 	@Override

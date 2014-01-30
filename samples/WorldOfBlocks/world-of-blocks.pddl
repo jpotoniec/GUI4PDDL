@@ -1,5 +1,6 @@
 (define
 	(domain world-of-blocks)
+	(:constants przyklad)
 	(:requirements :adl)
 	(:predicates
 		(on-top ?x ?y)

@@ -16,7 +16,34 @@ pddl_file
     [PDDLFile file]
     :   definition[$file]*
     ;
+    
+    
+/************************
+  PDDL Basic structures
+*************************/
+predicate 
+	:	NAME
+	;
 
+literal_of_name 
+	:	atomic_formula_of_name
+	|	^('not' atomic_formula_of_name)
+	;
+
+atomic_formula_of_name
+	:	^(predicate (NAME {
+			//Check if NAME is a valid object name
+			PDDLProblem problem = $definition::problem;
+			if (problem != null) {
+				problem.addImplicitObject($NAME.text);
+			}
+		})*)
+	;
+
+/*************************
+ PDDL Definitions
+ ************************/
+ 
 definition
 [PDDLFile file]
 scope {
@@ -160,6 +187,7 @@ problem_item
 	|	init
 	|	goal
 	|	length_spec
+	|   .
 	;
 
 domain_reference
@@ -178,9 +206,8 @@ object_declaration
 	;
 
 init
- 	:	^(':init' .*)
+	: ^(':init' literal_of_name+)
 	;
-	catch [RecognitionException e] {}
 
 goal
 	:	^(':goal' .*)
