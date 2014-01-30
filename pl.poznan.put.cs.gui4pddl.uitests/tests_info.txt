@@ -1,0 +1,7 @@
+SWTBot Tests:
+	PDDLNatureTest
+	PDDLFileWizardTest
+	PDDLProjectWizardTest
+JUnit Plug-in Tests:
+	PlanViewDataManagerTest
+	PlannerPreferencesManagerTest

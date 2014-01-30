@@ -21,6 +21,8 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
+import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
+import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 
 import pl.poznan.put.cs.gui4pddl.PDDLStructureConfigHelpers;
 
@@ -133,12 +135,10 @@ public class PDDLProjectWizard extends Wizard implements INewWizard, IExecutable
 	public boolean performFinish() {
 		createdProject = createNewProject();
 		
-		// TODO uncomment
-		/*
-		 * // Switch to default perspective (will ask before changing)
-		 * BasicNewProjectResourceWizard.updatePerspective(fConfigElement);
-		 * BasicNewResourceWizard.selectAndReveal(createdProject, workbench.getActiveWorkbenchWindow());
-		 */
+		 // Switch to default perspective (will ask before changing)
+		  BasicNewProjectResourceWizard.updatePerspective(fConfigElement);
+		  BasicNewResourceWizard.selectAndReveal(createdProject, workbench.getActiveWorkbenchWindow());
+		 
 		return true;
 	}
 
