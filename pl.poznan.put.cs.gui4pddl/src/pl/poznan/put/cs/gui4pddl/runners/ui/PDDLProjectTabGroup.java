@@ -7,6 +7,10 @@ import org.eclipse.debug.ui.ILaunchConfigurationDialog;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
 import org.eclipse.debug.ui.RefreshTab;
 
+/**
+ * Run configuration window tabs
+ *
+ */
 public class PDDLProjectTabGroup extends AbstractLaunchConfigurationTabGroup {
 
 	private MainTab mainModuleTab;

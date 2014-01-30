@@ -16,6 +16,10 @@ import pl.poznan.put.cs.gui4pddl.runners.ui.blocks.PlannerArgumentsBlock;
 import pl.poznan.put.cs.gui4pddl.runners.ui.blocks.PlannerBlock;
 import pl.poznan.put.cs.gui4pddl.runners.ui.blocks.ProjectBlock;
 
+/**
+ * Main tab in Run Configuration window
+ *
+ */
 public class MainTab extends AbstractLaunchConfigurationTab {
 
 	public final ProjectBlock projectBlock;

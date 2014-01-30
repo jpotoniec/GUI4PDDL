@@ -79,6 +79,10 @@ import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewDataRow;
 import pl.poznan.put.cs.gui4pddl.planview.model.manager.PlanViewDataManager;
 import pl.poznan.put.cs.gui4pddl.runners.helpers.LaunchUtil;
 
+/**
+ * Plan browser implementation
+ *
+ */
 public class PlanView extends ViewPart {
 
 	/**

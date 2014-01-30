@@ -8,16 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * API which allows to open standard system applications like text editor or file browser
+ *
+ */
 public class DesktopApi {
-
-    public static boolean browse(URI uri) {
-
-        if (openSystemSpecific(uri.toString())) return true;
-
-        if (browseDESKTOP(uri)) return true;
-
-        return false;
-    }
 
 
     public static boolean open(File file) {
@@ -25,20 +20,6 @@ public class DesktopApi {
         if (openSystemSpecific(file.getPath())) return true;
 
         if (openDESKTOP(file)) return true;
-
-        return false;
-    }
-
-
-    public static boolean edit(File file) {
-
-        // you can try something like
-        // runCommand("gimp", "%s", file.getPath())
-        // based on user preferences.
-
-        if (openSystemSpecific(file.getPath())) return true;
-
-        if (editDESKTOP(file)) return true;
 
         return false;
     }
@@ -66,30 +47,6 @@ public class DesktopApi {
     }
 
 
-    private static boolean browseDESKTOP(URI uri) {
-
-        logOut("Trying to use Desktop.getDesktop().browse() with " + uri.toString());
-        try {
-            if (!Desktop.isDesktopSupported()) {
-                logErr("Platform is not supported.");
-                return false;
-            }
-
-            if (!Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-                logErr("BORWSE is not supported.");
-                return false;
-            }
-
-            Desktop.getDesktop().browse(uri);
-
-            return true;
-        } catch (Throwable t) {
-            logErr("Error using desktop browse.", t);
-            return false;
-        }
-    }
-
-
     private static boolean openDESKTOP(File file) {
 
         logOut("Trying to use Desktop.getDesktop().open() with " + file.toString());
@@ -109,30 +66,6 @@ public class DesktopApi {
             return true;
         } catch (Throwable t) {
             logErr("Error using desktop open.", t);
-            return false;
-        }
-    }
-
-
-    private static boolean editDESKTOP(File file) {
-
-        logOut("Trying to use Desktop.getDesktop().edit() with " + file);
-        try {
-            if (!Desktop.isDesktopSupported()) {
-                logErr("Platform is not supported.");
-                return false;
-            }
-
-            if (!Desktop.getDesktop().isSupported(Desktop.Action.EDIT)) {
-                logErr("EDIT is not supported.");
-                return false;
-            }
-
-            Desktop.getDesktop().edit(file);
-
-            return true;
-        } catch (Throwable t) {
-            logErr("Error using desktop edit.", t);
             return false;
         }
     }
@@ -175,7 +108,7 @@ public class DesktopApi {
 
         if (args != null) {
             for (String s : args.split(" ")) {
-                s = String.format(s, file); // put in the filename thing
+                s = String.format(s, file); 
 
                 parts.add(s.trim());
             }

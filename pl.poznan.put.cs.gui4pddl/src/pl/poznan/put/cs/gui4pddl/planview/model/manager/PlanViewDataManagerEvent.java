@@ -4,6 +4,10 @@ import java.util.EventObject;
 
 import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewDataRow;
 
+/**
+ * Event that occurs when rows in plan browser are added/removed
+ *
+ */
 public class PlanViewDataManagerEvent extends EventObject {
 
 	private static final long serialVersionUID = 3697053173951102953L;

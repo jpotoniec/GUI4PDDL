@@ -9,6 +9,10 @@ import pl.poznan.put.cs.gui4pddl.planview.model.manager.IPlanViewDataManagerChan
 import pl.poznan.put.cs.gui4pddl.planview.model.manager.PlanViewDataManager;
 import pl.poznan.put.cs.gui4pddl.planview.model.manager.PlanViewDataManagerEvent;
 
+/**
+ * Plan browser content provider. Remove or add rows to plan browser table when model has changed
+ *
+ */
 public class PlanViewContentProvider implements IStructuredContentProvider,
 		IPlanViewDataManagerChangeListener {
 	private TableViewer viewer;

@@ -106,7 +106,7 @@ public class PDDLProjectLaunchConfigurationDelegate extends
 
 			monitor.worked(2);
 			monitor.subTask("Planning");
-			UniversalPlannerRunner.run(configuration, monitor, launch,
+			PDDLPlannerRunner.run(configuration, monitor, launch,
 					workingDir);
 			Activator.refreshProject(configuration.getAttribute(
 					Constants.PROJECT, ""));

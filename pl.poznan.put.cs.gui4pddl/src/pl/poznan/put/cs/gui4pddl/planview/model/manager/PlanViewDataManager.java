@@ -18,6 +18,10 @@ import pl.poznan.put.cs.gui4pddl.Activator;
 import pl.poznan.put.cs.gui4pddl.log.Log;
 import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewDataRow;
 
+/**
+ * Plan browser data storage + operations
+ *
+ */
 public class PlanViewDataManager implements Serializable {
 
 	/**

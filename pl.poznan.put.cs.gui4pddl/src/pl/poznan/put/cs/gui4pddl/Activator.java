@@ -4,8 +4,6 @@ import java.util.ResourceBundle;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -18,7 +16,6 @@ import pl.poznan.put.cs.gui4pddl.editor.TokenManager;
 import pl.poznan.put.cs.gui4pddl.log.Log;
 import pl.poznan.put.cs.gui4pddl.planview.model.manager.PlanViewDataManager;
 import pl.poznan.put.cs.gui4pddl.planview.ui.PlanView;
-import pl.poznan.put.cs.gui4pddl.preferences.model.manager.PlannerPreferencesManager;
 
 /**
  * The activator class controls the plug-in life cycle

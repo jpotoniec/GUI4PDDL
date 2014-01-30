@@ -18,6 +18,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
@@ -30,6 +31,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
@@ -42,10 +44,11 @@ import org.eclipse.ui.model.WorkbenchLabelProvider;
 import pl.poznan.put.cs.gui4pddl.Activator;
 import pl.poznan.put.cs.gui4pddl.Constants;
 import pl.poznan.put.cs.gui4pddl.PDDLNature;
+import pl.poznan.put.cs.gui4pddl.log.Log;
 import pl.poznan.put.cs.gui4pddl.runners.helpers.LaunchUtil;
 
 /**
- * A control for selecting a pddl domain and problem files.
+ * A control for selecting a pddl domain and problem files in Run Configuration window.
  */
 public class DomainAndProblemFilesBlock extends AbstractLaunchConfigurationTab {
 
@@ -178,7 +181,7 @@ public class DomainAndProblemFilesBlock extends AbstractLaunchConfigurationTab {
 							enabled = (project
 									.hasNature(PDDLNature.PDDL_NATURE_ID));
 						} catch (CoreException e1) {
-							// TODO Auto-generated catch block
+							Log.log(e1);
 							e1.printStackTrace();
 						}
 					}
@@ -263,17 +266,11 @@ public class DomainAndProblemFilesBlock extends AbstractLaunchConfigurationTab {
 
 			IProject project = ResourcesPlugin.getWorkspace().getRoot()
 					.getProject(projectName);
-			if (project != null) {
-				
-				System.out.println(project.getLocation());
-				
+			if (project != null) {				
 				IPath domainFileRelativePath = domainPath
 						 .makeRelativeTo(ResourcesPlugin.getWorkspace().getRoot().getLocation());
 				IPath problemFileRelativePath = problemPath
 						 .makeRelativeTo(ResourcesPlugin.getWorkspace().getRoot().getLocation());
-				
-				System.out.println("DOMAIN FILE " + domainFileRelativePath);
-				System.out.println("PROBLEM FILE " + problemFileRelativePath);
 				
 				IResource domainFile = LaunchUtil.findResource(domainFileRelativePath);
 				IResource problemFile = LaunchUtil.findResource(problemFileRelativePath);
@@ -281,10 +278,10 @@ public class DomainAndProblemFilesBlock extends AbstractLaunchConfigurationTab {
 					configuration.setMappedResources(new IResource[] {
 							domainFile, problemFile });
 				} else {
-					// TODO komunikat o usunieciu plikow domeny lub problemu
+					MessageDialog.openError(Display.getDefault().getActiveShell(), "Error", "Domain or problem file was removed.");
 				}
 			} else {
-				// TODO komunikat o usunięciu projektu
+				MessageDialog.openError(Display.getDefault().getActiveShell(), "Error", "Project was removed.");
 			}
 		}
 
@@ -354,24 +351,6 @@ public class DomainAndProblemFilesBlock extends AbstractLaunchConfigurationTab {
 		// no defaults to set
 	}
 
-	/**
-	 * Sets attributes in the working copy
-	 * 
-	 * @param configuration
-	 *            The configuration to set the attribute in
-	 * @param name
-	 *            Name of the attribute to set
-	 * @param value
-	 *            Value to set
-	 */
-	private void setAttribute(ILaunchConfigurationWorkingCopy configuration,
-			String name, String value) {
-		if (value == null || value.length() == 0) {
-			configuration.setAttribute(name, (String) null);
-		} else {
-			configuration.setAttribute(name, value);
-		}
-	}
 
 	/**
 	 * Obtain a listener, used to detect changes of the currently selected

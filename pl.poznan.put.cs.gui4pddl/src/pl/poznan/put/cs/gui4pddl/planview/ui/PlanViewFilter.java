@@ -5,6 +5,10 @@ import org.eclipse.jface.viewers.ViewerFilter;
 
 import pl.poznan.put.cs.gui4pddl.planview.model.PlanViewDataRow;
 
+/**
+ * Filters rows of the plan browser table according to the word given in the 'Search' text box
+ *
+ */
 public class PlanViewFilter extends ViewerFilter {
 
 	public PlanViewFilter() {
@@ -48,8 +52,6 @@ public class PlanViewFilter extends ViewerFilter {
 		if (p.getPlannerArguments().matches(searchString)) {
 			return true;
 		}
-
-		System.out.println(searchString);
 
 		return false;
 	}
