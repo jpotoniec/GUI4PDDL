@@ -216,6 +216,7 @@
 
     \begin{center}
     {\large \translate{Supervisor}:~ \@supervisorname}\par
+    {\large Opiekun:~ mgr. inż. Jędrzej Potoniec}\par
     {\bigskip\large \@date}
     \end{center}
 

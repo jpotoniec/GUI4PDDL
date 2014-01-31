@@ -263,7 +263,7 @@ Zalecanym sposobem przetwarzania abstrakcyjnych drzew składniowych jest analiza
 Jest to podprogram generowany przez
 ANTLR na podstawie specyfikacji, tak jak analizator składniowy lub leksykalny.
 Podprogram ten przechodzi przez drzewo, sprawdzając jego strukturę. Informacja o wierzchołkach
-nadrzędnych jest przekazywana ,,w dół''. Wprowadzenie analizatorów drzewowych 
+nadrzędnych jest przekazywana ,,w dół''. Wprowadzenie analizatorów drzew 
 wyróżnia ANTLR na tle innych generatorów parserów. 
 %\JP{Czy drzewowy jest na pewno poprawnym terminem po polsku? Może warto, żeby pojawiła się angielska wersja w nawiasie} -- literatura o ANTLR jest dostępna wyłącznie w języku angielskim. Jedyna wzmianka po polski jest na wikipedii - tam jest analizator drzewa składni abstrakcyjnej. 
 %\JP{Czy to się czymś różni od wzorca Visitor? Jeżeli tak, to czym? Jeżeli nie, to warto o tym napisać.}
@@ -271,7 +271,7 @@ wyróżnia ANTLR na tle innych generatorów parserów.
 \subsection{Pliki wejściowe}
 
 Pliki wejściowe ANTLR posiadają rozszerzenie \texttt{.g}. Zawierają one specyfikację
-analizatora leksykalnego, składniowego, drzewowego lub połączoną specyfikację
+analizatora leksykalnego, składniowego, analizatora drzew lub połączoną specyfikację
 analizatorów leksykalnego i składniowego. 
 
 Specyfikacja analizatorów składa się z listy produkcji, definiujących symbole,
@@ -360,7 +360,7 @@ budowie drzewa. Znak ,,\^\ '' występuje za symbolem, który stanie się rodzice
 wierzchołków reprezentujących pozostałe symbole.
 
 \begin{Code}[h!]
-\begin{lstlisting}[label=antlr_astcode, caption=Gramatyka analizatora drzewowego przetwarzającego listę wymagań, numbers=left, frame=single]
+\begin{lstlisting}[label=antlr_astcode, caption=Gramatyka analizatora drzew przetwarzającego listę wymagań, numbers=left, frame=single]
 tree grammar PDDL;
 
 options {
@@ -375,7 +375,7 @@ requirementsList
 \end{Code}
 
 Kod z przykładu \ref{antlr_astcode} opisuje przykładowy
-analizator drzewowy. Przetwarza on
+analizator drzew. Przetwarza on
 abstrakcyjne drzewo składniowe reprezentujące listę wymagań. Dyrektywą 
 określającą typ gramatyki jest \texttt{tree grammar}. Nazwą klasy
 zawierającej wygenerowany kod będzie \texttt{PDDL}.
