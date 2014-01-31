@@ -74,13 +74,24 @@ tokens {
     	}
     }
     
+    protected int mismatchedEOF = 0;
    
 	   protected Object recoverFromMismatchedToken(IntStream input, int ttype, BitSet follow)
                throws RecognitionException
        {
 		   if (input.LA(1) == Token.EOF) {
-			   CommonToken t = new CommonToken(PDDLLexer.PLEFT);
-			   return t;
+		   	   if (mismatchedEOF == 0) {
+		   	   		PDDLError error = new PDDLError();
+			        error.message = "Missing )";
+			        error.line = 0;
+			        errors.add(error);
+		   	   }
+		   	   if (mismatchedEOF < 10) {
+		   	   		mismatchedEOF += 1;
+		   	   		CommonToken t = new CommonToken(PDDLLexer.PLEFT);
+			   		return t;
+		   	   }
+			   
 		   }
 		   
 		   return super.recoverFromMismatchedToken(input, ttype, follow);

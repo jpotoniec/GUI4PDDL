@@ -36,7 +36,7 @@ public class PDDLRequirementSet {
 		implications.put(":fluents", new String[] { ":expression-evaluation",
 				":domain-axioms" });
 		implications.put(":adl", new String[] { ":strips", ":typing",
-				":disjunctive-preconditions", ":equality:",
+				":disjunctive-preconditions", ":equality",
 				":quantified-preconditions", ":existential-preconditions",
 				":universal-preconditions", ":conditional-effects" });
 		implications.put(":icpop", new String[] { ":adl", ":strips", ":typing",

@@ -142,6 +142,10 @@ public class PDDLDomain {
 			if (p.getName().equals(name))
 				return true;
 		}
+		
+		if (requirements.hasRequirement(":equality") && "=".equals(name)) {
+			return true;
+		}
 		return false;
 	}
 	
