@@ -44,7 +44,7 @@
 ;;;
 ;;; Also see http://hakank.org/minizinc/1d_rubiks_cube.mzn
 ;;;
-;;; This PDDL encoding was done by Hakan Kjellerstrand (hakank@bonetmail.com)
+;;; This PDDL encoding was done by ąHakan Kjellerstrand (hakank@bonetmail.com)
 ;;; See my PPDL page: http://www.hakank.org/pddl/
 ;;;
 

@@ -137,6 +137,14 @@ public class PDDLDomain {
 		return predicates;
 	}
 
+	public boolean containsPredicate(String name) {
+		for (PDDLPredicate p : predicates) {
+			if (p.getName().equals(name))
+				return true;
+		}
+		return false;
+	}
+	
 	public void addAction(PDDLAction action) {
 		actions.add(action);
 	}

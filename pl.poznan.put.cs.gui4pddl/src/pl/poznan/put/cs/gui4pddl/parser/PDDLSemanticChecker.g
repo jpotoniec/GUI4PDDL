@@ -69,7 +69,13 @@ term [Set<String> objectScope, Set<String> variableScope]
 	;
 
 predicate 
-	:	NAME
+	:	NAME {
+			if ($definition::domain != null) {
+				if (!$definition::domain.containsPredicate($NAME.text)) {
+					error($NAME.line, String.format("Use of undefined predicate: \%s", $NAME.text));
+				}
+			}
+		}
 	;
 	
 type
@@ -109,7 +115,7 @@ atomic_formula_of_name
 	;
 	
 atomic_formula_of_term[Set<String> objectScope, Set<String> variableScope]
-	:	^(predicate^ term[objectScope, variableScope]*) {System.out.println("atomic formula of term");}
+	:	^(predicate^ term[objectScope, variableScope]*)
 	;
 
 
