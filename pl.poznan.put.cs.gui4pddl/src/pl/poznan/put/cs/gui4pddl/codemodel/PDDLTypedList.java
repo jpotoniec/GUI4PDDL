@@ -124,8 +124,16 @@ public class PDDLTypedList implements Iterable<PDDLTypedList.Entry>{
 	
 	
 	public String toString(){
-		
 		return list.toString();
+	}
+	
+	public boolean contains(String name) {
+		for(Entry e : list) {
+			if (e.name != null && e.name.equals(name)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 }

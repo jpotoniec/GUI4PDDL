@@ -226,6 +226,7 @@ public class PDDLCodeCompletionManager implements IPDDLCodeCompletionManager {
 					proposals.add(new PDDLCodeCompletionProposal(":length"));
 					proposals.add(new PDDLCodeCompletionProposal(":objects"));
 					proposals.add(new PDDLCodeCompletionProposal(":situation"));
+					proposals.add(new PDDLCodeCompletionProposal(":requirements"));
 					break;
 				case INITSIT:
 					proposals.add(new PDDLCodeCompletionProposal(":domain"));

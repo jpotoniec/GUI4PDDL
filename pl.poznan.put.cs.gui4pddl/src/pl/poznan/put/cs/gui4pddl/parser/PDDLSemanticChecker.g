@@ -9,6 +9,8 @@ options {
 	package pl.poznan.put.cs.gui4pddl.parser;
 	
 	import pl.poznan.put.cs.gui4pddl.codemodel.*;
+	import java.util.Set;
+	import java.util.TreeSet;
 	import java.util.LinkedList;
 }
 
@@ -40,11 +42,169 @@ options {
 	}
 }
 
+
+
+
+
 pddl_file
     [IPDDLCodeModel model, PDDLFile file]
     throws RuntimeException
     :   definition[$model, $file]*
     ;
+
+
+/**********************
+  PDDL Basic structures
+***********************/
+
+term [Set<String> objectScope, Set<String> variableScope]
+	:	NAME {
+			if(!objectScope.contains($NAME.text))
+				error($NAME.line, String.format("Use of undefined object: \%s", $NAME.text));
+		}
+	|	VARIABLE {
+			if(!variableScope.contains($VARIABLE.text))
+				error($VARIABLE.line, String.format("Use of undefined variable: \%s", $VARIABLE.text));
+		}
+	;
+
+predicate 
+	:	NAME {
+			if ($definition::domain != null) {
+				if (!$definition::domain.containsPredicate($NAME.text)) {
+					error($NAME.line, String.format("Use of undefined predicate: \%s", $NAME.text));
+				}
+			}
+		}
+	;
+	
+type
+	returns [PDDLType t]
+	@init {
+		List<PDDLType> eitherTypes = new LinkedList<PDDLType>();
+	}
+    :	NAME {$t = PDDLType.simpleType($NAME.text);} 
+	|	^('either' (nested=type {eitherTypes.add($nested.t);})+) {$t = PDDLType.eitherType(eitherTypes);}
+	|   ^('fluent' nested=type) {$t = PDDLType.fluentType($nested.t);} 
+	;
+
+typed_list
+	returns[PDDLTypedList list]
+	@init {
+		$list = new PDDLTypedList();	
+	}
+	:   typed_list_item[$list]*
+	;
+
+typed_list_item
+    [PDDLTypedList list]
+    : NAMEDEF
+    | ^(NAMEDEF NAME) {list.add($NAME.text, null);}
+    | ^(NAMEDEF VARIABLE) {list.add($VARIABLE.text, null);}
+    | ^(NAMEDEF NAME type) {list.add($NAME.text, $type.t);}
+    | ^(NAMEDEF VARIABLE type) {list.add($VARIABLE.text, $type.t);}
+	;
+
+literal_of_name
+	:	atomic_formula_of_name
+	|	^('not' atomic_formula_of_name)
+	;
+
+atomic_formula_of_name 
+	:	^(predicate NAME*) 
+	;
+	
+atomic_formula_of_term[Set<String> objectScope, Set<String> variableScope]
+	:	^(predicate^ term[objectScope, variableScope]*)
+	;
+
+
+/**********************
+  PDDL Goal description
+***********************/
+
+gd [Set<String> objectScope, Set<String> variableScope]
+	:   atomic_formula_of_term[objectScope, variableScope]
+    |   complicated_gd[objectScope, variableScope]
+    ;
+
+complicated_gd [Set<String> objectScope, Set<String> variableScope]
+	@init {
+		Set<String> newVariableScope;
+	}
+	: 	^('and' gd[objectScope, variableScope]*)
+	|	^('or' gd[objectScope, variableScope]*) //:disjunctive-preconditions
+    |	^('not' atomic_formula_of_term[objectScope, variableScope]) 
+    |	^('not' complicated_gd[objectScope, variableScope]) //:disjunctive-preconditions TODO lookahead
+	|	^('imply' gd[objectScope, variableScope] gd[objectScope, variableScope]) //:disjunctive-preconditions
+	|	^('exists' typed_list {
+	    		newVariableScope = new TreeSet<String>(variableScope);
+	    	 	for(PDDLTypedList.Entry e : $typed_list.list) {
+	    	 	 	newVariableScope.add(e.name);
+	    	 	}
+			}
+			gd[objectScope, newVariableScope])  //:existential-preconditions
+	|	^('forall' typed_list {
+	    		newVariableScope = new TreeSet<String>(variableScope);
+	    	 	for(PDDLTypedList.Entry e : $typed_list.list) {
+	    	 	 	newVariableScope.add(e.name);
+	    	 	}
+			}
+			gd[objectScope, newVariableScope])  //:universal-predonditions
+	.
+	;
+	
+/***********************
+  PDDL Actions
+***********************/
+
+action_def [Set<String> objectScope, Set<String> variableScope]
+	@init {
+		PDDLAction action = null;
+		Set<String> newVariableScope = new TreeSet<String>(variableScope);
+	}
+	: ^(':action' NAME {
+			if ($definition::domain != null) {
+				action = $definition::domain.getAction($NAME.text);
+				if (action != null) {
+					for(PDDLTypedList.Entry e : action.getParameters())
+						newVariableScope.add(e.name);
+					for(PDDLTypedList.Entry e : action.getVariables())
+						newVariableScope.add(e.name);
+				}
+			}
+		} ^(':parameters' typed_list)
+	  action_def_body_item[objectScope, newVariableScope]*) 
+	;
+    
+action_def_body_item [Set<String> objectScope, Set<String> variableScope]	
+    :    ^(':vars' typed_list)
+    |	 ^(':precondition' gd[objectScope, variableScope])
+    |	 ^(':effect' effect[objectScope, variableScope])
+    |    .
+    ;
+
+effect [Set<String> objectScope, Set<String> variableScope]
+	@init {
+		Set<String> newVariableScope;
+	}
+    :    ^('and' effect[objectScope, variableScope]*)
+    |    ^('not' atomic_formula_of_term[objectScope, variableScope] )
+    |    atomic_formula_of_term[objectScope, variableScope]
+    |    ^('forall' typed_list {
+    		newVariableScope = new TreeSet<String>(variableScope);
+    	 	for(PDDLTypedList.Entry e : $typed_list.list) {
+    	 	 	newVariableScope.add(e.name);
+    	 	}
+    	 }
+    	 effect[objectScope, newVariableScope] ) //:conditional−effects
+    |    ^('when' gd[objectScope, variableScope] effect[objectScope, variableScope] ) //:conditional−effects
+    |    ^( 'change' . . )  //:fluents
+    ;
+
+/*********************
+  PDDL Definitions
+*********************/
 
 definition
 [IPDDLCodeModel model, PDDLFile file]
@@ -59,7 +219,7 @@ scope {
 			String name = $domain_header.name;
 			if (!(name + ".pddl").equals($file.getName()) && !"domain.pddl".equals($file.getName()))
 				warning($domain_header.line, String.format("Filename \%s should match domain name \%s", $file.getName(), name));
-			//$definition::domain=$file.getDomain(name);
+			$definition::domain=$file.getDomain(name);
 		}
 		domain_item* )
 	
@@ -81,10 +241,23 @@ scope {
 	
 	|   ^( 'define' initsit_header {} initsit_body )
 	;
+	
 
 /*
-Domains (4)
+	Common items for domains and problems
 */
+
+require_def
+	: ^(':requirements' (REQUIRE_KEY {
+		if (!PDDLRequirementSet.isValid($REQUIRE_KEY.text))
+			error($REQUIRE_KEY.line, String.format("\%s is not valid requirement name", $REQUIRE_KEY.text));
+	   })+)
+	;
+
+
+/****************
+Domains (4)
+****************/
 
 domain_header
 	returns [String name, int line]
@@ -92,9 +265,19 @@ domain_header
 	;
 
 domain_item
-	: .
+	@init {
+		Set<String> objectScope = PDDLDomain.getObjectScope($definition::domain);
+		Set<String> variableScope = PDDLDomain.getVariableScope($definition::domain);
+	}
+	: require_def
+	| action_def[objectScope, variableScope]
+	| .
 	;
 	catch [Throwable t] {}
+
+/*****************
+ Problems
+*****************/
 
 problem_header
 	returns [String name, int line]
@@ -103,6 +286,9 @@ problem_header
 
 problem_item
 	: domain_reference
+	| require_def
+	| init
+	| goal
 	| .
 	;
 	catch [Throwable t] {}
@@ -114,6 +300,22 @@ domain_reference
 				error($NAME.line, "Domain not found in project");
 		}
 	;
+
+init
+	: ^(':init' literal_of_name+)
+	;
+	
+goal
+	@init {
+		Set<String> objectScope = PDDLProblem.getObjectScope($definition::problem, $definition::domain);
+		Set<String> variableScope = PDDLProblem.getVariableScope($definition::problem, $definition::domain);
+	}
+	: ^(':goal' gd[objectScope, variableScope])
+	;
+
+/*
+Initial situations
+*/
 
 initsit_header
 	returns [String name]

@@ -277,11 +277,7 @@ public class DomainAndProblemFilesBlock extends AbstractLaunchConfigurationTab {
 				if (domainFile != null && problemFile != null) {
 					configuration.setMappedResources(new IResource[] {
 							domainFile, problemFile });
-				} else {
-					MessageDialog.openError(Display.getDefault().getActiveShell(), "Error", "Domain or problem file was removed.");
 				}
-			} else {
-				MessageDialog.openError(Display.getDefault().getActiveShell(), "Error", "Project was removed.");
 			}
 		}
 

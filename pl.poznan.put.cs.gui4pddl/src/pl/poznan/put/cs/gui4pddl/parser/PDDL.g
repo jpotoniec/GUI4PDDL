@@ -74,13 +74,24 @@ tokens {
     	}
     }
     
+    protected int mismatchedEOF = 0;
    
 	   protected Object recoverFromMismatchedToken(IntStream input, int ttype, BitSet follow)
                throws RecognitionException
        {
 		   if (input.LA(1) == Token.EOF) {
-			   CommonToken t = new CommonToken(PDDLLexer.PLEFT);
-			   return t;
+		   	   if (mismatchedEOF == 0) {
+		   	   		PDDLError error = new PDDLError();
+			        error.message = "Missing )";
+			        error.line = 0;
+			        errors.add(error);
+		   	   }
+		   	   if (mismatchedEOF < 10) {
+		   	   		mismatchedEOF += 1;
+		   	   		CommonToken t = new CommonToken(PDDLLexer.PLEFT);
+			   		return t;
+		   	   }
+			   
 		   }
 		   
 		   return super.recoverFromMismatchedToken(input, ttype, follow);
@@ -194,12 +205,12 @@ action_def_body_item
 Effects (7)
 */
 effect
-    :    '('! 'and' effect* ')'!
-    |    '('! 'not' atomic_formula_of_term ')'!
+    :    '('! 'and'^ effect* ')'!
+    |    '('! 'not'^ atomic_formula_of_term ')'!
     |    atomic_formula_of_term
-    |    '('! 'forall' '('! typed_list_of_variable ')'! effect ')'! //:conditional−effects
-    |    '('! 'when' gd effect ')'! //:conditional−effects
-    |    '('! 'change' fluent expression ')'!  //:fluents
+    |    '('! 'forall'^ '('! typed_list_of_variable ')'! effect ')'! //:conditional−effects
+    |    '('! 'when'^ gd effect ')'! //:conditional−effects
+    |    '('! 'change'^ fluent expression ')'!  //:fluents
     ;
 
 fluent
@@ -304,13 +315,13 @@ gd  :   atomic_formula_of_term
     |   complicated_gd
     ;
 
-complicated_gd 	: 	'('! 'and' gd* ')'!
-	|	'('! 'or' gd* ')'! //:disjunctive-preconditions
-    |	'('! 'not' atomic_formula_of_term ')'! 
-    |	'('! 'not' complicated_gd ')'! //:disjunctive-preconditions TODO lookahead
-	|	'('! 'imply' gd gd ')'! //:disjunctive-preconditions
-	|	'('! 'exists' '('! typed_list_of_variable ')'! gd ')'! //:existential-preconditions
-	|	'('! 'forall' '('! typed_list_of_variable ')'! gd ')'! //:universal-predonditions
+complicated_gd 	: 	'('! 'and'^ gd* ')'!
+	|	'('! 'or'^ gd* ')'! //:disjunctive-preconditions
+    |	'('! 'not'^ atomic_formula_of_term ')'! 
+    |	'('! 'not'^ complicated_gd ')'! //:disjunctive-preconditions TODO lookahead
+	|	'('! 'imply'^ gd gd ')'! //:disjunctive-preconditions
+	|	'('! 'exists'^ '('! typed_list_of_variable ')'! gd ')'! //:existential-preconditions
+	|	'('! 'forall'^ '('! typed_list_of_variable ')'! gd ')'! //:universal-predonditions
 	;
 
 
@@ -326,20 +337,20 @@ term 	:	NAME
 
 literal_of_name 
 	:	atomic_formula_of_name
-	|	'('! 'not' atomic_formula_of_name ')'!
+	|	'('! 'not'^ atomic_formula_of_name ')'!
 	;
 
 literal_of_term
 	:	atomic_formula_of_term
-	|	'('! 'not' atomic_formula_of_term ')'!
+	|	'('! 'not'^ atomic_formula_of_term ')'!
 	;
 
 atomic_formula_of_term
-	:	'('! predicate term* ')'!
+	:	'('! predicate^ term* ')'!
 	;
 	
 atomic_formula_of_name
-	:	'('! predicate NAME* ')'!
+	:	'('! predicate^ NAME* ')'!
 	;
 
 typed_list_of_name

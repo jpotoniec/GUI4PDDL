@@ -1,15 +1,16 @@
 (define
 	(domain world-of-blocks)
+	(:constants przyklad)
 	(:requirements :adl)
 	(:predicates
-		(on-top ?x ?y)
+		(on-top ?x ?y) 
 		(on-floor ?x)
-		(clear ?x)
+		(clear ?x) 
 	)
         ; przesuń klocek na podłogę
 	(:action move-to-floor
 		:parameters (?x ?z)
-		:precondition
+		:precondition 
 		(and
 			(clear ?x)
 			(on-top ?x ?z)
@@ -18,7 +19,7 @@
 		(and
 			(not (on-top ?x ?z))
 			(on-floor ?x)
-			(clear ?z)
+			(clear ?z) 
 		)
 	)
         ; przesuń klocek na inny kocek

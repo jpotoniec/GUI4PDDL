@@ -137,6 +137,18 @@ public class PDDLDomain {
 		return predicates;
 	}
 
+	public boolean containsPredicate(String name) {
+		for (PDDLPredicate p : predicates) {
+			if (p.getName().equals(name))
+				return true;
+		}
+		
+		if (requirements.hasRequirement(":equality") && "=".equals(name)) {
+			return true;
+		}
+		return false;
+	}
+	
 	public void addAction(PDDLAction action) {
 		actions.add(action);
 	}
@@ -161,6 +173,20 @@ public class PDDLDomain {
 			}
 		}
 		return result;
+	}
+	
+	public static Set<String> getObjectScope(PDDLDomain domain) {
+		Set<String> scope = new TreeSet<String>();
+		if (domain != null)
+			scope.addAll(domain.getConstants(null));
+		return scope;
+	}
+	
+	public static Set<String> getVariableScope(PDDLDomain domain) {
+		Set<String> scope = new TreeSet<String>();
+		if (domain != null)
+			scope.addAll(domain.getDomainVariables(null));
+		return scope;
 	}
 
 	@Override

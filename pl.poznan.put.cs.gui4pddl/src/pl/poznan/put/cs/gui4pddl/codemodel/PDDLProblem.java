@@ -1,5 +1,8 @@
 package pl.poznan.put.cs.gui4pddl.codemodel;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 public class PDDLProblem {
 	private PDDLFile file;
 	private String name;
@@ -7,6 +10,7 @@ public class PDDLProblem {
 	private PDDLRequirementSet requirements = new PDDLRequirementSet();
 	private String situation;
 	private PDDLTypedList objects = new PDDLTypedList();
+	private Set<String> implicitObjects = new TreeSet<String>();
 	
 	public PDDLProblem(String name) {
 		this.name = name;
@@ -50,6 +54,28 @@ public class PDDLProblem {
 	
 	public void addObjects(PDDLTypedList list) {
 		objects.append(list);
+	}
+	
+	public void addImplicitObject(String name) {
+		implicitObjects.add(name);
+	}
+	
+	public static Set<String> getObjectScope(PDDLProblem problem, PDDLDomain domain) {
+		Set<String> scope = new TreeSet<String>();
+		if (domain!=null) {
+			scope.addAll(domain.getConstants(null));
+		}
+		if (problem != null) {
+			scope.addAll(problem.implicitObjects);
+			for(PDDLTypedList.Entry e : problem.objects) {
+				scope.add(e.name);
+			}
+		}
+		return scope;
+	}
+	
+	public static Set<String> getVariableScope(PDDLProblem problem, PDDLDomain domain) {
+		return new TreeSet<String>();
 	}
 	
 	public PDDLTypedList getObjects() {

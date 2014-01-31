@@ -26,6 +26,11 @@ import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 
 import pl.poznan.put.cs.gui4pddl.PDDLStructureConfigHelpers;
 
+/*
+ *	Code in this file is heavily based on Aptana Studio and Eclipse JDK
+ *  Project and file creation dialogs use common boilerplate code
+ */
+
 public class PDDLProjectWizard extends Wizard implements INewWizard, IExecutableExtension {
 
 	private IConfigurationElement fConfigElement;

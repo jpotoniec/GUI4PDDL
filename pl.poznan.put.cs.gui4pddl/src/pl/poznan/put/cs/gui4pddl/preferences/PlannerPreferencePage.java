@@ -251,7 +251,6 @@ public class PlannerPreferencePage extends PreferencePage implements
 	}
 
 	private void addPlannerArgumentsToCombo() {
-		System.out.println(defaultPlannerCombo.getSelectionIndex());
 		if (defaultPlannerCombo.getSelectionIndex() >= 0) {
 			defaultArgumentCombo.removeAll();
 			if (tabsList.size() > 0) {

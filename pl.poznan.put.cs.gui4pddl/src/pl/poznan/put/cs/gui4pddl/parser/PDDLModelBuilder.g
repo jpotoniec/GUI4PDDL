@@ -16,7 +16,34 @@ pddl_file
     [PDDLFile file]
     :   definition[$file]*
     ;
+    
+    
+/************************
+  PDDL Basic structures
+*************************/
+predicate 
+	:	NAME
+	;
 
+literal_of_name 
+	:	atomic_formula_of_name
+	|	^('not' atomic_formula_of_name)
+	;
+
+atomic_formula_of_name
+	:	^(predicate (NAME {
+			//Check if NAME is a valid object name
+			PDDLProblem problem = $definition::problem;
+			if (problem != null) {
+				problem.addImplicitObject($NAME.text);
+			}
+		})*)
+	;
+
+/*************************
+ PDDL Definitions
+ ************************/
+ 
 definition
 [PDDLFile file]
 scope {
@@ -29,6 +56,30 @@ scope {
 	|   ^( 'define' initsit_header {$definition::initsit=$initsit_header.val;} initsit_body ) {$file.addInitialSituation($definition::initsit);}
 	;
 
+/*************************
+ PDDL Actions
+ ************************/
+ 
+ action_def
+	[PDDLDomain domain]
+	@init {
+		PDDLAction action;
+	}
+	: ^(':action' NAME
+		{
+		   action = new PDDLAction($NAME.text);
+		   $domain.addAction(action);
+	    } 
+	    ^(':parameters' typed_list {action.addParameters($typed_list.list);})
+	  action_def_body_item[action]*) 
+	;
+    
+action_def_body_item
+	[PDDLAction action]
+    :    ^(':vars' typed_list {$action.addVariables($typed_list.list);})
+    |    .
+    ;
+
 /*
 Domains (4)
 */
@@ -38,8 +89,7 @@ domain_header
 	:	^( 'domain' NAME ) {$val = new PDDLDomain($NAME.text);}
 	;
 
-domain_item
-	[PDDLDomain domain]
+domain_item [PDDLDomain domain]
 	:	extension_def
 	|	require_def[$definition::domain.getRequirementSet()]
 	|	types_def
@@ -48,7 +98,7 @@ domain_item
 	|	predicates_def
 	|	timeless_def
 	|	safety_def
-	|	structure_def[$domain]
+	|	structure_def[domain]
 	;
 	
 extension_def 
@@ -83,9 +133,8 @@ safety_def
 	:	^(':safety' . )
 	;
 	
-structure_def
-[PDDLDomain domain]
-	:	action_def[$domain]
+structure_def [PDDLDomain domain]
+	:	action_def[domain]
 	|   ^(':axiom' .* )
 	|   ^(':method' .* )
 	;
@@ -125,26 +174,6 @@ atomic_formula_skeleton
 	returns [PDDLPredicate val]
     :  ^(NAME list=typed_list) {$val = new PDDLPredicate($NAME.text, $list.list);}
     ;
-    
-action_def
-	[PDDLDomain domain]
-	@init {
-		PDDLAction action;
-	}
-	: ^(':action' NAME
-		{
-		   action = new PDDLAction($NAME.text);
-		   $domain.addAction(action);
-	    } 
-	    ^(':parameters' typed_list {action.addParameters($typed_list.list);})
-	  action_def_body_item[action]*) 
-	;
-    
-action_def_body_item
-	[PDDLAction action]
-    :    ^(':vars' typed_list {$action.addVariables($typed_list.list);})
-    |    .
-    ;
 
  /* Problems (13)*/  
 problem_header
@@ -160,6 +189,7 @@ problem_item
 	|	init
 	|	goal
 	|	length_spec
+	|   .
 	;
 
 domain_reference
@@ -178,9 +208,8 @@ object_declaration
 	;
 
 init
- 	:	^(':init' .*)
+	: ^(':init' literal_of_name+)
 	;
-	catch [RecognitionException e] {}
 
 goal
 	:	^(':goal' .*)

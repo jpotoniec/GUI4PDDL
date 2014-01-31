@@ -20,10 +20,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 
-/**
- * The "New" wizard page allows setting the container for the new file as well
- * as the file name. The page will only accept file name without the extension
- * OR with the extension that matches the expected one (pddl).
+/*
+ *	Code in this file is heavily based on Aptana Studio and Eclipse JDK.
+ *  Project and file creation dialogs use common boilerplate code
  */
 
 public class PDDLFilePage extends WizardPage {
@@ -46,9 +45,6 @@ public class PDDLFilePage extends WizardPage {
 		this.selection = selection;
 	}
 
-	/**
-	 * @see IDialogPage#createControl(Composite)
-	 */
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout();
@@ -90,10 +86,6 @@ public class PDDLFilePage extends WizardPage {
 		setControl(container);
 	}
 
-	/**
-	 * Tests if the current workbench selection is a suitable container to use.
-	 */
-
 	private void initialize() {
 		if (selection != null && selection.isEmpty() == false
 				&& selection instanceof IStructuredSelection) {
@@ -113,11 +105,6 @@ public class PDDLFilePage extends WizardPage {
 		fileText.setText("new.pddl");
 	}
 
-	/**
-	 * Uses the standard container selection dialog to choose the new value for
-	 * the container field.
-	 */
-
 	private void handleBrowse() {
 		ContainerSelectionDialog dialog = new ContainerSelectionDialog(
 				getShell(), ResourcesPlugin.getWorkspace().getRoot(), false,
@@ -129,10 +116,6 @@ public class PDDLFilePage extends WizardPage {
 			}
 		}
 	}
-
-	/**
-	 * Ensures that both text fields are set.
-	 */
 
 	private void dialogChanged() {
 		IResource container = ResourcesPlugin.getWorkspace().getRoot()

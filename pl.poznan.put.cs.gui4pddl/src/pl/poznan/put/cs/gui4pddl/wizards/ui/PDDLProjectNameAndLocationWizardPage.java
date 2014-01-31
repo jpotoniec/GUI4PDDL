@@ -30,6 +30,11 @@ import org.eclipse.swt.widgets.Text;
 
 import pl.poznan.put.cs.gui4pddl.PDDLStructureConfigHelpers;
 
+/*
+ *	Code in this file is heavily based on Aptana Studio and Eclipse JDK
+ *  Project and file creation dialogs use common boilerplate code
+ */
+
 public class PDDLProjectNameAndLocationWizardPage extends WizardPage {
 
 	private static final int SIZING_TEXT_FIELD_WIDTH = 250;
