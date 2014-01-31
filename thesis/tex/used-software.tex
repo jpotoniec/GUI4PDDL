@@ -258,8 +258,9 @@ Podejście to posiada jednak ograniczenia. Struktura drzewa nie jest walidowana.
 Wywoływane metody mają jedynie dostęp do informacji związanych z bieżącym wierzchołkiem.
 Nie jest im przekazywana informacja kontekstowa o otaczających wierzchołkach.
 
-Zalecanym sposobem przetwarzania abstrakcyjnych drzew składniowych jest analizator drzewowy
-(ang \emph{tree parser})\JP{Skoro to jest tree parser to dlaczego tego nie tłumaczyć jako analizator drzew? Z opisu na http://www.antlr2.org/doc/sor.html wynika mi, że on właśnie analizuje drzewa, a nie używa drzew do analizy czegoś innego?}. Jest to podprogram generowany przez
+Zalecanym sposobem przetwarzania abstrakcyjnych drzew składniowych jest analizator drzew
+(ang \emph{tree parser}). %\JP{Skoro to jest tree parser to dlaczego tego nie tłumaczyć jako analizator drzew? Z opisu na http://www.antlr2.org/doc/sor.html wynika mi, że on właśnie analizuje drzewa, a nie używa drzew do analizy czegoś innego?}.
+Jest to podprogram generowany przez
 ANTLR na podstawie specyfikacji, tak jak analizator składniowy lub leksykalny.
 Podprogram ten przechodzi przez drzewo, sprawdzając jego strukturę. Informacja o wierzchołkach
 nadrzędnych jest przekazywana ,,w dół''. Wprowadzenie analizatorów drzewowych 
