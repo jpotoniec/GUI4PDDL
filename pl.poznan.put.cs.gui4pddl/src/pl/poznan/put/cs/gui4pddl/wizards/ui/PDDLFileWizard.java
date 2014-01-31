@@ -15,6 +15,11 @@ import java.io.*;
 import org.eclipse.ui.*;
 import org.eclipse.ui.ide.IDE;
 
+/*
+ *	Code in this file is heavily based on Aptana Studio and Eclipse JDK.
+ *  Project and file creation dialogs use common boilerplate code
+ */
+
 public class PDDLFileWizard extends Wizard implements INewWizard {
 	
 	public static String WIZARD_ID = "pl.poznan.put.cs.gui4pddl.ui.wizards.PDDLFileWizard";
