@@ -1,9 +1,9 @@
 \chapter{Testy}
 \label{sec:testy}
-\JP{Proszę uspójnić w ramach całej pracy słowa ,,planer'' i ,,planista''}
+
 \section{Testy jednostkowe kodu}
 
-Aby wykryć i naprawić błędy, które znalazły się w kodzie projektu, przygotowano testy jednostkowe. Do wykonania testów użyto narzędzia \textit{JUnit}\footnote{\url{http://junit.org}} dostępnego w środowisku programistycznym \textit{Eclipse}. Dodatkowo, aby sprawdzić pokrycie kodu testami, wykorzystano oprogramowanie \textit{Emma}\JP{Chodzi o EclEmma? W każdym razie: url w footnote}.
+Aby wykryć i naprawić błędy, które znalazły się w kodzie projektu, przygotowano testy jednostkowe. Do wykonania testów użyto narzędzia \textit{JUnit}\footnote{\url{http://junit.org}} dostępnego w środowisku programistycznym \textit{Eclipse}. Dodatkowo, aby sprawdzić pokrycie kodu testami, wykorzystano oprogramowanie \textit{EclEmma}\footnote{http://www.eclemma.org/}.
 
 Podczas prac nad projektem GUI4PDDL przetestowane zostały poszczególne klasy odpowiedzialne za tworzenie nowych plików i projektów, oraz analizator składniowy. Testy pierwszego z dwóch wymienionych elementów polegały na prostym porównywaniu oczekiwanego stanu ze stanem obecnym, za pomocą funkcji \texttt{assertEquals}, która to należy do pakietu narzędzi \textit{JUnit}. Przykładowy, pojedynczy test przedstawiono w przykładzie \ref{test_jednostkowy}.\\\\
 \begin{Code}
@@ -137,7 +137,7 @@ W końcowym etapie tworzenia projektu GUI4PDDL podjęto testy akceptacyjne, maj�
 \item Zatwierdzić przyciskiem \textit{OK}. 
 \end{enumerate}
 
-\textbf{Oczekiwany wynik:} Wybrany planista powinien rozwiązać dany problem i wyświetlić dostępny wynik w zakładce \textit{Plan Browser}. Otwarcie wyniku (poprzez dwukrotne kliknięcie na wierszu tabeli) spowoduje wyświetlenie ułożonego planu w edytorze kodu. W przypadku gdy pliki są niepoprawne, informacje o błędach zostaną wyświetlone w zakładce \textit{Console}. 
+\textbf{Oczekiwany wynik:} Wybrany planer powinien rozwiązać dany problem i wyświetlić dostępny wynik w zakładce \textit{Plan Browser}. Otwarcie wyniku (poprzez dwukrotne kliknięcie na wierszu tabeli) spowoduje wyświetlenie ułożonego planu w edytorze kodu. W przypadku gdy pliki są niepoprawne, informacje o błędach zostaną wyświetlone w zakładce \textit{Console}. 
 
 \textbf{Obserwacja użytkowników:} Pierwsze uruchomienie planisty zajmowało więcej czasu niż jest to potrzebne doświadczonemu programiście. Powodem jest brak wyraźnego komunikatu, dotyczącego braku poszczególnych ustawień (np. brak pliku dziedziny czy problemu).
 
