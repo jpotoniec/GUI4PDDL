@@ -79,6 +79,7 @@ tokens {
 	   protected Object recoverFromMismatchedToken(IntStream input, int ttype, BitSet follow)
                throws RecognitionException
        {
+       
 		   if (input.LA(1) == Token.EOF) {
 		   	   if (mismatchedEOF == 0) {
 		   	   		PDDLError error = new PDDLError();
@@ -105,18 +106,48 @@ tokens {
 		       exitSubtree(input);
 		       return;
 	       } 
-	       
-	      // if (re instanceof else MismatchedTokenException && re.token.getType() == Token.EOF) {
-	      //     
-	      // 	   return;
-	      //Z }
-	       
+    
 	       super.recover(input,re);
     }
 }
 
 @lexer::header {
 	package pl.poznan.put.cs.gui4pddl.parser;
+	import java.util.LinkedList;
+	import java.util.List;
+}
+
+@lexer::members {
+ 	private List<PDDLError> errors = new LinkedList<PDDLError>();
+ 	public List<PDDLError> getErrors() {
+        return errors;
+    }
+    
+    protected void mismatch(IntStream input, int ttype, BitSet follow)
+		throws RecognitionException
+	{
+			throw new MismatchedTokenException(ttype, input);
+	}
+	
+	public Object recoverFromMismatchedSet(IntStream input,
+		RecognitionException e,
+		BitSet follow)
+		throws RecognitionException
+	{
+		PDDLError error = new PDDLError();
+        error.message = "Unexpected character";
+        error.line = e.line;
+        error.charPositionInLine = e.charPositionInLine;
+        errors.add(error);
+		throw e;
+	}
+}
+    
+    
+@lexer::rulecatch {
+	catch (RecognitionException e) {
+		throw e;
+	}
 }
 
 pddl_file
