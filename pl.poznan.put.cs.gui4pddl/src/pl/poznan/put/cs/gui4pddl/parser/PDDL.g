@@ -21,6 +21,7 @@ tokens {
 	ACTION = ':action';
 	AXIOM = ':axiom';
 	LENGTH = ':length';
+	NAMEDEF;
 }
 
 @header {
@@ -118,6 +119,7 @@ tokens {
 }
 
 @lexer::members {
+
  	private List<PDDLError> errors = new LinkedList<PDDLError>();
  	public List<PDDLError> getErrors() {
         return errors;
@@ -126,6 +128,7 @@ tokens {
     protected void mismatch(IntStream input, int ttype, BitSet follow)
 		throws RecognitionException
 	{
+			System.out.println("mismatch");
 			throw new MismatchedTokenException(ttype, input);
 	}
 	
@@ -134,6 +137,7 @@ tokens {
 		BitSet follow)
 		throws RecognitionException
 	{
+		System.out.println("recover");
 		PDDLError error = new PDDLError();
         error.message = "Unexpected character";
         error.line = e.line;
@@ -141,6 +145,19 @@ tokens {
         errors.add(error);
 		throw e;
 	}
+
+	public void displayRecognitionError(String[] tokenNames,
+                                        RecognitionException e) {
+        String hdr = getErrorHeader(e);
+        String msg = getErrorMessage(e, tokenNames);
+        
+        PDDLError error = new PDDLError();
+        error.message = hdr + " " + msg;
+        error.line = e.line;
+        error.charPositionInLine = e.charPositionInLine;
+        errors.add(error);
+
+    }
 }
     
     
@@ -498,7 +515,4 @@ VARIABLE
 	:	'?'('a'..'z'|'A'..'Z')('a'..'z'|'A'..'Z'|'_'|'-'|'0'..'9')*
 	;
 
-NAMEDEF
-    :
-    ;
 

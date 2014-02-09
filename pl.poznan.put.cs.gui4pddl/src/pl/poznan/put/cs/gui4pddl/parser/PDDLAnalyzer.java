@@ -52,7 +52,10 @@ public class PDDLAnalyzer {
 				PDDLParser.pddl_file_return ret = parser.pddl_file();
 				result = (CommonTree)ret.getTree();
 			} finally {
-				List<PDDLError> errors = parser.getErrors();
+				List<PDDLError> errors = lexer.getErrors();
+				if (errors != null)
+					reportErrors(errors, errorHandler);
+				errors = parser.getErrors();
 				reportErrors(errors, errorHandler);
 			}	
 		}
