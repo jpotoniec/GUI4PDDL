@@ -68,13 +68,14 @@ public class PDDLAnalyzer {
 		return result;
 	}
 	
-	private static void updateIndex(CommonTree ast, PDDLFile index)
+	private static List<RecognitionException> updateIndex(CommonTree ast, PDDLFile index)
 			throws RecognitionException {
 		System.out.println(ast.toStringTree());
 
 		CommonTreeNodeStream nodes = new CommonTreeNodeStream(ast);
 		PDDLModelBuilder builder = new PDDLModelBuilder(nodes);
 		builder.pddl_file(index);
+		return builder.getErrors();
 	}
 
 	private static void checkSemanticErrors(CommonTree ast,
@@ -90,28 +91,34 @@ public class PDDLAnalyzer {
 			reportErrors(errors, errorHandler);
 		}
 	}
-	
-	//TODO: javadoc
-	public static void indexPDDLFile(InputStream fileStream, IPDDLCodeModel codeModel, PDDLFile fileIndex, IErrorHandler errorHandler) {
+
+	// TODO: javadoc
+	public static void indexPDDLFile(InputStream fileStream,
+			IPDDLCodeModel codeModel, PDDLFile fileIndex,
+			IErrorHandler errorHandler) {
 		try {
 			CommonTree ast = scanPDDLFile(fileStream, errorHandler);
 			if (codeModel != null) {
 				fileIndex.clear();
-				try {
-					updateIndex(ast, fileIndex);
-				} catch (RecognitionException e) {}
-				
-				checkSemanticErrors(ast, codeModel, fileIndex, errorHandler);
+				List<RecognitionException> errors = updateIndex(ast, fileIndex);
+				if (errors.isEmpty())
+					checkSemanticErrors(ast, codeModel, fileIndex, errorHandler);
+				else {
+					for (RecognitionException error : errors)
+						errorHandler.reportError(new PDDLError(error));
+				}
+
 			}
-		} catch (IOException e) {  
+		} catch (IOException e) {
 			Log.log(e);
-		}  catch (RecognitionException e) {
+		} catch (RecognitionException e) {
 			Log.log(e);
+			errorHandler.reportError(new PDDLError(e));
 		} catch (RuntimeException e) {
 			Log.log(e);
 		}
 	}
-	
+
 	public static void indexPDDLFile(IFile file, IErrorHandler errorHandler) {
 		IProject project = file.getProject();
 		if (project == null) {

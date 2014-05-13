@@ -10,6 +10,20 @@ options {
 	
 	import pl.poznan.put.cs.gui4pddl.codemodel.*;
 	import java.util.LinkedList;
+	import java.util.Collections;
+}
+
+@members {
+
+	private List<RecognitionException> errors=new ArrayList<RecognitionException>();
+
+	public void reportError(RecognitionException ex) {
+		errors.add(ex);
+		}
+
+	public List<RecognitionException> getErrors() {
+			return Collections.unmodifiableList(errors);
+		}
 }
 
 pddl_file
@@ -138,7 +152,6 @@ structure_def [PDDLDomain domain]
 	|   ^(':axiom' .* )
 	|   ^(':method' .* )
 	;
-	catch [RecognitionException e] {}
 
 typed_list
 	returns[PDDLTypedList list]
@@ -215,12 +228,10 @@ goal
 	:	^(':goal' .*)
 	|	^(':expansion' .*) 
 	;
-	catch [RecognitionException e] {}
 	
 length_spec 
 	:	^(':length' .*)
 	;
-	catch [RecognitionException e] {}
 	
 /* Initial situations (13) */
 initsit_header

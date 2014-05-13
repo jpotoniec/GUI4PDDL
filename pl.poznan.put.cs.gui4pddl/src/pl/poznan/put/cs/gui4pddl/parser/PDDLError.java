@@ -10,6 +10,8 @@
  ******************************************************************************/
 package pl.poznan.put.cs.gui4pddl.parser;
 
+import org.antlr.runtime.RecognitionException;
+
 public class PDDLError {
 	enum Type {
 		ERROR, WARNING;
@@ -19,5 +21,14 @@ public class PDDLError {
 	public int line;
 	public String message;
 	Type type = Type.ERROR;
-	
+
+	public PDDLError() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public PDDLError(RecognitionException ex) {
+		this.charPositionInLine = ex.charPositionInLine;
+		this.line = ex.line;
+		this.message = ex.getMessage();
+	}
 }
