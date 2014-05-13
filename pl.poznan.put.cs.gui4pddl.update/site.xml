@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/pl.poznan.put.cs.gui4pddl_0.1.0.201402051231.jar" id="pl.poznan.put.cs.gui4pddl" version="0.1.0.201402051231" os="linux,win32">
+   <description name="GUI4PDDL" url="http://semantic.cs.put.poznan.pl/gui4pddl/updatesite/">
+      
+   </description>
+   <feature url="features/pl.poznan.put.cs.gui4pddl_0.1.0.201405131103.jar" id="pl.poznan.put.cs.gui4pddl" version="0.1.0.201405131103" os="linux,win32">
       <category name="pl.put.poznan.cs.gui4pddl.lang"/>
    </feature>
    <category-def name="pl.put.poznan.cs.gui4pddl.lang" label="PDDL support"/>
